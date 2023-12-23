@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 abstract class BaseViewModel(
-    private val runAsync: RunAsync
+    private val runAsync: RunAsync = RunAsync.Base()
 ) : ViewModel() {
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     protected fun <T : Any> handle(backgroundBlock: suspend () -> T, uiBlock: (T) -> Unit) {
