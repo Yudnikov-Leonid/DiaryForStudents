@@ -1,6 +1,9 @@
 package com.maxim.diaryforstudents.news
 
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -8,6 +11,7 @@ abstract class NewsUi {
     open fun showTitle(textView: TextView) {}
     open fun showDate(textView: TextView) {}
     open fun showContent(textView: TextView) {}
+    open fun showImage(imageView: ImageView) {}
     abstract fun same(item: NewsUi): Boolean
     abstract fun sameContent(item: NewsUi): Boolean
     data class Base(
@@ -19,8 +23,10 @@ abstract class NewsUi {
         override fun showTitle(textView: TextView) {
             textView.text = title
         }
+
         override fun showDate(textView: TextView) {
-            val formatter = SimpleDateFormat("dd.MM.yyyy")
+            //val formatter = SimpleDateFormat("dd.MM.yyyy")
+            val formatter = SimpleDateFormat.getDateInstance()
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = date * 86400000L
             textView.text = formatter.format(calendar.time)
@@ -30,6 +36,15 @@ abstract class NewsUi {
             textView.text = content
         }
 
+        override fun showImage(imageView: ImageView) {
+            if (photoUrl.isNotEmpty()) {
+                imageView.visibility = View.VISIBLE
+                Picasso.get().load(photoUrl).resize(400, 200).centerCrop().into(imageView)
+            }
+            else
+                imageView.visibility = View.GONE
+        }
+
         override fun same(item: NewsUi) =
             item is Base && item.title == title
 
@@ -37,7 +52,7 @@ abstract class NewsUi {
             item is Base && item.content == content && item.date == date && item.photoUrl == photoUrl
     }
 
-    data class Failure(private val message: String): NewsUi() {
+    data class Failure(private val message: String) : NewsUi() {
         override fun showTitle(textView: TextView) {
             textView.text = message
         }

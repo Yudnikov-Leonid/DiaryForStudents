@@ -26,5 +26,6 @@ class OpenNewsFragment: BaseFragment<FragmentOpenNewsBinding, OpenNewsViewModel>
         data.showTitle(binding.titleTextView)
         data.showDate(binding.dateTextView)
         data.showContent(binding.contentTextView)
+        data.showImage(binding.newsImage)
     }
 }
