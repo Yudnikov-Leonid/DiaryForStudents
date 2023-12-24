@@ -19,7 +19,8 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="First quarter" />
+            android:text="First quarter"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/secondQuarterButton"
@@ -28,7 +29,8 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Second quarter" />
+            android:text="Second quarter"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/thirdQuarterButton"
@@ -37,7 +39,8 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Third quarter" />
+            android:text="Third quarter"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/fourthQuarterButton"
@@ -46,7 +49,8 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Fourth quarter" />
+            android:text="Fourth quarter"
+            android:textSize="11sp" />
 
     </LinearLayout>
 

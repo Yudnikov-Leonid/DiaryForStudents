@@ -47,10 +47,11 @@ interface PerformanceUi {
         override fun showName(textView: TextView) {
             textView.text = grade.toString()
             val color = when (grade) {
-                2 -> R.color.red
+                1, 2 -> R.color.red
                 3 -> R.color.yellow
                 4 -> R.color.green
-                else -> R.color.light_green
+                5 -> R.color.light_green
+                else -> R.color.black
             }
             textView.setTextColor(textView.context.getColor(color))
         }
