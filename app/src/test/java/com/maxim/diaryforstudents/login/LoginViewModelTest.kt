@@ -4,10 +4,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
+import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeManageResources
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
+import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.login.data.AuthResultWrapper
 import com.maxim.diaryforstudents.login.data.LoginRepository
@@ -55,11 +57,12 @@ class LoginViewModelTest {
 
         repository.expectUserNotLoggedIn(false)
         viewModel.init(true)
-        communication.checkCalledWith(LoginState.Auth(resources))
-        communication.checkCalledTimes(2)
+        navigation.checkCalledWith(MenuScreen)
+        clear.checkCalledWith(LoginViewModel::class.java)
+        order.check(listOf(NAVIGATION, CLEAR))
 
         viewModel.init(false)
-        communication.checkCalledTimes(2)
+        order.check(listOf(NAVIGATION, CLEAR))
     }
 
     @Test

@@ -43,6 +43,6 @@ class PerformanceViewModel(
     }
 
     override fun error(message: String) {
-        TODO("Not yet implemented")
+        communication.update(PerformanceState.Error(message))
     }
 }

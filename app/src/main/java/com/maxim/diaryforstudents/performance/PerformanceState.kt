@@ -14,6 +14,31 @@ interface PerformanceState {
         resourceManager: Resources
     )
 
+    object Loading: PerformanceState {
+        override fun show(
+            first: Button,
+            second: Button,
+            third: Button,
+            fourth: Button,
+            adapter: PerformanceLessonsAdapter,
+            resourceManager: Resources
+        ) {
+            TODO("Not yet implemented")
+        }
+    }
+    data class Error(private val message: String): PerformanceState {
+        override fun show(
+            first: Button,
+            second: Button,
+            third: Button,
+            fourth: Button,
+            adapter: PerformanceLessonsAdapter,
+            resourceManager: Resources
+        ) {
+            TODO("Not yet implemented")
+        }
+    }
+
     data class Base(
         private val quarter: Int,
         private val lessons: List<PerformanceUi>
