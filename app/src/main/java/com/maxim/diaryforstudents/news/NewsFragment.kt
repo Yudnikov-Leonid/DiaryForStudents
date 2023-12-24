@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentNewsBinding
 
@@ -15,6 +16,11 @@ class NewsFragment: BaseFragment<FragmentNewsBinding, NewsViewModel>() {
         FragmentNewsBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.back()
+            }
+        }
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = NewsAdapter(object : NewsAdapter.Listener {
