@@ -7,6 +7,7 @@ import java.util.Calendar
 abstract class NewsUi {
     open fun showTitle(textView: TextView) {}
     open fun showDate(textView: TextView) {}
+    open fun showContent(textView: TextView) {}
     abstract fun same(item: NewsUi): Boolean
     abstract fun sameContent(item: NewsUi): Boolean
     data class Base(
@@ -23,6 +24,10 @@ abstract class NewsUi {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = date * 86400000L
             textView.text = formatter.format(calendar.time)
+        }
+
+        override fun showContent(textView: TextView) {
+            textView.text = content
         }
 
         override fun same(item: NewsUi) =

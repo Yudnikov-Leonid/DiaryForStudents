@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.firebase.Firebase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
+import com.maxim.diaryforstudents.openNews.OpenNewsData
 
 class Core(private val context: Context) {
 
@@ -12,9 +13,11 @@ class Core(private val context: Context) {
     }
 
     private val navigation = Navigation.Base()
+    private val openNewsData = OpenNewsData.Base()
     fun manageResource() = ManageResource.Base(context.resources)
     fun dataBase(): DatabaseReference = Firebase.database(DATABASE_URL).reference.root
     fun navigation(): Navigation.Mutable = navigation
+    fun openNewsData() = openNewsData
 
     companion object {
         private const val DATABASE_URL =

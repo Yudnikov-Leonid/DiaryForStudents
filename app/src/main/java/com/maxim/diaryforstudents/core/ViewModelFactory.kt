@@ -11,6 +11,7 @@ import com.maxim.diaryforstudents.news.NewsCloudDataSource
 import com.maxim.diaryforstudents.news.NewsCommunication
 import com.maxim.diaryforstudents.news.NewsRepository
 import com.maxim.diaryforstudents.news.NewsViewModel
+import com.maxim.diaryforstudents.openNews.OpenNewsViewModel
 import com.maxim.diaryforstudents.profile.ProfileCommunication
 import com.maxim.diaryforstudents.profile.ProfileRepository
 import com.maxim.diaryforstudents.profile.ProfileViewModel
@@ -59,6 +60,13 @@ interface ProvideViewModel {
                 NewsViewModel::class.java -> NewsViewModel(
                     NewsRepository.Base(NewsCloudDataSource.Base(core.dataBase())),
                     NewsCommunication.Base(),
+                    core.navigation(),
+                    clear,
+                    core.openNewsData()
+                )
+
+                OpenNewsViewModel::class.java -> OpenNewsViewModel(
+                    core.openNewsData(),
                     core.navigation(),
                     clear
                 )

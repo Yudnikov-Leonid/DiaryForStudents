@@ -17,10 +17,16 @@ class NewsAdapter(
         abstract fun bind(item: NewsUi)
     }
 
-    class BaseViewHolder(private val binding: BaseNewsBinding) : ItemViewHolder(binding) {
+    class BaseViewHolder(
+        private val binding: BaseNewsBinding,
+        private val listener: Listener
+    ) : ItemViewHolder(binding) {
         override fun bind(item: NewsUi) {
             item.showTitle(binding.titleTextView)
             item.showDate(binding.dateTextView)
+            itemView.setOnClickListener {
+                listener.open(item)
+            }
         }
     }
 
@@ -42,7 +48,8 @@ class NewsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return if (viewType == 0) BaseViewHolder(
-            BaseNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            BaseNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener
         )
         else FailureViewHolder(
             FailureNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
@@ -66,13 +73,14 @@ class NewsAdapter(
 
     interface Listener {
         fun retry()
+        fun open(value: NewsUi)
     }
 }
 
 class NewsDiffUtil(
     private val oldList: List<NewsUi>,
     private val newList: List<NewsUi>
-): DiffUtil.Callback() {
+) : DiffUtil.Callback() {
     override fun getOldListSize() = oldList.size
 
     override fun getNewListSize() = newList.size

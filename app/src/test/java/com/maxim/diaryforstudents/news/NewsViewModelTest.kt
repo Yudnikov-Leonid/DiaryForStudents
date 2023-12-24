@@ -7,7 +7,10 @@ import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
+import com.maxim.diaryforstudents.fakes.OPEN_NEWS_DATA
 import com.maxim.diaryforstudents.fakes.Order
+import com.maxim.diaryforstudents.openNews.OpenNewsData
+import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -19,6 +22,7 @@ class NewsViewModelTest {
     private lateinit var navigation: FakeNavigation
     private lateinit var clear: FakeClearViewModel
     private lateinit var order: Order
+    private lateinit var openNewsData: FakeOpenNewsData
 
     @Before
     fun before() {
@@ -27,7 +31,8 @@ class NewsViewModelTest {
         communication = FakeNewsCommunication()
         navigation = FakeNavigation(order)
         clear = FakeClearViewModel(order)
-        viewModel = NewsViewModel(repository, communication, navigation, clear)
+        openNewsData = FakeOpenNewsData(order)
+        viewModel = NewsViewModel(repository, communication, navigation, clear, openNewsData)
     }
 
     @Test
@@ -71,6 +76,27 @@ class NewsViewModelTest {
         navigation.checkCalledWith(Screen.Pop)
         clear.checkCalledWith(NewsViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))
+    }
+
+    @Test
+    fun test_open() {
+        val news = NewsUi.Base("Title", "Content", 55, "")
+        viewModel.open(news)
+        openNewsData.checkCalledWith(news)
+        navigation.checkCalledWith(OpenNewsScreen)
+        order.check(listOf(OPEN_NEWS_DATA, NAVIGATION))
+    }
+}
+
+private class FakeOpenNewsData(private val order: Order): OpenNewsData.Save {
+    private lateinit var value: NewsUi
+    fun checkCalledWith(expected: NewsUi) {
+        assertEquals(expected, value)
+    }
+
+    override fun save(value: NewsUi) {
+        this.value = value
+        order.add(OPEN_NEWS_DATA)
     }
 }
 

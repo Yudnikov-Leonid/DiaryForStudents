@@ -27,6 +27,10 @@ class NewsFragment: BaseFragment<FragmentNewsBinding, NewsViewModel>() {
             override fun retry() {
                 viewModel.reload()
             }
+
+            override fun open(value: NewsUi) {
+                viewModel.open(value)
+            }
         })
         binding.newsRecyclerView.adapter = adapter
 
