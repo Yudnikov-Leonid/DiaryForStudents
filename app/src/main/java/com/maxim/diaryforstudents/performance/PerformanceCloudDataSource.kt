@@ -44,7 +44,7 @@ interface PerformanceCloudDataSource {
                     map[it.lesson] = ArrayList()
                 map[it.lesson]!!.add(Grade(it.grade, it.date))
             }
-            map.forEach {
+            map.toSortedMap().forEach {
                 val average = (it.value.sumOf { it.grade }).toFloat() / it.value.size
                 it.value.sortBy { it.date }
                 result.add(PerformanceData.Lesson(mapper.map(it.key), it.value.map { it.toData() }, average))
