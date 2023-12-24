@@ -11,7 +11,7 @@ class MainViewModelTest {
 
     @Before
     fun init() {
-        navigation = FakeNavigation()
+        navigation = FakeNavigation(Order())
         viewModel = MainViewModel(navigation)
     }
 

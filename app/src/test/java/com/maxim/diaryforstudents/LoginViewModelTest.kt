@@ -27,15 +27,17 @@ class LoginViewModelTest {
     private lateinit var resources: FakeManageResources
     private lateinit var runAsync: FakeRunAsync
     private lateinit var clear: FakeClearViewModel
+    private lateinit var order: Order
 
     @Before
     fun before() {
+        order = Order()
         repository = FakeLoginRepository()
         communication = FakeLoginCommunication()
-        navigation = FakeNavigation()
-        resources = FakeManageResources()
+        navigation = FakeNavigation(order)
+        resources = FakeManageResources("123")
         runAsync = FakeRunAsync()
-        clear = FakeClearViewModel()
+        clear = FakeClearViewModel(order)
         viewModel =
             LoginViewModel(repository, communication, navigation, clear, resources, runAsync)
     }
@@ -99,28 +101,6 @@ private class FakeAuthResultWrapper : AuthResultWrapper {
     override fun task(): Task<GoogleSignInAccount> {
         throw IllegalStateException("not using in test")
     }
-}
-
-private class FakeRunAsync : RunAsync {
-    private lateinit var cached: (Any) -> Unit
-    private lateinit var cachedArgument: Any
-    fun returnResult() {
-        cached.invoke(cachedArgument)
-    }
-
-    override fun <T : Any> handleAsync(
-        coroutineScope: CoroutineScope,
-        backgroundBlock: suspend () -> T,
-        uiBlock: (T) -> Unit
-    ) = runBlocking {
-        cachedArgument = backgroundBlock.invoke()
-        cached = uiBlock as (Any) -> Unit
-    }
-
-}
-
-private class FakeManageResources : ManageResource {
-    override fun string(key: Int) = "123"
 }
 
 private class FakeLoginRepository : LoginRepository {

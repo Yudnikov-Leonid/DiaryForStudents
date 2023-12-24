@@ -6,12 +6,14 @@ import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.login.data.LoginCloudDataSource
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.main.MainViewModel
+import com.maxim.diaryforstudents.profile.ProfileCommunication
+import com.maxim.diaryforstudents.profile.ProfileRepository
 import com.maxim.diaryforstudents.profile.ProfileViewModel
 
 interface ViewModelFactory : ProvideViewModel, ClearViewModel {
-    class Base(
-        private val provider: ProvideViewModel
-    ) : ViewModelFactory {
+    class Base(core: Core) : ViewModelFactory {
+        //todo fix provider must be in constructor
+        private val provider = ProvideViewModel.Base(core, this)
         private val map = mutableMapOf<Class<out ViewModel>, ViewModel>()
         override fun <T : ViewModel> viewModel(clazz: Class<T>): T {
             if (map[clazz] == null)
@@ -37,9 +39,15 @@ interface ProvideViewModel {
                     LoginCommunication.Base(),
                     core.navigation(),
                     clear,
-                    ManageResource.Base(core.resourceManager())
+                    core.manageResource()
                 )
-                ProfileViewModel::class.java -> ProfileViewModel()
+                ProfileViewModel::class.java -> ProfileViewModel(
+                    ProfileRepository.Base(),
+                    ProfileCommunication.Base(),
+                    core.navigation(),
+                    clear,
+                    core.manageResource()
+                    )
                 else -> throw IllegalStateException("unknown viewModel $clazz")
             } as T
         }

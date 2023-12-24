@@ -7,10 +7,11 @@ import com.maxim.diaryforstudents.core.Screen
 import junit.framework.TestCase.assertEquals
 import java.lang.IllegalStateException
 
-class FakeNavigation: Navigation.Mutable {
+class FakeNavigation(private val order: Order): Navigation.Mutable {
     private var lastArgument: Screen? = null
     private var counter = 0
     override fun update(value: Screen) {
+        order.add(NAVIGATION)
         lastArgument = value
         counter++
     }

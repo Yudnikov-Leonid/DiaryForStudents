@@ -7,7 +7,7 @@ import com.google.firebase.database.database
 
 class Core(private val context: Context) {
     private val navigation = Navigation.Base()
-    fun resourceManager() = context.resources
+    fun manageResource() = ManageResource.Base(context.resources)
     fun dataBase(): DatabaseReference = Firebase.database(DATABASE_URL).reference.root
     fun navigation(): Navigation.Mutable = navigation
 

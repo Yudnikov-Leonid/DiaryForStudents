@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
@@ -11,12 +12,16 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseFragment<B : ViewBinding, V: ViewModel> : Fragment() {
     private var _binding: B? = null
     protected val binding get() = _binding!!
+    protected var onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {}
+    }
     protected abstract fun bind(inflater: LayoutInflater, container: ViewGroup?): B
     protected lateinit var viewModel: V
     protected abstract val viewModelClass: Class<V>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
         viewModel = (activity as ProvideViewModel).viewModel(viewModelClass)
     }
 
@@ -31,6 +36,7 @@ abstract class BaseFragment<B : ViewBinding, V: ViewModel> : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        onBackPressedCallback.remove()
         _binding = null
     }
 }

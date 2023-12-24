@@ -11,4 +11,10 @@ interface Screen {
                 .replace(containerId, fragmentClass.getDeclaredConstructor().newInstance()).commit()
         }
     }
+
+    object Pop: Screen {
+        override fun show(fragmentManager: FragmentManager, containerId: Int) {
+            fragmentManager.popBackStack()
+        }
+    }
 }

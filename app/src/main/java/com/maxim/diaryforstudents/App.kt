@@ -13,7 +13,7 @@ class App : Application(), ProvideViewModel {
     override fun onCreate() {
         super.onCreate()
         Firebase.initialize(this)
-        factory = ViewModelFactory.Base(ProvideViewModel.Base(Core(this), factory))
+        factory = ViewModelFactory.Base(Core(this))
     }
 
     override fun <T : ViewModel> viewModel(clazz: Class<T>) = factory.viewModel(clazz)
