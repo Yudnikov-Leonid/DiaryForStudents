@@ -77,7 +77,12 @@ interface ProvideViewModel {
                 )
 
                 PerformanceViewModel::class.java -> PerformanceViewModel(
-                    PerformanceRepository.Base(PerformanceCloudDataSource.Base(core.dataBase())),
+                    PerformanceRepository.Base(
+                        PerformanceCloudDataSource.Base(
+                            core.dataBase(),
+                            LessonMapper.Base(core.manageResource())
+                        )
+                    ),
                     PerformanceCommunication.Base(),
                     core.navigation(),
                     clear

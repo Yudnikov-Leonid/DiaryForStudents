@@ -6,13 +6,17 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.maxim.diaryforstudents.core.LessonMapper
 import com.maxim.diaryforstudents.news.Reload
 
 interface PerformanceCloudDataSource {
     fun init(reload: Reload)
     fun data(quarter: Int): List<PerformanceData.Lesson>
 
-    class Base(private val database: DatabaseReference) : PerformanceCloudDataSource {
+    class Base(
+        private val database: DatabaseReference,
+        private val mapper: LessonMapper
+    ) : PerformanceCloudDataSource {
         private val data = mutableListOf<Lesson>()
         override fun init(reload: Reload) {
             val uId = Firebase.auth.currentUser!!.uid
@@ -43,7 +47,7 @@ interface PerformanceCloudDataSource {
             map.forEach {
                 val average = (it.value.sumOf { it.grade }).toFloat() / it.value.size
                 it.value.sortBy { it.date }
-                result.add(PerformanceData.Lesson(it.key, it.value.map { it.toData() }, average))
+                result.add(PerformanceData.Lesson(mapper.map(it.key), it.value.map { it.toData() }, average))
             }
             return result
         }
