@@ -18,7 +18,8 @@ interface PerformanceRepository {
         }
 
         override fun data(): List<PerformanceData> {
-            return dataSource.data(quarter)
+            val data = dataSource.data(quarter)
+            return data.ifEmpty { listOf(PerformanceData.Empty) }
         }
 
         override fun actualQuarter() = quarter

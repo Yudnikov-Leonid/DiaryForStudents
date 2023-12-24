@@ -6,16 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.LessonPerformanceBinding
+import com.maxim.diaryforstudents.databinding.LessonPerformanceNoDataBinding
 
 class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
-    private val list = mutableListOf<PerformanceUi.Lesson>()
+    private val list = mutableListOf<PerformanceUi>()
 
     abstract class ItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        abstract fun bind(item: PerformanceUi.Lesson)
+        open fun bind(item: PerformanceUi) {}
     }
 
     class BaseViewHolder(private val binding: LessonPerformanceBinding) : ItemViewHolder(binding) {
-        override fun bind(item: PerformanceUi.Lesson) {
+        override fun bind(item: PerformanceUi) {
             item.showName(binding.lessonNameTextView)
             val adapter = PerformanceGradesAdapter()
             binding.gradesRecyclerView.adapter = adapter
@@ -24,9 +25,18 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
         }
     }
 
+    class EmptyViewHolder(binding: LessonPerformanceNoDataBinding) : ItemViewHolder(binding)
+
+    override fun getItemViewType(position: Int): Int {
+        return if (list[position] is PerformanceUi.Empty) 0 else 1
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return BaseViewHolder(
+        return if (viewType == 1) BaseViewHolder(
             LessonPerformanceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ) else EmptyViewHolder(
+            LessonPerformanceNoDataBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -46,9 +56,9 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
 }
 
 class LessonsDiffUtil(
-    private val oldList: List<PerformanceUi.Lesson>,
-    private val newList: List<PerformanceUi.Lesson>,
-): DiffUtil.Callback() {
+    private val oldList: List<PerformanceUi>,
+    private val newList: List<PerformanceUi>,
+) : DiffUtil.Callback() {
     override fun getOldListSize() = oldList.size
 
     override fun getNewListSize() = newList.size

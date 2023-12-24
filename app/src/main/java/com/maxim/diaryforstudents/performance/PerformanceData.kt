@@ -10,6 +10,10 @@ interface PerformanceData {
         override fun toUi() = PerformanceUi.Lesson(name, grades.map { it.toUi() }, average)
     }
 
+    object Empty: PerformanceData {
+        override fun toUi() = PerformanceUi.Empty
+    }
+
     data class Grade(
         private val grade: Int,
         private val date: Int

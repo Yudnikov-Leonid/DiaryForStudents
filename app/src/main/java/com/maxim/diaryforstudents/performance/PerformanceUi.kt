@@ -11,7 +11,11 @@ interface PerformanceUi {
     fun showGrades(adapter: PerformanceGradesAdapter) {}
     fun showAverage(textView: TextView) {}
     fun same(item: PerformanceUi): Boolean
-    fun sameContent(item: PerformanceUi): Boolean
+    fun sameContent(item: PerformanceUi): Boolean = false
+    object Empty: PerformanceUi {
+        override fun same(item: PerformanceUi) = item is Empty
+    }
+
     data class Lesson(
         private val name: String,
         private val grades: List<Grade>,
