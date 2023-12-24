@@ -16,8 +16,10 @@ class PerformanceViewModel(
     private val clear: ClearViewModel
 ) : BaseViewModel(), Communication.Observe<PerformanceState>, Reload {
     fun init(isFirstRun: Boolean) {
-        if (isFirstRun)
+        if (isFirstRun) {
+            communication.update(PerformanceState.Loading)
             repository.init(this)
+        }
     }
 
     fun changeQuarter(new: Int) {

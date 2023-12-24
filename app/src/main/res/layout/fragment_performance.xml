@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/disable_button"
             android:text="First quarter" />
 
         <Button
@@ -25,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/disable_button"
             android:text="Second quarter" />
 
         <Button
@@ -33,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/disable_button"
             android:text="Third quarter" />
 
         <Button
@@ -41,9 +45,27 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/disable_button"
             android:text="Fourth quarter" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        android:visibility="gone"
+        tools:text="Error text" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lessonsRecyclerView"

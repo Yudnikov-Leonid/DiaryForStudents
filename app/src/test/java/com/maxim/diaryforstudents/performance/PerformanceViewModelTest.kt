@@ -39,9 +39,12 @@ class PerformanceViewModelTest {
         viewModel.init(true)
         repository.checkInitCalledTimes(1)
         repository.checkInitCalledWith(viewModel)
+        communication.checkCalledTimes(1)
+        communication.checkCalledWith(PerformanceState.Loading)
 
         viewModel.init(false)
         repository.checkInitCalledTimes(1)
+        communication.checkCalledTimes(1)
     }
 
     @Test

@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
     <color name="blue">#2865d0</color>
+    <color name="disable_button">#8FB0EA</color>
     <color name="back_blue">#e1effa</color>
     <color name="background">#F9F9F9</color>
 

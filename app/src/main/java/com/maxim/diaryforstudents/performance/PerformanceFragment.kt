@@ -31,7 +31,8 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
                 binding.thirdQuarterButton,
                 binding.fourthQuarterButton,
                 adapter,
-                requireContext().resources
+                binding.errorTextView,
+                binding.progressBar
             )
         }
         binding.firstQuarterButton.setOnClickListener {

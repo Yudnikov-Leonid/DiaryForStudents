@@ -1,7 +1,10 @@
 package com.maxim.diaryforstudents.performance
 
 import android.content.res.Resources
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.maxim.diaryforstudents.R
 
 interface PerformanceState {
@@ -11,7 +14,8 @@ interface PerformanceState {
         third: Button,
         fourth: Button,
         adapter: PerformanceLessonsAdapter,
-        resourceManager: Resources
+        errorTextView: TextView,
+        progressBar: ProgressBar
     )
 
     object Loading: PerformanceState {
@@ -21,9 +25,10 @@ interface PerformanceState {
             third: Button,
             fourth: Button,
             adapter: PerformanceLessonsAdapter,
-            resourceManager: Resources
+            errorTextView: TextView,
+            progressBar: ProgressBar
         ) {
-            TODO("Not yet implemented")
+            progressBar.visibility = View.VISIBLE
         }
     }
     data class Error(private val message: String): PerformanceState {
@@ -33,9 +38,12 @@ interface PerformanceState {
             third: Button,
             fourth: Button,
             adapter: PerformanceLessonsAdapter,
-            resourceManager: Resources
+            errorTextView: TextView,
+            progressBar: ProgressBar
         ) {
-            TODO("Not yet implemented")
+            progressBar.visibility = View.GONE
+            errorTextView.visibility = View.VISIBLE
+            errorTextView.text = message
         }
     }
 
@@ -49,30 +57,36 @@ interface PerformanceState {
             third: Button,
             fourth: Button,
             adapter: PerformanceLessonsAdapter,
-            resourceManager: Resources
+            errorTextView: TextView,
+            progressBar: ProgressBar
         ) {
+            val resourceManager = first.context.resources
             //todo deprecated
+            val enableColor = R.color.blue
+            val disableColor = R.color.disable_button
             first.setBackgroundColor(
-                if (quarter == 1) resourceManager.getColor(R.color.blue) else resourceManager.getColor(
-                    R.color.back_blue
+                if (quarter == 1) resourceManager.getColor(enableColor) else resourceManager.getColor(
+                    disableColor
                 )
             )
             second.setBackgroundColor(
-                if (quarter == 2) resourceManager.getColor(R.color.blue) else resourceManager.getColor(
-                    R.color.back_blue
+                if (quarter == 2) resourceManager.getColor(enableColor) else resourceManager.getColor(
+                    disableColor
                 )
             )
             third.setBackgroundColor(
-                if (quarter == 3) resourceManager.getColor(R.color.blue) else resourceManager.getColor(
-                    R.color.back_blue
+                if (quarter == 3) resourceManager.getColor(enableColor) else resourceManager.getColor(
+                    disableColor
                 )
             )
             fourth.setBackgroundColor(
-                if (quarter == 4) resourceManager.getColor(R.color.blue) else resourceManager.getColor(
-                    R.color.back_blue
+                if (quarter == 4) resourceManager.getColor(enableColor) else resourceManager.getColor(
+                    disableColor
                 )
             )
             adapter.update(lessons as List<PerformanceUi.Lesson>)
+            progressBar.visibility = View.GONE
+            errorTextView.visibility = View.GONE
         }
     }
 }
