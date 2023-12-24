@@ -12,6 +12,10 @@ import com.maxim.diaryforstudents.news.NewsCommunication
 import com.maxim.diaryforstudents.news.NewsRepository
 import com.maxim.diaryforstudents.news.NewsViewModel
 import com.maxim.diaryforstudents.openNews.OpenNewsViewModel
+import com.maxim.diaryforstudents.performance.PerformanceCloudDataSource
+import com.maxim.diaryforstudents.performance.PerformanceCommunication
+import com.maxim.diaryforstudents.performance.PerformanceRepository
+import com.maxim.diaryforstudents.performance.PerformanceViewModel
 import com.maxim.diaryforstudents.profile.ProfileCommunication
 import com.maxim.diaryforstudents.profile.ProfileRepository
 import com.maxim.diaryforstudents.profile.ProfileViewModel
@@ -67,6 +71,13 @@ interface ProvideViewModel {
 
                 OpenNewsViewModel::class.java -> OpenNewsViewModel(
                     core.openNewsData(),
+                    core.navigation(),
+                    clear
+                )
+
+                PerformanceViewModel::class.java -> PerformanceViewModel(
+                    PerformanceRepository.Base(PerformanceCloudDataSource.Base(core.dataBase())),
+                    PerformanceCommunication.Base(),
                     core.navigation(),
                     clear
                 )
