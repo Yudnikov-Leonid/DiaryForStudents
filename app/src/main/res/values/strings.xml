@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DiaryForStudents</string>
+    <string name="app_name">Diary for students</string>
     <string name="client_web_id">"575101660631-snd45ng04apnq52vv7r4t8hk3of8rd11.apps.googleusercontent.com"</string>
     <string name="email">Email:\n</string>
     <string name="name">Name:\n</string>
