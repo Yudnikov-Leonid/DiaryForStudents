@@ -2,4 +2,4 @@ package com.maxim.diaryforstudents.profile
 
 import com.maxim.diaryforstudents.core.Screen
 
-object ProfileScreen : Screen.Replace(ProfileFragment::class.java)
+object ProfileScreen : Screen.Add(ProfileFragment::class.java)

@@ -1,21 +1,22 @@
-package com.maxim.diaryforstudents
+package com.maxim.diaryforstudents.login
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import com.maxim.diaryforstudents.core.ManageResource
-import com.maxim.diaryforstudents.core.RunAsync
+import com.maxim.diaryforstudents.fakes.FakeClearViewModel
+import com.maxim.diaryforstudents.fakes.FakeManageResources
+import com.maxim.diaryforstudents.fakes.FakeNavigation
+import com.maxim.diaryforstudents.fakes.FakeRunAsync
+import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.login.data.AuthResultWrapper
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.data.LoginResult
 import com.maxim.diaryforstudents.login.presentation.LoginCommunication
 import com.maxim.diaryforstudents.login.presentation.LoginState
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
-import com.maxim.diaryforstudents.profile.ProfileScreen
-import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.runBlocking
+import com.maxim.diaryforstudents.menu.MenuScreen
+import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test
 
@@ -78,7 +79,7 @@ class LoginViewModelTest {
 
         runAsync.returnResult()
         communication.checkCalledTimes(0)
-        navigation.checkCalledWith(ProfileScreen)
+        navigation.checkCalledWith(MenuScreen)
         navigation.checkCalledTimes(1)
         clear.checkCalledTimes(1)
         clear.checkCalledWith(LoginViewModel::class.java)
@@ -116,7 +117,7 @@ private class FakeLoginRepository : LoginRepository {
     }
 
     fun checkCalledWith(expected: AuthResultWrapper) {
-        assertEquals(expected, handleResultCalledList.last())
+        TestCase.assertEquals(expected, handleResultCalledList.last())
     }
 
     fun expectUserNotLoggedIn(value: Boolean) {
@@ -124,7 +125,7 @@ private class FakeLoginRepository : LoginRepository {
     }
 
     fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, handleResultCalledList.size)
+        TestCase.assertEquals(expected, handleResultCalledList.size)
     }
 
     override fun userNotLoggedIn() = userNotLoggedIn
@@ -142,11 +143,11 @@ private class FakeLoginCommunication : LoginCommunication.Mutable {
     }
 
     fun checkCalledWith(expected: LoginState) {
-        assertEquals(expected, list.last())
+        TestCase.assertEquals(expected, list.last())
     }
 
     fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, list.size)
+        TestCase.assertEquals(expected, list.size)
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<LoginState>) {

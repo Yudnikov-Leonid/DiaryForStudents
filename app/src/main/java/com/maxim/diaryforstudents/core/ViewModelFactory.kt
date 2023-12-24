@@ -6,6 +6,7 @@ import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.login.data.LoginCloudDataSource
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.main.MainViewModel
+import com.maxim.diaryforstudents.menu.MenuViewModel
 import com.maxim.diaryforstudents.profile.ProfileCommunication
 import com.maxim.diaryforstudents.profile.ProfileRepository
 import com.maxim.diaryforstudents.profile.ProfileViewModel
@@ -48,6 +49,7 @@ interface ProvideViewModel {
                     clear,
                     core.manageResource()
                     )
+                MenuViewModel::class.java -> MenuViewModel(core.navigation())
                 else -> throw IllegalStateException("unknown viewModel $clazz")
             } as T
         }

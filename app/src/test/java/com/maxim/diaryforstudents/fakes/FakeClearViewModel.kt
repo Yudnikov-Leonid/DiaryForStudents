@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents
+package com.maxim.diaryforstudents.fakes
 
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.core.ClearViewModel

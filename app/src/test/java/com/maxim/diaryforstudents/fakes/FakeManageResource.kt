@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents
+package com.maxim.diaryforstudents.fakes
 
 import com.maxim.diaryforstudents.core.ManageResource
 

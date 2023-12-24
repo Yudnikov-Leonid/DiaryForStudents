@@ -13,7 +13,9 @@ abstract class BaseFragment<B : ViewBinding, V: ViewModel> : Fragment() {
     private var _binding: B? = null
     protected val binding get() = _binding!!
     protected var onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {}
+        override fun handleOnBackPressed() {
+            requireActivity().finish()
+        }
     }
     protected abstract fun bind(inflater: LayoutInflater, container: ViewGroup?): B
     protected lateinit var viewModel: V

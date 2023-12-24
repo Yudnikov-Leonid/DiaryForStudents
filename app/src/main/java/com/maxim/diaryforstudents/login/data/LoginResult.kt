@@ -5,7 +5,7 @@ import com.maxim.diaryforstudents.core.Navigation
 import com.maxim.diaryforstudents.login.presentation.LoginCommunication
 import com.maxim.diaryforstudents.login.presentation.LoginState
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
-import com.maxim.diaryforstudents.profile.ProfileScreen
+import com.maxim.diaryforstudents.menu.MenuScreen
 
 interface LoginResult {
     fun map(communication: LoginCommunication.Update, navigation: Navigation.Update, clear: ClearViewModel)
@@ -25,7 +25,7 @@ interface LoginResult {
             navigation: Navigation.Update,
             clear: ClearViewModel
         ) {
-            navigation.update(ProfileScreen)
+            navigation.update(MenuScreen)
             clear.clearViewModel(LoginViewModel::class.java)
         }
     }

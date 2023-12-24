@@ -1,14 +1,18 @@
-package com.maxim.diaryforstudents
+package com.maxim.diaryforstudents.profile
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.fakes.CLEAR
+import com.maxim.diaryforstudents.fakes.COMMUNICATION
+import com.maxim.diaryforstudents.fakes.FakeClearViewModel
+import com.maxim.diaryforstudents.fakes.FakeManageResources
+import com.maxim.diaryforstudents.fakes.FakeNavigation
+import com.maxim.diaryforstudents.fakes.NAVIGATION
+import com.maxim.diaryforstudents.fakes.Order
+import com.maxim.diaryforstudents.fakes.REPOSITORY
 import com.maxim.diaryforstudents.core.Screen
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
-import com.maxim.diaryforstudents.profile.ProfileCommunication
-import com.maxim.diaryforstudents.profile.ProfileRepository
-import com.maxim.diaryforstudents.profile.ProfileState
-import com.maxim.diaryforstudents.profile.ProfileViewModel
-import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test
 
@@ -63,9 +67,6 @@ private class FakeProfileRepository(private val order: Order): ProfileRepository
     fun mustReturn(email: String, name: String) {
         data = Pair(email, name)
     }
-    fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, counter)
-    }
     override fun signOut() {
         order.add(REPOSITORY)
         counter++
@@ -81,11 +82,11 @@ private class FakeProfileCommunication(private val order: Order) : ProfileCommun
     }
 
     fun checkCalledWith(expected: ProfileState) {
-        assertEquals(expected, list.last())
+        TestCase.assertEquals(expected, list.last())
     }
 
     fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, list.size)
+        TestCase.assertEquals(expected, list.size)
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<ProfileState>) {

@@ -12,6 +12,15 @@ interface Screen {
         }
     }
 
+    abstract class Add(private val fragmentClass: Class<out Fragment>) : Screen {
+        override fun show(fragmentManager: FragmentManager, containerId: Int) {
+            fragmentManager.beginTransaction()
+                .add(containerId, fragmentClass.getDeclaredConstructor().newInstance())
+                .addToBackStack("")
+                .commit()
+        }
+    }
+
     object Pop: Screen {
         override fun show(fragmentManager: FragmentManager, containerId: Int) {
             fragmentManager.popBackStack()

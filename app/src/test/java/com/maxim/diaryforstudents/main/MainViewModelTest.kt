@@ -1,7 +1,8 @@
-package com.maxim.diaryforstudents
+package com.maxim.diaryforstudents.main
 
+import com.maxim.diaryforstudents.fakes.FakeNavigation
+import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
-import com.maxim.diaryforstudents.main.MainViewModel
 import org.junit.Before
 import org.junit.Test
 
