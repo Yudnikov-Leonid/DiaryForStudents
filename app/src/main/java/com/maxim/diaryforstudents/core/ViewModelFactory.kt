@@ -16,6 +16,7 @@ import com.maxim.diaryforstudents.performance.PerformanceCloudDataSource
 import com.maxim.diaryforstudents.performance.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.PerformanceRepository
 import com.maxim.diaryforstudents.performance.PerformanceViewModel
+import com.maxim.diaryforstudents.profile.ProfileCloudDataSource
 import com.maxim.diaryforstudents.profile.ProfileCommunication
 import com.maxim.diaryforstudents.profile.ProfileRepository
 import com.maxim.diaryforstudents.profile.ProfileViewModel
@@ -53,7 +54,7 @@ interface ProvideViewModel {
                 )
 
                 ProfileViewModel::class.java -> ProfileViewModel(
-                    ProfileRepository.Base(),
+                    ProfileRepository.Base(ProfileCloudDataSource.Base(core.context())),
                     ProfileCommunication.Base(),
                     core.navigation(),
                     clear,
