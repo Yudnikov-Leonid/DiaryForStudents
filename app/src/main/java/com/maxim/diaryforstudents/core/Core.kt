@@ -6,8 +6,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
 
 class Core(private val context: Context) {
-    fun context() = context
+    private val navigation = Navigation.Base()
+    fun resourceManager() = context.resources
     fun dataBase(): DatabaseReference = Firebase.database(DATABASE_URL).reference.root
+    fun navigation(): Navigation.Mutable = navigation
 
     companion object {
         private const val DATABASE_URL =

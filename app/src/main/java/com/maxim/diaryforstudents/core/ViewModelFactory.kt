@@ -1,11 +1,12 @@
 package com.maxim.diaryforstudents.core
 
 import androidx.lifecycle.ViewModel
-import com.maxim.diaryforstudents.login.LoginCommunication
-import com.maxim.diaryforstudents.login.LoginViewModel
+import com.maxim.diaryforstudents.login.presentation.LoginCommunication
+import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.login.data.LoginCloudDataSource
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.main.MainViewModel
+import com.maxim.diaryforstudents.profile.ProfileViewModel
 
 interface ViewModelFactory : ProvideViewModel, ClearViewModel {
     class Base(
@@ -27,18 +28,18 @@ interface ViewModelFactory : ProvideViewModel, ClearViewModel {
 interface ProvideViewModel {
     fun <T : ViewModel> viewModel(clazz: Class<T>): T
 
-    class Base(private val core: Core) : ProvideViewModel {
-        private val navigation = Navigation.Base()
+    class Base(private val core: Core, private val clear: ClearViewModel) : ProvideViewModel {
         override fun <T : ViewModel> viewModel(clazz: Class<T>): T {
             return when (clazz) {
-                MainViewModel::class.java -> MainViewModel(navigation)
+                MainViewModel::class.java -> MainViewModel(core.navigation())
                 LoginViewModel::class.java -> LoginViewModel(
                     LoginRepository.Base(LoginCloudDataSource.Base(core.dataBase())),
                     LoginCommunication.Base(),
-                    navigation,
-                    ManageResource.Base(core.context().resources)
+                    core.navigation(),
+                    clear,
+                    ManageResource.Base(core.resourceManager())
                 )
-
+                ProfileViewModel::class.java -> ProfileViewModel()
                 else -> throw IllegalStateException("unknown viewModel $clazz")
             } as T
         }

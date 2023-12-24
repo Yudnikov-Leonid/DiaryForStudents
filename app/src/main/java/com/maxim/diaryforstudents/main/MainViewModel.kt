@@ -5,7 +5,7 @@ import com.maxim.diaryforstudents.core.BaseViewModel
 import com.maxim.diaryforstudents.core.Communication
 import com.maxim.diaryforstudents.core.Navigation
 import com.maxim.diaryforstudents.core.Screen
-import com.maxim.diaryforstudents.login.LoginScreen
+import com.maxim.diaryforstudents.login.presentation.LoginScreen
 
 class MainViewModel(
     private val navigation: Navigation.Mutable,

@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.login
+package com.maxim.diaryforstudents.login.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,9 @@ import com.maxim.diaryforstudents.core.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.FragmentLoginBinding
 import com.maxim.diaryforstudents.login.data.AuthResultWrapper
 
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    private lateinit var viewModel: LoginViewModel
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
+    override val viewModelClass: Class<LoginViewModel>
+        get() = LoginViewModel::class.java
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentLoginBinding.inflate(inflater, container, false)
 

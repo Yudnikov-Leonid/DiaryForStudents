@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.login
+package com.maxim.diaryforstudents.login.presentation
 
 import com.maxim.diaryforstudents.core.Communication
 

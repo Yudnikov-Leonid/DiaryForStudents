@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.login
+package com.maxim.diaryforstudents.login.presentation
 
 import android.app.Activity
 import android.content.Intent

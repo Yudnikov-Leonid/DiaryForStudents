@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents
 
-import com.maxim.diaryforstudents.login.LoginScreen
+import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.main.MainViewModel
 import org.junit.Before
 import org.junit.Test

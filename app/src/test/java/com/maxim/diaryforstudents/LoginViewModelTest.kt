@@ -6,12 +6,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.maxim.diaryforstudents.core.ManageResource
 import com.maxim.diaryforstudents.core.RunAsync
-import com.maxim.diaryforstudents.login.LoginCommunication
-import com.maxim.diaryforstudents.login.LoginState
-import com.maxim.diaryforstudents.login.LoginViewModel
 import com.maxim.diaryforstudents.login.data.AuthResultWrapper
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.data.LoginResult
+import com.maxim.diaryforstudents.login.presentation.LoginCommunication
+import com.maxim.diaryforstudents.login.presentation.LoginState
+import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.profile.ProfileScreen
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +26,7 @@ class LoginViewModelTest {
     private lateinit var navigation: FakeNavigation
     private lateinit var resources: FakeManageResources
     private lateinit var runAsync: FakeRunAsync
+    private lateinit var clear: FakeClearViewModel
 
     @Before
     fun before() {
@@ -34,7 +35,9 @@ class LoginViewModelTest {
         navigation = FakeNavigation()
         resources = FakeManageResources()
         runAsync = FakeRunAsync()
-        viewModel = LoginViewModel(repository, communication, navigation, resources, runAsync)
+        clear = FakeClearViewModel()
+        viewModel =
+            LoginViewModel(repository, communication, navigation, clear, resources, runAsync)
     }
 
     @Test
@@ -75,6 +78,8 @@ class LoginViewModelTest {
         communication.checkCalledTimes(0)
         navigation.checkCalledWith(ProfileScreen)
         navigation.checkCalledTimes(1)
+        clear.checkCalledTimes(1)
+        clear.checkCalledWith(LoginViewModel::class.java)
 
         repository.returnFailed(message = "Some error")
         viewModel.handleResult(authResultWrapper)
@@ -82,6 +87,7 @@ class LoginViewModelTest {
         communication.checkCalledWith(LoginState.Failed("Some error"))
         communication.checkCalledTimes(1)
         navigation.checkCalledTimes(1)
+        clear.checkCalledTimes(1)
     }
 }
 
