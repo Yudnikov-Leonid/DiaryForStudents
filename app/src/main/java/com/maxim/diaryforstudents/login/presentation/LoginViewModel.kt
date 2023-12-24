@@ -10,6 +10,7 @@ import com.maxim.diaryforstudents.core.Navigation
 import com.maxim.diaryforstudents.core.RunAsync
 import com.maxim.diaryforstudents.login.data.AuthResultWrapper
 import com.maxim.diaryforstudents.login.data.LoginRepository
+import com.maxim.diaryforstudents.menu.MenuScreen
 
 class LoginViewModel(
     private val repository: LoginRepository,
@@ -23,8 +24,10 @@ class LoginViewModel(
         if (isFirstRun) {
             if (repository.userNotLoggedIn())
                 communication.update(LoginState.Initial)
-            else
-                login()
+            else {
+                navigation.update(MenuScreen)
+                clear.clearViewModel(LoginViewModel::class.java)
+            }
         }
     }
 

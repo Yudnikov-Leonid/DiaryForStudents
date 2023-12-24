@@ -18,8 +18,10 @@ class NewsViewModel(
     private val openNewsData: OpenNewsData.Save
 ) : BaseViewModel(), Reload, Communication.Observe<NewsState> {
     fun init(isFirstRun: Boolean) {
-        if (isFirstRun)
+        if (isFirstRun) {
+            communication.update(NewsState.Loading)
             repository.init(this)
+        }
     }
 
     override fun reload() {

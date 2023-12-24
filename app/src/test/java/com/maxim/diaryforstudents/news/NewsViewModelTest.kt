@@ -40,9 +40,12 @@ class NewsViewModelTest {
         viewModel.init(true)
         repository.checkCalledTimes(1)
         repository.checkCalledWith(viewModel)
+        communication.checkCalledTimes(1)
+        communication.checkCalledWith(NewsState.Loading)
 
         viewModel.init(false)
         repository.checkCalledTimes(1)
+        communication.checkCalledTimes(1)
     }
 
     @Test

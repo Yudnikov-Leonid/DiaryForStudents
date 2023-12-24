@@ -35,7 +35,7 @@ class NewsFragment: BaseFragment<FragmentNewsBinding, NewsViewModel>() {
         binding.newsRecyclerView.adapter = adapter
 
         viewModel.observe(this) {
-            it.showList(adapter)
+            it.show(adapter, binding.progressBar)
         }
 
         viewModel.init(savedInstanceState == null)
