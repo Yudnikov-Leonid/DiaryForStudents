@@ -25,7 +25,6 @@ abstract class NewsUi {
         }
 
         override fun showDate(textView: TextView) {
-            //val formatter = SimpleDateFormat("dd.MM.yyyy")
             val formatter = SimpleDateFormat.getDateInstance()
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = date * 86400000L
@@ -39,7 +38,7 @@ abstract class NewsUi {
         override fun showImage(imageView: ImageView) {
             if (photoUrl.isNotEmpty()) {
                 imageView.visibility = View.VISIBLE
-                Picasso.get().load(photoUrl).resize(400, 200).centerCrop().into(imageView)
+                Picasso.get().load(photoUrl).into(imageView)
             }
             else
                 imageView.visibility = View.GONE
