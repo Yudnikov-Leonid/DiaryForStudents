@@ -6,6 +6,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
 
 class Core(private val context: Context) {
+
+    init {
+        Firebase.database(DATABASE_URL).setPersistenceEnabled(false)
+    }
+
     private val navigation = Navigation.Base()
     fun manageResource() = ManageResource.Base(context.resources)
     fun dataBase(): DatabaseReference = Firebase.database(DATABASE_URL).reference.root
