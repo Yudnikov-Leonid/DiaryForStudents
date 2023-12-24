@@ -15,6 +15,7 @@ class PerformanceViewModel(
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel
 ) : BaseViewModel(), Communication.Observe<PerformanceState>, Reload {
+    private var type = ACTUAL
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(PerformanceState.Loading)
@@ -22,9 +23,17 @@ class PerformanceViewModel(
         }
     }
 
+    fun changeType(type: String) {
+        this.type = type
+        repository.changeType(type)
+        repository.init(this)
+    }
+
     fun changeQuarter(new: Int) {
         repository.changeQuarter(new)
-        communication.update(PerformanceState.Base(new, repository.data().map { it.toUi() }))
+        if (type != ACTUAL)
+            changeType(ACTUAL)
+        communication.update(PerformanceState.Base(new, repository.data().map { it.toUi() }, true))
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
@@ -35,7 +44,9 @@ class PerformanceViewModel(
         communication.update(
             PerformanceState.Base(
                 repository.actualQuarter(),
-                repository.data().map { it.toUi() })
+                repository.data().map { it.toUi() },
+                type == ACTUAL
+            )
         )
     }
 
@@ -46,5 +57,10 @@ class PerformanceViewModel(
 
     override fun error(message: String) {
         communication.update(PerformanceState.Error(message))
+    }
+
+    companion object {
+        const val ACTUAL = "grades"
+        const val FINAL = "final-grades"
     }
 }

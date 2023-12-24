@@ -57,10 +57,20 @@ interface PerformanceUi {
         }
 
         override fun showDate(textView: TextView) {
-            val formatter = SimpleDateFormat("dd.MM")
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = date * 86400000L
-            textView.text = formatter.format(calendar.time)
+            if (date in 100..400) {
+                textView.text = when(date) {
+                    100 -> "I"
+                    200 -> "II"
+                    300 -> "III"
+                    400 -> "IV"
+                    else -> "fail"
+                }
+            } else {
+                val formatter = SimpleDateFormat("dd.MM")
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = date * 86400000L
+                textView.text = formatter.format(calendar.time)
+            }
         }
 
         override fun same(item: PerformanceUi) = item is Grade && item.date == date

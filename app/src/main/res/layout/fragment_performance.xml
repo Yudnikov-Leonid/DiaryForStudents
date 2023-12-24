@@ -13,6 +13,34 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/actualGradesButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/disable_button"
+            android:text="Final"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/finalGradesButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/disable_button"
+            android:text="Actual"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quarterButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
             android:id="@+id/firstQuarterButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

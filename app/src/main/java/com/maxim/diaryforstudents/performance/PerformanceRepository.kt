@@ -8,6 +8,7 @@ interface PerformanceRepository {
     fun data(): List<PerformanceData>
     fun actualQuarter(): Int
     fun init(reload: Reload)
+    fun changeType(type: String)
 
     class Base(
         private val dataSource: PerformanceCloudDataSource
@@ -36,6 +37,10 @@ interface PerformanceRepository {
                 else -> 2
             }
             dataSource.init(reload)
+        }
+
+        override fun changeType(type: String) {
+            dataSource.changeType(type)
         }
     }
 }

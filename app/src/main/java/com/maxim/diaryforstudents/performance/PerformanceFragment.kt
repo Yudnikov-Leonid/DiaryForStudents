@@ -26,10 +26,13 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         binding.lessonsRecyclerView.adapter = adapter
         viewModel.observe(this) {
             it.show(
+                binding.quarterButtonLayout,
                 binding.firstQuarterButton,
                 binding.secondQuarterButton,
                 binding.thirdQuarterButton,
                 binding.fourthQuarterButton,
+                binding.actualGradesButton,
+                binding.finalGradesButton,
                 adapter,
                 binding.errorTextView,
                 binding.progressBar
@@ -46,6 +49,12 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         }
         binding.fourthQuarterButton.setOnClickListener {
             viewModel.changeQuarter(4)
+        }
+        binding.actualGradesButton.setOnClickListener {
+            viewModel.changeType(PerformanceViewModel.ACTUAL)
+        }
+        binding.finalGradesButton.setOnClickListener {
+            viewModel.changeType(PerformanceViewModel.FINAL)
         }
 
         viewModel.init(savedInstanceState == null)

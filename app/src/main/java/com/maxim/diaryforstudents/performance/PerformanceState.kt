@@ -9,10 +9,13 @@ import com.maxim.diaryforstudents.R
 
 interface PerformanceState {
     fun show(
+        quarterLayout: View,
         first: Button,
         second: Button,
         third: Button,
         fourth: Button,
+        actualButton: Button,
+        finalButton: Button,
         adapter: PerformanceLessonsAdapter,
         errorTextView: TextView,
         progressBar: ProgressBar
@@ -20,10 +23,13 @@ interface PerformanceState {
 
     object Loading: PerformanceState {
         override fun show(
+            quarterLayout: View,
             first: Button,
             second: Button,
             third: Button,
             fourth: Button,
+            actualButton: Button,
+            finalButton: Button,
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             progressBar: ProgressBar
@@ -33,10 +39,13 @@ interface PerformanceState {
     }
     data class Error(private val message: String): PerformanceState {
         override fun show(
+            quarterLayout: View,
             first: Button,
             second: Button,
             third: Button,
             fourth: Button,
+            actualButton: Button,
+            finalButton: Button,
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             progressBar: ProgressBar
@@ -49,19 +58,22 @@ interface PerformanceState {
 
     data class Base(
         private val quarter: Int,
-        private val lessons: List<PerformanceUi>
+        private val lessons: List<PerformanceUi>,
+        private val isActual: Boolean
     ) : PerformanceState {
         override fun show(
+            quarterLayout: View,
             first: Button,
             second: Button,
             third: Button,
             fourth: Button,
+            actualButton: Button,
+            finalButton: Button,
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             progressBar: ProgressBar
-        ) {
+        ) { //todo deprecated
             val resourceManager = first.context.resources
-            //todo deprecated
             val enableColor = R.color.blue
             val disableColor = R.color.disable_button
             first.setBackgroundColor(
@@ -87,6 +99,17 @@ interface PerformanceState {
             adapter.update(lessons as List<PerformanceUi.Lesson>)
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
+            quarterLayout.visibility = if (isActual) View.VISIBLE else View.GONE
+            actualButton.setBackgroundColor(
+                if (isActual) resourceManager.getColor(enableColor) else resourceManager.getColor(
+                    disableColor
+                )
+            )
+            finalButton.setBackgroundColor(
+                if (!isActual) resourceManager.getColor(enableColor) else resourceManager.getColor(
+                    disableColor
+                )
+            )
         }
     }
 }
