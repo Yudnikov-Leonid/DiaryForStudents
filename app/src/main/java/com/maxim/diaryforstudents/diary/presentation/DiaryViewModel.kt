@@ -6,6 +6,7 @@ import com.maxim.diaryforstudents.core.BaseViewModel
 import com.maxim.diaryforstudents.core.ClearViewModel
 import com.maxim.diaryforstudents.core.Communication
 import com.maxim.diaryforstudents.core.Navigation
+import com.maxim.diaryforstudents.core.RunAsync
 import com.maxim.diaryforstudents.core.Screen
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.news.presentation.Reload
@@ -15,8 +16,9 @@ class DiaryViewModel(
     private val repository: DiaryRepository,
     private val communication: DiaryCommunication.Mutable,
     private val navigation: Navigation.Update,
-    private val clear: ClearViewModel
-) : BaseViewModel(), Reload, Communication.Observe<DiaryState> {
+    private val clear: ClearViewModel,
+    runAsync: RunAsync = RunAsync.Base()
+) : BaseViewModel(runAsync), Reload, Communication.Observe<DiaryState> {
     private var actualDay = 0
     private var week = 0
     fun init(isFirstRun: Boolean) {
