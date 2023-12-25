@@ -12,7 +12,8 @@ interface PerformanceUi {
     fun showAverage(textView: TextView) {}
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
-    object Empty: PerformanceUi {
+
+    object Empty : PerformanceUi {
         override fun same(item: PerformanceUi) = item is Empty
     }
 
@@ -30,7 +31,8 @@ interface PerformanceUi {
         }
 
         override fun showAverage(textView: TextView) {
-            textView.text = average.toString()
+            val avr = average.toString()
+            textView.text = if (avr.length > 3) avr.substring(0, 4) else avr
             val color =
                 if (average <= 2.5) R.color.red else if (average <= 3.5) R.color.yellow
                 else if (average <= 4.5) R.color.green else R.color.light_green
@@ -58,7 +60,7 @@ interface PerformanceUi {
 
         override fun showDate(textView: TextView) {
             if (date in 100..400) {
-                textView.text = when(date) {
+                textView.text = when (date) {
                     100 -> "I"
                     200 -> "II"
                     300 -> "III"

@@ -31,8 +31,13 @@ interface ProfileState {
             signOutButton: Button
         ) {
             nameTextView.text = name
-            gradeTextView.text =
-                gradeTextView.context.resources.getString(R.string.student_of, grade)
+            if (grade.isNotEmpty()) {
+                gradeTextView.visibility = View.VISIBLE
+                gradeTextView.text =
+                    gradeTextView.context.resources.getString(R.string.student_of, grade)
+            }
+            else
+                gradeTextView.visibility = View.GONE
             emailTextView.text = email
             progressBar.visibility = View.GONE
             imageView.visibility = View.VISIBLE
