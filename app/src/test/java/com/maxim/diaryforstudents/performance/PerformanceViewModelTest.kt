@@ -8,10 +8,7 @@ import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
-import com.maxim.diaryforstudents.login.presentation.LoginCommunication
-import com.maxim.diaryforstudents.login.presentation.LoginState
 import com.maxim.diaryforstudents.news.Reload
-import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -65,7 +62,8 @@ class PerformanceViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 2,
-                listOf(PerformanceUi.Lesson("Math", listOf(PerformanceUi.Grade(3, 34)), 5f))
+                listOf(PerformanceUi.Lesson("Math", listOf(PerformanceUi.Grade(3, 34)), 5f)),
+                true
             )
         )
     }
@@ -84,7 +82,8 @@ class PerformanceViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 3,
-                listOf(PerformanceUi.Lesson("Math", listOf(PerformanceUi.Grade(3, 34)), 5f))
+                listOf(PerformanceUi.Lesson("Math", listOf(PerformanceUi.Grade(3, 34)), 5f)),
+                true
             )
         )
     }
@@ -139,7 +138,7 @@ private class FakePerformanceRepository(): PerformanceRepository {
         list.addAll(must)
     }
 
-    override fun data() = list
+    override fun data(search: String) = list
 
     override fun actualQuarter() = quarterValue
 
@@ -154,6 +153,10 @@ private class FakePerformanceRepository(): PerformanceRepository {
     override fun init(reload: Reload) {
         initCounter++
         this.reload = reload
+    }
+
+    override fun changeType(type: String) {
+        TODO("Not yet implemented")
     }
 
     fun checkInitCalledTimes(expected: Int) {

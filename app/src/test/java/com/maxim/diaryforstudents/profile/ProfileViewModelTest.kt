@@ -11,6 +11,7 @@ import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.REPOSITORY
 import com.maxim.diaryforstudents.core.Screen
+import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import junit.framework.TestCase
 import org.junit.Before
@@ -22,8 +23,8 @@ class ProfileViewModelTest {
     private lateinit var commnication: FakeProfileCommunication
     private lateinit var navigation: FakeNavigation
     private lateinit var clear: FakeClearViewModel
+    private lateinit var runAsync: FakeRunAsync
     private lateinit var order: Order
-    private lateinit var manageResource: FakeManageResources
 
     @Before
     fun before() {
@@ -32,16 +33,19 @@ class ProfileViewModelTest {
         commnication = FakeProfileCommunication(order)
         navigation = FakeNavigation(order)
         clear = FakeClearViewModel(order)
-        manageResource = FakeManageResources("123\n")
-        viewModel = ProfileViewModel(repository, commnication, navigation, clear, manageResource)
+        runAsync = FakeRunAsync()
+        viewModel = ProfileViewModel(repository, commnication, navigation, clear, runAsync)
     }
 
     @Test
     fun test_init() {
-        repository.mustReturn("email@gmail.com", "name")
+        repository.mustReturn("email@gmail.com", "name", "10")
         viewModel.init()
         commnication.checkCalledTimes(1)
-        commnication.checkCalledWith(ProfileState.Base("123\nemail@gmail.com\n\n123\nname"))
+        commnication.checkCalledWith(ProfileState.Loading)
+        runAsync.returnResult()
+        commnication.checkCalledTimes(2)
+        commnication.checkCalledWith(ProfileState.Base("name", "10", "email@gmail.com"))
     }
 
     @Test
@@ -62,16 +66,16 @@ class ProfileViewModelTest {
 }
 
 private class FakeProfileRepository(private val order: Order): ProfileRepository {
-    private var data = Pair("", "")
+    private var data = Triple("", "", "")
     private var counter = 0
-    fun mustReturn(email: String, name: String) {
-        data = Pair(email, name)
+    fun mustReturn(email: String, name: String, grade: String) {
+        data = Triple(name, grade, email)
     }
     override fun signOut() {
         order.add(REPOSITORY)
         counter++
     }
-    override fun data() = data
+    override suspend fun data() = data
 }
 
 private class FakeProfileCommunication(private val order: Order) : ProfileCommunication.Mutable {
