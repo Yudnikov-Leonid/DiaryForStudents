@@ -48,9 +48,11 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 binding.progressBar,
                 binding.errorTextView,
                 binding.moveLeftButton,
-                binding.moveRightButton
+                binding.moveRightButton,
+                binding.daysRecyclerView,
+                binding.lessonsRecyclerView
             )
         }
-        viewModel.init()
+        viewModel.init(savedInstanceState == null)
     }
 }

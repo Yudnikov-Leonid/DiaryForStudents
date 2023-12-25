@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
 interface DiaryState {
     fun show(
@@ -14,7 +15,9 @@ interface DiaryState {
         progressBar: ProgressBar,
         errorTextView: TextView,
         previousDayButton: ImageButton,
-        nextDayButton: ImageButton
+        nextDayButton: ImageButton,
+        daysRecyclerView: View,
+        lessonsRecyclerView: View
     )
 
     data class Base(
@@ -28,7 +31,9 @@ interface DiaryState {
             progressBar: ProgressBar,
             errorTextView: TextView,
             previousDayButton: ImageButton,
-            nextDayButton: ImageButton
+            nextDayButton: ImageButton,
+            daysRecyclerView: View,
+            lessonsRecyclerView: View
         ) {
             day.showLessons(lessonsAdapter)
             daysAdapter.update(days)
@@ -37,6 +42,8 @@ interface DiaryState {
             errorTextView.visibility = View.GONE
             previousDayButton.visibility = View.VISIBLE
             nextDayButton.visibility = View.VISIBLE
+            daysRecyclerView.visibility = View.VISIBLE
+            lessonsRecyclerView.visibility = View.VISIBLE
         }
     }
 
@@ -48,12 +55,16 @@ interface DiaryState {
             progressBar: ProgressBar,
             errorTextView: TextView,
             previousDayButton: ImageButton,
-            nextDayButton: ImageButton
+            nextDayButton: ImageButton,
+            daysRecyclerView: View,
+            lessonsRecyclerView: View
         ) {
             errorTextView.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             previousDayButton.visibility = View.GONE
             nextDayButton.visibility = View.GONE
+            daysRecyclerView.visibility = View.GONE
+            lessonsRecyclerView.visibility = View.GONE
         }
     }
 
@@ -65,13 +76,17 @@ interface DiaryState {
             progressBar: ProgressBar,
             errorTextView: TextView,
             previousDayButton: ImageButton,
-            nextDayButton: ImageButton
+            nextDayButton: ImageButton,
+            daysRecyclerView: View,
+            lessonsRecyclerView: View
         ) {
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE
             errorTextView.text = message
             previousDayButton.visibility = View.GONE
             nextDayButton.visibility = View.GONE
+            daysRecyclerView.visibility = View.GONE
+            lessonsRecyclerView.visibility = View.GONE
         }
     }
 }

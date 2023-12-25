@@ -17,22 +17,28 @@ class DiaryViewModel(
     private val clear: ClearViewModel
 ) : BaseViewModel(), Reload, Communication.Observe<DiaryState> {
     private var actualDay = 0
-    fun init() {
-        communication.update(DiaryState.Progress)
-        actualDay = repository.actualDate()
+    private var week = 0
+    fun init(isFirstRun: Boolean) {
+        if (isFirstRun) {
+            communication.update(DiaryState.Progress)
+            actualDay = repository.actualDate()
+        }
+        week = (actualDay + 3) / 7 - 1
         handle({
-            repository.init(this)
+            repository.init(this, week)
         }) {}
     }
 
     fun nextDay() {
         actualDay++
-        reload()
+        if (week != (actualDay + 3) / 7 - 1) init(false)
+        else reload()
     }
 
     fun previousDay() {
         actualDay--
-        reload()
+        if (week != (actualDay + 3) / 7 - 1) init(false)
+        else reload()
     }
 
     fun setActualDay(day: Int) {

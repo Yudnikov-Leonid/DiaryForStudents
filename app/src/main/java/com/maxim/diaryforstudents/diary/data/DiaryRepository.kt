@@ -6,14 +6,14 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 
 interface DiaryRepository {
-    suspend fun init(reload: Reload)
+    suspend fun init(reload: Reload, week: Int)
     fun data(date: Int): DiaryData.Day
     fun actualDate(): Int
     fun dayList(today: Int): List<DayUi>
 
     class Base(private val cloudDataSource: DiaryCloudDataSource): DiaryRepository {
-        override suspend fun init(reload: Reload) {
-            cloudDataSource.init(reload)
+        override suspend fun init(reload: Reload, week: Int) {
+            cloudDataSource.init(reload, week)
         }
 
         override fun data(date: Int): DiaryData.Day {
