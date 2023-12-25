@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.presentation
 
+import android.view.View
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
 import java.text.SimpleDateFormat
@@ -9,7 +10,7 @@ interface PerformanceUi {
     fun showName(textView: TextView) {}
     fun showDate(textView: TextView) {}
     fun showGrades(adapter: PerformanceGradesAdapter) {}
-    fun showAverage(textView: TextView) {}
+    fun showAverage(titleTextView: TextView, textView: TextView) {}
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
 
@@ -30,7 +31,15 @@ interface PerformanceUi {
             adapter.update(grades)
         }
 
-        override fun showAverage(textView: TextView) {
+        override fun showAverage(titleTextView: TextView, textView: TextView) {
+            if (grades[0].isFinal()) {
+                titleTextView.visibility = View.GONE
+                textView.visibility = View.GONE
+                return
+            } else {
+                titleTextView.visibility = View.VISIBLE
+                textView.visibility = View.VISIBLE
+            }
             val avr = average.toString()
             textView.text = if (avr.length > 3) avr.substring(0, 4) else avr
             val color =
@@ -46,9 +55,11 @@ interface PerformanceUi {
     }
 
     data class Grade(private val grade: Int, private val date: Int) : PerformanceUi {
+        fun isFinal() = date in 100..400
         override fun showName(textView: TextView) {
             textView.text = grade.toString()
-            val color = when (grade) {
+            val color = if (date in 100..400) R.color.blue
+            else when (grade) {
                 1, 2 -> R.color.red
                 3 -> R.color.yellow
                 4 -> R.color.green

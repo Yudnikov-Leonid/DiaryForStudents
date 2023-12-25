@@ -21,7 +21,7 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
             val adapter = PerformanceGradesAdapter()
             binding.gradesRecyclerView.adapter = adapter
             item.showGrades(adapter)
-            item.showAverage(binding.averageTextView)
+            item.showAverage(binding.averageTitleTextView, binding.averageTextView)
         }
     }
 
