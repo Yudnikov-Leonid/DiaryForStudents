@@ -20,7 +20,9 @@ class DiaryViewModel(
     fun init() {
         communication.update(DiaryState.Progress)
         actualDay = repository.actualDate()
-        repository.init(this)
+        handle({
+            repository.init(this)
+        }) {}
     }
 
     fun nextDay() {
@@ -44,7 +46,12 @@ class DiaryViewModel(
     }
 
     override fun reload() {
-        communication.update(DiaryState.Base(repository.data(actualDay).toUi(), repository.dayList(actualDay)))
+        communication.update(
+            DiaryState.Base(
+                repository.data(actualDay).toUi(),
+                repository.dayList(actualDay)
+            )
+        )
     }
 
     override fun error(message: String) {

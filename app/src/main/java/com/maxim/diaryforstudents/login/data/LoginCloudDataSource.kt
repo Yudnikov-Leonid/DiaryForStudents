@@ -17,7 +17,9 @@ interface LoginCloudDataSource {
             val uId = user!!.uid
             val email = user.email!!
             val name = user.displayName!!
-            val result = dataBase.child("users").child(uId).setValue(UserProfileCloud(email, name))
+            var result = dataBase.child("users").child(uId).child("email").setValue(email)
+            handleResult(result)
+            result = dataBase.child("users").child(uId).child("name").setValue(name)
             handleResult(result)
         }
 

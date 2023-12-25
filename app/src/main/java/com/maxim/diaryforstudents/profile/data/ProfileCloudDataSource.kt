@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import com.maxim.diaryforstudents.R
 import kotlinx.coroutines.delay
 
@@ -31,26 +32,43 @@ interface ProfileCloudDataSource {
             googleSignInClient.signOut()
         }
 
-        override suspend fun getGrade(): String {
+        override suspend fun getGrade(): String { //todo make handleResult
             val query = database.child("users").child(Firebase.auth.uid!!)
-            var grade = ""
+            var classId = ""
             var done = false
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    grade = snapshot.getValue(Grade::class.java)!!.grade
+                    classId = snapshot.getValue(ClassId::class.java)!!.classId
                     done = true
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    grade = error.message
+                    classId = error.message
                     done = true
                 }
             })
             while (!done)
                 delay(50)
-            return grade
+            val newQuery = database.child("classes").child(classId)
+            done = false
+            var className = ""
+            newQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    className = snapshot.getValue(ClassName::class.java)!!.name
+                    done = true
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    className = error.message
+                    done = true
+                }
+            })
+            while (!done)
+                delay(50)
+            return className
         }
     }
 }
 
-private data class Grade(val grade: String = "")
+private data class ClassId(val classId: String = "")
+private data class ClassName(val name: String = "")
