@@ -19,7 +19,7 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Final"
+            android:text="Actual"
             android:textSize="11sp" />
 
         <Button
@@ -29,7 +29,7 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Actual"
+            android:text="Final"
             android:textSize="11sp" />
 
     </LinearLayout>
