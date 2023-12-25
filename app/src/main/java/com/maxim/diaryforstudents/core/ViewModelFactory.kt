@@ -54,11 +54,10 @@ interface ProvideViewModel {
                 )
 
                 ProfileViewModel::class.java -> ProfileViewModel(
-                    ProfileRepository.Base(ProfileCloudDataSource.Base(core.context())),
+                    ProfileRepository.Base(ProfileCloudDataSource.Base(core.context(), core.dataBase())),
                     ProfileCommunication.Base(),
                     core.navigation(),
                     clear,
-                    core.manageResource()
                 )
 
                 MenuViewModel::class.java -> MenuViewModel(core.navigation())

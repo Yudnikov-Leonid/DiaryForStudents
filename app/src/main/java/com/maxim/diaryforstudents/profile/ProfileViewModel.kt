@@ -2,11 +2,9 @@ package com.maxim.diaryforstudents.profile
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.BaseViewModel
 import com.maxim.diaryforstudents.core.ClearViewModel
 import com.maxim.diaryforstudents.core.Communication
-import com.maxim.diaryforstudents.core.ManageResource
 import com.maxim.diaryforstudents.core.Navigation
 import com.maxim.diaryforstudents.core.RunAsync
 import com.maxim.diaryforstudents.core.Screen
@@ -17,14 +15,13 @@ class ProfileViewModel(
     private val communication: ProfileCommunication.Mutable,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
-    private val resources: ManageResource,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<ProfileState> {
     fun init() {
-        val data = repository.data()
-        val value =
-            "${resources.string(R.string.email)}${data.first}\n\n${resources.string(R.string.name)}${data.second}"
-        communication.update(ProfileState.Initial(value))
+        communication.update(ProfileState.Loading)
+        handle({ repository.data() }) {
+            communication.update(ProfileState.Base(it.first, it.second, it.third))
+        }
     }
 
     fun signOut() {

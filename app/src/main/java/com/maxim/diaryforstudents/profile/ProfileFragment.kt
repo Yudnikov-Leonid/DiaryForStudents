@@ -22,12 +22,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
             }
         }
         super.onViewCreated(view, savedInstanceState)
-        binding.logOutButton.setOnClickListener {
+        binding.signOutButton.setOnClickListener {
             viewModel.signOut()
         }
 
         viewModel.observe(this) {
-            it.show(binding.profileTextView)
+            it.show(
+                binding.nameTextView,
+                binding.gradeTextView,
+                binding.emailTextView,
+                binding.progressBar,
+                binding.profileTextView,
+                binding.signOutButton
+            )
         }
 
         viewModel.init()

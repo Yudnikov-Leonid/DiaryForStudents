@@ -41,7 +41,7 @@ class ProfileViewModelTest {
         repository.mustReturn("email@gmail.com", "name")
         viewModel.init()
         commnication.checkCalledTimes(1)
-        commnication.checkCalledWith(ProfileState.Initial("123\nemail@gmail.com\n\n123\nname"))
+        commnication.checkCalledWith(ProfileState.Base("123\nemail@gmail.com\n\n123\nname"))
     }
 
     @Test
