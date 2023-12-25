@@ -103,6 +103,7 @@
         android:id="@+id/searchEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:hint="Search"
         android:inputType="textCapSentences"
         android:maxLength="30"
