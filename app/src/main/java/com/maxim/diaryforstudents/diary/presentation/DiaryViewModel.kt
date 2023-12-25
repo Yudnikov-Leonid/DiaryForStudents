@@ -18,6 +18,7 @@ class DiaryViewModel(
 ) : BaseViewModel(), Reload, Communication.Observe<DiaryState> {
     private var actualDay = 0
     fun init() {
+        communication.update(DiaryState.Progress)
         actualDay = repository.actualDate()
         repository.init(this)
     }

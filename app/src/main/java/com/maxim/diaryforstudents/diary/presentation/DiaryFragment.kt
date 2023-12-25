@@ -8,7 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
 
-class DiaryFragment: BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
+class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
     override val viewModelClass: Class<DiaryViewModel>
         get() = DiaryViewModel::class.java
 
@@ -41,7 +41,15 @@ class DiaryFragment: BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         }
 
         viewModel.observe(this) {
-            it.show(lessonsAdapter, daysAdapter, binding.monthTextView)
+            it.show(
+                lessonsAdapter,
+                daysAdapter,
+                binding.monthTextView,
+                binding.progressBar,
+                binding.errorTextView,
+                binding.moveLeftButton,
+                binding.moveRightButton
+            )
         }
         viewModel.init()
     }

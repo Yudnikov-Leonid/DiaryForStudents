@@ -38,6 +38,12 @@ interface PerformanceState {
         ) {
             progressBar.visibility = View.VISIBLE
             searchEditText.visibility = View.GONE
+            first.isEnabled = false
+            second.isEnabled = false
+            third.isEnabled = false
+            fourth.isEnabled = false
+            actualButton.isEnabled = false
+            finalButton.isEnabled = false
         }
     }
 
@@ -93,6 +99,12 @@ interface PerformanceState {
             actualButton.setBackgroundColor(if (isActual) enableColor else disableColor)
             finalButton.setBackgroundColor(if (!isActual) enableColor else disableColor)
             searchEditText.visibility = View.VISIBLE
+            first.isEnabled = false
+            second.isEnabled = false
+            third.isEnabled = false
+            fourth.isEnabled = false
+            actualButton.isEnabled = false
+            finalButton.isEnabled = false
         }
     }
 }
