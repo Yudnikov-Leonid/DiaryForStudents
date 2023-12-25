@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+    implementation("net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("androidx.core:core-ktx:1.9.0")

@@ -16,6 +16,7 @@ class PerformanceViewModel(
     private val clear: ClearViewModel
 ) : BaseViewModel(), Communication.Observe<PerformanceState>, Reload {
     private var type = ACTUAL
+    private var search = ""
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(PerformanceState.Loading)
@@ -29,11 +30,16 @@ class PerformanceViewModel(
         repository.init(this)
     }
 
+    fun search(search: String) {
+        this.search = search
+        reload()
+    }
+
     fun changeQuarter(new: Int) {
         repository.changeQuarter(new)
         if (type != ACTUAL)
             changeType(ACTUAL)
-        communication.update(PerformanceState.Base(new, repository.data().map { it.toUi() }, true))
+        communication.update(PerformanceState.Base(new, repository.data(search).map { it.toUi() }, true))
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
@@ -44,7 +50,7 @@ class PerformanceViewModel(
         communication.update(
             PerformanceState.Base(
                 repository.actualQuarter(),
-                repository.data().map { it.toUi() },
+                repository.data(search).map { it.toUi() },
                 type == ACTUAL
             )
         )

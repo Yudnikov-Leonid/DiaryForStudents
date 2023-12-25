@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.addTextChangedListener
 import com.maxim.diaryforstudents.core.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentPerformanceBinding
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, PerformanceViewModel>() {
     override val viewModelClass: Class<PerformanceViewModel>
@@ -35,7 +37,8 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
                 binding.finalGradesButton,
                 adapter,
                 binding.errorTextView,
-                binding.progressBar
+                binding.progressBar,
+                binding.searchEditText
             )
         }
         binding.firstQuarterButton.setOnClickListener {
@@ -55,6 +58,13 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         }
         binding.finalGradesButton.setOnClickListener {
             viewModel.changeType(PerformanceViewModel.FINAL)
+        }
+        binding.searchEditText.addTextChangedListener {
+            viewModel.search(binding.searchEditText.text.toString())
+        }
+        KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
+            if (!isOpen)
+                binding.searchEditText.clearFocus()
         }
 
         viewModel.init(savedInstanceState == null)

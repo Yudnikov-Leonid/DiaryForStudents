@@ -5,7 +5,7 @@ import com.maxim.diaryforstudents.news.Reload
 
 interface PerformanceRepository {
     fun changeQuarter(new: Int)
-    fun data(): List<PerformanceData>
+    fun data(search: String): List<PerformanceData>
     fun actualQuarter(): Int
     fun init(reload: Reload)
     fun changeType(type: String)
@@ -18,9 +18,12 @@ interface PerformanceRepository {
             quarter = new
         }
 
-        override fun data(): List<PerformanceData> {
+        override fun data(search: String): List<PerformanceData> {
             val data = dataSource.data(quarter)
-            return data.ifEmpty { listOf(PerformanceData.Empty) }
+            return if (data.isEmpty()) listOf(PerformanceData.Empty)
+            else if (search.isNotEmpty()) {
+                data.filter { it.search(search) }
+            } else data
         }
 
         override fun actualQuarter() = quarter
