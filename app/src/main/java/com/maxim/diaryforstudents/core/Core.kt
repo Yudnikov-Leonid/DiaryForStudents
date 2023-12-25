@@ -16,7 +16,9 @@ class Core(private val context: Context) {
 
     private val navigation = Navigation.Base()
     private val openNewsData = OpenNewsData.Base()
+    private val lessonsMapper = LessonMapper.Base(manageResource())
     fun context() = context
+    fun lessonsMapper() = lessonsMapper
     fun manageResource() = ManageResource.Base(context.resources)
     fun dataBase(): DatabaseReference = Firebase.database(DATABASE_URL).reference.root
     fun navigation(): Navigation.Mutable = navigation

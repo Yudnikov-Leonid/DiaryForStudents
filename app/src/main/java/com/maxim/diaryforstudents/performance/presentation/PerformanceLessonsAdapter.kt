@@ -55,6 +55,7 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
     }
 }
 
+//todo make one diffUtil, remove in grades adapter
 class LessonsDiffUtil(
     private val oldList: List<PerformanceUi>,
     private val newList: List<PerformanceUi>,

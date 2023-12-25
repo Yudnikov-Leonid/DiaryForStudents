@@ -1,6 +1,10 @@
 package com.maxim.diaryforstudents.core
 
 import androidx.lifecycle.ViewModel
+import com.maxim.diaryforstudents.diary.data.DiaryCloudDataSource
+import com.maxim.diaryforstudents.diary.data.DiaryRepository
+import com.maxim.diaryforstudents.diary.presentation.DiaryCommunication
+import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
 import com.maxim.diaryforstudents.login.data.LoginCloudDataSource
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.presentation.LoginCommunication
@@ -79,10 +83,17 @@ interface ProvideViewModel {
                     PerformanceRepository.Base(
                         PerformanceCloudDataSource.Base(
                             core.dataBase(),
-                            LessonMapper.Base(core.manageResource())
+                            core.lessonsMapper()
                         )
                     ),
                     PerformanceCommunication.Base(),
+                    core.navigation(),
+                    clear
+                )
+
+                DiaryViewModel::class.java -> DiaryViewModel(
+                    DiaryRepository.Base(DiaryCloudDataSource.Base(core.dataBase(), core.lessonsMapper())),
+                    DiaryCommunication.Base(),
                     core.navigation(),
                     clear
                 )

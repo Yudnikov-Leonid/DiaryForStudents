@@ -32,7 +32,6 @@ interface PerformanceRepository {
             val leapYears = ((System.currentTimeMillis() / 86400000) / 365 / 4).toInt()
             var day = (System.currentTimeMillis() / 86400000) % 365 - leapYears
             if (day < 0) day += 365
-            Log.d("MyLog", "$day")
             quarter = when (day) {
                 in 0..91 -> 3
                 in 92..242 -> 4

@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.menu
 
-import com.maxim.diaryforstudents.diary.DiaryScreen
+import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.news.presentation.NewsScreen

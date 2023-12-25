@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.diary
+package com.maxim.diaryforstudents.diary.presentation
 
 import com.maxim.diaryforstudents.core.Screen
 
