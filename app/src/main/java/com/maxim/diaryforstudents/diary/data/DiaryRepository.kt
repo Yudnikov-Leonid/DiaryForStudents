@@ -18,7 +18,7 @@ interface DiaryRepository {
 
         override fun data(date: Int): DiaryData.Day {
             val list = cloudDataSource.data()
-            return DiaryData.Day(date, list.filter { it.isDate(date) })
+            return DiaryData.Day(date, list.filter { it.isDate(date) }.ifEmpty { listOf(DiaryData.Empty) })
         }
 
         override fun actualDate() = (System.currentTimeMillis() / 86400000).toInt()

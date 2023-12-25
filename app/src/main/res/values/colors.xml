@@ -7,6 +7,7 @@
     <color name="disable_button">#8FB0EA</color>
     <color name="back_blue">#e1effa</color>
     <color name="background">#F9F9F9</color>
+    <color name="selected_button">#03A9F4</color>
 
     <color name="light_green">#4FFF91</color>
     <color name="green">#1EB757</color>

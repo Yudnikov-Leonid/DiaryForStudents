@@ -7,7 +7,7 @@ interface DiaryData {
     fun toUi(): DiaryUi
     data class Day(
         private val date: Int,
-        private val lessons: List<Lesson>
+        private val lessons: List<DiaryData>
     ): DiaryData {
         override fun isDate(date: Int) = date == this.date
         override fun toUi() = DiaryUi.Day(date, lessons.map { it.toUi() })
@@ -22,5 +22,11 @@ interface DiaryData {
     ): DiaryData {
         override fun isDate(date: Int) = date == this.date
         override fun toUi() = DiaryUi.Lesson(name, theme, homework, startTime, endTime, date)
+    }
+
+    object Empty: DiaryData {
+        override fun isDate(date: Int) = false
+
+        override fun toUi() = DiaryUi.Empty
     }
 }

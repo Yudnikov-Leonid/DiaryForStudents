@@ -26,7 +26,11 @@ class DiaryFragment: BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         val lessonsAdapter = DiaryLessonsAdapter()
         binding.lessonsRecyclerView.adapter = lessonsAdapter
 
-        val daysAdapter = DiaryDaysAdapter()
+        val daysAdapter = DiaryDaysAdapter(object : DiaryDaysAdapter.Listener {
+            override fun selectDay(day: Int) {
+                viewModel.setActualDay(day)
+            }
+        })
         binding.daysRecyclerView.adapter = daysAdapter
 
         binding.moveLeftButton.setOnClickListener {
@@ -37,7 +41,7 @@ class DiaryFragment: BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         }
 
         viewModel.observe(this) {
-            it.show(lessonsAdapter, daysAdapter)
+            it.show(lessonsAdapter, daysAdapter, binding.monthTextView)
         }
         viewModel.init()
     }

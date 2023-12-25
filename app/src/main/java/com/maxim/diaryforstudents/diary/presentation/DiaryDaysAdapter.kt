@@ -6,14 +6,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.maxim.diaryforstudents.databinding.DayBinding
 
-class DiaryDaysAdapter : RecyclerView.Adapter<DiaryDaysAdapter.ItemViewHolder>() {
+class DiaryDaysAdapter(
+    private val listener: Listener
+) : RecyclerView.Adapter<DiaryDaysAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DayUi>()
 
     class ItemViewHolder(private val binding: DayBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: DayUi) {
+        fun bind(item: DayUi, listener: Listener) {
             item.showDayOfTheWeek(binding.dayTextView)
             item.showDate(binding.dateTextView)
             item.setSelectedColor(itemView)
+            itemView.setOnClickListener {
+                item.selectDay(listener)
+            }
         }
     }
 
@@ -23,7 +28,7 @@ class DiaryDaysAdapter : RecyclerView.Adapter<DiaryDaysAdapter.ItemViewHolder>()
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], listener)
     }
 
     fun update(newList: List<DayUi>) {
@@ -32,6 +37,10 @@ class DiaryDaysAdapter : RecyclerView.Adapter<DiaryDaysAdapter.ItemViewHolder>()
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
+    }
+
+    interface Listener {
+        fun selectDay(day: Int)
     }
 }
 

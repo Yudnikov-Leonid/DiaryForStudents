@@ -2,6 +2,8 @@ package com.maxim.diaryforstudents.diary.presentation
 
 import android.view.View
 import android.widget.TextView
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 interface DiaryUi {
     fun same(item: DiaryUi): Boolean
@@ -13,10 +15,15 @@ interface DiaryUi {
     fun showLessons(adapter: DiaryLessonsAdapter) {}
     data class Day(
         private val date: Int,
-        private val lessons: List<Lesson>
+        private val lessons: List<DiaryUi>
     ) : DiaryUi {
         override fun same(item: DiaryUi) = item is Day && item.date == date
-
+        override fun showName(textView: TextView) {
+            val formatter = SimpleDateFormat("LLLL")
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = date * 86400000L
+            textView.text = formatter.format(calendar.time)
+        }
         override fun sameContent(item: DiaryUi) = item is Day && item.lessons == lessons
         override fun showLessons(adapter: DiaryLessonsAdapter) {
             adapter.update(lessons)
@@ -58,5 +65,11 @@ interface DiaryUi {
         override fun sameContent(item: DiaryUi) =
             item is Lesson && item.name == name && item.theme == theme
                     && item.homework == homework && item.startTime == startTime && item.endTime == endTime
+    }
+
+    object Empty: DiaryUi {
+        override fun same(item: DiaryUi) = item is Empty
+
+        override fun sameContent(item: DiaryUi) = false
     }
 }

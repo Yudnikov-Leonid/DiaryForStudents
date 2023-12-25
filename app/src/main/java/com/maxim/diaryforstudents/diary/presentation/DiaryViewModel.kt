@@ -32,6 +32,11 @@ class DiaryViewModel(
         reload()
     }
 
+    fun setActualDay(day: Int) {
+        actualDay = day
+        reload()
+    }
+
     fun back() {
         navigation.update(Screen.Pop)
         clear.clearViewModel(DiaryViewModel::class.java)

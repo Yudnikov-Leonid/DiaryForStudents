@@ -4,14 +4,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.LessonDiaryBinding
+import com.maxim.diaryforstudents.databinding.LessonPerformanceNoDataBinding
 
 class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHolder>() {
-    private val list = mutableListOf<DiaryUi.Lesson>()
+    private val list = mutableListOf<DiaryUi>()
 
-    class ItemViewHolder(private val binding: LessonDiaryBinding) :
+    abstract class ItemViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: DiaryUi) {
+        open fun bind(item: DiaryUi) {}
+    }
+
+    class BaseItemViewHolder(private val binding: LessonDiaryBinding) : ItemViewHolder(binding) {
+        override fun bind(item: DiaryUi) {
             item.showTime(binding.timeTextView)
             item.showName(binding.lessonNameTextView)
             item.showTheme(binding.themeTextView, binding.themeTitle)
@@ -19,9 +25,18 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
         }
     }
 
+    class EmptyViewHolder(binding: LessonPerformanceNoDataBinding) : ItemViewHolder(binding)
+
+    override fun getItemViewType(position: Int): Int {
+        return if (list[position] is DiaryUi.Lesson) 0 else 1
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ItemViewHolder(
+        if (viewType == 0) BaseItemViewHolder(
             LessonDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ) else EmptyViewHolder(
+            LessonPerformanceNoDataBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
     override fun getItemCount() = list.size
@@ -30,7 +45,7 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
         holder.bind(list[position])
     }
 
-    fun update(newList: List<DiaryUi.Lesson>) {
+    fun update(newList: List<DiaryUi>) {
         val diff = DiaryLessonDiffUtil(list, newList)
         val result = DiffUtil.calculateDiff(diff)
         list.clear()

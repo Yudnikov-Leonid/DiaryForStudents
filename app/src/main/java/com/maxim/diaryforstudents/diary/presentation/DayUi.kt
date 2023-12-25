@@ -18,7 +18,7 @@ data class DayUi(
         textView.text = formatter.format(calendar.time)
     }
     fun setSelectedColor(view: View) {
-        val color = view.context.getColor(if (isSelected) R.color.blue else R.color.white)
+        val color = view.context.getColor(if (isSelected) R.color.selected_button else R.color.white)
         view.setBackgroundColor(color)
     }
     fun showDate(textView: TextView) {
@@ -26,5 +26,9 @@ data class DayUi(
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = date * 86400000L
         textView.text = formatter.format(calendar.time)
+    }
+
+    fun selectDay(listener: DiaryDaysAdapter.Listener) {
+        listener.selectDay(date)
     }
 }
