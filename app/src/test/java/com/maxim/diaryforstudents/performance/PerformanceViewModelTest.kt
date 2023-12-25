@@ -8,7 +8,13 @@ import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
-import com.maxim.diaryforstudents.news.Reload
+import com.maxim.diaryforstudents.news.presentation.Reload
+import com.maxim.diaryforstudents.performance.data.PerformanceData
+import com.maxim.diaryforstudents.performance.data.PerformanceRepository
+import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
+import com.maxim.diaryforstudents.performance.presentation.PerformanceState
+import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test

@@ -9,6 +9,13 @@ import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.OPEN_NEWS_DATA
 import com.maxim.diaryforstudents.fakes.Order
+import com.maxim.diaryforstudents.news.data.NewsData
+import com.maxim.diaryforstudents.news.data.NewsRepository
+import com.maxim.diaryforstudents.news.presentation.NewsCommunication
+import com.maxim.diaryforstudents.news.presentation.NewsState
+import com.maxim.diaryforstudents.news.presentation.NewsUi
+import com.maxim.diaryforstudents.news.presentation.NewsViewModel
+import com.maxim.diaryforstudents.news.presentation.Reload
 import com.maxim.diaryforstudents.openNews.OpenNewsData
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 import junit.framework.TestCase.assertEquals
@@ -60,7 +67,8 @@ class NewsViewModelTest {
         communication.checkCalledTimes(1)
         communication.checkCalledWith(
             NewsState.Base(
-                listOf(NewsUi.Base("Title", "Content", 0, ""),
+                listOf(
+                    NewsUi.Base("Title", "Content", 0, ""),
                 NewsUi.Base("Title1", "Content1", 0, ""))
             )
         )

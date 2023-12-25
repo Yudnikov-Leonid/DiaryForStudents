@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance
+package com.maxim.diaryforstudents.performance.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater

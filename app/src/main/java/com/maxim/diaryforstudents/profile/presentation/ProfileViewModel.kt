@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.profile
+package com.maxim.diaryforstudents.profile.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -9,6 +9,7 @@ import com.maxim.diaryforstudents.core.Navigation
 import com.maxim.diaryforstudents.core.RunAsync
 import com.maxim.diaryforstudents.core.Screen
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
+import com.maxim.diaryforstudents.profile.data.ProfileRepository
 
 class ProfileViewModel(
     private val repository: ProfileRepository,

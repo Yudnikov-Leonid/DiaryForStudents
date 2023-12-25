@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.news
+package com.maxim.diaryforstudents.news.presentation
 
 import com.maxim.diaryforstudents.core.Communication
 

@@ -1,4 +1,6 @@
-package com.maxim.diaryforstudents.news
+package com.maxim.diaryforstudents.news.data
+
+import com.maxim.diaryforstudents.news.presentation.Reload
 
 interface NewsRepository {
     fun data(): List<NewsData>

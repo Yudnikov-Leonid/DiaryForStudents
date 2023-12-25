@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.news
+package com.maxim.diaryforstudents.news.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -7,6 +7,7 @@ import com.maxim.diaryforstudents.core.ClearViewModel
 import com.maxim.diaryforstudents.core.Communication
 import com.maxim.diaryforstudents.core.Navigation
 import com.maxim.diaryforstudents.core.Screen
+import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.openNews.OpenNewsData
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 

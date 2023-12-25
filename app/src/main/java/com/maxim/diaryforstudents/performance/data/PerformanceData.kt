@@ -1,5 +1,6 @@
-package com.maxim.diaryforstudents.performance
+package com.maxim.diaryforstudents.performance.data
 
+import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 import java.util.Locale
 
 interface PerformanceData {

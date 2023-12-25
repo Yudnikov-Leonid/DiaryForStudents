@@ -1,7 +1,7 @@
-package com.maxim.diaryforstudents.performance
+package com.maxim.diaryforstudents.performance.data
 
 import android.util.Log
-import com.maxim.diaryforstudents.news.Reload
+import com.maxim.diaryforstudents.news.presentation.Reload
 
 interface PerformanceRepository {
     fun changeQuarter(new: Int)

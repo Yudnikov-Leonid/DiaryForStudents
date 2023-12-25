@@ -1,9 +1,8 @@
-package com.maxim.diaryforstudents.profile
+package com.maxim.diaryforstudents.profile.data
 
 import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
@@ -12,9 +11,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.R
 import kotlinx.coroutines.delay
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 interface ProfileCloudDataSource {
     fun signOut()

@@ -1,9 +1,10 @@
-package com.maxim.diaryforstudents.news
+package com.maxim.diaryforstudents.news.data
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.maxim.diaryforstudents.news.presentation.Reload
 
 interface NewsCloudDataSource {
     fun init(reload: Reload)

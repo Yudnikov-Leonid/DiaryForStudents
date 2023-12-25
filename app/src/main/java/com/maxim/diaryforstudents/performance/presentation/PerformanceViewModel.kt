@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance
+package com.maxim.diaryforstudents.performance.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -7,7 +7,8 @@ import com.maxim.diaryforstudents.core.ClearViewModel
 import com.maxim.diaryforstudents.core.Communication
 import com.maxim.diaryforstudents.core.Navigation
 import com.maxim.diaryforstudents.core.Screen
-import com.maxim.diaryforstudents.news.Reload
+import com.maxim.diaryforstudents.news.presentation.Reload
+import com.maxim.diaryforstudents.performance.data.PerformanceRepository
 
 class PerformanceViewModel(
     private val repository: PerformanceRepository,
@@ -39,7 +40,13 @@ class PerformanceViewModel(
         repository.changeQuarter(new)
         if (type != ACTUAL)
             changeType(ACTUAL)
-        communication.update(PerformanceState.Base(new, repository.data(search).map { it.toUi() }, true))
+        communication.update(
+            PerformanceState.Base(
+                new,
+                repository.data(search).map { it.toUi() },
+                true
+            )
+        )
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {

@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance
+package com.maxim.diaryforstudents.performance.data
 
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -8,7 +8,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.LessonMapper
-import com.maxim.diaryforstudents.news.Reload
+import com.maxim.diaryforstudents.news.presentation.Reload
+import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
 
 interface PerformanceCloudDataSource {
     fun init(reload: Reload)

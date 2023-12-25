@@ -5,7 +5,6 @@ import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.COMMUNICATION
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
-import com.maxim.diaryforstudents.fakes.FakeManageResources
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
@@ -13,6 +12,10 @@ import com.maxim.diaryforstudents.fakes.REPOSITORY
 import com.maxim.diaryforstudents.core.Screen
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
+import com.maxim.diaryforstudents.profile.data.ProfileRepository
+import com.maxim.diaryforstudents.profile.presentation.ProfileCommunication
+import com.maxim.diaryforstudents.profile.presentation.ProfileState
+import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test

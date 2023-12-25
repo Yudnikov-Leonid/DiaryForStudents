@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance
+package com.maxim.diaryforstudents.performance.presentation
 
 import android.widget.TextView
 import com.maxim.diaryforstudents.R

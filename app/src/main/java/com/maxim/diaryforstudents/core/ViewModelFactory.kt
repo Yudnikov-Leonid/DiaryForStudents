@@ -7,19 +7,19 @@ import com.maxim.diaryforstudents.login.presentation.LoginCommunication
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.main.MainViewModel
 import com.maxim.diaryforstudents.menu.MenuViewModel
-import com.maxim.diaryforstudents.news.NewsCloudDataSource
-import com.maxim.diaryforstudents.news.NewsCommunication
-import com.maxim.diaryforstudents.news.NewsRepository
-import com.maxim.diaryforstudents.news.NewsViewModel
+import com.maxim.diaryforstudents.news.data.NewsCloudDataSource
+import com.maxim.diaryforstudents.news.presentation.NewsCommunication
+import com.maxim.diaryforstudents.news.data.NewsRepository
+import com.maxim.diaryforstudents.news.presentation.NewsViewModel
 import com.maxim.diaryforstudents.openNews.OpenNewsViewModel
-import com.maxim.diaryforstudents.performance.PerformanceCloudDataSource
-import com.maxim.diaryforstudents.performance.PerformanceCommunication
-import com.maxim.diaryforstudents.performance.PerformanceRepository
-import com.maxim.diaryforstudents.performance.PerformanceViewModel
-import com.maxim.diaryforstudents.profile.ProfileCloudDataSource
-import com.maxim.diaryforstudents.profile.ProfileCommunication
-import com.maxim.diaryforstudents.profile.ProfileRepository
-import com.maxim.diaryforstudents.profile.ProfileViewModel
+import com.maxim.diaryforstudents.performance.data.PerformanceCloudDataSource
+import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
+import com.maxim.diaryforstudents.performance.data.PerformanceRepository
+import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
+import com.maxim.diaryforstudents.profile.data.ProfileCloudDataSource
+import com.maxim.diaryforstudents.profile.presentation.ProfileCommunication
+import com.maxim.diaryforstudents.profile.data.ProfileRepository
+import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 
 interface ViewModelFactory : ProvideViewModel, ClearViewModel {
     class Base(core: Core) : ViewModelFactory {

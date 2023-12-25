@@ -3,9 +3,9 @@ package com.maxim.diaryforstudents.menu
 import com.maxim.diaryforstudents.diary.DiaryScreen
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.Order
-import com.maxim.diaryforstudents.news.NewsScreen
-import com.maxim.diaryforstudents.performance.PerformanceScreen
-import com.maxim.diaryforstudents.profile.ProfileScreen
+import com.maxim.diaryforstudents.news.presentation.NewsScreen
+import com.maxim.diaryforstudents.performance.presentation.PerformanceScreen
+import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
 import org.junit.Before
 import org.junit.Test
 

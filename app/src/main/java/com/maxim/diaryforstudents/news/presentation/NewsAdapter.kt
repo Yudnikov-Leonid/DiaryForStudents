@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.news
+package com.maxim.diaryforstudents.news.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

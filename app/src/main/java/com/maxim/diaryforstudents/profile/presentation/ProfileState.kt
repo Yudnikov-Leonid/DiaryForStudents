@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.profile
+package com.maxim.diaryforstudents.profile.presentation
 
 import android.view.View
 import android.widget.Button

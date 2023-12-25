@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.profile
+package com.maxim.diaryforstudents.profile.data
 
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
