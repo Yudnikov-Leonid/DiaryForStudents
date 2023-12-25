@@ -25,7 +25,7 @@ class NewsFragment: BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
         val adapter = NewsAdapter(object : NewsAdapter.Listener {
             override fun retry() {
-                viewModel.reload()
+                viewModel.init(true)
             }
 
             override fun open(value: NewsUi) {
