@@ -9,7 +9,7 @@ interface NewsRepository {
     class Base(private val dataSource: NewsCloudDataSource) : NewsRepository {
         override fun data() = try {
             val list = dataSource.data()
-            list
+            list.ifEmpty { listOf(NewsData.Empty) }
         } catch (e: Exception) {
             listOf(NewsData.Failure(e.message ?: "error"))
         }

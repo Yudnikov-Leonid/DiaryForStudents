@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.BaseNewsBinding
+import com.maxim.diaryforstudents.databinding.EmptyNewsBinding
 import com.maxim.diaryforstudents.databinding.FailureNewsBinding
 
 class NewsAdapter(
@@ -14,7 +15,7 @@ class NewsAdapter(
     private val list = mutableListOf<NewsUi>()
 
     abstract class ItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        abstract fun bind(item: NewsUi)
+        open fun bind(item: NewsUi) {}
     }
 
     class BaseViewHolder(
@@ -30,6 +31,8 @@ class NewsAdapter(
         }
     }
 
+    class EmptyViewHolder(binding: EmptyNewsBinding) : ItemViewHolder(binding)
+
     class FailureViewHolder(
         private val binding: FailureNewsBinding,
         private val listener: Listener
@@ -43,18 +46,29 @@ class NewsAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (list[position] is NewsUi.Base) 0 else 1
+        return if (list[position] is NewsUi.Base) 0 else if (list[position] is NewsUi.Empty) 1 else 2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return if (viewType == 0) BaseViewHolder(
-            BaseNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            listener
-        )
-        else FailureViewHolder(
-            FailureNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            listener
-        )
+        return when (viewType) {
+            0 -> BaseViewHolder(
+                BaseNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener
+            )
+
+            1 -> EmptyViewHolder(
+                EmptyNewsBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+
+            else -> FailureViewHolder(
+                FailureNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener
+            )
+        }
     }
 
     override fun getItemCount() = list.size

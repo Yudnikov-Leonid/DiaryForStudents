@@ -13,7 +13,7 @@ abstract class NewsUi {
     open fun showContent(textView: TextView) {}
     open fun showImage(imageView: ImageView) {}
     abstract fun same(item: NewsUi): Boolean
-    abstract fun sameContent(item: NewsUi): Boolean
+    open fun sameContent(item: NewsUi): Boolean = false
     data class Base(
         private val title: String,
         private val content: String,
@@ -49,6 +49,10 @@ abstract class NewsUi {
 
         override fun sameContent(item: NewsUi) =
             item is Base && item.content == content && item.date == date && item.photoUrl == photoUrl
+    }
+
+    object Empty: NewsUi() {
+        override fun same(item: NewsUi) = item is Empty
     }
 
     data class Failure(private val message: String) : NewsUi() {

@@ -10,8 +10,6 @@ import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.news.presentation.Reload
-
-//todo make tests
 class DiaryViewModel(
     private val repository: DiaryRepository,
     private val communication: DiaryCommunication.Mutable,

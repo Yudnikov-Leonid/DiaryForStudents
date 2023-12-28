@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.LessonPerformanceBinding
-import com.maxim.diaryforstudents.databinding.LessonPerformanceNoDataBinding
+import com.maxim.diaryforstudents.databinding.NoDataBinding
 
 class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi>()
@@ -25,7 +25,7 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
         }
     }
 
-    class EmptyViewHolder(binding: LessonPerformanceNoDataBinding) : ItemViewHolder(binding)
+    class EmptyViewHolder(binding: NoDataBinding) : ItemViewHolder(binding)
 
     override fun getItemViewType(position: Int): Int {
         return if (list[position] is PerformanceUi.Empty) 0 else 1
@@ -35,7 +35,7 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
         return if (viewType == 1) BaseViewHolder(
             LessonPerformanceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         ) else EmptyViewHolder(
-            LessonPerformanceNoDataBinding
+            NoDataBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
@@ -47,26 +47,10 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
     }
 
     fun update(newList: List<PerformanceUi.Lesson>) {
-        val diff = LessonsDiffUtil(list, newList)
+        val diff = PerformanceDiffUtil(list, newList)
         val result = DiffUtil.calculateDiff(diff)
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
     }
-}
-
-//todo make one diffUtil, remove in grades adapter
-class LessonsDiffUtil(
-    private val oldList: List<PerformanceUi>,
-    private val newList: List<PerformanceUi>,
-) : DiffUtil.Callback() {
-    override fun getOldListSize() = oldList.size
-
-    override fun getNewListSize() = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].same(newList[newItemPosition])
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].sameContent(newList[newItemPosition])
 }

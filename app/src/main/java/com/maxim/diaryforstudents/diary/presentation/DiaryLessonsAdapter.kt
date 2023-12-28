@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.LessonDiaryBinding
-import com.maxim.diaryforstudents.databinding.LessonPerformanceNoDataBinding
+import com.maxim.diaryforstudents.databinding.NoDataBinding
 
 class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DiaryUi>()
@@ -25,7 +25,7 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
         }
     }
 
-    class EmptyViewHolder(binding: LessonPerformanceNoDataBinding) : ItemViewHolder(binding)
+    class EmptyViewHolder(binding: NoDataBinding) : ItemViewHolder(binding)
 
     override fun getItemViewType(position: Int): Int {
         return if (list[position] is DiaryUi.Lesson) 0 else 1
@@ -35,7 +35,7 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
         if (viewType == 0) BaseItemViewHolder(
             LessonDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         ) else EmptyViewHolder(
-            LessonPerformanceNoDataBinding
+            NoDataBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
 

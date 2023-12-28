@@ -30,25 +30,10 @@ class PerformanceGradesAdapter : RecyclerView.Adapter<PerformanceGradesAdapter.I
     }
 
     fun update(newList: List<PerformanceUi.Grade>) {
-        val diff = GradesDiffUtil(list, newList)
+        val diff = PerformanceDiffUtil(list, newList)
         val result = DiffUtil.calculateDiff(diff)
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
     }
-}
-
-class GradesDiffUtil(
-    private val oldList: List<PerformanceUi.Grade>,
-    private val newList: List<PerformanceUi.Grade>,
-): DiffUtil.Callback() {
-    override fun getOldListSize() = oldList.size
-
-    override fun getNewListSize() = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].same(newList[newItemPosition])
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].sameContent(newList[newItemPosition])
 }

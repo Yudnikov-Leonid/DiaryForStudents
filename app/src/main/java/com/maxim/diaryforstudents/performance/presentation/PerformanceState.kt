@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.maxim.diaryforstudents.R
 
@@ -85,10 +86,9 @@ interface PerformanceState {
             errorTextView: TextView,
             progressBar: ProgressBar,
             searchEditText: TextInputEditText
-        ) { //todo deprecated
-            val resourceManager = first.context.resources
-            val enableColor = resourceManager.getColor(R.color.blue)
-            val disableColor = resourceManager.getColor(R.color.disable_button)
+        ) {
+            val enableColor = ContextCompat.getColor(quarterLayout.context, R.color.blue)
+            val disableColor = ContextCompat.getColor(quarterLayout.context, R.color.disable_button)
             listOf(first, second, third, fourth).forEachIndexed { i, b ->
                 b.setBackgroundColor(if (quarter == i + 1) enableColor else disableColor)
             }
