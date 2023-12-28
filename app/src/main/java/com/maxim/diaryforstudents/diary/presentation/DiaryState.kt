@@ -1,11 +1,9 @@
 package com.maxim.diaryforstudents.diary.presentation
 
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 
 interface DiaryState {
     fun show(

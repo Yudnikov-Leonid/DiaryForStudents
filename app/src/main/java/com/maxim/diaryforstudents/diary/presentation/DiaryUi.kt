@@ -24,6 +24,7 @@ interface DiaryUi {
             calendar.timeInMillis = date * 86400000L
             textView.text = formatter.format(calendar.time)
         }
+
         override fun sameContent(item: DiaryUi) = item is Day && item.lessons == lessons
         override fun showLessons(adapter: DiaryLessonsAdapter) {
             adapter.update(lessons)
@@ -67,7 +68,7 @@ interface DiaryUi {
                     && item.homework == homework && item.startTime == startTime && item.endTime == endTime
     }
 
-    object Empty: DiaryUi {
+    object Empty : DiaryUi {
         override fun same(item: DiaryUi) = item is Empty
 
         override fun sameContent(item: DiaryUi) = false

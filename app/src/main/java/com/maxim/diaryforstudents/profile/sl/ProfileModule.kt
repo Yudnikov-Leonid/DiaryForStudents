@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.profile.sl
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module

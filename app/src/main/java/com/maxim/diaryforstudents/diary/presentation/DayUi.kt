@@ -17,10 +17,13 @@ data class DayUi(
         calendar.timeInMillis = date * 86400000L
         textView.text = formatter.format(calendar.time)
     }
+
     fun setSelectedColor(view: View) {
-        val color = view.context.getColor(if (isSelected) R.color.selected_button else R.color.white)
+        val color =
+            view.context.getColor(if (isSelected) R.color.selected_button else R.color.white)
         view.setBackgroundColor(color)
     }
+
     fun showDate(textView: TextView) {
         val formatter = SimpleDateFormat("dd")
         val calendar = Calendar.getInstance()

@@ -8,7 +8,8 @@ import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.presentation.LoginCommunication
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 
-class LoginModule(private val core: Core, private val clear: ClearViewModel): Module<LoginViewModel> {
+class LoginModule(private val core: Core, private val clear: ClearViewModel) :
+    Module<LoginViewModel> {
     override fun viewModel() = LoginViewModel(
         LoginRepository.Base(LoginCloudDataSource.Base(core.dataBase())),
         LoginCommunication.Base(),

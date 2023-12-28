@@ -39,8 +39,7 @@ abstract class NewsUi {
             if (photoUrl.isNotEmpty()) {
                 imageView.visibility = View.VISIBLE
                 Picasso.get().load(photoUrl).into(imageView)
-            }
-            else
+            } else
                 imageView.visibility = View.GONE
         }
 
@@ -51,7 +50,7 @@ abstract class NewsUi {
             item is Base && item.content == content && item.date == date && item.photoUrl == photoUrl
     }
 
-    object Empty: NewsUi() {
+    object Empty : NewsUi() {
         override fun same(item: NewsUi) = item is Empty
     }
 

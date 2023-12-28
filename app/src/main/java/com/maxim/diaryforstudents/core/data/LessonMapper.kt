@@ -6,9 +6,9 @@ import com.maxim.diaryforstudents.core.sl.ManageResource
 interface LessonMapper {
     fun map(name: String): String
 
-    class Base(private val resources: ManageResource): LessonMapper {
+    class Base(private val resources: ManageResource) : LessonMapper {
         override fun map(name: String): String {
-            val resource = when(name) {
+            val resource = when (name) {
                 "algebra" -> R.string.algebra
                 "biology" -> R.string.biology
                 "history" -> R.string.history

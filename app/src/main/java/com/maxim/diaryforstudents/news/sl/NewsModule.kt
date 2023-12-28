@@ -8,7 +8,8 @@ import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.news.presentation.NewsCommunication
 import com.maxim.diaryforstudents.news.presentation.NewsViewModel
 
-class NewsModule(private val core: Core, private val clear: ClearViewModel): Module<NewsViewModel> {
+class NewsModule(private val core: Core, private val clear: ClearViewModel) :
+    Module<NewsViewModel> {
     override fun viewModel() = NewsViewModel(
         NewsRepository.Base(NewsCloudDataSource.Base(core.dataBase())),
         NewsCommunication.Base(),

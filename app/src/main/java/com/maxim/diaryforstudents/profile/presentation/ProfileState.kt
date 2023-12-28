@@ -35,8 +35,7 @@ interface ProfileState {
                 gradeTextView.visibility = View.VISIBLE
                 gradeTextView.text =
                     gradeTextView.context.resources.getString(R.string.student_of, grade)
-            }
-            else
+            } else
                 gradeTextView.visibility = View.GONE
             emailTextView.text = email
             progressBar.visibility = View.GONE

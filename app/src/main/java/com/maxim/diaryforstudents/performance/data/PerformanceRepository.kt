@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.performance.data
 
-import android.util.Log
 import com.maxim.diaryforstudents.news.presentation.Reload
 
 interface PerformanceRepository {

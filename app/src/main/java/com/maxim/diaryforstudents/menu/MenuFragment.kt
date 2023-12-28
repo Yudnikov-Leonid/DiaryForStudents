@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentMenuBinding
 
-class MenuFragment: BaseFragment<FragmentMenuBinding, MenuViewModel>() {
+class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
     override val viewModelClass: Class<MenuViewModel>
         get() = MenuViewModel::class.java
 

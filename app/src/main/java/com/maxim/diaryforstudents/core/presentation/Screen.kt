@@ -21,7 +21,7 @@ interface Screen {
         }
     }
 
-    object Pop: Screen {
+    object Pop : Screen {
         override fun show(fragmentManager: FragmentManager, containerId: Int) {
             fragmentManager.popBackStack()
         }

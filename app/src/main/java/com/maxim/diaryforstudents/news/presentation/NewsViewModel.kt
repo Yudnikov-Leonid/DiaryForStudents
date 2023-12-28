@@ -3,10 +3,10 @@ package com.maxim.diaryforstudents.news.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Screen
+import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.openNews.OpenNewsData
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen

@@ -11,14 +11,16 @@ interface DiaryRepository {
     fun actualDate(): Int
     fun dayList(today: Int): List<DayUi>
 
-    class Base(private val cloudDataSource: DiaryCloudDataSource): DiaryRepository {
+    class Base(private val cloudDataSource: DiaryCloudDataSource) : DiaryRepository {
         override suspend fun init(reload: Reload, week: Int) {
             cloudDataSource.init(reload, week)
         }
 
         override fun data(date: Int): DiaryData.Day {
             val list = cloudDataSource.data()
-            return DiaryData.Day(date, list.filter { it.isDate(date) }.ifEmpty { listOf(DiaryData.Empty) })
+            return DiaryData.Day(
+                date,
+                list.filter { it.isDate(date) }.ifEmpty { listOf(DiaryData.Empty) })
         }
 
         override fun actualDate() = (System.currentTimeMillis() / 86400000).toInt()
@@ -26,7 +28,7 @@ interface DiaryRepository {
             val formatter = SimpleDateFormat("E")
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = today * 86400000L
-            val dayOfTheWeek = when(formatter.format(calendar.time)) {
+            val dayOfTheWeek = when (formatter.format(calendar.time)) {
                 "Mon" -> 1
                 "Tue" -> 2
                 "Wed" -> 3

@@ -9,7 +9,7 @@ import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
 
 class MenuViewModel(
     private val navigation: Navigation.Update
-): BaseViewModel() {
+) : BaseViewModel() {
     fun diary() {
         navigation.update(DiaryScreen)
     }

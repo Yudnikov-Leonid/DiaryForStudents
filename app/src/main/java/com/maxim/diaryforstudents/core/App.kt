@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.initialize
 import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.core.sl.DependencyContainer
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.core.sl.ViewModelFactory
 

@@ -12,11 +12,12 @@ interface NewsData {
     ) : NewsData {
         override fun toUi() = NewsUi.Base(title, content, date, photoUrl)
     }
-    object Empty: NewsData {
+
+    object Empty : NewsData {
         override fun toUi() = NewsUi.Empty
     }
 
-    data class Failure(private val message: String): NewsData {
+    data class Failure(private val message: String) : NewsData {
         override fun toUi() = NewsUi.Failure(message)
     }
 }

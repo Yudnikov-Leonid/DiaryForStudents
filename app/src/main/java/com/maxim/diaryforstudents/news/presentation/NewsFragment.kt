@@ -8,7 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentNewsBinding
 
-class NewsFragment: BaseFragment<FragmentNewsBinding, NewsViewModel>() {
+class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
     override val viewModelClass: Class<NewsViewModel>
         get() = NewsViewModel::class.java
 

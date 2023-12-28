@@ -13,7 +13,7 @@ interface NewsCloudDataSource {
 
     class Base(
         private val dataBase: DatabaseReference
-    ): NewsCloudDataSource {
+    ) : NewsCloudDataSource {
         private val news = mutableListOf<NewsData>()
         private var cachedListener: Pair<Query, ValueEventListener>? = null
         override fun init(reload: Reload) {

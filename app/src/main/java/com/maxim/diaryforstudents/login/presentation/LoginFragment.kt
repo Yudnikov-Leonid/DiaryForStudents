@@ -13,6 +13,7 @@ import com.maxim.diaryforstudents.login.data.AuthResultWrapper
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
     override val viewModelClass: Class<LoginViewModel>
         get() = LoginViewModel::class.java
+
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentLoginBinding.inflate(inflater, container, false)
 
