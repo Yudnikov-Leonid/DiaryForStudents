@@ -6,58 +6,51 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.delay
 
 interface ProfileCloudDataSource {
     fun signOut()
 
-    suspend fun getGrade(): String
+    suspend fun getGrade(callback: ClassNameCallback)
     class Base(
         private val database: DatabaseReference,
         private val clientWrapper: ClientWrapper
-    ) :
-        ProfileCloudDataSource {
+    ) : ProfileCloudDataSource {
         override fun signOut() {
             Firebase.auth.signOut()
             clientWrapper.signOut()
         }
 
-        override suspend fun getGrade(): String { //todo make handleResult
+        private val classIdCallback = object : ClassIdCallback {
+            override fun next(classId: String, callback: ClassNameCallback) {
+                val newQuery = database.child("classes").child(classId)
+                newQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val className = snapshot.getValue(ClassName::class.java)?.name ?: "error"
+                        callback.provide(className)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) = callback.provide(error.message)
+                })
+            }
+        }
+
+        override suspend fun getGrade(callback: ClassNameCallback) {
             val query = database.child("users").child(Firebase.auth.uid!!)
-            var classId = ""
-            var done = false
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    classId = snapshot.getValue(ClassId::class.java)!!.classId
-                    done = true
+                    val classId = snapshot.getValue(ClassId::class.java)!!.classId
+                    classIdCallback.next(classId, callback)
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    classId = error.message
-                    done = true
-                }
+                override fun onCancelled(error: DatabaseError) =
+                    classIdCallback.next(error.message, callback)
             })
-            while (!done)
-                delay(50)
-            val newQuery = database.child("classes").child(classId)
-            done = false
-            var className = ""
-            newQuery.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    className = snapshot.getValue(ClassName::class.java)!!.name
-                    done = true
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    className = error.message
-                    done = true
-                }
-            })
-            while (!done)
-                delay(50)
-            return className
         }
     }
+}
+
+private interface ClassIdCallback {
+    fun next(classId: String, callback: ClassNameCallback)
 }
 
 private data class ClassId(val classId: String = "")
