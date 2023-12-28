@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.core
+package com.maxim.diaryforstudents.core.presentation
 
 interface Navigation {
     interface Update : Communication.Update<Screen>

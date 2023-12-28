@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import com.maxim.diaryforstudents.core.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
 
 class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {

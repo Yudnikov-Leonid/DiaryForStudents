@@ -2,12 +2,12 @@ package com.maxim.diaryforstudents.profile.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.maxim.diaryforstudents.core.BaseViewModel
-import com.maxim.diaryforstudents.core.ClearViewModel
-import com.maxim.diaryforstudents.core.Communication
-import com.maxim.diaryforstudents.core.Navigation
-import com.maxim.diaryforstudents.core.RunAsync
-import com.maxim.diaryforstudents.core.Screen
+import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.core.presentation.Communication
+import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.core.presentation.RunAsync
+import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
 

@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.performance.presentation
 
-import com.maxim.diaryforstudents.core.Communication
+import com.maxim.diaryforstudents.core.presentation.Communication
 
 interface PerformanceCommunication {
     interface Update : Communication.Update<PerformanceState>

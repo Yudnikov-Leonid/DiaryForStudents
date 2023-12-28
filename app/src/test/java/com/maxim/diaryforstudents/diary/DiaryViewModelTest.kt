@@ -2,8 +2,8 @@ package com.maxim.diaryforstudents.diary
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.maxim.diaryforstudents.core.RunAsync
-import com.maxim.diaryforstudents.core.Screen
+import com.maxim.diaryforstudents.core.presentation.RunAsync
+import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.presentation.DayUi

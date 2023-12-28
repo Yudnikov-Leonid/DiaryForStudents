@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.openNews
 
-import com.maxim.diaryforstudents.core.Screen
+import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation

@@ -1,7 +1,7 @@
 package com.maxim.diaryforstudents.menu
 
-import com.maxim.diaryforstudents.core.BaseViewModel
-import com.maxim.diaryforstudents.core.Navigation
+import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
 import com.maxim.diaryforstudents.news.presentation.NewsScreen
 import com.maxim.diaryforstudents.performance.presentation.PerformanceScreen

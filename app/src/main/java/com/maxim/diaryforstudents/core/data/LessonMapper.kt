@@ -1,6 +1,7 @@
-package com.maxim.diaryforstudents.core
+package com.maxim.diaryforstudents.core.data
 
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.sl.ManageResource
 
 interface LessonMapper {
     fun map(name: String): String

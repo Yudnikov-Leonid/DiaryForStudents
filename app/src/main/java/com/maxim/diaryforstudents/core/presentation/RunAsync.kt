@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.core
+package com.maxim.diaryforstudents.core.presentation
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

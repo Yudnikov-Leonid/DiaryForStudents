@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.R
-import com.maxim.diaryforstudents.core.ProvideViewModel
+import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 
 class MainActivity : AppCompatActivity(), ProvideViewModel {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import com.maxim.diaryforstudents.core.BaseFragment
-import com.maxim.diaryforstudents.core.ProvideViewModel
+import com.maxim.diaryforstudents.core.presentation.BaseFragment
+import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.FragmentLoginBinding
 import com.maxim.diaryforstudents.login.data.AuthResultWrapper
 

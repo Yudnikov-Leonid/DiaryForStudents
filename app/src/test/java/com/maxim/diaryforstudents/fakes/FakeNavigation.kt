@@ -2,8 +2,8 @@ package com.maxim.diaryforstudents.fakes
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.maxim.diaryforstudents.core.Navigation
-import com.maxim.diaryforstudents.core.Screen
+import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.core.presentation.Screen
 import junit.framework.TestCase.assertEquals
 import java.lang.IllegalStateException
 

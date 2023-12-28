@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.core
+package com.maxim.diaryforstudents.core.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 
 abstract class BaseFragment<B : ViewBinding, V: ViewModel> : Fragment() {
     private var _binding: B? = null

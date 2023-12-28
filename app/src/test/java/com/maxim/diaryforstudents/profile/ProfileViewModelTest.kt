@@ -9,7 +9,7 @@ import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.REPOSITORY
-import com.maxim.diaryforstudents.core.Screen
+import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.profile.data.ProfileRepository

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.maxim.diaryforstudents.core.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentMenuBinding
 
 class MenuFragment: BaseFragment<FragmentMenuBinding, MenuViewModel>() {

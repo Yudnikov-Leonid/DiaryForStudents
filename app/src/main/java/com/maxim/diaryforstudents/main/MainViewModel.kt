@@ -1,10 +1,10 @@
 package com.maxim.diaryforstudents.main
 
 import androidx.lifecycle.LifecycleOwner
-import com.maxim.diaryforstudents.core.BaseViewModel
-import com.maxim.diaryforstudents.core.Communication
-import com.maxim.diaryforstudents.core.Navigation
-import com.maxim.diaryforstudents.core.Screen
+import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.Communication
+import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 
 class MainViewModel(

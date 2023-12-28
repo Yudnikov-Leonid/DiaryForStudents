@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
-import com.maxim.diaryforstudents.core.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentPerformanceBinding
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 

@@ -1,12 +1,13 @@
-package com.maxim.diaryforstudents
+package com.maxim.diaryforstudents.core
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.initialize
-import com.maxim.diaryforstudents.core.Core
-import com.maxim.diaryforstudents.core.ProvideViewModel
-import com.maxim.diaryforstudents.core.ViewModelFactory
+import com.maxim.diaryforstudents.core.sl.Core
+import com.maxim.diaryforstudents.core.sl.DependencyContainer
+import com.maxim.diaryforstudents.core.sl.ProvideViewModel
+import com.maxim.diaryforstudents.core.sl.ViewModelFactory
 
 class App : Application(), ProvideViewModel {
     private lateinit var factory: ViewModelFactory

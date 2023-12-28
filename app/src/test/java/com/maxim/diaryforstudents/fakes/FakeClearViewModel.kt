@@ -1,7 +1,7 @@
 package com.maxim.diaryforstudents.fakes
 
 import androidx.lifecycle.ViewModel
-import com.maxim.diaryforstudents.core.ClearViewModel
+import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import junit.framework.TestCase.assertEquals
 
 class FakeClearViewModel(private val order: Order): ClearViewModel {

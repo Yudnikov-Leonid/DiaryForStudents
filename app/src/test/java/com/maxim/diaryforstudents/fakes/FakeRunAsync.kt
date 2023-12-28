@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.fakes
 
-import com.maxim.diaryforstudents.core.RunAsync
+import com.maxim.diaryforstudents.core.presentation.RunAsync
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 

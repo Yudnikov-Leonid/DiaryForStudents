@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.core
+package com.maxim.diaryforstudents.core.sl
 
 import android.content.res.Resources
 import androidx.annotation.StringRes

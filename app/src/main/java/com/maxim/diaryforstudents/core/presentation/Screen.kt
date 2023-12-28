@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.core
+package com.maxim.diaryforstudents.core.presentation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.core
+package com.maxim.diaryforstudents.core.presentation
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope

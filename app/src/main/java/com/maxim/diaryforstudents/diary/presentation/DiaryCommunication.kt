@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.diary.presentation
 
-import com.maxim.diaryforstudents.core.Communication
+import com.maxim.diaryforstudents.core.presentation.Communication
 
 interface DiaryCommunication {
     interface Update: Communication.Update<DiaryState>

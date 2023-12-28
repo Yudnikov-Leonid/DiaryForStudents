@@ -10,7 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.maxim.diaryforstudents.R
-import com.maxim.diaryforstudents.core.ManageResource
+import com.maxim.diaryforstudents.core.sl.ManageResource
 
 interface LoginState {
     fun handle(launcher: ActivityResultLauncher<Intent>, activity: Activity) = Unit
