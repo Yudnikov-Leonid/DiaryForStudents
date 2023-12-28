@@ -2,20 +2,21 @@ package com.maxim.diaryforstudents.profile
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.COMMUNICATION
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
+import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.REPOSITORY
-import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
 import com.maxim.diaryforstudents.profile.presentation.ProfileCommunication
 import com.maxim.diaryforstudents.profile.presentation.ProfileState
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
+import com.maxim.diaryforstudents.profile.presentation.ShowProfileCallback
 import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test
@@ -44,11 +45,13 @@ class ProfileViewModelTest {
     fun test_init() {
         repository.mustReturn("email@gmail.com", "name", "10")
         viewModel.init()
-        commnication.checkCalledTimes(1)
-        commnication.checkCalledWith(ProfileState.Loading)
-        runAsync.returnResult()
         commnication.checkCalledTimes(2)
-        commnication.checkCalledWith(ProfileState.Base("name", "10", "email@gmail.com"))
+        commnication.checkCalledWith(
+            listOf(
+                ProfileState.Loading,
+                ProfileState.Base("name", "10", "email@gmail.com")
+            )
+        )
     }
 
     @Test
@@ -68,17 +71,21 @@ class ProfileViewModelTest {
     }
 }
 
-private class FakeProfileRepository(private val order: Order): ProfileRepository {
+private class FakeProfileRepository(private val order: Order) : ProfileRepository {
     private var data = Triple("", "", "")
     private var counter = 0
     fun mustReturn(email: String, name: String, grade: String) {
         data = Triple(name, grade, email)
     }
+
     override fun signOut() {
         order.add(REPOSITORY)
         counter++
     }
-    override suspend fun data() = data
+
+    override suspend fun data(callback: ShowProfileCallback) {
+        callback.show(data.first, data.second, data.third)
+    }
 }
 
 private class FakeProfileCommunication(private val order: Order) : ProfileCommunication.Mutable {
@@ -88,8 +95,8 @@ private class FakeProfileCommunication(private val order: Order) : ProfileCommun
         list.add(value)
     }
 
-    fun checkCalledWith(expected: ProfileState) {
-        TestCase.assertEquals(expected, list.last())
+    fun checkCalledWith(expected: List<ProfileState>) {
+        TestCase.assertEquals(expected, list)
     }
 
     fun checkCalledTimes(expected: Int) {
