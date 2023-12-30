@@ -17,7 +17,7 @@ import com.maxim.diaryforstudents.login.data.LoginResult
 import com.maxim.diaryforstudents.login.presentation.LoginCommunication
 import com.maxim.diaryforstudents.login.presentation.LoginState
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
-import com.maxim.diaryforstudents.menu.MenuScreen
+import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test

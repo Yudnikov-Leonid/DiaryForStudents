@@ -10,7 +10,7 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.login.data.AuthResultWrapper
 import com.maxim.diaryforstudents.login.data.LoginRepository
-import com.maxim.diaryforstudents.menu.MenuScreen
+import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 
 class LoginViewModel(
     private val repository: LoginRepository,

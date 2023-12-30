@@ -5,7 +5,7 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.login.presentation.LoginCommunication
 import com.maxim.diaryforstudents.login.presentation.LoginState
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
-import com.maxim.diaryforstudents.menu.MenuScreen
+import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 
 interface LoginResult {
     fun map(

@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.menu
+package com.maxim.diaryforstudents.menu.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +19,9 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         binding.diaryButton.setOnClickListener {
             viewModel.diary()
         }
+        binding.diaryForTeacherButton.setOnClickListener {
+            viewModel.diaryForTeacher()
+        }
         binding.performanceButton.setOnClickListener {
             viewModel.performance()
         }
@@ -28,5 +31,18 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         binding.newsButton.setOnClickListener {
             viewModel.news()
         }
+
+        viewModel.observe(this) {
+            it.show(
+                binding.diaryButton,
+                binding.performanceButton,
+                binding.profileButton,
+                binding.newsButton,
+                binding.diaryForTeacherButton,
+                binding.progressBar
+            )
+        }
+
+        viewModel.init()
     }
 }

@@ -1,100 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/diaryButton"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/round_button"
-        android:padding="20dp"
-        android:src="@drawable/baseline_diary_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Diary"
-        android:textColor="@color/blue"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="@+id/diaryButton"
-        app:layout_constraintStart_toStartOf="@+id/diaryButton"
-        app:layout_constraintTop_toBottomOf="@+id/diaryButton" />
+        android:layout_gravity="center" />
 
-    <ImageView
-        android:id="@+id/performanceButton"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="60dp"
-        android:background="@drawable/round_button"
-        android:padding="20dp"
-        android:src="@drawable/performance_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Performance"
-        android:textColor="@color/blue"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="@+id/performanceButton"
-        app:layout_constraintStart_toStartOf="@+id/performanceButton"
-        app:layout_constraintTop_toBottomOf="@+id/performanceButton" />
+        android:layout_marginVertical="20dp"
+        android:gravity="center">
 
-    <ImageView
-        android:id="@+id/profileButton"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="300dp"
-        android:background="@drawable/round_button"
-        android:padding="20dp"
-        android:src="@drawable/profile_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/diaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/round_button"
+                android:padding="20dp"
+                android:src="@drawable/baseline_diary_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Diary"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/diaryForTeacherButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/round_button"
+                android:padding="20dp"
+                android:src="@drawable/baseline_diary_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Diary for teacher"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/performanceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/round_button"
+                android:padding="20dp"
+                android:src="@drawable/performance_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Performance"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Profile"
-        android:textColor="@color/blue"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="@+id/profileButton"
-        app:layout_constraintStart_toStartOf="@+id/profileButton"
-        app:layout_constraintTop_toBottomOf="@+id/profileButton" />
+        android:layout_marginVertical="20dp"
+        android:gravity="center">
 
-    <ImageView
-        android:id="@+id/newsButton"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginEnd="60dp"
-        android:background="@drawable/round_button"
-        android:padding="20dp"
-        android:src="@drawable/base_news_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/profileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="News"
-        android:textColor="@color/blue"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="@+id/newsButton"
-        app:layout_constraintStart_toStartOf="@+id/newsButton"
-        app:layout_constraintTop_toBottomOf="@+id/newsButton" />
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/round_button"
+                android:padding="20dp"
+                android:src="@drawable/profile_24" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Profile"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/newsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/round_button"
+                android:padding="20dp"
+                android:src="@drawable/base_news_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="News"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

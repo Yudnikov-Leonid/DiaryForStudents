@@ -7,8 +7,8 @@ import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.login.sl.LoginModule
 import com.maxim.diaryforstudents.main.MainModule
 import com.maxim.diaryforstudents.main.MainViewModel
-import com.maxim.diaryforstudents.menu.MenuModule
-import com.maxim.diaryforstudents.menu.MenuViewModel
+import com.maxim.diaryforstudents.menu.sl.MenuModule
+import com.maxim.diaryforstudents.menu.presentation.MenuViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsViewModel
 import com.maxim.diaryforstudents.news.sl.NewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsModule
