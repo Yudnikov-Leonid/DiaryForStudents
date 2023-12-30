@@ -26,8 +26,8 @@ interface EditDiaryRepository {
             // and get grades of every student by lesson's date, userId, and lessonName
 
             val students = studentsHandleQuery(
-                database.child("users").orderByChild("status").equalTo("student")
-            ).filter { it.classId == classId }
+                database.child("users").orderByChild("classId").equalTo(classId)
+            )
             val lessonName = lessonNameHandleQuery(
                 database.child("users").orderByKey().equalTo(Firebase.auth.uid!!)
             )
