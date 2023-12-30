@@ -19,7 +19,7 @@ class EditDiaryViewModel(
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Reload, Communication.Observe<EditDiaryState> {
+) : BaseViewModel(runAsync), Communication.Observe<EditDiaryState> {
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(EditDiaryState.Loading)
@@ -28,17 +28,10 @@ class EditDiaryViewModel(
             }
         }
     }
-
     fun back() {
         navigation.update(Screen.Pop)
         clear.clearViewModel(EditDiaryViewModel::class.java)
     }
-
-    override fun reload() {
-        communication.update(EditDiaryState.Base(repository.data().map { it.mapToUi() }))
-    }
-
-    override fun error(message: String) = Unit //todo
     override fun observe(owner: LifecycleOwner, observer: Observer<EditDiaryState>) {
         communication.observe(owner, observer)
     }

@@ -14,7 +14,6 @@ import kotlin.coroutines.suspendCoroutine
 
 interface EditDiaryRepository {
     suspend fun init(classId: String): List<LessonData>
-    fun data(): List<LessonData>
 
     class Base(
         private val database: DatabaseReference,
@@ -25,14 +24,17 @@ interface EditDiaryRepository {
             // get students by classId, then get lessons by classId and lessonName,
             // and get grades of every student by lesson's date, userId, and lessonName
 
-            val students = studentsHandleQuery(
-                database.child("users").orderByChild("classId").equalTo(classId)
+            val students = handleQuery(
+                database.child("users").orderByChild("classId").equalTo(classId),
+                Student::class.java
             )
-            val lessonName = lessonNameHandleQuery(
-                database.child("users").orderByKey().equalTo(Firebase.auth.uid!!)
-            )
-            val lessons = lessonsHandleQuery(
-                database.child("lessons").orderByChild("classId").equalTo(classId)
+            val lessonName = handleQuery(
+                database.child("users").orderByKey().equalTo(Firebase.auth.uid!!),
+                TeacherLessonName::class.java
+            ).first().lesson
+            val lessons = handleQuery(
+                database.child("lessons").orderByChild("classId").equalTo(classId),
+                Lesson::class.java
             ).filter { it.name == lessonName }
 
             val result = mutableListOf<LessonData>()
@@ -47,12 +49,12 @@ interface EditDiaryRepository {
             return result
         }
 
-        private suspend fun lessonsHandleQuery(query: Query): List<Lesson> =
+        private suspend fun <T : Any> handleQuery(query: Query, clasz: Class<T>): List<T> =
             suspendCoroutine { cont ->
                 query.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val data = snapshot.children.mapNotNull {
-                            it.getValue(Lesson::class.java)
+                            it.getValue(clasz)
                         }
                         cont.resume(data)
                     }
@@ -61,38 +63,6 @@ interface EditDiaryRepository {
                         cont.resumeWithException(error.toException())
                 })
             }
-
-        private suspend fun lessonNameHandleQuery(query: Query): String =
-            suspendCoroutine { cont ->
-                query.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val data =
-                            snapshot.children.mapNotNull { it.getValue(TeacherLessonName::class.java) }
-                        cont.resume(data.first().lesson)
-                    }
-
-                    override fun onCancelled(error: DatabaseError) =
-                        cont.resumeWithException(error.toException())
-                })
-            }
-
-        private suspend fun studentsHandleQuery(query: Query): List<Student> =
-            suspendCoroutine { cont ->
-                query.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val data = snapshot.children.mapNotNull {
-                            val value = it.getValue(Student::class.java)!!
-                            Student(value.classId, it.key!!, value.name)
-                        }
-                        cont.resume(data)
-                    }
-
-                    override fun onCancelled(error: DatabaseError) =
-                        cont.resumeWithException(error.toException())
-                })
-            }
-
-        override fun data() = list
     }
 }
 
