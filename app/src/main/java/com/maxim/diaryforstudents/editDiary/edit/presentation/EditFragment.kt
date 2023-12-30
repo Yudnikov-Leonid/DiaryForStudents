@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.editDiary.presentation
+package com.maxim.diaryforstudents.editDiary.edit.presentation
 
 import androidx.fragment.app.Fragment
 

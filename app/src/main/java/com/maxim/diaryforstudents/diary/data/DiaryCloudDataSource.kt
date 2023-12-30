@@ -8,7 +8,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.data.LessonMapper
-import com.maxim.diaryforstudents.news.presentation.Reload
+import com.maxim.diaryforstudents.core.presentation.Reload
 
 interface DiaryCloudDataSource {
     suspend fun init(reload: Reload, week: Int)

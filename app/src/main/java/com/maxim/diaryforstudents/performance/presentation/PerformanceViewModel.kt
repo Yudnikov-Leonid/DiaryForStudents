@@ -5,9 +5,9 @@ import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.news.presentation.Reload
 import com.maxim.diaryforstudents.performance.data.PerformanceRepository
 
 class PerformanceViewModel(

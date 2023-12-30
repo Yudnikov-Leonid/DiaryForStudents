@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.editDiary.selectClass
+package com.maxim.diaryforstudents.editDiary.selectClass.presentation
 
 import com.maxim.diaryforstudents.core.presentation.Screen
 

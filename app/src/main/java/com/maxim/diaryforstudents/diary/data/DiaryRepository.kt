@@ -1,7 +1,7 @@
 package com.maxim.diaryforstudents.diary.data
 
+import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.diary.presentation.DayUi
-import com.maxim.diaryforstudents.news.presentation.Reload
 import java.text.SimpleDateFormat
 import java.util.Calendar
 

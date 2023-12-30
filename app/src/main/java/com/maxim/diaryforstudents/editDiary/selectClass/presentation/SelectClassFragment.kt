@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.news.presentation
+package com.maxim.diaryforstudents.editDiary.selectClass.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
-import com.maxim.diaryforstudents.databinding.FragmentNewsBinding
+import com.maxim.diaryforstudents.databinding.FragmentSelectClassBinding
 
-class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
-    override val viewModelClass = NewsViewModel::class.java
-
+class SelectClassFragment : BaseFragment<FragmentSelectClassBinding, SelectClassViewModel>() {
+    override val viewModelClass = SelectClassViewModel::class.java
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentNewsBinding.inflate(inflater, container, false)
+        FragmentSelectClassBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -21,17 +20,12 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
             }
         }
         super.onViewCreated(view, savedInstanceState)
-
-        val adapter = NewsAdapter(object : NewsAdapter.Listener {
-            override fun retry() {
-                viewModel.init(true)
-            }
-
-            override fun open(value: NewsUi) {
-                viewModel.open(value)
+        val adapter = ClassesAdapter(object : ClassesAdapter.Listener {
+            override fun openClass(id: String) {
+                viewModel.open(id)
             }
         })
-        binding.newsRecyclerView.adapter = adapter
+        binding.classesRecyclerView.adapter = adapter
 
         viewModel.observe(this) {
             it.show(adapter, binding.progressBar)

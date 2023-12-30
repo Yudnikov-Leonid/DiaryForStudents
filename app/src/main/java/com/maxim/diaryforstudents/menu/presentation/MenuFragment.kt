@@ -43,6 +43,6 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
             )
         }
 
-        viewModel.init()
+        viewModel.init(savedInstanceState == null)
     }
 }

@@ -7,7 +7,7 @@ import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
-import com.maxim.diaryforstudents.editDiary.selectClass.SelectClassScreen
+import com.maxim.diaryforstudents.editDiary.selectClass.presentation.SelectClassScreen
 import com.maxim.diaryforstudents.menu.domain.MenuInteractor
 import com.maxim.diaryforstudents.news.presentation.NewsScreen
 import com.maxim.diaryforstudents.performance.presentation.PerformanceScreen
@@ -19,10 +19,12 @@ class MenuViewModel(
     private val navigation: Navigation.Update,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<MenuState> {
-    fun init() {
-        communication.update(MenuState.Loading)
-        handle({ interactor.userStatus() }) {
-            communication.update(it.mapToState())
+    fun init(isFirstRun: Boolean) {
+        if (isFirstRun) {
+            communication.update(MenuState.Loading)
+            handle({ interactor.userStatus() }) {
+                communication.update(it.mapToState())
+            }
         }
     }
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "575101660631",
+    "project_id": "diary-ee752",
+    "storage_bucket": "diary-ee752.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575101660631:android:8d67557b2b9406cc45af92",
+        "android_client_info": {
+          "package_name": "com.maxim.diaryforstudents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575101660631-snd45ng04apnq52vv7r4t8hk3of8rd11.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMVTOKcY1l_oft1nyI9CSZHe0PmM-NE7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575101660631-snd45ng04apnq52vv7r4t8hk3of8rd11.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

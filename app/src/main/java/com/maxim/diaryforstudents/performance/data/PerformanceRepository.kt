@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.performance.data
 
-import com.maxim.diaryforstudents.news.presentation.Reload
+import com.maxim.diaryforstudents.core.presentation.Reload
 
 interface PerformanceRepository {
     fun changeQuarter(new: Int)
