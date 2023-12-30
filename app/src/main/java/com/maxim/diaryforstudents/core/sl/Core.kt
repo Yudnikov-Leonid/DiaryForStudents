@@ -10,6 +10,7 @@ import com.google.firebase.database.database
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.data.LessonMapper
 import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.editDiary.common.SelectedClassCache
 import com.maxim.diaryforstudents.openNews.OpenNewsData
 
 class Core(private val context: Context) : ManageResource {
@@ -34,6 +35,9 @@ class Core(private val context: Context) : ManageResource {
             .build()
         return GoogleSignIn.getClient(context, gso)
     }
+
+    private val selectedClassCache = SelectedClassCache.Base()
+    fun selectedClassCache() = selectedClassCache
 
     override fun string(key: Int) = manageResource.string(key)
 

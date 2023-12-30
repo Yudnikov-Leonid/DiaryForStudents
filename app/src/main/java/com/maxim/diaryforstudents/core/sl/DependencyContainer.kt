@@ -3,6 +3,8 @@ package com.maxim.diaryforstudents.core.sl
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
 import com.maxim.diaryforstudents.diary.sl.DiaryModule
+import com.maxim.diaryforstudents.editDiary.edit.presentation.EditDiaryViewModel
+import com.maxim.diaryforstudents.editDiary.edit.sl.EditDiaryModule
 import com.maxim.diaryforstudents.editDiary.selectClass.presentation.SelectClassViewModel
 import com.maxim.diaryforstudents.editDiary.selectClass.sl.SelectClassModule
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
@@ -43,6 +45,7 @@ interface DependencyContainer {
             PerformanceViewModel::class.java -> PerformanceModule(core, clear)
             DiaryViewModel::class.java -> DiaryModule(core, clear)
             SelectClassViewModel::class.java -> SelectClassModule(core, clear)
+            EditDiaryViewModel::class.java -> EditDiaryModule(core, clear)
             else -> dependencyContainer.module(clasz)
         }
     }
