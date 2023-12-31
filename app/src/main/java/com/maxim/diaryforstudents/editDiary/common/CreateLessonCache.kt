@@ -15,7 +15,7 @@ interface CreateLessonCache {
             theme: String,
             homework: String
         )
-        fun clear()
+        fun clearLesson()
     }
 
     interface Read {
@@ -54,9 +54,7 @@ interface CreateLessonCache {
             lesson = GradeData.Date(date, startTime, endTime, theme, homework)
         }
 
-        override fun clear() {
-            name = ""
-            classId = ""
+        override fun clearLesson() {
             lesson = null
         }
 

@@ -33,7 +33,7 @@ class EditDiaryViewModel(
     }
 
     fun newLesson() {
-        cache.clear()
+        cache.clearLesson()
         navigation.update(CreateLessonScreen)
     }
 
