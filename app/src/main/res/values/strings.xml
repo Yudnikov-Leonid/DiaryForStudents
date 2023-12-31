@@ -4,6 +4,7 @@
     <string name="email">Email:\n</string>
     <string name="name">Name:\n</string>
     <string name="student_of">Student of the class: %s</string>
+    <string name="teacher_of">Teacher of %s</string>
 
     <!-- lessons -->
     <string name="algebra">Algebra</string>

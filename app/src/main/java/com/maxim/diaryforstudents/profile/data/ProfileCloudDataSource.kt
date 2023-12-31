@@ -5,53 +5,54 @@ import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
+import com.maxim.diaryforstudents.core.data.LessonMapper
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 interface ProfileCloudDataSource {
     fun signOut()
 
-    suspend fun getGrade(callback: ClassNameCallback)
+    suspend fun getGrade(): GradeResult
     class Base(
         private val database: DatabaseReference,
-        private val clientWrapper: ClientWrapper
+        private val clientWrapper: ClientWrapper,
+        private val lessonMapper: LessonMapper
     ) : ProfileCloudDataSource {
         override fun signOut() {
             Firebase.auth.signOut()
             clientWrapper.signOut()
         }
 
-        private val classIdCallback = object : ClassIdCallback {
-            override fun next(classId: String, callback: ClassNameCallback) {
-                val newQuery = database.child("classes").child(classId)
-                newQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+        override suspend fun getGrade(): GradeResult {
+            val user = handleQuery(
+                database.child("users").child(Firebase.auth.uid!!),
+                ClassId::class.java
+            )
+            return if (user.lesson != "") {
+                GradeResult.Teacher(lessonMapper.map(user.lesson))
+            } else if (user.classId != "") {
+                GradeResult.Student(handleQuery(
+                    database.child("classes").child(user.classId),
+                    ClassName::class.java
+                ).name)
+            } else GradeResult.Empty
+        }
+
+        private suspend fun <T : Any> handleQuery(query: Query, clasz: Class<T>): T =
+            suspendCoroutine { cont ->
+                query.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val className = snapshot.getValue(ClassName::class.java)?.name ?: "error"
-                        callback.provide(className)
+                        cont.resume(snapshot.getValue(clasz)!!)
                     }
 
-                    override fun onCancelled(error: DatabaseError) = callback.provide(error.message)
+                    override fun onCancelled(error: DatabaseError) =
+                        cont.resumeWithException(error.toException())
                 })
             }
-        }
-
-        override suspend fun getGrade(callback: ClassNameCallback) {
-            val query = database.child("users").child(Firebase.auth.uid!!)
-            query.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val classId = snapshot.getValue(ClassId::class.java)!!.classId
-                    classIdCallback.next(classId, callback)
-                }
-
-                override fun onCancelled(error: DatabaseError) =
-                    classIdCallback.next(error.message, callback)
-            })
-        }
     }
 }
-
-private interface ClassIdCallback {
-    fun next(classId: String, callback: ClassNameCallback)
-}
-
-private data class ClassId(val classId: String = "")
+private data class ClassId(val classId: String = "", val lesson: String = "")
 private data class ClassName(val name: String = "")

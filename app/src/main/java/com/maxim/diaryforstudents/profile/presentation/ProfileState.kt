@@ -5,7 +5,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.profile.data.GradeResult
 
 interface ProfileState {
     fun show(
@@ -19,7 +19,7 @@ interface ProfileState {
 
     data class Base(
         private val name: String,
-        private val grade: String,
+        private val grade: GradeResult,
         private val email: String
     ) : ProfileState {
         override fun show(
@@ -31,12 +31,7 @@ interface ProfileState {
             signOutButton: Button
         ) {
             nameTextView.text = name
-            if (grade.isNotEmpty()) {
-                gradeTextView.visibility = View.VISIBLE
-                gradeTextView.text =
-                    gradeTextView.context.resources.getString(R.string.student_of, grade)
-            } else
-                gradeTextView.visibility = View.GONE
+            grade.show(gradeTextView)
             emailTextView.text = email
             progressBar.visibility = View.GONE
             imageView.visibility = View.VISIBLE

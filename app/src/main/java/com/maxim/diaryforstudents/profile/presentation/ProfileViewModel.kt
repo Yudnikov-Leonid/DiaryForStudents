@@ -17,14 +17,12 @@ class ProfileViewModel(
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<ProfileState>, ShowProfileCallback {
+) : BaseViewModel(runAsync), Communication.Observe<ProfileState> {
     fun init() {
         communication.update(ProfileState.Loading)
-        handle({ repository.data(this) }) {}
-    }
-
-    override fun show(name: String, grade: String, email: String) {
-        communication.update(ProfileState.Base(name, grade, email))
+        handle({ repository.data() }) {
+            communication.update(ProfileState.Base(it.first, it.second, it.third))
+        }
     }
 
     fun signOut() {
@@ -41,8 +39,4 @@ class ProfileViewModel(
     override fun observe(owner: LifecycleOwner, observer: Observer<ProfileState>) {
         communication.observe(owner, observer)
     }
-}
-
-interface ShowProfileCallback {
-    fun show(name: String, grade: String, email: String)
 }
