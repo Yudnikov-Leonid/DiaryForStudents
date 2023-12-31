@@ -47,6 +47,7 @@ class CreateLessonDialogFragment : DialogFragment() {
                 binding.themeInputLayout.editText!!,
                 binding.homeworkInputLayout.editText!!,
                 binding.progressBar,
+                binding.saveButton,
                 object : Dismiss {
                     override fun dismiss() {
                         viewModel.reloadList()

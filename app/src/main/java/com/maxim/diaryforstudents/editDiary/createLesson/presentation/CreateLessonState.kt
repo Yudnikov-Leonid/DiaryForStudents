@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.editDiary.createLesson.presentation
 
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -11,6 +12,7 @@ interface CreateLessonState {
         themeEditText: EditText,
         homeworkEditText: EditText,
         progressBar: View,
+        saveButton: Button,
         dismiss: Dismiss
     )
 
@@ -21,8 +23,10 @@ interface CreateLessonState {
             themeEditText: EditText,
             homeworkEditText: EditText,
             progressBar: View,
+            saveButton: Button,
             dismiss: Dismiss
         ) {
+            saveButton.isEnabled = true
             progressBar.visibility = View.GONE
         }
     }
@@ -34,12 +38,14 @@ interface CreateLessonState {
             themeEditText: EditText,
             homeworkEditText: EditText,
             progressBar: View,
+            saveButton: Button,
             dismiss: Dismiss
         ) {
             startTimeEditText.editText!!.isEnabled = false
             endTimeEditText.editText!!.isEnabled = false
             themeEditText.isEnabled = false
             homeworkEditText.isEnabled = false
+            saveButton.isEnabled = false
             progressBar.visibility = View.VISIBLE
         }
     }
@@ -51,9 +57,11 @@ interface CreateLessonState {
             themeEditText: EditText,
             homeworkEditText: EditText,
             progressBar: View,
+            saveButton: Button,
             dismiss: Dismiss
         ) {
             startTimeEditText.error = message
+            saveButton.isEnabled = true
             startTimeEditText.isErrorEnabled = true
         }
     }
@@ -65,8 +73,10 @@ interface CreateLessonState {
             themeEditText: EditText,
             homeworkEditText: EditText,
             progressBar: View,
+            saveButton: Button,
             dismiss: Dismiss
         ) {
+            saveButton.isEnabled = true
             endTimeEditText.error = message
             endTimeEditText.isErrorEnabled = true
         }
@@ -79,8 +89,10 @@ interface CreateLessonState {
             themeEditText: EditText,
             homeworkEditText: EditText,
             progressBar: View,
+            saveButton: Button,
             dismiss: Dismiss
         ) {
+            saveButton.isEnabled = true
             dismiss.provideError(message)
         }
     }
@@ -92,8 +104,10 @@ interface CreateLessonState {
             themeEditText: EditText,
             homeworkEditText: EditText,
             progressBar: View,
+            saveButton: Button,
             dismiss: Dismiss
         ) {
+            saveButton.isEnabled = true
             dismiss.dismiss()
         }
     }
