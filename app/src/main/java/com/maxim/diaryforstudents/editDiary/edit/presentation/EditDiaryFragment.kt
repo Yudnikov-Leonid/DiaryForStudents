@@ -28,8 +28,12 @@ class EditDiaryFragment : BaseFragment<FragmentEditDiaryBinding, EditDiaryViewMo
         })
         binding.recyclerView.adapter = adapter
 
+        binding.newLessonButton.setOnClickListener {
+            viewModel.createDialog()
+        }
+
         viewModel.observe(this) {
-            it.show(adapter, binding.progressBar)
+            it.show(adapter, binding.recyclerView, binding.progressBar)
         }
 
         viewModel.init(savedInstanceState == null)

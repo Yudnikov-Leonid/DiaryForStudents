@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.core.presentation
 
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
@@ -18,6 +19,12 @@ interface Screen {
                 .add(containerId, fragmentClass.getDeclaredConstructor().newInstance())
                 .addToBackStack("")
                 .commit()
+        }
+    }
+
+    abstract class Dialog(private val fragmentClass: Class<out DialogFragment>) : Screen {
+        override fun show(fragmentManager: FragmentManager, containerId: Int) {
+            fragmentClass.getDeclaredConstructor().newInstance().show(fragmentManager, "")
         }
     }
 

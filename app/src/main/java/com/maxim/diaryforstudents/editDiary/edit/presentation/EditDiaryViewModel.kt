@@ -9,6 +9,7 @@ import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.editDiary.common.SelectedClassCache
+import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CreateLessonScreen
 import com.maxim.diaryforstudents.editDiary.edit.data.EditDiaryRepository
 
 class EditDiaryViewModel(
@@ -18,14 +19,19 @@ class EditDiaryViewModel(
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<EditDiaryState> {
+) : BaseViewModel(runAsync), Communication.Observe<EditDiaryState>, ReloadAfterDismiss {
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(EditDiaryState.Loading)
+            repository.cacheUpdateAfterDismiss(this)
             handle({ repository.init(selectedClassCache.read()) }) {
                 communication.update(EditDiaryState.Base(it.map { data -> data.mapToUi() }))
             }
         }
+    }
+
+    fun createDialog() {
+        navigation.update(CreateLessonScreen)
     }
 
     fun setGrade(grade: Int?, userId: String, date: Int) {
@@ -40,4 +46,15 @@ class EditDiaryViewModel(
     override fun observe(owner: LifecycleOwner, observer: Observer<EditDiaryState>) {
         communication.observe(owner, observer)
     }
+
+    override fun reload() {
+        communication.update(EditDiaryState.Loading)
+        handle({ repository.init(selectedClassCache.read()) }) {
+            communication.update(EditDiaryState.Base(it.map { data -> data.mapToUi() }))
+        }
+    }
+}
+
+interface ReloadAfterDismiss {
+    fun reload()
 }

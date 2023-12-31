@@ -8,6 +8,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.data.LessonMapper
+import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
+import com.maxim.diaryforstudents.editDiary.edit.presentation.ReloadAfterDismiss
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import kotlin.coroutines.resume
@@ -19,8 +21,11 @@ interface EditDiaryRepository {
 
     fun setGrade(grade: Int?, userId: String, date: Int)
 
+    fun cacheUpdateAfterDismiss(reloadAfterDismiss: ReloadAfterDismiss)
+
     class Base(
         private val database: DatabaseReference,
+        private val cache: CreateLessonCache.Update,
         private val mapper: LessonMapper
     ) : EditDiaryRepository {
         private var lessonName: String = ""
@@ -51,6 +56,9 @@ interface EditDiaryRepository {
                 database.child("lessons").orderByChild("classId").equalTo(classId),
                 Lesson::class.java
             ).map { it.second }.filter { it.name == lessonName }
+
+            cache.cacheName(lessonName)
+            cache.cacheClassId(classId)
 
             val result = mutableListOf<LessonData>()
             val studentsData = mutableListOf<StudentData>(StudentData.Title(mapper.map(lessonName)))
@@ -85,6 +93,10 @@ interface EditDiaryRepository {
                         override fun onCancelled(error: DatabaseError) = Unit //todo
                     })
             }
+        }
+
+        override fun cacheUpdateAfterDismiss(reloadAfterDismiss: ReloadAfterDismiss) {
+            cache.cacheAfterDismiss(reloadAfterDismiss)
         }
 
         private suspend fun grades(
