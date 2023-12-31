@@ -40,6 +40,10 @@ interface GradeUi {
         }
     }
 
+    object FinalTitle: GradeUi {
+        override fun show(textView: TextView) = Unit
+    }
+
     class Date(
         private val date: Int,
         private val startTime: String,

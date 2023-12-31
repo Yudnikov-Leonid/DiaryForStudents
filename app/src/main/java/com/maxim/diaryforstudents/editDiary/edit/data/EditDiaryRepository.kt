@@ -61,6 +61,7 @@ interface EditDiaryRepository {
             val studentsData = mutableListOf<StudentData>(StudentData.Title(mapper.map(lessonName)))
             studentsData.addAll(students.map { StudentData.Base(it.name) })
             result.add(LessonData.Students(studentsData))
+
             lessons.sortedBy { it.date }.forEach { lesson ->
                 val gradesData = mutableListOf<GradeData>(
                     GradeData.Date(
@@ -74,16 +75,39 @@ interface EditDiaryRepository {
                 gradesData.addAll(grades(lesson.date, students, lessonName))
                 result.add(LessonData.Lesson(gradesData))
             }
+
+            val final = mutableListOf<GradeData>(GradeData.FinalTitle)
+            val finalGrades = handleQuery(
+                database.child("final-grades").orderByChild("lesson").equalTo(lessonName),
+                Grade::class.java
+            )
+            students.forEach { student ->
+                val grades =
+                    finalGrades.filter { it.second.userId == student.userId && it.second.date == quarter * 100 }
+                if (grades.isNotEmpty())
+                    final.add(
+                        GradeData.Base(
+                            quarter * 100,
+                            student.userId,
+                            grades.first().second.grade
+                        )
+                    )
+                else
+                    final.add(GradeData.Base(quarter * 100, student.userId, null))
+            }
+            result.add(LessonData.Lesson(final))
             return result
         }
 
         override fun setGrade(grade: Int?, userId: String, date: Int) {
+            val child = if (date in 100..400) "final-grades" else "grades"
             if (grade != null) {
-                val ref = database.child("grades").push()
-                val firebaseGrade = Grade(date, grade, lessonName, quarter, userId)
+                val ref = database.child(child).push()
+                val firebaseGrade =
+                    Grade(date, grade, lessonName, if (date in 100..400) null else quarter, userId)
                 ref.setValue(firebaseGrade)
             } else {
-                database.child("grades").orderByChild("date").equalTo(date.toDouble())
+                database.child(child).orderByChild("date").equalTo(date.toDouble())
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             val list = snapshot.children.mapNotNull {
@@ -92,7 +116,7 @@ interface EditDiaryRepository {
                             val id =
                                 list.filter { it.second.userId == userId && it.second.lesson == lessonName }
                                     .first().first
-                            database.child("grades").child(id).removeValue()
+                            database.child(child).child(id).removeValue()
                         }
 
                         override fun onCancelled(error: DatabaseError) = Unit //todo
@@ -146,7 +170,7 @@ private data class Grade(
     val date: Int = 0,
     val grade: Int? = null,
     val lesson: String = "",
-    val quarter: Int = 0,
+    val quarter: Int? = null,
     val userId: String = ""
 )
 

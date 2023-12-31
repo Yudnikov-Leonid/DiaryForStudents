@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.EditGradeBinding
 import com.maxim.diaryforstudents.databinding.EditGradeDateBinding
+import com.maxim.diaryforstudents.databinding.FinalGradesTitleBinding
 
 class EditGradesAdapter(
     private val listener: Listener
@@ -16,7 +17,7 @@ class EditGradesAdapter(
 
     abstract class ItemViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        abstract fun bind(item: GradeUi)
+        open fun bind(item: GradeUi) {}
     }
 
     class BaseViewHolder(private val binding: EditGradeBinding, private val listener: Listener) :
@@ -44,19 +45,37 @@ class EditGradesAdapter(
         }
     }
 
-    override fun getItemViewType(position: Int) = if (list[position] is GradeUi.Base) 0 else 1
+    class StaticViewHolder(binding: ViewBinding) : ItemViewHolder(binding)
+
+    override fun getItemViewType(position: Int) = when (list[position]) {
+        is GradeUi.Base -> 1
+        is GradeUi.Date -> 2
+        else -> 3
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        if (viewType == 0) BaseViewHolder(
-            EditGradeBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            listener
-        ) else DateViewHolder(
-            EditGradeDateBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ), listener
-        )
+        when (viewType) {
+            1 -> BaseViewHolder(
+                EditGradeBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener
+            )
+
+            2 -> DateViewHolder(
+                EditGradeDateBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ), listener
+            )
+
+            else -> StaticViewHolder(
+                FinalGradesTitleBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+        }
 
     override fun getItemCount() = list.size
 

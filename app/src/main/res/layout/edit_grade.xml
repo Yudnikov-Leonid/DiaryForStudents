@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+<com.maxim.diaryforstudents.editDiary.edit.presentation.NoSelectableEditText xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/editGradeEditText"
     android:layout_width="40dp"
@@ -8,7 +8,7 @@
     android:layout_marginBottom="2dp"
     android:background="@color/white"
     android:gravity="center"
-    android:inputType="numberSigned"
+    android:inputType="number"
     android:maxLength="1"
     android:textSize="25sp"
     tools:text="5" />

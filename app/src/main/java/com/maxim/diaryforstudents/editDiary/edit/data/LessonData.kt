@@ -23,6 +23,10 @@ interface GradeData {
         override fun toUi() = GradeUi.Base(date, userId, grade)
     }
 
+    object FinalTitle : GradeData {
+        override fun toUi() = GradeUi.FinalTitle
+    }
+
     class Date(
         //todo public field
         val date: Int,
