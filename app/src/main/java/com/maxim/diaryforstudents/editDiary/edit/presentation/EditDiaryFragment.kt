@@ -25,15 +25,25 @@ class EditDiaryFragment : BaseFragment<FragmentEditDiaryBinding, EditDiaryViewMo
             override fun setGrade(grade: Int?, userId: String, date: Int) {
                 viewModel.setGrade(grade, userId, date)
             }
+
+            override fun editLesson(
+                date: Int,
+                startTime: String,
+                endTime: String,
+                theme: String,
+                homework: String
+            ) {
+                viewModel.editLesson(date, startTime, endTime, theme, homework)
+            }
         })
         binding.recyclerView.adapter = adapter
 
         binding.newLessonButton.setOnClickListener {
-            viewModel.createDialog()
+            viewModel.newLesson()
         }
 
         viewModel.observe(this) {
-            it.show(adapter, binding.recyclerView, binding.progressBar)
+            it.show(adapter, binding.recyclerView, binding.progressBar, binding.newLessonButton)
         }
 
         viewModel.init(savedInstanceState == null)

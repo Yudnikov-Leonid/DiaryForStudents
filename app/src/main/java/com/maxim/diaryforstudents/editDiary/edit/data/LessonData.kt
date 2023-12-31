@@ -18,23 +18,31 @@ interface LessonData {
 interface GradeData {
     fun toUi(): GradeUi
 
-    class Base(private val date: Int, private val userId: String, private val grade: Int?): GradeData {
+    class Base(private val date: Int, private val userId: String, private val grade: Int?) :
+        GradeData {
         override fun toUi() = GradeUi.Base(date, userId, grade)
     }
 
-    class Date(private val date: Int): GradeData {
-        override fun toUi() = GradeUi.Date(date)
+    class Date(
+        //todo public field
+        val date: Int,
+        private val startTime: String,
+        private val endTime: String,
+        private val theme: String,
+        private val homework: String
+    ) : GradeData {
+        override fun toUi() = GradeUi.Date(date, startTime, endTime, theme, homework)
     }
 }
 
 interface StudentData {
     fun toUi(): StudentUi
 
-    class Base(private val name: String): StudentData {
+    class Base(private val name: String) : StudentData {
         override fun toUi() = StudentUi.Base(name)
     }
 
-    class Title(private val name: String): StudentData {
+    class Title(private val name: String) : StudentData {
         override fun toUi() = StudentUi.Title(name)
     }
 }

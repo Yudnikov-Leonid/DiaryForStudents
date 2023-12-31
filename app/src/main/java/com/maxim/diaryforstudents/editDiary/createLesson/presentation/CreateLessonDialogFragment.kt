@@ -61,6 +61,14 @@ class CreateLessonDialogFragment : DialogFragment() {
                 })
         }
 
+        viewModel.init(
+            savedInstanceState == null,
+            binding.startTimeInputLayout.editText!!,
+            binding.endTimeInputLayout.editText!!,
+            binding.themeInputLayout.editText!!,
+            binding.homeworkInputLayout.editText!!
+        )
+
         return builder.create()
     }
 

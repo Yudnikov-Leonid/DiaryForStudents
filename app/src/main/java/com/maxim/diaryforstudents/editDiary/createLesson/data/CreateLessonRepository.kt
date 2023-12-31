@@ -20,6 +20,16 @@ interface CreateLessonRepository {
         classId: String
     ): CreateResult
 
+    suspend fun update(
+        date: Int,
+        startTime: String,
+        endTime: String,
+        theme: String,
+        homework: String,
+        name: String,
+        classId: String
+    ): CreateResult
+
     class Base(private val database: DatabaseReference) : CreateLessonRepository {
         override suspend fun create(
             startTime: String,
@@ -32,14 +42,38 @@ interface CreateLessonRepository {
             val ref = database.child("lessons").push()
             val date = (System.currentTimeMillis() / 86400000L).toInt()
             val lessonInDatabase =
-                handleQuery(database.child("lessons").orderByChild("date").equalTo(date.toDouble()))
-            if (lessonInDatabase.filter { it.date == date && it.name == name }
+                handleQuery(
+                    database.child("lessons").orderByChild("date").equalTo(date.toDouble())
+                ).map { it.second }
+            if (lessonInDatabase.filter { it.classId == classId && it.name == name }
                     .isNotEmpty()) return CreateResult.Failure("You have already created a lesson today")
 
             val lesson = Lesson(
                 name, classId, date, startTime, endTime, theme, homework, (date - 4) / 7
             )
             handleTask(ref.setValue(lesson))
+            return CreateResult.Success
+        }
+
+        override suspend fun update(
+            date: Int,
+            startTime: String,
+            endTime: String,
+            theme: String,
+            homework: String,
+            name: String,
+            classId: String
+        ): CreateResult {
+            val lessons =
+                handleQuery(database.child("lessons").orderByChild("date").equalTo(date.toDouble()))
+            val lessonId =
+                lessons.first { it.second.classId == classId && it.second.name == name }.first
+            val task = database.child("lessons").child(lessonId).setValue(
+                Lesson(
+                    name, classId, date, startTime, endTime, theme, homework, (date - 4) / 7
+                )
+            )
+            handleTask(task)
             return CreateResult.Success
         }
 
@@ -51,19 +85,20 @@ interface CreateLessonRepository {
             }
         }
 
-        private suspend fun handleQuery(query: Query): List<Lesson> = suspendCoroutine { cont ->
-            query.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val data = snapshot.children.mapNotNull {
-                        it.getValue(Lesson::class.java)!!
+        private suspend fun handleQuery(query: Query): List<Pair<String, Lesson>> =
+            suspendCoroutine { cont ->
+                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val data = snapshot.children.mapNotNull {
+                            Pair(it.key!!, it.getValue(Lesson::class.java)!!)
+                        }
+                        cont.resume(data)
                     }
-                    cont.resume(data)
-                }
 
-                override fun onCancelled(error: DatabaseError) =
-                    cont.resumeWithException(error.toException())
-            })
-        }
+                    override fun onCancelled(error: DatabaseError) =
+                        cont.resumeWithException(error.toException())
+                })
+            }
     }
 }
 

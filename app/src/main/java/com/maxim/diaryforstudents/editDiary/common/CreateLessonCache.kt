@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.editDiary.common
 
+import com.maxim.diaryforstudents.editDiary.edit.data.GradeData
 import com.maxim.diaryforstudents.editDiary.edit.presentation.ReloadAfterDismiss
 
 interface CreateLessonCache {
@@ -7,12 +8,21 @@ interface CreateLessonCache {
         fun cacheName(value: String)
         fun cacheClassId(value: String)
         fun cacheAfterDismiss(value: ReloadAfterDismiss)
+        fun cacheLesson(
+            date: Int,
+            startTime: String,
+            endTime: String,
+            theme: String,
+            homework: String
+        )
+        fun clear()
     }
 
     interface Read {
         fun name(): String
         fun classId(): String
         fun afterDismiss(): ReloadAfterDismiss
+        fun lesson(): GradeData.Date?
     }
 
     interface Mutable : Update, Read
@@ -21,6 +31,7 @@ interface CreateLessonCache {
         private var name: String = ""
         private var classId: String = ""
         private var reloadAfterDismiss: ReloadAfterDismiss? = null
+        private var lesson: GradeData.Date? = null
         override fun cacheName(value: String) {
             name = value
         }
@@ -33,9 +44,26 @@ interface CreateLessonCache {
             reloadAfterDismiss = value
         }
 
+        override fun cacheLesson(
+            date: Int,
+            startTime: String,
+            endTime: String,
+            theme: String,
+            homework: String
+        ) {
+            lesson = GradeData.Date(date, startTime, endTime, theme, homework)
+        }
+
+        override fun clear() {
+            name = ""
+            classId = ""
+            lesson = null
+        }
+
         override fun name() = name
 
         override fun classId() = classId
         override fun afterDismiss() = reloadAfterDismiss!!
+        override fun lesson() = lesson
     }
 }

@@ -8,6 +8,7 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
 import com.maxim.diaryforstudents.editDiary.common.SelectedClassCache
 import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CreateLessonScreen
 import com.maxim.diaryforstudents.editDiary.edit.data.EditDiaryRepository
@@ -16,6 +17,7 @@ class EditDiaryViewModel(
     private val repository: EditDiaryRepository,
     private val communication: EditDiaryCommunication,
     private val selectedClassCache: SelectedClassCache.Read,
+    private val cache: CreateLessonCache.Update,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
@@ -23,14 +25,26 @@ class EditDiaryViewModel(
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(EditDiaryState.Loading)
-            repository.cacheUpdateAfterDismiss(this)
+            cache.cacheAfterDismiss(this)
             handle({ repository.init(selectedClassCache.read()) }) {
                 communication.update(EditDiaryState.Base(it.map { data -> data.mapToUi() }))
             }
         }
     }
 
-    fun createDialog() {
+    fun newLesson() {
+        cache.clear()
+        navigation.update(CreateLessonScreen)
+    }
+
+    fun editLesson(
+        date: Int,
+        startTime: String,
+        endTime: String,
+        theme: String,
+        homework: String
+    ) {
+        cache.cacheLesson(date, startTime, endTime, theme, homework)
         navigation.update(CreateLessonScreen)
     }
 

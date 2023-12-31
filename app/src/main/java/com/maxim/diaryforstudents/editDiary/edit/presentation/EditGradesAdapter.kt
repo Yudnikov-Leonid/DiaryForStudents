@@ -32,9 +32,15 @@ class EditGradesAdapter(
         }
     }
 
-    class DateViewHolder(private val binding: EditGradeDateBinding) : ItemViewHolder(binding) {
+    class DateViewHolder(
+        private val binding: EditGradeDateBinding,
+        private val listener: Listener
+    ) : ItemViewHolder(binding) {
         override fun bind(item: GradeUi) {
             item.show(binding.lessonDateTextView)
+            itemView.setOnClickListener {
+                item.editLesson(listener)
+            }
         }
     }
 
@@ -49,7 +55,7 @@ class EditGradesAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), listener
         )
 
     override fun getItemCount() = list.size
@@ -68,6 +74,13 @@ class EditGradesAdapter(
 
     interface Listener {
         fun setGrade(grade: Int?, userId: String, date: Int)
+        fun editLesson(
+            date: Int,
+            startTime: String,
+            endTime: String,
+            theme: String,
+            homework: String
+        )
     }
 }
 

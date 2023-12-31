@@ -7,11 +7,13 @@ import com.maxim.diaryforstudents.editDiary.edit.data.EditDiaryRepository
 import com.maxim.diaryforstudents.editDiary.edit.presentation.EditDiaryCommunication
 import com.maxim.diaryforstudents.editDiary.edit.presentation.EditDiaryViewModel
 
-class EditDiaryModule(private val core: Core, private val clear: ClearViewModel): Module<EditDiaryViewModel> {
+class EditDiaryModule(private val core: Core, private val clear: ClearViewModel) :
+    Module<EditDiaryViewModel> {
     override fun viewModel() = EditDiaryViewModel(
         EditDiaryRepository.Base(core.dataBase(), core.createLessonCache(), core.lessonsMapper()),
         EditDiaryCommunication.Base(),
         core.selectedClassCache(),
+        core.createLessonCache(),
         core.navigation(),
         clear
     )

@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.editDiary.createLesson.presentation
 
+import android.widget.EditText
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
@@ -17,9 +18,22 @@ class CreateLessonViewModel(
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<CreateLessonState> {
-
-    init {
-        communication.update(CreateLessonState.Initial)
+    //todo refactor init
+    private var cachedDate = 0
+    fun init(
+        isFirstRun: Boolean,
+        startTime: EditText,
+        endTime: EditText,
+        theme: EditText,
+        homework: EditText
+    ) {
+        if (isFirstRun) {
+            communication.update(CreateLessonState.Initial)
+            if (cache.lesson() != null) {
+                cache.lesson()!!.toUi().showLesson(startTime, endTime, theme, homework)
+                cachedDate = cache.lesson()!!.date
+            }
+        }
     }
 
     fun clear() {
@@ -36,8 +50,17 @@ class CreateLessonViewModel(
             try {
                 validator.isValid(endTime)
                 communication.update(CreateLessonState.Loading)
+
                 handle({
-                    repository.create(
+                    if (cache.lesson() == null) repository.create(
+                        startTime,
+                        endTime,
+                        theme,
+                        homework,
+                        cache.name(),
+                        cache.classId()
+                    ) else repository.update(
+                        cachedDate,
                         startTime,
                         endTime,
                         theme,
