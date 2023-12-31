@@ -19,8 +19,9 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Actual"
-            android:textSize="11sp" />
+            android:text="@string/actual"
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/finalGradesButton"
@@ -29,8 +30,9 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Final"
-            android:textSize="11sp" />
+            android:text="@string/final_grades"
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -47,8 +49,9 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="First quarter"
-            android:textSize="11sp" />
+            android:text="@string/first_quarter"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/secondQuarterButton"
@@ -57,8 +60,9 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Second quarter"
-            android:textSize="11sp" />
+            android:text="@string/second_quarter"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/thirdQuarterButton"
@@ -67,8 +71,9 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Third quarter"
-            android:textSize="11sp" />
+            android:text="@string/third_quarter"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/fourthQuarterButton"
@@ -77,8 +82,9 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:backgroundTint="@color/disable_button"
-            android:text="Fourth quarter"
-            android:textSize="11sp" />
+            android:text="@string/fourth_quarter"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -105,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="Search"
+        android:hint="@string/search"
         android:inputType="textCapSentences"
         android:maxLength="30"
         android:maxLines="1" />

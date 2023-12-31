@@ -5,4 +5,4 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:padding="8dp"
-    android:text="No classes. Perhaps your director has not created them yet." />
+    android:text="@string/classes_no_data" />

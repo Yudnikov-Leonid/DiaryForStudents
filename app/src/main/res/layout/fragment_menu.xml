@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Diary"
+                android:text="@string/diary"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Diary for teacher"
+                android:text="@string/diary_for_teacher"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Performance"
+                android:text="@string/performance"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
 
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Profile"
+                android:text="@string/profile"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
 
@@ -143,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="News"
+                android:text="@string/news"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
 

@@ -33,7 +33,7 @@
             android:id="@+id/averageTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Average: "
+            android:text="@string/average"
             android:textSize="20sp" />
 
         <TextView

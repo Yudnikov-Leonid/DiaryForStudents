@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Lesson"
+            android:text="@string/lesson"
             android:textColor="@color/blue"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="Theme"
+        android:text="@string/theme"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="Homework"
+        android:text="@string/homework"
         android:textSize="16sp"
         android:textStyle="bold" />
 

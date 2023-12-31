@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Diary for students</string>
-    <string name="client_web_id">"575101660631-snd45ng04apnq52vv7r4t8hk3of8rd11.apps.googleusercontent.com"</string>
-    <string name="email">Email:\n</string>
-    <string name="name">Name:\n</string>
+    <string name="client_web_id" translatable="false">"575101660631-snd45ng04apnq52vv7r4t8hk3of8rd11.apps.googleusercontent.com"</string>
     <string name="student_of">Student of the class: %s</string>
     <string name="teacher_of">Teacher of %s</string>
 
@@ -23,4 +21,31 @@
     <string name="pe">PE</string>
     <string name="chemistry">Chemistry</string>
     <string name="unknown_lesson">Unknown lesson</string>
+
+
+    <string name="classes_no_data">No classes. Perhaps your director has not created them yet.</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="theme">Theme</string>
+    <string name="homework">Homework</string>
+    <string name="save">Save</string>
+    <string name="empty_news">No news</string>
+    <string name="retry">Retry</string>
+    <string name="final_grades">Final</string>
+    <string name="welcome">Welcome to diary!</string>
+    <string name="diary">Diary</string>
+    <string name="diary_for_teacher">Diary for teacher</string>
+    <string name="performance">Performance</string>
+    <string name="profile">Profile</string>
+    <string name="news">News</string>
+    <string name="actual">Actual</string>
+    <string name="first_quarter" translatable="false">I</string>
+    <string name="second_quarter" translatable="false">II</string>
+    <string name="third_quarter" translatable="false">III</string>
+    <string name="fourth_quarter" translatable="false">IV</string>
+    <string name="search">Search</string>
+    <string name="sign_out">Sign out</string>
+    <string name="lesson">Lesson</string>
+    <string name="average">Average:</string>
+    <string name="no_data">No data</string>
 </resources>

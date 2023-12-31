@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Дневник</string>
+    <string name="student_of">Ученик класса: %s</string>
+    <string name="teacher_of">Учитель по предемету %s</string>
+
+    <!-- lessons -->
+    <string name="algebra">Алгебра</string>
+    <string name="biology">Биология</string>
+    <string name="history">История</string>
+    <string name="french">Французский язык</string>
+    <string name="geography">География</string>
+    <string name="english_language">Английский язык</string>
+    <string name="informatics">Информатика</string>
+    <string name="literature">Литература</string>
+    <string name="music">Музыка</string>
+    <string name="social_science">Обществознание</string>
+    <string name="russian_language">Русский язык</string>
+    <string name="technology">Технология</string>
+    <string name="physics">Физика</string>
+    <string name="pe">Физкультура</string>
+    <string name="chemistry">Химия</string>
+    <string name="unknown_lesson">Неизвестный предмет</string>
+
+
+    <string name="classes_no_data">Нет классов. Возможно ваш директор ещё не создал их.</string>
+    <string name="start_time">Время начала</string>
+    <string name="end_time">Время конца</string>
+    <string name="theme">Тема</string>
+    <string name="homework">Домашнее задание</string>
+    <string name="save">Сохранить</string>
+    <string name="empty_news">Нет новостей</string>
+    <string name="retry">Ещё раз</string>
+    <string name="final_grades">Итоговые</string>
+    <string name="welcome">Добро пожаловать в дневник!</string>
+    <string name="diary">Дневник</string>
+    <string name="diary_for_teacher">Дневник для учителей</string>
+    <string name="performance">Успеваемсоть</string>
+    <string name="profile">Профиль</string>
+    <string name="news">Новости</string>
+    <string name="actual">Текущие</string>
+    <string name="search">Поиск</string>
+    <string name="sign_out">Выйти</string>
+    <string name="lesson">Урок</string>
+    <string name="average">Средний балл:</string>
+    <string name="no_data">Нет данных</string>
+</resources>

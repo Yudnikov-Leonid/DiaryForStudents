@@ -6,6 +6,6 @@
     android:layout_marginBottom="2dp"
     android:background="@color/white"
     android:gravity="center"
-    android:text="Final"
+    android:text="@string/final_grades"
     android:textSize="14sp"
     android:textStyle="bold" />
