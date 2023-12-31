@@ -17,8 +17,7 @@ class CreateLessonDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogNewLessonBinding.inflate(LayoutInflater.from(context))
-        val builder = AlertDialog.Builder(requireActivity())
-            .setView(binding.root)
+        val builder = AlertDialog.Builder(requireActivity()).setView(binding.root)
 
         viewModel =
             (requireActivity() as ProvideViewModel).viewModel(CreateLessonViewModel::class.java)
