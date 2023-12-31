@@ -53,7 +53,7 @@ interface GradeUi {
     ) :
         GradeUi {
         override fun show(textView: TextView) {
-            val formatter = SimpleDateFormat("dd.MM") //todo formatter
+            val formatter = SimpleDateFormat("dd.MM")
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = date * 86400000L
             textView.text = formatter.format(calendar.time)

@@ -2,7 +2,6 @@ package com.maxim.diaryforstudents.diary.data
 
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.diary.presentation.DayUi
-import java.text.SimpleDateFormat
 import java.util.Calendar
 
 interface DiaryRepository {
@@ -25,17 +24,17 @@ interface DiaryRepository {
 
         override fun actualDate() = (System.currentTimeMillis() / 86400000).toInt()
         override fun dayList(today: Int): List<DayUi> {
-            val formatter = SimpleDateFormat("E")
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = today * 86400000L
-            val dayOfTheWeek = when (formatter.format(calendar.time)) {
-                "Mon" -> 1
-                "Tue" -> 2
-                "Wed" -> 3
-                "Thu" -> 4
-                "Fri" -> 5
-                "Sat" -> 6
-                else -> 7
+            val dayOfTheWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
+                Calendar.MONDAY -> 1
+                Calendar.TUESDAY -> 2
+                Calendar.WEDNESDAY -> 3
+                Calendar.THURSDAY -> 4
+                Calendar.FRIDAY -> 5
+                Calendar.SATURDAY -> 6
+                Calendar.SUNDAY -> 7
+                else -> 0
             }
             return listOf(
                 DayUi(today - dayOfTheWeek + 1, dayOfTheWeek == 1),

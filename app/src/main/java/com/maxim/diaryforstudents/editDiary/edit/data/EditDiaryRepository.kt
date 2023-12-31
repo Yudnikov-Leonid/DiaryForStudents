@@ -9,7 +9,6 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.data.LessonMapper
 import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -31,10 +30,7 @@ interface EditDiaryRepository {
             // get students by classId, then get lessons by classId and lessonName,
             // and get grades of every student by lesson's date, userId, and lessonName
 
-            val formatter = SimpleDateFormat("DDD") //todo formatter
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = System.currentTimeMillis()
-            quarter = when (formatter.format(calendar.time).toInt()) {
+            quarter = when (Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
                 in 0..91 -> 3
                 in 92..242 -> 4
                 in 243..305 -> 1
