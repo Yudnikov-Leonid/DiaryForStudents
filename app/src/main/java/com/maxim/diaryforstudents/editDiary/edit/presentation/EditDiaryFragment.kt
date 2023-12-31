@@ -21,7 +21,11 @@ class EditDiaryFragment : BaseFragment<FragmentEditDiaryBinding, EditDiaryViewMo
         }
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = StudentsAdapter()
+        val adapter = StudentsAdapter(object : EditGradesAdapter.Listener {
+            override fun setGrade(grade: Int?, userId: String, date: Int) {
+                viewModel.setGrade(grade, userId, date)
+            }
+        })
         binding.recyclerView.adapter = adapter
 
         viewModel.observe(this) {

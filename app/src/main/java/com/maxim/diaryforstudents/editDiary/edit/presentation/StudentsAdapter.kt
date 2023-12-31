@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.maxim.diaryforstudents.databinding.EditStudentRecyclerBinding
 
-class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.ItemViewHolder>() {
+class StudentsAdapter(
+    private val listener: EditGradesAdapter.Listener
+) : RecyclerView.Adapter<StudentsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<LessonUi>()
 
     abstract class ItemViewHolder(binding: EditStudentRecyclerBinding) :
@@ -23,10 +25,10 @@ class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.ItemViewHolder>() {
         }
     }
 
-    class GradesViewHolder(private val binding: EditStudentRecyclerBinding) :
+    class GradesViewHolder(private val binding: EditStudentRecyclerBinding, private val listener: EditGradesAdapter.Listener) :
         ItemViewHolder(binding) {
         override fun bind(item: LessonUi) {
-            val adapter = EditGradesAdapter()
+            val adapter = EditGradesAdapter(listener)
             binding.recyclerView.adapter = adapter
             item.showLessonsAndGrades(adapter)
         }
@@ -37,7 +39,7 @@ class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding = EditStudentRecyclerBinding.inflate(LayoutInflater.from(parent.context),
             parent, false)
-        return if (viewType == 0) NamesViewHolder(binding) else GradesViewHolder(binding)
+        return if (viewType == 0) NamesViewHolder(binding) else GradesViewHolder(binding, listener)
     }
 
     override fun getItemCount() = list.size

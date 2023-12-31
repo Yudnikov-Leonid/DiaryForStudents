@@ -2,13 +2,16 @@ package com.maxim.diaryforstudents.editDiary.edit.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.EditGradeBinding
 import com.maxim.diaryforstudents.databinding.EditGradeDateBinding
 
-class EditGradesAdapter : RecyclerView.Adapter<EditGradesAdapter.ItemViewHolder>() {
+class EditGradesAdapter(
+    private val listener: Listener
+) : RecyclerView.Adapter<EditGradesAdapter.ItemViewHolder>() {
     private val list = mutableListOf<GradeUi>()
 
     abstract class ItemViewHolder(binding: ViewBinding) :
@@ -16,9 +19,16 @@ class EditGradesAdapter : RecyclerView.Adapter<EditGradesAdapter.ItemViewHolder>
         abstract fun bind(item: GradeUi)
     }
 
-    class BaseViewHolder(private val binding: EditGradeBinding) : ItemViewHolder(binding) {
+    class BaseViewHolder(private val binding: EditGradeBinding, private val listener: Listener) :
+        ItemViewHolder(binding) {
         override fun bind(item: GradeUi) {
             item.show(binding.editGradeEditText)
+            binding.editGradeEditText.addTextChangedListener {
+                val grade = if (binding.editGradeEditText.text.toString()
+                        .isEmpty()
+                ) null else binding.editGradeEditText.text.toString().toInt()
+                item.setGrade(listener, grade)
+            }
         }
     }
 
@@ -32,7 +42,8 @@ class EditGradesAdapter : RecyclerView.Adapter<EditGradesAdapter.ItemViewHolder>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         if (viewType == 0) BaseViewHolder(
-            EditGradeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            EditGradeBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener
         ) else DateViewHolder(
             EditGradeDateBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -53,6 +64,10 @@ class EditGradesAdapter : RecyclerView.Adapter<EditGradesAdapter.ItemViewHolder>
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
+    }
+
+    interface Listener {
+        fun setGrade(grade: Int?, userId: String, date: Int)
     }
 }
 

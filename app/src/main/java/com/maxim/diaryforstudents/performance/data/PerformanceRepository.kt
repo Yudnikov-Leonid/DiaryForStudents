@@ -1,6 +1,8 @@
 package com.maxim.diaryforstudents.performance.data
 
 import com.maxim.diaryforstudents.core.presentation.Reload
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 interface PerformanceRepository {
     fun changeQuarter(new: Int)
@@ -28,10 +30,12 @@ interface PerformanceRepository {
         override fun actualQuarter() = quarter
 
         override fun init(reload: Reload) {
-            val leapYears = ((System.currentTimeMillis() / 86400000) / 365 / 4).toInt()
-            var day = (System.currentTimeMillis() / 86400000) % 365 - leapYears
-            if (day < 0) day += 365
-            quarter = when (day) {
+            val formatter = SimpleDateFormat("DDD") //todo formatter
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = System.currentTimeMillis()
+            val dayInYear = formatter.format(calendar.time).toInt()
+
+            quarter = when (dayInYear) {
                 in 0..91 -> 3
                 in 92..242 -> 4
                 in 243..305 -> 1

@@ -18,8 +18,8 @@ interface LessonData {
 interface GradeData {
     fun toUi(): GradeUi
 
-    class Base(private val grade: Int?): GradeData {
-        override fun toUi() = GradeUi.Base(grade)
+    class Base(private val date: Int, private val userId: String, private val grade: Int?): GradeData {
+        override fun toUi() = GradeUi.Base(date, userId, grade)
     }
 
     class Date(private val date: Int): GradeData {

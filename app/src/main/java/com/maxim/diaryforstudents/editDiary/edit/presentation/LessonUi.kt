@@ -23,9 +23,15 @@ interface LessonUi {
 interface GradeUi {
     fun show(textView: TextView)
 
-    class Base(private val grade: Int?): GradeUi {
+    fun setGrade(listener: EditGradesAdapter.Listener, grade: Int?)
+
+    class Base(private val date: Int, private val userId: String, private val grade: Int?): GradeUi {
         override fun show(textView: TextView) {
             grade?.let { textView.text = it.toString() }
+        }
+
+        override fun setGrade(listener: EditGradesAdapter.Listener, grade: Int?) {
+            listener.setGrade(grade, userId, date)
         }
     }
 
@@ -35,6 +41,10 @@ interface GradeUi {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = date * 86400000L
             textView.text = formatter.format(calendar.time)
+        }
+
+        override fun setGrade(listener: EditGradesAdapter.Listener, grade: Int?) {
+            TODO("Not yet implemented")
         }
     }
 }
