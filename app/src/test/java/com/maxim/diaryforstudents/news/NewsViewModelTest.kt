@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.news
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
@@ -15,7 +16,6 @@ import com.maxim.diaryforstudents.news.presentation.NewsCommunication
 import com.maxim.diaryforstudents.news.presentation.NewsState
 import com.maxim.diaryforstudents.news.presentation.NewsUi
 import com.maxim.diaryforstudents.news.presentation.NewsViewModel
-import com.maxim.diaryforstudents.news.presentation.Reload
 import com.maxim.diaryforstudents.openNews.OpenNewsData
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 import junit.framework.TestCase.assertEquals
@@ -69,7 +69,8 @@ class NewsViewModelTest {
             NewsState.Base(
                 listOf(
                     NewsUi.Base("Title", "Content", 0, ""),
-                NewsUi.Base("Title1", "Content1", 0, ""))
+                    NewsUi.Base("Title1", "Content1", 0, "")
+                )
             )
         )
     }
@@ -99,7 +100,7 @@ class NewsViewModelTest {
     }
 }
 
-private class FakeOpenNewsData(private val order: Order): OpenNewsData.Save {
+private class FakeOpenNewsData(private val order: Order) : OpenNewsData.Save {
     private lateinit var value: NewsUi
     fun checkCalledWith(expected: NewsUi) {
         assertEquals(expected, value)
@@ -130,7 +131,7 @@ private class FakeNewsCommunication : NewsCommunication.Mutable {
     }
 }
 
-private class FakeNewsRepository(): NewsRepository {
+private class FakeNewsRepository() : NewsRepository {
     private var counter = 0
     private lateinit var reload: Reload
     private val data = mutableListOf<NewsData>()

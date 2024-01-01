@@ -56,8 +56,8 @@ class DiaryViewModel(
     override fun reload() {
         communication.update(
             DiaryState.Base(
-                repository.data(actualDay).toUi(),
-                repository.dayList(actualDay)
+                repository.date(actualDay).toUi(),
+                repository.dayList(actualDay).map { it.toUi() }
             )
         )
     }

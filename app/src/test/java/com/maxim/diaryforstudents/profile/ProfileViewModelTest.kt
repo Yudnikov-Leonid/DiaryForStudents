@@ -12,11 +12,11 @@ import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.REPOSITORY
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
+import com.maxim.diaryforstudents.profile.data.GradeResult
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
 import com.maxim.diaryforstudents.profile.presentation.ProfileCommunication
 import com.maxim.diaryforstudents.profile.presentation.ProfileState
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
-import com.maxim.diaryforstudents.profile.presentation.ShowProfileCallback
 import junit.framework.TestCase
 import org.junit.Before
 import org.junit.Test
@@ -43,13 +43,15 @@ class ProfileViewModelTest {
 
     @Test
     fun test_init() {
-        repository.mustReturn("email@gmail.com", "name", "10")
+        repository.mustReturn("email@gmail.com", "name", GradeResult.Student("10"))
         viewModel.init()
+        commnication.checkCalledTimes(1)
+        runAsync.returnResult()
         commnication.checkCalledTimes(2)
         commnication.checkCalledWith(
             listOf(
                 ProfileState.Loading,
-                ProfileState.Base("name", "10", "email@gmail.com")
+                ProfileState.Base("name", GradeResult.Student("10"), "email@gmail.com")
             )
         )
     }
@@ -72,9 +74,9 @@ class ProfileViewModelTest {
 }
 
 private class FakeProfileRepository(private val order: Order) : ProfileRepository {
-    private var data = Triple("", "", "")
+    private var data = Triple<String, GradeResult, String>("",  GradeResult.Empty, "")
     private var counter = 0
-    fun mustReturn(email: String, name: String, grade: String) {
+    fun mustReturn(email: String, name: String, grade: GradeResult) {
         data = Triple(name, grade, email)
     }
 
@@ -83,9 +85,7 @@ private class FakeProfileRepository(private val order: Order) : ProfileRepositor
         counter++
     }
 
-    override suspend fun data(callback: ShowProfileCallback) {
-        callback.show(data.first, data.second, data.third)
-    }
+    override suspend fun data(): Triple<String, GradeResult, String> = data
 }
 
 private class FakeProfileCommunication(private val order: Order) : ProfileCommunication.Mutable {

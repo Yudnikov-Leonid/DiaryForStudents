@@ -1,21 +1,20 @@
 package com.maxim.diaryforstudents.diary.data
 
 import com.maxim.diaryforstudents.core.presentation.Reload
-import com.maxim.diaryforstudents.diary.presentation.DayUi
 import java.util.Calendar
 
 interface DiaryRepository {
     suspend fun init(reload: Reload, week: Int)
-    fun data(date: Int): DiaryData.Day
+    fun date(date: Int): DiaryData.Day
     fun actualDate(): Int
-    fun dayList(today: Int): List<DayUi>
+    fun dayList(today: Int): List<DayData>
 
     class Base(private val cloudDataSource: DiaryCloudDataSource) : DiaryRepository {
         override suspend fun init(reload: Reload, week: Int) {
             cloudDataSource.init(reload, week)
         }
 
-        override fun data(date: Int): DiaryData.Day {
+        override fun date(date: Int): DiaryData.Day {
             val list = cloudDataSource.data()
             return DiaryData.Day(
                 date,
@@ -23,7 +22,7 @@ interface DiaryRepository {
         }
 
         override fun actualDate() = (System.currentTimeMillis() / 86400000).toInt()
-        override fun dayList(today: Int): List<DayUi> {
+        override fun dayList(today: Int): List<DayData> {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = today * 86400000L
             val dayOfTheWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
@@ -37,13 +36,13 @@ interface DiaryRepository {
                 else -> 0
             }
             return listOf(
-                DayUi(today - dayOfTheWeek + 1, dayOfTheWeek == 1),
-                DayUi(today - dayOfTheWeek + 2, dayOfTheWeek == 2),
-                DayUi(today - dayOfTheWeek + 3, dayOfTheWeek == 3),
-                DayUi(today - dayOfTheWeek + 4, dayOfTheWeek == 4),
-                DayUi(today - dayOfTheWeek + 5, dayOfTheWeek == 5),
-                DayUi(today - dayOfTheWeek + 6, dayOfTheWeek == 6),
-                DayUi(today - dayOfTheWeek + 7, dayOfTheWeek == 7),
+                DayData(today - dayOfTheWeek + 1, dayOfTheWeek == 1),
+                DayData(today - dayOfTheWeek + 2, dayOfTheWeek == 2),
+                DayData(today - dayOfTheWeek + 3, dayOfTheWeek == 3),
+                DayData(today - dayOfTheWeek + 4, dayOfTheWeek == 4),
+                DayData(today - dayOfTheWeek + 5, dayOfTheWeek == 5),
+                DayData(today - dayOfTheWeek + 6, dayOfTheWeek == 6),
+                DayData(today - dayOfTheWeek + 7, dayOfTheWeek == 7),
             )
         }
     }

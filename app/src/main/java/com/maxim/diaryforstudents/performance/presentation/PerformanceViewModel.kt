@@ -49,10 +49,6 @@ class PerformanceViewModel(
         )
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
-        communication.observe(owner, observer)
-    }
-
     override fun reload() {
         communication.update(
             PerformanceState.Base(
@@ -70,6 +66,10 @@ class PerformanceViewModel(
 
     override fun error(message: String) {
         communication.update(PerformanceState.Error(message))
+    }
+
+    override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
+        communication.observe(owner, observer)
     }
 
     companion object {
