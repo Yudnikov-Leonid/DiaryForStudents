@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.presentation
 
+import android.content.res.Configuration
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -87,11 +88,18 @@ interface PerformanceState {
             progressBar: ProgressBar,
             searchEditText: TextInputEditText
         ) {
+            val isNight =
+                quarterLayout.context.resources.configuration.uiMode and
+                        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
             val enableColor = ContextCompat.getColor(quarterLayout.context, R.color.blue)
-            val disableColor = ContextCompat.getColor(quarterLayout.context, R.color.disable_button)
+            val disableColor = ContextCompat.getColor(
+                quarterLayout.context,
+                if (isNight) R.color.night_disable_button else R.color.disable_button
+            )
             listOf(first, second, third, fourth).forEachIndexed { i, b ->
                 b.setBackgroundColor(if (quarter == i + 1) enableColor else disableColor)
             }
+
             adapter.update(lessons as List<PerformanceUi.Lesson>)
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE

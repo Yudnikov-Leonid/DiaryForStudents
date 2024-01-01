@@ -2,12 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#E8E8E8</color>
     <color name="red">#FF0000</color>
-    <color name="blue">#2865d0</color>
-    <color name="disable_button">#8FB0EA</color>
+    <color name="blue">#286ED0</color>
+    <color name="night_blue">#1D4998</color>
+    <color name="disable_button">#8FA6EA</color>
+    <color name="night_disable_button">#072254</color>
     <color name="back_blue">#e1effa</color>
+    <color name="night_back_blue">#4265A6</color>
     <color name="background">#F9F9F9</color>
-    <color name="selected_button">#03A9F4</color>
+    <color name="night_background">#151515</color>
+    <color name="light_night_background">#1E1E1E</color>
+    <color name="selected_button">#03B4F4</color>
+    <color name="night_selected_button">#0048A0</color>
 
     <color name="light_green">#4FFF91</color>
     <color name="green">#1EB757</color>

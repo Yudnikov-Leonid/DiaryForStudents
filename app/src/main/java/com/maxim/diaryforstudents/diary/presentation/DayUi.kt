@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.diary.presentation
 
+import android.content.res.Configuration
 import android.view.View
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
@@ -15,8 +16,15 @@ data class DayUi(
     }
 
     fun setSelectedColor(view: View) {
+        val isNight =
+            view.context.resources.configuration.uiMode and
+                    Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
         val color =
-            view.context.getColor(if (isSelected) R.color.selected_button else R.color.white)
+            view.context.getColor(
+                if (isSelected && isNight) R.color.night_selected_button
+                else if (isSelected) R.color.selected_button
+                else if (isNight) R.color.light_night_background
+                else R.color.white)
         view.setBackgroundColor(color)
     }
 

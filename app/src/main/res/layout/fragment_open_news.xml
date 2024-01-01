@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical"
-    android:padding="5dp"
-    android:focusable="true">
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/titleTextView"
-        style="@style/TextAppearance.AppCompat.Title"
+        style="@style/MenuText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue"
         android:textSize="27sp"
         tools:text="Some title text" />
 
     <ImageView
         android:id="@+id/newsImage"
+        style="@style/LightBackground"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#F8F8F8" />
+        android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/dateTextView"

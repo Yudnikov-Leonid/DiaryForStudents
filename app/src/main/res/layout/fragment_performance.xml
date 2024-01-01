@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,22 +14,22 @@
 
         <Button
             android:id="@+id/actualGradesButton"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
             android:text="@string/actual"
             android:textSize="11sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/finalGradesButton"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
             android:text="@string/final_grades"
             android:textSize="11sp"
             android:textStyle="bold" />
@@ -44,44 +44,44 @@
 
         <Button
             android:id="@+id/firstQuarterButton"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
             android:text="@string/first_quarter"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/secondQuarterButton"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
             android:text="@string/second_quarter"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/thirdQuarterButton"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
             android:text="@string/third_quarter"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/fourthQuarterButton"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
             android:text="@string/fourth_quarter"
             android:textSize="14sp"
             android:textStyle="bold" />

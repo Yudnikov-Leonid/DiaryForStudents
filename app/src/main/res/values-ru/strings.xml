@@ -42,7 +42,7 @@
     <string name="search">Поиск</string>
     <string name="sign_out">Выйти</string>
     <string name="lesson">Урок</string>
-    <string name="average">Средний балл:</string>
+    <string name="average">Средний балл: </string>
     <string name="no_data">Нет данных</string>
     <string name="you_have_created_lesson">На сегодня урок уже создан</string>
 </resources>
