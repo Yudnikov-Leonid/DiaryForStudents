@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.editDiary.edit.data
 
+import android.icu.util.Calendar
 import com.maxim.diaryforstudents.core.service.CloudFinalGrade
 import com.maxim.diaryforstudents.core.service.CloudGrade
 import com.maxim.diaryforstudents.core.service.CloudLesson
@@ -38,9 +39,20 @@ interface EditDiaryCloudDataSource {
         override suspend fun lessonName() =
             service.getOrderByKey("users", myUser.id(), CloudUser::class.java).first().second.lesson
 
-        override suspend fun lessons(classId: String, lessonName: String) =
-            service.getOrderByChild("lessons", "classId", classId, CloudLesson::class.java)
-                .map { it.second }.filter { it.name == lessonName }
+        override suspend fun lessons(classId: String, lessonName: String): List<CloudLesson> {
+            val calendar = Calendar.getInstance()
+            val quarter = when (calendar.get(Calendar.DAY_OF_YEAR)) {
+                in 0..91 -> 0..91
+                in 92..242 -> 92..242
+                in 243..305 -> 243..305
+                else -> 306..366
+            }
+            return service.getOrderByChild("lessons", "classId", classId, CloudLesson::class.java)
+                .map { it.second }.filter {
+                    calendar.timeInMillis = it.date * 86400000L
+                    it.name == lessonName && calendar.get(Calendar.DAY_OF_YEAR) in quarter
+                }
+        }
 
         override suspend fun finalGrades(lessonName: String) =
             service.getOrderByChild(
