@@ -6,5 +6,5 @@ interface LoginCommunication {
     interface Update : Communication.Update<LoginState>
     interface Observe : Communication.Observe<LoginState>
     interface Mutable : Update, Observe
-    class Base : Communication.Abstract<LoginState>(), Mutable
+    class Base : Communication.Regular<LoginState>(), Mutable
 }

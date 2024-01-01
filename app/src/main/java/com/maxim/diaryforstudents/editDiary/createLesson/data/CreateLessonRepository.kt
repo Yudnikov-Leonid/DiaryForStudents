@@ -6,6 +6,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
+import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.sl.ManageResource
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -17,7 +19,8 @@ interface CreateLessonRepository {
         theme: String,
         homework: String,
         name: String,
-        classId: String
+        classId: String,
+        resource: ManageResource
     ): CreateResult
 
     suspend fun update(
@@ -37,7 +40,8 @@ interface CreateLessonRepository {
             theme: String,
             homework: String,
             name: String,
-            classId: String
+            classId: String,
+            resource: ManageResource
         ): CreateResult {
             val ref = database.child("lessons").push()
             val date = (System.currentTimeMillis() / 86400000L).toInt()
@@ -46,7 +50,7 @@ interface CreateLessonRepository {
                     database.child("lessons").orderByChild("date").equalTo(date.toDouble())
                 ).map { it.second }
             if (lessonInDatabase.filter { it.classId == classId && it.name == name }
-                    .isNotEmpty()) return CreateResult.Failure("You have already created a lesson today")
+                    .isNotEmpty()) return CreateResult.Failure(resource.string(R.string.you_have_created_lesson))
 
             val lesson = Lesson(
                 name, classId, date, startTime, endTime, theme, homework, (date - 4) / 7

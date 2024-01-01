@@ -15,7 +15,7 @@ interface Communication {
 
     interface Mutable<T> : Update<T>, Observe<T>
     abstract class Abstract<T>(
-        private val liveData: MutableLiveData<T> = MutableLiveData()
+        protected val liveData: MutableLiveData<T>
     ) : Mutable<T> {
         override fun update(value: T) {
             liveData.value = value
@@ -25,4 +25,7 @@ interface Communication {
             liveData.observe(owner, observer)
         }
     }
+
+    abstract class Regular<T>: Abstract<T>(MutableLiveData())
+    abstract class Single<T>: Abstract<T>(SingleLiveEvent())
 }

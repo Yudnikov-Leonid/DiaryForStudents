@@ -15,6 +15,7 @@ class CreateLessonModule(private val core: Core, private val clear: ClearViewMod
         CreateLessonCommunication.Base(),
         core.createLessonCache(),
         UiValidator.Empty(),
-        clear
+        clear,
+        core
     )
 }

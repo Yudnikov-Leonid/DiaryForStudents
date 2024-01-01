@@ -22,6 +22,14 @@ class CreateLessonDialogFragment : DialogFragment() {
         viewModel =
             (requireActivity() as ProvideViewModel).viewModel(CreateLessonViewModel::class.java)
 
+        savedInstanceState?.let {
+            binding.startTimeInputLayout.editText!!.setText(savedInstanceState.getString(START_TIME)!!)
+            binding.endTimeInputLayout.editText!!.setText(savedInstanceState.getString(END_TIME)!!)
+            binding.themeInputLayout.editText!!.setText(savedInstanceState.getString(THEME)!!)
+            binding.homeworkInputLayout.editText!!.setText(savedInstanceState.getString(HOMEWORK)!!)
+        }
+
+
         binding.startTimeInputLayout.editText!!.addTextChangedListener {
             binding.startTimeInputLayout.error = ""
             binding.startTimeInputLayout.isErrorEnabled = false
@@ -72,9 +80,24 @@ class CreateLessonDialogFragment : DialogFragment() {
         return builder.create()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(START_TIME, binding.startTimeInputLayout.editText!!.text.toString())
+        outState.putString(END_TIME, binding.endTimeInputLayout.editText!!.text.toString())
+        outState.putString(THEME, binding.themeInputLayout.editText!!.text.toString())
+        outState.putString(HOMEWORK, binding.homeworkInputLayout.editText!!.text.toString())
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         viewModel.clear()
+    }
+
+    companion object {
+        private const val START_TIME = "START_TIME"
+        private const val END_TIME = "END_TIME"
+        private const val THEME = "THEME"
+        private const val HOMEWORK = "HOMEWORK"
     }
 }

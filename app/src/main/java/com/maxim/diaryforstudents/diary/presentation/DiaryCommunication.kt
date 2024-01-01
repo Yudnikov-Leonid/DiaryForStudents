@@ -6,5 +6,5 @@ interface DiaryCommunication {
     interface Update : Communication.Update<DiaryState>
     interface Observe : Communication.Observe<DiaryState>
     interface Mutable : Update, Observe
-    class Base : Communication.Abstract<DiaryState>(), Mutable
+    class Base : Communication.Regular<DiaryState>(), Mutable
 }

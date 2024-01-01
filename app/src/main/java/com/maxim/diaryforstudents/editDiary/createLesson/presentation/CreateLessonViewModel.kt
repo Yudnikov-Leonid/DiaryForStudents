@@ -7,6 +7,7 @@ import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
 import com.maxim.diaryforstudents.editDiary.createLesson.data.CreateLessonRepository
 
@@ -16,6 +17,7 @@ class CreateLessonViewModel(
     private val cache: CreateLessonCache.Read,
     private val validator: UiValidator,
     private val clear: ClearViewModel,
+    private val resource: ManageResource,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<CreateLessonState>, CacheDate {
     //todo refactor init
@@ -58,7 +60,8 @@ class CreateLessonViewModel(
                         theme,
                         homework,
                         cache.name(),
-                        cache.classId()
+                        cache.classId(),
+                        resource
                     ) else repository.update(
                         cachedDate,
                         startTime,

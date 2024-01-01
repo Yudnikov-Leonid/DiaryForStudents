@@ -6,6 +6,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 interface EditDiaryState {
     fun show(adapter: StudentsAdapter, recyclerView: View, progressBar: View, newLessonButton: FloatingActionButton)
 
+    fun setGrade(grade: Int?, userId: String, date: Int) {}
+
     object Loading : EditDiaryState {
         override fun show(
             adapter: StudentsAdapter,
@@ -30,6 +32,10 @@ interface EditDiaryState {
             recyclerView.visibility = View.VISIBLE
             newLessonButton.isEnabled = true
             adapter.update(list)
+        }
+
+        override fun setGrade(grade: Int?, userId: String, date: Int) {
+            list.forEach { it.setGrade(grade, userId, date) }
         }
     }
 }
