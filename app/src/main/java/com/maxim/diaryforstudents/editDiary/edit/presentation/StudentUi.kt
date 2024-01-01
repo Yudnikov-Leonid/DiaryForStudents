@@ -11,7 +11,7 @@ interface StudentUi {
         }
     }
 
-    class Title(private val name: String) : StudentUi {
+    data class Title(private val name: String) : StudentUi {
         override fun showName(textView: TextView) {
             textView.text = name
         }

@@ -17,7 +17,7 @@ class EditDiaryViewModel(
     private val repository: EditDiaryRepository,
     private val communication: EditDiaryCommunication,
     private val selectedClassCache: SelectedClassCache.Read,
-    private val cache: CreateLessonCache.Update,
+    private val createCache: CreateLessonCache.Update,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
@@ -25,7 +25,7 @@ class EditDiaryViewModel(
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(EditDiaryState.Loading)
-            cache.cacheAfterDismiss(this)
+            createCache.cacheAfterDismiss(this)
             handle({ repository.init(selectedClassCache.read()) }) {
                 communication.update(EditDiaryState.Base(it.map { data -> data.mapToUi() }))
             }
@@ -33,7 +33,7 @@ class EditDiaryViewModel(
     }
 
     fun newLesson() {
-        cache.clearLesson()
+        createCache.clearLesson()
         navigation.update(CreateLessonScreen)
     }
 
@@ -44,7 +44,7 @@ class EditDiaryViewModel(
         theme: String,
         homework: String
     ) {
-        cache.cacheLesson(date, startTime, endTime, theme, homework)
+        createCache.cacheLesson(date, startTime, endTime, theme, homework)
         navigation.update(CreateLessonScreen)
     }
 
