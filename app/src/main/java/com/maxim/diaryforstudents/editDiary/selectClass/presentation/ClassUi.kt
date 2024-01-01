@@ -11,12 +11,13 @@ interface ClassUi {
         override fun show(textView: TextView) {
             textView.text = name
         }
+
         override fun open(listener: ClassesAdapter.Listener) {
             listener.openClass(id)
         }
     }
 
-    object Empty: ClassUi {
+    object Empty : ClassUi {
         override fun same(item: ClassUi) = item is Empty
     }
 }

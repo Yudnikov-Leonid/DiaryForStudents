@@ -24,13 +24,14 @@ class StudentNamesAdapter : RecyclerView.Adapter<StudentNamesAdapter.ItemViewHol
     class TitleViewHolder(binding: LessonTitleBinding) :
         ItemViewHolder(binding, binding.studentNameTextView)
 
-    override fun getItemViewType(position: Int) = if(list[position] is StudentUi.Base) 0 else 1
+    override fun getItemViewType(position: Int) = if (list[position] is StudentUi.Base) 0 else 1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == 0) BaseViewHolder(
-        StudentNameBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    ) else TitleViewHolder(
-        LessonTitleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        if (viewType == 0) BaseViewHolder(
+            StudentNameBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ) else TitleViewHolder(
+            LessonTitleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
 
     override fun getItemCount() = list.size
 

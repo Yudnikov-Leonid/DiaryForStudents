@@ -16,7 +16,7 @@ class App : Application(), ProvideViewModel {
         super.onCreate()
         Firebase.initialize(this)
         factory = ViewModelFactory.Empty
-        val dependencyContainer = DependencyContainer.Base(Core(this), object :ClearViewModel {
+        val dependencyContainer = DependencyContainer.Base(Core(this), object : ClearViewModel {
             override fun clearViewModel(clasz: Class<out ViewModel>) {
                 factory.clearViewModel(clasz)
             }

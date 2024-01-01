@@ -26,6 +26,6 @@ interface Communication {
         }
     }
 
-    abstract class Regular<T>: Abstract<T>(MutableLiveData())
-    abstract class Single<T>: Abstract<T>(SingleLiveEvent())
+    abstract class Regular<T> : Abstract<T>(MutableLiveData())
+    abstract class Single<T> : Abstract<T>(SingleLiveEvent())
 }

@@ -34,10 +34,12 @@ interface ProfileCloudDataSource {
             return if (user.lesson != "") {
                 GradeResult.Teacher(lessonMapper.map(user.lesson))
             } else if (user.classId != "") {
-                GradeResult.Student(handleQuery(
-                    database.child("classes").child(user.classId),
-                    ClassName::class.java
-                ).name)
+                GradeResult.Student(
+                    handleQuery(
+                        database.child("classes").child(user.classId),
+                        ClassName::class.java
+                    ).name
+                )
             } else GradeResult.Empty
         }
 
@@ -54,5 +56,6 @@ interface ProfileCloudDataSource {
             }
     }
 }
+
 private data class ClassId(val classId: String = "", val lesson: String = "")
 private data class ClassName(val name: String = "")

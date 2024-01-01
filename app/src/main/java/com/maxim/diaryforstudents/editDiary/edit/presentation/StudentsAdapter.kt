@@ -25,7 +25,10 @@ class StudentsAdapter(
         }
     }
 
-    class GradesViewHolder(private val binding: EditStudentRecyclerBinding, private val listener: EditGradesAdapter.Listener) :
+    class GradesViewHolder(
+        private val binding: EditStudentRecyclerBinding,
+        private val listener: EditGradesAdapter.Listener
+    ) :
         ItemViewHolder(binding) {
         override fun bind(item: LessonUi) {
             val adapter = EditGradesAdapter(listener)
@@ -37,8 +40,10 @@ class StudentsAdapter(
     override fun getItemViewType(position: Int) = if (list[position] is LessonUi.Students) 0 else 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val binding = EditStudentRecyclerBinding.inflate(LayoutInflater.from(parent.context),
-            parent, false)
+        val binding = EditStudentRecyclerBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        )
         return if (viewType == 0) NamesViewHolder(binding) else GradesViewHolder(binding, listener)
     }
 
@@ -60,7 +65,7 @@ class StudentsAdapter(
 class StudentsDiff(
     private val oldList: List<LessonUi>,
     private val newList: List<LessonUi>,
-): DiffUtil.Callback() {
+) : DiffUtil.Callback() {
     override fun getOldListSize() = oldList.size
 
     override fun getNewListSize() = newList.size

@@ -2,8 +2,7 @@ package com.maxim.diaryforstudents.editDiary.edit.presentation
 
 import android.widget.EditText
 import android.widget.TextView
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import com.maxim.diaryforstudents.core.presentation.Formatter
 
 interface LessonUi {
     fun showNames(adapter: StudentNamesAdapter) {}
@@ -49,7 +48,7 @@ interface GradeUi {
         }
     }
 
-    object FinalTitle: GradeUi {
+    object FinalTitle : GradeUi {
         override fun show(textView: TextView) = Unit
     }
 
@@ -62,10 +61,7 @@ interface GradeUi {
     ) :
         GradeUi {
         override fun show(textView: TextView) {
-            val formatter = SimpleDateFormat("dd.MM")
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = date * 86400000L
-            textView.text = formatter.format(calendar.time)
+            textView.text = Formatter.Base.format("dd.MM", date)
         }
 
         override fun showLesson(

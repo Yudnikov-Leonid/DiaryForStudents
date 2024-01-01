@@ -18,7 +18,7 @@ interface ViewModelFactory : ProvideViewModel, ClearViewModel {
         }
     }
 
-    object Empty: ViewModelFactory {
+    object Empty : ViewModelFactory {
         override fun <T : ViewModel> viewModel(clasz: Class<T>): T {
             throw IllegalStateException("empty viewModel factory used")
         }

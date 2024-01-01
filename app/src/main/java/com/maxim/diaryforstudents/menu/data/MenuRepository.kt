@@ -8,7 +8,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.menu.domain.UserStatus
-import java.lang.IllegalStateException
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -18,7 +17,7 @@ interface MenuRepository {
     class Base(private val dataBase: DatabaseReference) : MenuRepository {
         override suspend fun getUserStatus(): UserStatus {
             val query = dataBase.child("users").child(Firebase.auth.uid!!)
-            return when(handle(query)) {
+            return when (handle(query)) {
                 "student", "" -> UserStatus.Student
                 "teacher" -> UserStatus.Teacher
                 else -> throw IllegalStateException("unknown user status")

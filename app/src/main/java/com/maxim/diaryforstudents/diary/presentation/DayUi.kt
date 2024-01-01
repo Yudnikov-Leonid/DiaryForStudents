@@ -3,8 +3,7 @@ package com.maxim.diaryforstudents.diary.presentation
 import android.view.View
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import com.maxim.diaryforstudents.core.presentation.Formatter
 
 data class DayUi(
     private val date: Int,
@@ -12,10 +11,7 @@ data class DayUi(
 ) {
     fun same(item: DayUi) = item.date == date
     fun showDayOfTheWeek(textView: TextView) {
-        val formatter = SimpleDateFormat("EE")
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = date * 86400000L
-        textView.text = formatter.format(calendar.time)
+        textView.text = Formatter.Base.format("EE", date)
     }
 
     fun setSelectedColor(view: View) {
@@ -25,10 +21,7 @@ data class DayUi(
     }
 
     fun showDate(textView: TextView) {
-        val formatter = SimpleDateFormat("dd")
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = date * 86400000L
-        textView.text = formatter.format(calendar.time)
+        textView.text = Formatter.Base.format("dd", date)
     }
 
     fun selectDay(listener: DiaryDaysAdapter.Listener) {

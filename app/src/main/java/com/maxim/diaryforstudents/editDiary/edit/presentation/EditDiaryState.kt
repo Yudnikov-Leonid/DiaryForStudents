@@ -4,7 +4,12 @@ import android.view.View
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 interface EditDiaryState {
-    fun show(adapter: StudentsAdapter, recyclerView: View, progressBar: View, newLessonButton: FloatingActionButton)
+    fun show(
+        adapter: StudentsAdapter,
+        recyclerView: View,
+        progressBar: View,
+        newLessonButton: FloatingActionButton
+    )
 
     fun setGrade(grade: Int?, userId: String, date: Int) {}
 

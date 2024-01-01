@@ -3,9 +3,8 @@ package com.maxim.diaryforstudents.news.presentation
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 abstract class NewsUi {
     open fun showTitle(textView: TextView) {}
@@ -25,10 +24,7 @@ abstract class NewsUi {
         }
 
         override fun showDate(textView: TextView) {
-            val formatter = SimpleDateFormat.getDateInstance()
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = date * 86400000L
-            textView.text = formatter.format(calendar.time)
+            textView.text = Formatter.Base.day(date)
         }
 
         override fun showContent(textView: TextView) {

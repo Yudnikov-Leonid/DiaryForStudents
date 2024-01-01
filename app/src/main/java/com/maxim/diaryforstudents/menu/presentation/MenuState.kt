@@ -13,7 +13,7 @@ interface MenuState {
         progressBar: ProgressBar
     )
 
-    object Loading: MenuState {
+    object Loading : MenuState {
         override fun show(
             diary: View,
             performance: View,

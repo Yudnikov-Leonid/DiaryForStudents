@@ -3,8 +3,7 @@ package com.maxim.diaryforstudents.performance.presentation
 import android.view.View
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import com.maxim.diaryforstudents.core.presentation.Formatter
 
 interface PerformanceUi {
     fun showName(textView: TextView) {}
@@ -78,12 +77,8 @@ interface PerformanceUi {
                     400 -> "IV"
                     else -> "fail"
                 }
-            } else {
-                val formatter = SimpleDateFormat("dd.MM")
-                val calendar = Calendar.getInstance()
-                calendar.timeInMillis = date * 86400000L
-                textView.text = formatter.format(calendar.time)
-            }
+            } else
+                textView.text = Formatter.Base.format("dd.MM", date)
         }
 
         override fun same(item: PerformanceUi) = item is Grade && item.date == date

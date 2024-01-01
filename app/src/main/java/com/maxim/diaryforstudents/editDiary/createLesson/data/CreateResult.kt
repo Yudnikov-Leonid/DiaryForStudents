@@ -4,6 +4,7 @@ import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CreateLess
 
 interface CreateResult {
     fun toState(): CreateLessonState
+
     object Success : CreateResult {
         override fun toState() = CreateLessonState.Success
     }

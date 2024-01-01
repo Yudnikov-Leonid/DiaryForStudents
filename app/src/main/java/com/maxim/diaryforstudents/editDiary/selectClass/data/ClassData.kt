@@ -8,7 +8,7 @@ interface ClassData {
         override fun mapToUi() = ClassUi.Base(id, name)
     }
 
-    object Empty: ClassData {
+    object Empty : ClassData {
         override fun mapToUi() = ClassUi.Empty
     }
 }

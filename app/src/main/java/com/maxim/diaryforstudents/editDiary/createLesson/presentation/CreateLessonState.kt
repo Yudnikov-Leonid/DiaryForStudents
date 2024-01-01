@@ -16,7 +16,7 @@ interface CreateLessonState {
         dismiss: Dismiss
     )
 
-    object Initial: CreateLessonState {
+    object Initial : CreateLessonState {
         override fun show(
             startTimeEditText: TextInputLayout,
             endTimeEditText: TextInputLayout,
