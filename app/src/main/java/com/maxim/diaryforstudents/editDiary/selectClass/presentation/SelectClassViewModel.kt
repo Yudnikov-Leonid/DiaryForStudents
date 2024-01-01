@@ -40,7 +40,7 @@ class SelectClassViewModel(
         communication.update(SelectClassState.Base(repository.data().map { it.mapToUi() }))
     }
 
-    override fun error(message: String) = Unit //todo
+    override fun error(message: String) = Unit
     override fun observe(owner: LifecycleOwner, observer: Observer<SelectClassState>) {
         communication.observe(owner, observer)
     }
