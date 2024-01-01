@@ -17,7 +17,7 @@ class CreateLessonViewModel(
     private val validator: UiValidator,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<CreateLessonState> {
+) : BaseViewModel(runAsync), Communication.Observe<CreateLessonState>, CacheDate {
     //todo refactor init
     private var cachedDate = 0
     fun init(
@@ -31,7 +31,7 @@ class CreateLessonViewModel(
             communication.update(CreateLessonState.Initial)
             if (cache.lesson() != null) {
                 cache.lesson()!!.toUi().showLesson(startTime, endTime, theme, homework)
-                cachedDate = cache.lesson()!!.date
+                cache.lesson()!!.cacheDate(this)
             }
         }
     }
@@ -82,4 +82,12 @@ class CreateLessonViewModel(
     override fun observe(owner: LifecycleOwner, observer: Observer<CreateLessonState>) {
         communication.observe(owner, observer)
     }
+
+    override fun cache(value: Int) {
+        cachedDate = value
+    }
+}
+
+interface CacheDate {
+    fun cache(value: Int)
 }

@@ -4,7 +4,7 @@ import com.maxim.diaryforstudents.core.presentation.Communication
 
 interface SelectedClassCache {
     interface Update: Communication.Update<String>
-    interface Read { // todo
+    interface Read {
         fun read(): String
     }
 

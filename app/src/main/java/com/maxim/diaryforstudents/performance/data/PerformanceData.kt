@@ -1,7 +1,6 @@
 package com.maxim.diaryforstudents.performance.data
 
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
-import java.util.Locale
 
 interface PerformanceData {
     fun toUi(): PerformanceUi
@@ -12,8 +11,7 @@ interface PerformanceData {
         private val average: Float
     ) : PerformanceData {
         override fun toUi() = PerformanceUi.Lesson(name, grades.map { it.toUi() }, average)
-        override fun search(search: String) =
-            name.lowercase(Locale.ROOT).contains(search.lowercase(Locale.ROOT))
+        override fun search(search: String) = name.contains(search, true)
     }
 
     object Empty : PerformanceData {
