@@ -10,8 +10,11 @@ import com.google.firebase.database.database
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.data.LessonMapper
 import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.core.service.MyUser
+import com.maxim.diaryforstudents.core.service.NavigateToLogin
 import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
 import com.maxim.diaryforstudents.editDiary.common.SelectedClassCache
+import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.openNews.OpenNewsData
 
 class Core(private val context: Context) : ManageResource {
@@ -42,6 +45,12 @@ class Core(private val context: Context) : ManageResource {
 
     private val createLessonCache = CreateLessonCache.Base()
     fun createLessonCache() = createLessonCache
+    private val myUser = MyUser.Base(object : NavigateToLogin {
+        override fun navigate() {
+            navigation.update(LoginScreen)
+        }
+    })
+    fun myUser() = myUser
 
     override fun string(key: Int) = manageResource.string(key)
 

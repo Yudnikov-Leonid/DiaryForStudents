@@ -14,6 +14,7 @@ class PerformanceModule(private val core: Core, private val clear: ClearViewMode
         PerformanceRepository.Base(
             PerformanceCloudDataSource.Base(
                 core.dataBase(),
+                core.myUser(),
                 core.lessonsMapper()
             )
         ),

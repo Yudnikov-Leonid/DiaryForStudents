@@ -1,13 +1,12 @@
 package com.maxim.diaryforstudents.profile.data
 
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.data.LessonMapper
+import com.maxim.diaryforstudents.core.service.MyUser
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -19,16 +18,16 @@ interface ProfileCloudDataSource {
     class Base(
         private val database: DatabaseReference,
         private val clientWrapper: ClientWrapper,
-        private val lessonMapper: LessonMapper
+        private val lessonMapper: LessonMapper,
+        private val myUser: MyUser
     ) : ProfileCloudDataSource {
         override fun signOut() {
-            Firebase.auth.signOut()
-            clientWrapper.signOut()
+            myUser.signOut(clientWrapper)
         }
 
         override suspend fun getGrade(): GradeResult {
             val user = handleQuery(
-                database.child("users").child(Firebase.auth.uid!!),
+                database.child("users").child(myUser.id()),
                 ClassId::class.java
             )
             return if (user.lesson != "") {

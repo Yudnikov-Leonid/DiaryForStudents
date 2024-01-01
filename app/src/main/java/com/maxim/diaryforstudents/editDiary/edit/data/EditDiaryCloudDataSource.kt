@@ -1,12 +1,11 @@
 package com.maxim.diaryforstudents.editDiary.edit.data
 
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
+import com.maxim.diaryforstudents.core.service.MyUser
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -34,14 +33,15 @@ interface EditDiaryCloudDataSource {
 
     fun removeGrade(child: String, lessonName: String, userId: String, date: Int)
 
-    class Base(private val database: DatabaseReference) : EditDiaryCloudDataSource {
+    class Base(private val database: DatabaseReference, private val myUser: MyUser) :
+        EditDiaryCloudDataSource {
         override suspend fun students(classId: String): List<Student> = handleQuery(
             database.child("users").orderByChild("classId").equalTo(classId),
             Student::class.java
         ).map { Student(it.second.classId, it.first, it.second.name) }
 
         override suspend fun lessonName() = handleQuery(
-            database.child("users").orderByKey().equalTo(Firebase.auth.uid!!),
+            database.child("users").orderByKey().equalTo(myUser.id()),
             TeacherLessonName::class.java
         ).map { it.second }.first().lesson
 
@@ -99,7 +99,8 @@ interface EditDiaryCloudDataSource {
                             Pair(it.key!!, it.getValue(Grade::class.java)!!)
                         }
                         val id = list.first {
-                            it.second.userId == userId && it.second.lesson == lessonName }.first
+                            it.second.userId == userId && it.second.lesson == lessonName
+                        }.first
                         database.child(child).child(id).removeValue()
                     }
 

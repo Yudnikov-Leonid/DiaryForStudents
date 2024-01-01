@@ -1,7 +1,5 @@
 package com.maxim.diaryforstudents.performance.data
 
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -9,6 +7,7 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.data.LessonMapper
 import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.service.MyUser
 import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
 
 interface PerformanceCloudDataSource {
@@ -18,13 +17,14 @@ interface PerformanceCloudDataSource {
 
     class Base(
         private val database: DatabaseReference,
+        private val myUser: MyUser,
         private val mapper: LessonMapper
     ) : PerformanceCloudDataSource {
         private val data = mutableListOf<Lesson>()
         private var type = PerformanceViewModel.ACTUAL
         private val queries = mutableListOf<Pair<Query, ValueEventListener>>()
         override fun init(reload: Reload) {
-            val uId = Firebase.auth.currentUser!!.uid
+            val uId = myUser.id()
             val query = database.child(type).orderByChild("userId").equalTo(uId)
             val listener = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {

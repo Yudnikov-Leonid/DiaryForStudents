@@ -1,19 +1,16 @@
 package com.maxim.diaryforstudents.login.data
 
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import com.google.firebase.Firebase
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import com.maxim.diaryforstudents.core.service.MyUser
 
 interface LoginRepository {
     fun userNotLoggedIn(): Boolean
     suspend fun handleResult(authResult: AuthResultWrapper): LoginResult
-    class Base(private val cloudDataSource: LoginCloudDataSource) : LoginRepository {
-        override fun userNotLoggedIn() = Firebase.auth.currentUser == null
+    class Base(
+        private val cloudDataSource: LoginCloudDataSource,
+        private val myUser: MyUser
+    ) : LoginRepository {
+        override fun userNotLoggedIn() = myUser.userNotLoggedIn()
 
         override suspend fun handleResult(authResult: AuthResultWrapper): LoginResult {
             if (authResult.isSuccessful()) {
@@ -25,10 +22,7 @@ interface LoginRepository {
                     return if (idToken == null) {
                         LoginResult.Failed("something went wrong")
                     } else {
-                        val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                        val signInWithCredential =
-                            Firebase.auth.signInWithCredential(firebaseCredential)
-                        val (successful, errorMessage) = handleInner(signInWithCredential)
+                        val (successful, errorMessage) = myUser.signIn(idToken)
                         if (successful) {
                             cloudDataSource.login()
                             LoginResult.Successful
@@ -43,14 +37,5 @@ interface LoginRepository {
                 return LoginResult.Failed("not successful to login")
             }
         }
-
-        private suspend fun handleInner(task: Task<AuthResult>): Pair<Boolean, String> =
-            suspendCoroutine { cont ->
-                task.addOnSuccessListener {
-                    cont.resume(Pair(true, ""))
-                }.addOnFailureListener {
-                    cont.resume(Pair(false, it.message ?: "error"))
-                }
-            }
     }
 }

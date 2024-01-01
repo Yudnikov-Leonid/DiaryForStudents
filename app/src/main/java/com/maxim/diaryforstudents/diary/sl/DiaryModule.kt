@@ -11,7 +11,13 @@ import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
 class DiaryModule(private val core: Core, private val clear: ClearViewModel) :
     Module<DiaryViewModel> {
     override fun viewModel() = DiaryViewModel(
-        DiaryRepository.Base(DiaryCloudDataSource.Base(core.dataBase(), core.lessonsMapper())),
+        DiaryRepository.Base(
+            DiaryCloudDataSource.Base(
+                core.dataBase(),
+                core.myUser(),
+                core.lessonsMapper()
+            )
+        ),
         DiaryCommunication.Base(),
         core.navigation(),
         clear

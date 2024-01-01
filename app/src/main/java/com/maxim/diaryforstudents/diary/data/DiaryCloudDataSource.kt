@@ -1,7 +1,5 @@
 package com.maxim.diaryforstudents.diary.data
 
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -9,6 +7,7 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.data.LessonMapper
 import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.service.MyUser
 
 interface DiaryCloudDataSource {
     suspend fun init(reload: Reload, week: Int)
@@ -16,6 +15,7 @@ interface DiaryCloudDataSource {
 
     class Base(
         private val database: DatabaseReference,
+        private val myUser: MyUser,
         private val mapper: LessonMapper
     ) : DiaryCloudDataSource {
         private val data = mutableListOf<DiaryData.Lesson>()
@@ -49,7 +49,7 @@ interface DiaryCloudDataSource {
                 listeners.clear()
             }
 
-            val classQuery = database.child("users").child(Firebase.auth.uid!!)
+            val classQuery = database.child("users").child(myUser.id())
 
             classQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {

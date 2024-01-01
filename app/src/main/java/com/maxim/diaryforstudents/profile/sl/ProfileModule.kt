@@ -16,8 +16,11 @@ class ProfileModule(private val core: Core, private val clear: ClearViewModel) :
             ProfileCloudDataSource.Base(
                 core.dataBase(), ClientWrapper.Base(
                     core.googleClient()
-                ), core.lessonsMapper()
-            )
+                ),
+                core.lessonsMapper(),
+                core.myUser()
+            ),
+            core.myUser()
         ),
         ProfileCommunication.Base(),
         core.navigation(),
