@@ -149,11 +149,11 @@ class EditDiaryViewModelTest {
 
 private class FakeCreateLessonCacheTwo : CreateLessonCache.Update {
     override fun cacheName(value: String) {
-        TODO("Not yet implemented")
+        throw IllegalStateException("not using in this test")
     }
 
     override fun cacheClassId(value: String) {
-        TODO("Not yet implemented")
+        throw IllegalStateException("not using in this test")
     }
 
     private val cacheAfterDismissList = mutableListOf<ReloadAfterDismiss>()
