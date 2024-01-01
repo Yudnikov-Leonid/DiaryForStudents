@@ -10,7 +10,7 @@ import com.maxim.diaryforstudents.editDiary.selectClass.presentation.SelectClass
 class SelectClassModule(private val core: Core, private val clear: ClearViewModel) :
     Module<SelectClassViewModel> {
     override fun viewModel() = SelectClassViewModel(
-        SelectClassRepository.Base(core.dataBase()),
+        SelectClassRepository.Base(core.service()),
         SelectClassCommunication.Base(),
         core.selectedClassCache(),
         core.navigation(),

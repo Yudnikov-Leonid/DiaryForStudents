@@ -2,8 +2,6 @@ package com.maxim.diaryforstudents.core
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
-import com.google.firebase.Firebase
-import com.google.firebase.initialize
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.DependencyContainer
@@ -14,7 +12,6 @@ class App : Application(), ProvideViewModel {
     private lateinit var factory: ViewModelFactory
     override fun onCreate() {
         super.onCreate()
-        Firebase.initialize(this)
         factory = ViewModelFactory.Empty
         val dependencyContainer = DependencyContainer.Base(Core(this), object : ClearViewModel {
             override fun clearViewModel(clasz: Class<out ViewModel>) {

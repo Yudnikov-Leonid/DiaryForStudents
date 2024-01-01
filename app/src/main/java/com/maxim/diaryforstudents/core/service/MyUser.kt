@@ -19,7 +19,7 @@ interface MyUser {
     fun signOut(clientWrapper: ClientWrapper)
 
     class Base(private val navigateToLogin: NavigateToLogin) : MyUser {
-        fun user(): FirebaseUser? {
+        private fun user(): FirebaseUser? {
             return if (userNotLoggedIn()) {
                 navigateToLogin.navigate()
                 null

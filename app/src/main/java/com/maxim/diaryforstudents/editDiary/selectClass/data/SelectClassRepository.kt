@@ -1,35 +1,31 @@
 package com.maxim.diaryforstudents.editDiary.selectClass.data
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.service.CloudClass
+import com.maxim.diaryforstudents.core.service.Service
+import com.maxim.diaryforstudents.core.service.ServiceValueEventListener
 
 interface SelectClassRepository {
     fun init(reload: Reload)
     fun data(): List<ClassData>
 
-    class Base(private val database: DatabaseReference) : SelectClassRepository {
+    class Base(private val service: Service) : SelectClassRepository {
         private val list = mutableListOf<ClassData>()
         override fun init(reload: Reload) {
-            database.child("classes").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val data = snapshot.children.mapNotNull {
-                        val name = it.getValue(FirebaseClass::class.java)!!.name
-                        ClassData.Base(it.key!!, name)
+            service.listen(
+                "classes",
+                CloudClass::class.java,
+                object : ServiceValueEventListener<CloudClass> {
+                    override fun valueChanged(value: List<Pair<String, CloudClass>>) {
+                        list.clear()
+                        list.addAll(value.map { ClassData.Base(it.first, it.second.name) })
+                        reload.reload()
                     }
-                    list.clear()
-                    list.addAll(data)
-                    reload.reload()
-                }
 
-                override fun onCancelled(error: DatabaseError) = reload.error(error.message)
-            })
+                    override fun error(message: String) = reload.error(message)
+                })
         }
 
         override fun data() = list.ifEmpty { listOf(ClassData.Empty) }
     }
 }
-
-private data class FirebaseClass(val name: String = "")

@@ -13,7 +13,7 @@ class DiaryModule(private val core: Core, private val clear: ClearViewModel) :
     override fun viewModel() = DiaryViewModel(
         DiaryRepository.Base(
             DiaryCloudDataSource.Base(
-                core.dataBase(),
+                core.service(),
                 core.myUser(),
                 core.lessonsMapper()
             )

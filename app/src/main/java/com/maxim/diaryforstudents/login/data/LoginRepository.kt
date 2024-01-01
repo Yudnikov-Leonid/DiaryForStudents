@@ -11,7 +11,6 @@ interface LoginRepository {
         private val myUser: MyUser
     ) : LoginRepository {
         override fun userNotLoggedIn() = myUser.userNotLoggedIn()
-
         override suspend fun handleResult(authResult: AuthResultWrapper): LoginResult {
             if (authResult.isSuccessful()) {
                 try {

@@ -11,7 +11,7 @@ import com.maxim.diaryforstudents.editDiary.createLesson.presentation.UiValidato
 class CreateLessonModule(private val core: Core, private val clear: ClearViewModel) :
     Module<CreateLessonViewModel> {
     override fun viewModel() = CreateLessonViewModel(
-        CreateLessonRepository.Base(core.dataBase()),
+        CreateLessonRepository.Base(core.service()),
         CreateLessonCommunication.Base(),
         core.createLessonCache(),
         UiValidator.Empty(),

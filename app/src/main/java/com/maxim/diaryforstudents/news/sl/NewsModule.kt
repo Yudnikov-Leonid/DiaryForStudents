@@ -11,7 +11,7 @@ import com.maxim.diaryforstudents.news.presentation.NewsViewModel
 class NewsModule(private val core: Core, private val clear: ClearViewModel) :
     Module<NewsViewModel> {
     override fun viewModel() = NewsViewModel(
-        NewsRepository.Base(NewsCloudDataSource.Base(core.dataBase())),
+        NewsRepository.Base(NewsCloudDataSource.Base(core.service())),
         NewsCommunication.Base(),
         core.navigation(),
         clear,

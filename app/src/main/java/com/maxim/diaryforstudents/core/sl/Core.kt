@@ -4,14 +4,13 @@ import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.Firebase
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.database
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.data.LessonMapper
 import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.core.service.CoroutineHandler
 import com.maxim.diaryforstudents.core.service.MyUser
 import com.maxim.diaryforstudents.core.service.NavigateToLogin
+import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
 import com.maxim.diaryforstudents.editDiary.common.SelectedClassCache
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
@@ -19,17 +18,15 @@ import com.maxim.diaryforstudents.openNews.OpenNewsData
 
 class Core(private val context: Context) : ManageResource {
 
-    init {
-        Firebase.database(DATABASE_URL).setPersistenceEnabled(false)
-    }
-
     private val manageResource by lazy { ManageResource.Base(context.resources) }
     private val navigation = Navigation.Base()
     private val openNewsData by lazy { OpenNewsData.Base() }
     private val lessonsMapper = LessonMapper.Base(manageResource)
     fun context() = context
     fun lessonsMapper() = lessonsMapper
-    fun dataBase(): DatabaseReference = Firebase.database(DATABASE_URL).reference.root
+    private val service = Service.Base(context, CoroutineHandler.Base())
+    fun service() = service
+
     fun navigation(): Navigation.Mutable = navigation
     fun openNewsData() = openNewsData
     fun googleClient(): GoogleSignInClient {
@@ -50,12 +47,8 @@ class Core(private val context: Context) : ManageResource {
             navigation.update(LoginScreen)
         }
     })
+
     fun myUser() = myUser
 
     override fun string(key: Int) = manageResource.string(key)
-
-    companion object {
-        private const val DATABASE_URL =
-            "https://diary-ee752-default-rtdb.europe-west1.firebasedatabase.app"
-    }
 }

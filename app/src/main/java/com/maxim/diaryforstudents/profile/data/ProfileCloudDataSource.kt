@@ -1,22 +1,16 @@
 package com.maxim.diaryforstudents.profile.data
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.Query
-import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.data.LessonMapper
+import com.maxim.diaryforstudents.core.service.CloudClass
+import com.maxim.diaryforstudents.core.service.CloudUser
 import com.maxim.diaryforstudents.core.service.MyUser
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
+import com.maxim.diaryforstudents.core.service.Service
 
 interface ProfileCloudDataSource {
     fun signOut()
-
     suspend fun getGrade(): GradeResult
     class Base(
-        private val database: DatabaseReference,
+        private val service: Service,
         private val clientWrapper: ClientWrapper,
         private val lessonMapper: LessonMapper,
         private val myUser: MyUser
@@ -26,35 +20,14 @@ interface ProfileCloudDataSource {
         }
 
         override suspend fun getGrade(): GradeResult {
-            val user = handleQuery(
-                database.child("users").child(myUser.id()),
-                ClassId::class.java
-            )
+            val user = service.get("users", myUser.id(), CloudUser::class.java).first().second
             return if (user.lesson != "") {
                 GradeResult.Teacher(lessonMapper.map(user.lesson))
             } else if (user.classId != "") {
                 GradeResult.Student(
-                    handleQuery(
-                        database.child("classes").child(user.classId),
-                        ClassName::class.java
-                    ).name
+                    service.get("classes", user.classId, CloudClass::class.java).first().second.name
                 )
             } else GradeResult.Empty
         }
-
-        private suspend fun <T : Any> handleQuery(query: Query, clasz: Class<T>): T =
-            suspendCoroutine { cont ->
-                query.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        cont.resume(snapshot.getValue(clasz)!!)
-                    }
-
-                    override fun onCancelled(error: DatabaseError) =
-                        cont.resumeWithException(error.toException())
-                })
-            }
     }
 }
-
-private data class ClassId(val classId: String = "", val lesson: String = "")
-private data class ClassName(val name: String = "")

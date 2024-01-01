@@ -13,7 +13,7 @@ class PerformanceModule(private val core: Core, private val clear: ClearViewMode
     override fun viewModel() = PerformanceViewModel(
         PerformanceRepository.Base(
             PerformanceCloudDataSource.Base(
-                core.dataBase(),
+                core.service(),
                 core.myUser(),
                 core.lessonsMapper()
             )

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Дневник</string>
     <string name="student_of">Ученик класса: %s</string>
-    <string name="teacher_of">Учитель по предемету %s</string>
+    <string name="teacher_of">Учитель по предмету %s</string>
 
     <!-- lessons -->
     <string name="algebra">Алгебра</string>

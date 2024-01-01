@@ -1,41 +1,32 @@
 package com.maxim.diaryforstudents.news.data
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.Query
-import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.service.CloudNews
+import com.maxim.diaryforstudents.core.service.Service
+import com.maxim.diaryforstudents.core.service.ServiceValueEventListener
 
 interface NewsCloudDataSource {
     fun init(reload: Reload)
     fun data(): List<NewsData>
 
     class Base(
-        private val dataBase: DatabaseReference
+        private val service: Service
     ) : NewsCloudDataSource {
         private val news = mutableListOf<NewsData>()
-        private var cachedListener: Pair<Query, ValueEventListener>? = null
         override fun init(reload: Reload) {
-            if (cachedListener != null) {
-                cachedListener!!.first.removeEventListener(cachedListener!!.second)
-                cachedListener = null
-            }
-            val query = dataBase.child("news")
-            val listener = object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val data = snapshot.children.mapNotNull {
-                        it.getValue(NewsData.Base::class.java)!!
+            service.listen(
+                "news",
+                CloudNews::class.java,
+                object : ServiceValueEventListener<CloudNews> {
+                    override fun valueChanged(value: List<Pair<String, CloudNews>>) {
+                        news.clear()
+                        news.addAll(value.map { it.second }.sortedBy { it.date }
+                            .map { NewsData.Base(it.title, it.content, it.date, it.photoUrl) })
+                        reload.reload()
                     }
-                    news.clear()
-                    news.addAll(data.sortedByDescending { it.date })
-                    reload.reload()
-                }
 
-                override fun onCancelled(error: DatabaseError) = reload.error(error.message)
-            }
-            query.addValueEventListener(listener)
-            cachedListener = Pair(query, listener)
+                    override fun error(message: String) = reload.error(message)
+                })
         }
 
         override fun data() = news

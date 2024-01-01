@@ -14,7 +14,7 @@ class ProfileModule(private val core: Core, private val clear: ClearViewModel) :
     override fun viewModel() = ProfileViewModel(
         ProfileRepository.Base(
             ProfileCloudDataSource.Base(
-                core.dataBase(), ClientWrapper.Base(
+                core.service(), ClientWrapper.Base(
                     core.googleClient()
                 ),
                 core.lessonsMapper(),

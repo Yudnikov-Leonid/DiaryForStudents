@@ -12,7 +12,7 @@ class EditDiaryModule(private val core: Core, private val clear: ClearViewModel)
     Module<EditDiaryViewModel> {
     override fun viewModel() = EditDiaryViewModel(
         EditDiaryRepository.Base(
-            EditDiaryCloudDataSource.Base(core.dataBase(), core.myUser()),
+            EditDiaryCloudDataSource.Base(core.service(), core.myUser()),
             core.createLessonCache(),
             core.lessonsMapper()
         ),

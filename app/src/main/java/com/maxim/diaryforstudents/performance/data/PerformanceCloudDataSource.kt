@@ -1,13 +1,11 @@
 package com.maxim.diaryforstudents.performance.data
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.Query
-import com.google.firebase.database.ValueEventListener
 import com.maxim.diaryforstudents.core.data.LessonMapper
 import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.service.CloudGrade
 import com.maxim.diaryforstudents.core.service.MyUser
+import com.maxim.diaryforstudents.core.service.Service
+import com.maxim.diaryforstudents.core.service.ServiceValueEventListener
 import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
 
 interface PerformanceCloudDataSource {
@@ -16,49 +14,42 @@ interface PerformanceCloudDataSource {
     fun changeType(type: String)
 
     class Base(
-        private val database: DatabaseReference,
+        private val service: Service,
         private val myUser: MyUser,
         private val mapper: LessonMapper
     ) : PerformanceCloudDataSource {
-        private val data = mutableListOf<Lesson>()
+        private val data = mutableListOf<CloudGrade>()
         private var type = PerformanceViewModel.ACTUAL
-        private val queries = mutableListOf<Pair<Query, ValueEventListener>>()
         override fun init(reload: Reload) {
-            val uId = myUser.id()
-            val query = database.child(type).orderByChild("userId").equalTo(uId)
-            val listener = object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val grades = snapshot.children.mapNotNull {
-                        it.getValue(Lesson::class.java)
+            service.listenByChild(type, "userId", myUser.id(), CloudGrade::class.java,
+                object : ServiceValueEventListener<CloudGrade> {
+                    override fun valueChanged(value: List<Pair<String, CloudGrade>>) {
+                        data.clear()
+                        data.addAll(value.map { it.second })
+                        reload.reload()
                     }
-                    data.clear()
-                    data.addAll(grades)
-                    reload.reload()
-                }
 
-                override fun onCancelled(error: DatabaseError) = reload.error(error.message)
-            }
-            query.addValueEventListener(listener)
-            queries.add(Pair(query, listener))
+                    override fun error(message: String) = reload.error(message)
+                })
         }
 
         override fun data(quarter: Int): List<PerformanceData.Lesson> {
             val result = mutableListOf<PerformanceData.Lesson>()
-            val grades: List<Lesson> =
+            val grades: List<CloudGrade> =
                 if (type == PerformanceViewModel.ACTUAL) data.filter { it.quarter == quarter } else data
-            val map = mutableMapOf<String, MutableList<Grade>>()
+            val map = mutableMapOf<String, MutableList<CloudGrade>>()
             grades.forEach {
                 if (map[it.lesson] == null)
-                    map[it.lesson] = ArrayList()
-                map[it.lesson]!!.add(Grade(it.grade, it.date))
+                    map[it.lesson] = mutableListOf()
+                map[it.lesson]!!.add(CloudGrade(it.date, it.grade))
             }
             map.toSortedMap().forEach {
-                val average = (it.value.sumOf { it.grade }).toFloat() / it.value.size
+                val average = (it.value.sumOf { it.grade!! }).toFloat() / it.value.size
                 it.value.sortBy { it.date }
                 result.add(
                     PerformanceData.Lesson(
                         mapper.map(it.key),
-                        it.value.map { it.toData() },
+                        it.value.map { PerformanceData.Grade(it.grade!!, it.date) },
                         average
                     )
                 )
@@ -67,26 +58,7 @@ interface PerformanceCloudDataSource {
         }
 
         override fun changeType(type: String) {
-            queries.forEach {
-                it.first.removeEventListener(it.second)
-            }
-            queries.clear()
             this.type = type
         }
     }
-}
-
-private data class Lesson(
-    val grade: Int = 0,
-    val lesson: String = "",
-    val userId: String = "",
-    val quarter: Int = 0,
-    val date: Int = 0
-)
-
-private data class Grade(
-    val grade: Int,
-    val date: Int
-) {
-    fun toData() = PerformanceData.Grade(grade, date)
 }

@@ -7,7 +7,7 @@ import java.util.Calendar
 interface EditDiaryRepository {
     suspend fun init(classId: String): List<LessonData>
 
-    fun setGrade(grade: Int?, userId: String, date: Int)
+    suspend fun setGrade(grade: Int?, userId: String, date: Int)
 
     class Base(
         private val dataSource: EditDiaryCloudDataSource,
@@ -75,7 +75,7 @@ interface EditDiaryRepository {
             return result
         }
 
-        override fun setGrade(grade: Int?, userId: String, date: Int) {
+        override suspend fun setGrade(grade: Int?, userId: String, date: Int) {
             val child = if (date in 100..400) "final-grades" else "grades"
             grade?.let {
                 dataSource.setGrade(child, lessonName, quarter, it, userId, date)
@@ -84,22 +84,4 @@ interface EditDiaryRepository {
     }
 }
 
-data class Grade(
-    val date: Int = 0,
-    val grade: Int? = null,
-    val lesson: String = "",
-    val quarter: Int? = null,
-    val userId: String = ""
-)
-
-data class Lesson(
-    val date: Int = 0,
-    val startTime: String = "",
-    val endTime: String = "",
-    val name: String = "",
-    val theme: String = "",
-    val homework: String = ""
-)
-
-data class TeacherLessonName(val lesson: String = "")
 data class Student(val classId: String = "", val userId: String = "", val name: String = "")

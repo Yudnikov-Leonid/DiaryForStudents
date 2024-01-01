@@ -49,7 +49,7 @@ class EditDiaryViewModel(
     }
 
     fun setGrade(grade: Int?, userId: String, date: Int) {
-        repository.setGrade(grade, userId, date)
+        handle({ repository.setGrade(grade, userId, date) }) {}
         communication.setGrade(grade, userId, date)
     }
 
