@@ -268,7 +268,7 @@ private class FakeEditDiaryRepository : EditDiaryRepository {
         assertEquals(expected, setGradeList.last())
     }
 
-    override fun setGrade(grade: Int?, userId: String, date: Int) {
+    override suspend fun setGrade(grade: Int?, userId: String, date: Int) {
         setGradeList.add(listOf(grade!!, userId, date))
     }
 }

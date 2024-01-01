@@ -59,8 +59,8 @@ class NewsViewModelTest {
     fun test_reload() {
         repository.expected(
             listOf(
-                NewsData.Base("Title", "Content"),
-                NewsData.Base("Title1", "Content1")
+                NewsData.Base("Title", "Content", 55, "url1"),
+                NewsData.Base("Title1", "Content1", 56, "url2")
             )
         )
         viewModel.reload()
@@ -68,8 +68,8 @@ class NewsViewModelTest {
         communication.checkCalledWith(
             NewsState.Base(
                 listOf(
-                    NewsUi.Base("Title", "Content", 0, ""),
-                    NewsUi.Base("Title1", "Content1", 0, "")
+                    NewsUi.Base("Title", "Content", 55, "url1"),
+                    NewsUi.Base("Title1", "Content1", 56, "url2")
                 )
             )
         )
@@ -131,7 +131,7 @@ private class FakeNewsCommunication : NewsCommunication.Mutable {
     }
 }
 
-private class FakeNewsRepository() : NewsRepository {
+private class FakeNewsRepository : NewsRepository {
     private var counter = 0
     private lateinit var reload: Reload
     private val data = mutableListOf<NewsData>()
