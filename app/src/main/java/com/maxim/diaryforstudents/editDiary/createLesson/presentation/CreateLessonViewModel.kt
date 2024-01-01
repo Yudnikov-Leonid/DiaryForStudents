@@ -20,7 +20,7 @@ class CreateLessonViewModel(
     private val resource: ManageResource,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<CreateLessonState>, CacheDate {
-    //todo refactor init
+    //todo refactor init and update tests
     private var cachedDate = 0
     fun init(
         isFirstRun: Boolean,
