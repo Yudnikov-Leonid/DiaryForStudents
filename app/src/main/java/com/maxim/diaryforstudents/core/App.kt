@@ -24,5 +24,5 @@ class App : Application(), ProvideViewModel {
         factory = ViewModelFactory.Base(ProvideViewModel.Base(dependencyContainer))
     }
 
-    override fun <T : ViewModel> viewModel(clasz: Class<T>) = factory.viewModel(clazz)
+    override fun <T : ViewModel> viewModel(clasz: Class<T>) = factory.viewModel(clasz)
 }
