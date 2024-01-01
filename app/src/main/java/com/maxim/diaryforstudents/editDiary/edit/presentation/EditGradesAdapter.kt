@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.editDiary.edit.presentation
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
@@ -9,6 +10,7 @@ import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.EditGradeBinding
 import com.maxim.diaryforstudents.databinding.EditGradeDateBinding
 import com.maxim.diaryforstudents.databinding.FinalGradesTitleBinding
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 class EditGradesAdapter(
     private val listener: Listener
@@ -29,6 +31,11 @@ class EditGradesAdapter(
                         .isEmpty()
                 ) null else binding.editGradeEditText.text.toString().toInt()
                 item.setGrade(listener, grade)
+            }
+            KeyboardVisibilityEvent.setEventListener(binding.editGradeEditText.context as Activity) { isOpen ->
+                if (!isOpen) {
+                    binding.editGradeEditText.clearFocus()
+                }
             }
         }
     }
