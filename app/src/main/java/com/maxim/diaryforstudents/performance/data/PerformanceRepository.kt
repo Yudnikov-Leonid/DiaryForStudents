@@ -29,6 +29,7 @@ interface PerformanceRepository {
         override fun actualQuarter() = quarter
 
         override fun init(reload: Reload) {
+            //todo make calendarWrapper and make test
             val dayInYear = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
 
             quarter = when (dayInYear) {
