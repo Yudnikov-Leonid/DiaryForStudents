@@ -1,8 +1,9 @@
 package com.maxim.diaryforstudents.performance.data
 
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import java.io.Serializable
 
-interface PerformanceData {
+interface PerformanceData: Serializable {
     fun toUi(): PerformanceUi
     fun search(search: String): Boolean = true
     data class Lesson(

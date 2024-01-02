@@ -6,8 +6,9 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.maxim.diaryforstudents.profile.data.GradeResult
+import java.io.Serializable
 
-interface ProfileState {
+interface ProfileState: Serializable {
     fun show(
         nameTextView: TextView,
         gradeTextView: TextView,

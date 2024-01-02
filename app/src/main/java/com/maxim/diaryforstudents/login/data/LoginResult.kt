@@ -9,14 +9,14 @@ import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 
 interface LoginResult {
     fun map(
-        communication: LoginCommunication.Update,
+        communication: LoginCommunication,
         navigation: Navigation.Update,
         clear: ClearViewModel
     )
 
     data class Failed(private val message: String) : LoginResult {
         override fun map(
-            communication: LoginCommunication.Update,
+            communication: LoginCommunication,
             navigation: Navigation.Update,
             clear: ClearViewModel
         ) {
@@ -26,7 +26,7 @@ interface LoginResult {
 
     object Successful : LoginResult {
         override fun map(
-            communication: LoginCommunication.Update,
+            communication: LoginCommunication,
             navigation: Navigation.Update,
             clear: ClearViewModel
         ) {

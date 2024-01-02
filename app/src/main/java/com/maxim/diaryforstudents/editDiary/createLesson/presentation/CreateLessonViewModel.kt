@@ -4,6 +4,7 @@ import android.widget.EditText
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
@@ -36,6 +37,15 @@ class CreateLessonViewModel(
                 cache.lesson()!!.cacheDate(this)
             }
         }
+    }
+
+    fun save(bundleWrapper: BundleWrapper.Save) {
+        cache.save(bundleWrapper)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore) {
+        cache.restore(bundleWrapper)
+        cache.lesson()?.cacheDate(this)
     }
 
     fun clear() {

@@ -2,8 +2,9 @@ package com.maxim.diaryforstudents.news.presentation
 
 import android.view.View
 import android.widget.ProgressBar
+import java.io.Serializable
 
-interface NewsState {
+interface NewsState: Serializable {
     fun show(adapter: NewsAdapter, progressBar: ProgressBar)
     data class Base(private val list: List<NewsUi>) : NewsState {
         override fun show(adapter: NewsAdapter, progressBar: ProgressBar) {

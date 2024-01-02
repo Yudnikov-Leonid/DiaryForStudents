@@ -4,8 +4,9 @@ import android.view.View
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import java.io.Serializable
 
-interface PerformanceUi {
+interface PerformanceUi: Serializable {
     fun showName(textView: TextView) {}
     fun showDate(textView: TextView) {}
     fun showGrades(adapter: PerformanceGradesAdapter) {}

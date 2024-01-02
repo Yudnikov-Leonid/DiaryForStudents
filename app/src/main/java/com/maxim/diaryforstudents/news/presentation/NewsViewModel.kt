@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.news.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
@@ -14,7 +15,7 @@ import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 
 class NewsViewModel(
     private val repository: NewsRepository,
-    private val communication: NewsCommunication.Mutable,
+    private val communication: NewsCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     private val openNewsData: OpenNewsData.Save
@@ -22,8 +23,16 @@ class NewsViewModel(
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(NewsState.Loading)
-            repository.init(this)
         }
+        repository.init(this)
+    }
+
+    fun save(bundleWrapper: BundleWrapper.Save) {
+        communication.save(RESTORE_KEY, bundleWrapper)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore) {
+        communication.restore(RESTORE_KEY, bundleWrapper)
     }
 
     override fun reload() {
@@ -46,5 +55,9 @@ class NewsViewModel(
 
     override fun observe(owner: LifecycleOwner, observer: Observer<NewsState>) {
         communication.observe(owner, observer)
+    }
+
+    companion object {
+        private const val RESTORE_KEY = "news_restore"
     }
 }

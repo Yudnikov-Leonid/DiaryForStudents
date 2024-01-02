@@ -3,10 +3,12 @@ package com.maxim.diaryforstudents.editDiary.createLesson.presentation
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.DialogNewLessonBinding
 
@@ -23,10 +25,12 @@ class CreateLessonDialogFragment : DialogFragment() {
             (requireActivity() as ProvideViewModel).viewModel(CreateLessonViewModel::class.java)
 
         savedInstanceState?.let {
-            binding.startTimeInputLayout.editText!!.setText(savedInstanceState.getString(START_TIME)!!)
-            binding.endTimeInputLayout.editText!!.setText(savedInstanceState.getString(END_TIME)!!)
-            binding.themeInputLayout.editText!!.setText(savedInstanceState.getString(THEME)!!)
-            binding.homeworkInputLayout.editText!!.setText(savedInstanceState.getString(HOMEWORK)!!)
+            Log.d("MyLog", "restore 1")
+            viewModel.restore(BundleWrapper.Base(it))
+            binding.startTimeInputLayout.editText!!.setText(it.getString(START_TIME)!!)
+            binding.endTimeInputLayout.editText!!.setText(it.getString(END_TIME)!!)
+            binding.themeInputLayout.editText!!.setText(it.getString(THEME)!!)
+            binding.homeworkInputLayout.editText!!.setText(it.getString(HOMEWORK)!!)
         }
 
 
@@ -80,8 +84,21 @@ class CreateLessonDialogFragment : DialogFragment() {
         return builder.create()
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.let {
+            Log.d("MyLog", "restore 2")
+            viewModel.restore(BundleWrapper.Base(it))
+            binding.startTimeInputLayout.editText!!.setText(it.getString(START_TIME)!!)
+            binding.endTimeInputLayout.editText!!.setText(it.getString(END_TIME)!!)
+            binding.themeInputLayout.editText!!.setText(it.getString(THEME)!!)
+            binding.homeworkInputLayout.editText!!.setText(it.getString(HOMEWORK)!!)
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
         outState.putString(START_TIME, binding.startTimeInputLayout.editText!!.text.toString())
         outState.putString(END_TIME, binding.endTimeInputLayout.editText!!.text.toString())
         outState.putString(THEME, binding.themeInputLayout.editText!!.text.toString())

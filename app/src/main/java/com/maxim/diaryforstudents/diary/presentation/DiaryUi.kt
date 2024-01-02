@@ -3,8 +3,9 @@ package com.maxim.diaryforstudents.diary.presentation
 import android.view.View
 import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import java.io.Serializable
 
-interface DiaryUi {
+interface DiaryUi: Serializable {
     fun same(item: DiaryUi): Boolean
     fun sameContent(item: DiaryUi): Boolean
     fun showTime(textView: TextView) {}

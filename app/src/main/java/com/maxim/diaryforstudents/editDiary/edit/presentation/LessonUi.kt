@@ -3,8 +3,9 @@ package com.maxim.diaryforstudents.editDiary.edit.presentation
 import android.widget.EditText
 import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import java.io.Serializable
 
-interface LessonUi {
+interface LessonUi: Serializable {
     fun showNames(adapter: StudentNamesAdapter) {}
     fun showLessonsAndGrades(adapter: EditGradesAdapter) {}
     fun setGrade(grade: Int?, userId: String, date: Int) {}
@@ -25,7 +26,7 @@ interface LessonUi {
     }
 }
 
-interface GradeUi {
+interface GradeUi: Serializable {
     fun show(textView: TextView)
     fun setGrade(listener: EditGradesAdapter.Listener, grade: Int?) {}
     fun setGrade(grade: Int?, userId: String, date: Int) {}

@@ -22,8 +22,8 @@ class SelectClassViewModel(
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(SelectClassState.Loading)
-            repository.init(this)
         }
+        repository.init(this)
     }
 
     fun open(id: String) {

@@ -2,8 +2,9 @@ package com.maxim.diaryforstudents.menu.presentation
 
 import android.view.View
 import android.widget.ProgressBar
+import java.io.Serializable
 
-interface MenuState {
+interface MenuState: Serializable {
     fun show(
         diary: View,
         performance: View,

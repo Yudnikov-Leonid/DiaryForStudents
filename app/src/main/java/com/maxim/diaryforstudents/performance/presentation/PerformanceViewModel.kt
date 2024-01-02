@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.performance.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
@@ -12,17 +13,25 @@ import com.maxim.diaryforstudents.performance.data.PerformanceRepository
 
 class PerformanceViewModel(
     private val repository: PerformanceRepository,
-    private val communication: PerformanceCommunication.Mutable,
+    private val communication: PerformanceCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel
 ) : BaseViewModel(), Communication.Observe<PerformanceState>, Reload {
     private var type = ACTUAL
     private var search = ""
-    fun init(isFirstRun: Boolean) {
-        if (isFirstRun) {
-            communication.update(PerformanceState.Loading)
-            repository.init(this)
-        }
+    fun init() {
+        communication.update(PerformanceState.Loading)
+        repository.init(this)
+    }
+
+    fun save(bundleWrapper: BundleWrapper.Save) {
+        communication.save(RESTORE_KEY, bundleWrapper)
+        repository.save(bundleWrapper)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore) {
+        communication.restore(RESTORE_KEY, bundleWrapper)
+        repository.restore(bundleWrapper)
     }
 
     fun changeType(type: String) {
@@ -75,5 +84,6 @@ class PerformanceViewModel(
     companion object {
         const val ACTUAL = "grades"
         const val FINAL = "final-grades"
+        private const val RESTORE_KEY = "performance_restore"
     }
 }

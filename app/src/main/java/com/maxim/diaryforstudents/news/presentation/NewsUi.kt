@@ -5,8 +5,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.squareup.picasso.Picasso
+import java.io.Serializable
 
-abstract class NewsUi {
+abstract class NewsUi: Serializable {
     open fun showTitle(textView: TextView) {}
     open fun showDate(textView: TextView) {}
     open fun showContent(textView: TextView) {}

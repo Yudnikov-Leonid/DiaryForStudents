@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentEditDiaryBinding
 
 class EditDiaryFragment : BaseFragment<FragmentEditDiaryBinding, EditDiaryViewModel>() {
@@ -47,5 +48,15 @@ class EditDiaryFragment : BaseFragment<FragmentEditDiaryBinding, EditDiaryViewMo
         }
 
         viewModel.init(savedInstanceState == null)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
     }
 }

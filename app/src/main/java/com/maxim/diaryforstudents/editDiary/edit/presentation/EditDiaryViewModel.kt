@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.editDiary.edit.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
@@ -12,6 +13,7 @@ import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
 import com.maxim.diaryforstudents.editDiary.common.SelectedClassCache
 import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CreateLessonScreen
 import com.maxim.diaryforstudents.editDiary.edit.data.EditDiaryRepository
+import java.io.Serializable
 
 class EditDiaryViewModel(
     private val repository: EditDiaryRepository,
@@ -30,6 +32,21 @@ class EditDiaryViewModel(
                 communication.update(EditDiaryState.Base(it.map { data -> data.mapToUi() }))
             }
         }
+    }
+
+    fun save(bundleWrapper: BundleWrapper.Save) {
+        selectedClassCache.save(bundleWrapper)
+        createCache.save(bundleWrapper)
+        communication.save(RESTORE_KEY, bundleWrapper)
+        repository.save(bundleWrapper)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore) {
+        selectedClassCache.restore(bundleWrapper)
+        createCache.restore(bundleWrapper)
+        communication.restore(RESTORE_KEY, bundleWrapper)
+        repository.restore(bundleWrapper)
+        createCache.cacheAfterDismiss(this)
     }
 
     fun newLesson() {
@@ -68,8 +85,12 @@ class EditDiaryViewModel(
             communication.update(EditDiaryState.Base(it.map { data -> data.mapToUi() }))
         }
     }
+
+    companion object {
+        private const val RESTORE_KEY = "edit_diary_communication_restore"
+    }
 }
 
-interface ReloadAfterDismiss {
+interface ReloadAfterDismiss: Serializable {
     fun reload()
 }

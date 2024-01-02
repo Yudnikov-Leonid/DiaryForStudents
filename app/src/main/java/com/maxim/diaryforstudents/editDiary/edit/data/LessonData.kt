@@ -4,6 +4,7 @@ import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CacheDate
 import com.maxim.diaryforstudents.editDiary.edit.presentation.GradeUi
 import com.maxim.diaryforstudents.editDiary.edit.presentation.LessonUi
 import com.maxim.diaryforstudents.editDiary.edit.presentation.StudentUi
+import java.io.Serializable
 
 interface LessonData {
     fun mapToUi(): LessonUi
@@ -16,7 +17,7 @@ interface LessonData {
     }
 }
 
-interface GradeData {
+interface GradeData: Serializable {
     fun toUi(): GradeUi
     fun cacheDate(cache: CacheDate) {}
 

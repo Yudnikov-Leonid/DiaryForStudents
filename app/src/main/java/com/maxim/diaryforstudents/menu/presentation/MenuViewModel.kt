@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.menu.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
@@ -32,6 +33,14 @@ class MenuViewModel(
         navigation.update(DiaryScreen)
     }
 
+    fun save(bundleWrapper: BundleWrapper.Save) {
+        communication.save(RESTORE_KEY, bundleWrapper)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore) {
+        communication.restore(RESTORE_KEY, bundleWrapper)
+    }
+
     fun diaryForTeacher() {
         navigation.update(SelectClassScreen)
     }
@@ -50,5 +59,9 @@ class MenuViewModel(
 
     override fun observe(owner: LifecycleOwner, observer: Observer<MenuState>) {
         communication.observe(owner, observer)
+    }
+
+    companion object {
+        private const val RESTORE_KEY = "menu_restore"
     }
 }

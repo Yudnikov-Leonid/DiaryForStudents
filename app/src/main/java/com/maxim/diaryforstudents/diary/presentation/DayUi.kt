@@ -5,11 +5,12 @@ import android.view.View
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import java.io.Serializable
 
 data class DayUi(
     private val date: Int,
     private val isSelected: Boolean
-) {
+): Serializable {
     fun same(item: DayUi) = item.date == date
     fun showDayOfTheWeek(textView: TextView) {
         textView.text = Formatter.Base.format("EE", date)

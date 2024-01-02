@@ -8,8 +8,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.maxim.diaryforstudents.R
+import java.io.Serializable
 
-interface PerformanceState {
+interface PerformanceState: Serializable {
     fun show(
         quarterLayout: View,
         first: Button,

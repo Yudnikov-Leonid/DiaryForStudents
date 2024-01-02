@@ -3,8 +3,9 @@ package com.maxim.diaryforstudents.profile.data
 import android.view.View
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
+import java.io.Serializable
 
-interface GradeResult {
+interface GradeResult: Serializable {
     fun show(textView: TextView)
     data class Student(private val value: String) : GradeResult {
         override fun show(textView: TextView) {

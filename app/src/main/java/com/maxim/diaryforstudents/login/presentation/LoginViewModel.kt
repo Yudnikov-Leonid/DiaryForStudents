@@ -14,7 +14,7 @@ import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 
 class LoginViewModel(
     private val repository: LoginRepository,
-    private val communication: LoginCommunication.Mutable,
+    private val communication: LoginCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     private val resource: ManageResource,

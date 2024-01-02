@@ -4,8 +4,9 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import java.io.Serializable
 
-interface DiaryState {
+interface DiaryState: Serializable {
     fun show(
         lessonsAdapter: DiaryLessonsAdapter,
         daysAdapter: DiaryDaysAdapter,
