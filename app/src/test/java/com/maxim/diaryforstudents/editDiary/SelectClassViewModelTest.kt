@@ -51,7 +51,7 @@ class SelectClassViewModelTest {
 
         viewModel.init(false)
         communication.checkCalledTimes(1)
-        repository.checkInitCalledTimes(1)
+        repository.checkInitCalledTimes(2)
     }
 
     @Test

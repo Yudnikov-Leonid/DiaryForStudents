@@ -139,7 +139,7 @@ private class FakeLoginRepository : LoginRepository {
     }
 }
 
-private class FakeLoginCommunication : LoginCommunication.Mutable {
+private class FakeLoginCommunication : LoginCommunication {
     private val list = mutableListOf<LoginState>()
     override fun update(value: LoginState) {
         list.add(value)

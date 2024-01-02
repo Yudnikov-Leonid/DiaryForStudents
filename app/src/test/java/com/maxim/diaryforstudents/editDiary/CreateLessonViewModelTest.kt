@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.editDiary
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
 import com.maxim.diaryforstudents.editDiary.createLesson.data.CreateLessonRepository
@@ -13,6 +14,7 @@ import com.maxim.diaryforstudents.editDiary.createLesson.presentation.UiValidato
 import com.maxim.diaryforstudents.editDiary.createLesson.presentation.ValidationException
 import com.maxim.diaryforstudents.editDiary.edit.data.GradeData
 import com.maxim.diaryforstudents.editDiary.edit.presentation.ReloadAfterDismiss
+import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeManageResources
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
@@ -174,6 +176,22 @@ class CreateLessonViewModelTest {
         communication.checkCalledTimes(4)
         communication.checkCalledWith(CreateLessonState.Error("error"))
     }
+
+    @Test
+    fun test_save_and_restore() {
+        val bundleWrapper = FakeBundleWrapper()
+        viewModel.save(bundleWrapper)
+        cache.checkSaveCalledTimes(1)
+        cache.checkRestoreCalledTimes(0)
+        cache.checkSaveCalledWith(bundleWrapper)
+
+        viewModel.restore(bundleWrapper)
+        cache.checkSaveCalledTimes(1)
+        cache.checkRestoreCalledTimes(1)
+        cache.checkRestoreCalledWith(bundleWrapper)
+
+        bundleWrapper.checkSaveAndRestoreWasCalledWithSameKey()
+    }
 }
 
 private class FakeUiValidator : UiValidator {
@@ -233,6 +251,33 @@ private class FakeCreateLessonCache : CreateLessonCache.Read {
     override fun afterDismiss() = afterDismiss!!
 
     override fun lesson(): GradeData.Date? = lessonReturn
+
+
+    private val saveList = mutableListOf<BundleWrapper.Save>()
+    private val restoreList = mutableListOf<BundleWrapper.Restore>()
+    fun checkSaveCalledTimes(expected: Int) {
+        assertEquals(expected, saveList.size)
+    }
+
+    fun checkSaveCalledWith(expected: BundleWrapper.Save) {
+        assertEquals(expected, saveList.last())
+    }
+
+    fun checkRestoreCalledTimes(expected: Int) {
+        assertEquals(expected, restoreList.size)
+    }
+
+    fun checkRestoreCalledWith(expected: BundleWrapper.Restore) {
+        assertEquals(expected, restoreList.last())
+    }
+
+    override fun save(bundleWrapper: BundleWrapper.Save) {
+        saveList.add(bundleWrapper)
+    }
+
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
+        restoreList.add(bundleWrapper)
+    }
 }
 
 private class FakeCreateLessonCommunication : CreateLessonCommunication {

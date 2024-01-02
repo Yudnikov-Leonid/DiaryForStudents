@@ -2,8 +2,10 @@ package com.maxim.diaryforstudents.menu
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
 import com.maxim.diaryforstudents.editDiary.selectClass.presentation.SelectClassScreen
+import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.Order
@@ -96,6 +98,22 @@ class MenuViewModelTest {
         navigation.checkCalledTimes(1)
         navigation.checkCalledWith(NewsScreen)
     }
+
+    @Test
+    fun test_save_and_restore() {
+        val bundleWrapper = FakeBundleWrapper()
+        viewModel.save(bundleWrapper)
+        communication.checkSaveCalledTimes(1)
+        communication.checkRestoreCalledTimes(0)
+        communication.checkSaveCalledWith(bundleWrapper)
+
+        viewModel.restore(bundleWrapper)
+        communication.checkSaveCalledTimes(1)
+        communication.checkRestoreCalledTimes(1)
+        communication.checkRestoreCalledWith(bundleWrapper)
+
+        communication.checkSaveAndRestoreWasCalledWithSameKey()
+    }
 }
 
 private class FakeMenuCommunication : MenuCommunication {
@@ -114,6 +132,40 @@ private class FakeMenuCommunication : MenuCommunication {
 
     override fun observe(owner: LifecycleOwner, observer: Observer<MenuState>) {
         throw IllegalStateException("not using in test")
+    }
+
+    private val saveList = mutableListOf<BundleWrapper.Save>()
+    private val restoreList = mutableListOf<BundleWrapper.Restore>()
+    private var saveKey = ""
+    private var restoreKey = ""
+    fun checkSaveCalledTimes(expected: Int) {
+        assertEquals(expected, saveList.size)
+    }
+
+    fun checkSaveCalledWith(expected: BundleWrapper.Save) {
+        assertEquals(expected, saveList.last())
+    }
+
+    fun checkSaveAndRestoreWasCalledWithSameKey() {
+        assertEquals(saveKey, restoreKey)
+    }
+
+    fun checkRestoreCalledTimes(expected: Int) {
+        assertEquals(expected, restoreList.size)
+    }
+
+    fun checkRestoreCalledWith(expected: BundleWrapper.Restore) {
+        assertEquals(expected, restoreList.last())
+    }
+
+    override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
+        saveList.add(bundleWrapper)
+        saveKey = key
+    }
+
+    override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
+        restoreList.add(bundleWrapper)
+        restoreKey = key
     }
 }
 

@@ -2,9 +2,11 @@ package com.maxim.diaryforstudents.performance
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.fakes.CLEAR
+import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
@@ -39,15 +41,11 @@ class PerformanceViewModelTest {
 
     @Test
     fun test_init() {
-        viewModel.init(true)
+        viewModel.init()
         repository.checkInitCalledTimes(1)
         repository.checkInitCalledWith(viewModel)
         communication.checkCalledTimes(1)
         communication.checkCalledWith(PerformanceState.Loading)
-
-        viewModel.init(false)
-        repository.checkInitCalledTimes(1)
-        communication.checkCalledTimes(1)
     }
 
     @Test
@@ -125,9 +123,31 @@ class PerformanceViewModelTest {
         repository.checkDataCalledWith("123")
         repository.checkActualQuarterCalledTimes(1)
     }
+
+    @Test
+    fun test_save_and_restore() {
+        val bundleWrapper = FakeBundleWrapper()
+        viewModel.save(bundleWrapper)
+        communication.checkSaveCalledTimes(1)
+        communication.checkRestoreCalledTimes(0)
+        communication.checkSaveCalledWith(bundleWrapper)
+        repository.checkSaveCalledTimes(1)
+        repository.checkRestoreCalledTimes(0)
+        repository.checkSaveCalledWith(bundleWrapper)
+
+        viewModel.restore(bundleWrapper)
+        communication.checkSaveCalledTimes(1)
+        communication.checkRestoreCalledTimes(1)
+        communication.checkRestoreCalledWith(bundleWrapper)
+        repository.checkSaveCalledTimes(1)
+        repository.checkRestoreCalledTimes(1)
+        repository.checkRestoreCalledWith(bundleWrapper)
+
+        communication.checkSaveAndRestoreWasCalledWithSameKey()
+    }
 }
 
-private class FakePerformanceCommunication : PerformanceCommunication.Mutable {
+private class FakePerformanceCommunication : PerformanceCommunication {
     private val list = mutableListOf<PerformanceState>()
     override fun update(value: PerformanceState) {
         list.add(value)
@@ -143,6 +163,41 @@ private class FakePerformanceCommunication : PerformanceCommunication.Mutable {
 
     override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
         throw IllegalStateException("not using in test")
+    }
+
+
+    private val saveList = mutableListOf<BundleWrapper.Save>()
+    private val restoreList = mutableListOf<BundleWrapper.Restore>()
+    private var saveKey = ""
+    private var restoreKey = ""
+    fun checkSaveCalledTimes(expected: Int) {
+        assertEquals(expected, saveList.size)
+    }
+
+    fun checkSaveCalledWith(expected: BundleWrapper.Save) {
+        assertEquals(expected, saveList.last())
+    }
+
+    fun checkSaveAndRestoreWasCalledWithSameKey() {
+        assertEquals(saveKey, restoreKey)
+    }
+
+    fun checkRestoreCalledTimes(expected: Int) {
+        assertEquals(expected, restoreList.size)
+    }
+
+    fun checkRestoreCalledWith(expected: BundleWrapper.Restore) {
+        assertEquals(expected, restoreList.last())
+    }
+
+    override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
+        saveList.add(bundleWrapper)
+        saveKey = key
+    }
+
+    override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
+        restoreList.add(bundleWrapper)
+        restoreKey = key
     }
 }
 
@@ -216,5 +271,32 @@ private class FakePerformanceRepository: PerformanceRepository {
 
     fun checkInitCalledWith(expected: Reload) {
         assertEquals(expected, reload)
+    }
+
+
+    private val saveList = mutableListOf<BundleWrapper.Save>()
+    private val restoreList = mutableListOf<BundleWrapper.Restore>()
+    fun checkSaveCalledTimes(expected: Int) {
+        assertEquals(expected, saveList.size)
+    }
+
+    fun checkSaveCalledWith(expected: BundleWrapper.Save) {
+        assertEquals(expected, saveList.last())
+    }
+
+    fun checkRestoreCalledTimes(expected: Int) {
+        assertEquals(expected, restoreList.size)
+    }
+
+    fun checkRestoreCalledWith(expected: BundleWrapper.Restore) {
+        assertEquals(expected, restoreList.last())
+    }
+
+    override fun save(bundleWrapper: BundleWrapper.Save) {
+        saveList.add(bundleWrapper)
+    }
+
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
+        restoreList.add(bundleWrapper)
     }
 }
