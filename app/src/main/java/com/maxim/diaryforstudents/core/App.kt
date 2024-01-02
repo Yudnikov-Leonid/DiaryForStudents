@@ -13,7 +13,7 @@ class App : Application(), ProvideViewModel {
     override fun onCreate() {
         super.onCreate()
         factory = ViewModelFactory.Empty
-        val dependencyContainer = DependencyContainer.Base(Core(this), object : ClearViewModel {
+        val dependencyContainer = DependencyContainer.Base(Core.Base(this), object : ClearViewModel {
             override fun clearViewModel(clasz: Class<out ViewModel>) {
                 factory.clearViewModel(clasz)
             }

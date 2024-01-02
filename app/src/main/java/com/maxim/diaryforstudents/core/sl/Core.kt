@@ -15,40 +15,82 @@ import com.maxim.diaryforstudents.editDiary.common.CreateLessonCache
 import com.maxim.diaryforstudents.editDiary.common.SelectedClassCache
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.openNews.OpenNewsData
+import com.maxim.diaryforstudents.profile.data.ClientWrapper
 
-class Core(private val context: Context) : ManageResource {
+interface Core : ManageResource, ProvideService, ProvideMyUser, ProvideCreateLessonCache,
+    ProvideSelectedClassCache, ProvideClientWrapper, ProvideOpenNewsData, ProvideNavigation,
+    ProvideLessonsMapper {
+    class Base(private val context: Context) : Core {
 
-    private val manageResource by lazy { ManageResource.Base(context.resources) }
-    private val navigation = Navigation.Base()
-    private val openNewsData by lazy { OpenNewsData.Base() }
-    private val lessonsMapper = LessonMapper.Base(manageResource)
-    fun context() = context
-    fun lessonsMapper() = lessonsMapper
-    private val service = Service.Base(context, CoroutineHandler.Base())
-    fun service() = service
+        private val manageResource by lazy { ManageResource.Base(context.resources) }
+        private val navigation = Navigation.Base()
+        private val openNewsData by lazy { OpenNewsData.Base() }
 
-    fun navigation(): Navigation.Mutable = navigation
-    fun openNewsData() = openNewsData
-    fun googleClient(): GoogleSignInClient {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(string(R.string.client_web_id))
-            .requestEmail()
-            .build()
-        return GoogleSignIn.getClient(context, gso)
-    }
+        private val lessonsMapper = LessonMapper.Base(manageResource)
+        override fun lessonsMapper() = lessonsMapper
 
-    private val selectedClassCache = SelectedClassCache.Base()
-    fun selectedClassCache() = selectedClassCache
 
-    private val createLessonCache = CreateLessonCache.Base()
-    fun createLessonCache() = createLessonCache
-    private val myUser = MyUser.Base(object : NavigateToLogin {
-        override fun navigate() {
-            navigation.update(LoginScreen)
+        private val service = Service.Base(context, CoroutineHandler.Base())
+        override fun service() = service
+
+        override fun navigation(): Navigation.Mutable = navigation
+        override fun openNewsData() = openNewsData
+
+        private val selectedClassCache: SelectedClassCache.Mutable = SelectedClassCache.Base()
+        override fun selectedClassCache() = selectedClassCache
+
+        private val clientWrapper = ClientWrapper.Base(googleClient())
+        override fun clientWrapper() = clientWrapper
+
+        private val createLessonCache: CreateLessonCache.Mutable = CreateLessonCache.Base()
+        override fun createLessonCache() = createLessonCache
+        private val myUser = MyUser.Base(object : NavigateToLogin {
+            override fun navigate() {
+                navigation.update(LoginScreen)
+            }
+        })
+
+        override fun myUser() = myUser
+        override fun string(key: Int) = manageResource.string(key)
+
+        private fun googleClient(): GoogleSignInClient {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(string(R.string.client_web_id))
+                .requestEmail()
+                .build()
+            return GoogleSignIn.getClient(context, gso)
         }
-    })
+    }
+}
 
-    fun myUser() = myUser
+interface ProvideService {
+    fun service(): Service
+}
 
-    override fun string(key: Int) = manageResource.string(key)
+interface ProvideMyUser {
+    fun myUser(): MyUser
+}
+
+interface ProvideCreateLessonCache {
+    fun createLessonCache(): CreateLessonCache.Mutable
+}
+
+interface ProvideSelectedClassCache {
+    fun selectedClassCache(): SelectedClassCache.Mutable
+}
+
+interface ProvideClientWrapper {
+    fun clientWrapper(): ClientWrapper
+}
+
+interface ProvideOpenNewsData {
+    fun openNewsData(): OpenNewsData.Mutable
+}
+
+interface ProvideNavigation {
+    fun navigation(): Navigation.Mutable
+}
+
+interface ProvideLessonsMapper {
+    fun lessonsMapper(): LessonMapper
 }
