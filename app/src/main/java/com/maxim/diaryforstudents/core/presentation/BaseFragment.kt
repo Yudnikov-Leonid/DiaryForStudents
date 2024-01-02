@@ -11,7 +11,7 @@ import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 
 abstract class BaseFragment<B : ViewBinding, V : ViewModel> : Fragment() {
-    private var _binding: B? = null
+    protected var _binding: B? = null
     protected val binding get() = _binding!!
     protected var onBackPressedCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {

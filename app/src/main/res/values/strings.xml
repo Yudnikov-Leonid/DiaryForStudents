@@ -46,7 +46,7 @@
     <string name="search">Search</string>
     <string name="sign_out">Sign out</string>
     <string name="lesson">Lesson</string>
-    <string name="average">Average: </string>
+    <string name="average">Average:</string>
     <string name="no_data">No data</string>
     <string name="you_have_created_lesson">You have already created a lesson today</string>
 </resources>

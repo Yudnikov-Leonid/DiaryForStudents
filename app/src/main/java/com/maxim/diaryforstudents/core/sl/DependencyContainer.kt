@@ -25,7 +25,7 @@ import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import com.maxim.diaryforstudents.profile.sl.ProfileModule
 
 interface DependencyContainer {
-    fun <T : ViewModel> module(clasz: Class<T>): Module<*>
+    fun <T : ViewModel> module(clasz: Class<T>): Module<T>
 
     class Error : DependencyContainer {
         override fun <T : ViewModel> module(clasz: Class<T>) =
@@ -50,6 +50,6 @@ interface DependencyContainer {
             EditDiaryViewModel::class.java -> EditDiaryModule(core, clear)
             CreateLessonViewModel::class.java -> CreateLessonModule(core, clear)
             else -> dependencyContainer.module(clasz)
-        }
+        } as Module<T>
     }
 }

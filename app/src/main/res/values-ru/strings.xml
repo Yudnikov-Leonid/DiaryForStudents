@@ -35,14 +35,14 @@
     <string name="welcome">Добро пожаловать в дневник!</string>
     <string name="diary">Дневник</string>
     <string name="diary_for_teacher">Дневник для учителей</string>
-    <string name="performance">Успеваемсоть</string>
+    <string name="performance">Успеваемость</string>
     <string name="profile">Профиль</string>
     <string name="news">Новости</string>
     <string name="actual">Текущие</string>
     <string name="search">Поиск</string>
     <string name="sign_out">Выйти</string>
     <string name="lesson">Урок</string>
-    <string name="average">Средний балл: </string>
+    <string name="average">Средний балл:</string>
     <string name="no_data">Нет данных</string>
     <string name="you_have_created_lesson">На сегодня урок уже создан</string>
 </resources>

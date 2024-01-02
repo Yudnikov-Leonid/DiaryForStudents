@@ -11,8 +11,7 @@ import com.maxim.diaryforstudents.databinding.FragmentPerformanceBinding
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, PerformanceViewModel>() {
-    override val viewModelClass: Class<PerformanceViewModel>
-        get() = PerformanceViewModel::class.java
+    override val viewModelClass = PerformanceViewModel::class.java
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentPerformanceBinding.inflate(inflater, container, false)
@@ -62,7 +61,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         binding.searchEditText.addTextChangedListener {
             viewModel.search(binding.searchEditText.text.toString())
         }
-        KeyboardVisibilityEvent.setEventListener(requireActivity()) { isOpen ->
+        KeyboardVisibilityEvent.setEventListener(requireActivity(), this) { isOpen ->
             if (!isOpen)
                 binding.searchEditText.clearFocus()
         }
