@@ -10,7 +10,6 @@ import com.maxim.diaryforstudents.editDiary.createLesson.data.CreateResult
 import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CreateLessonCommunication
 import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CreateLessonState
 import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CreateLessonViewModel
-import com.maxim.diaryforstudents.editDiary.createLesson.presentation.UiValidator
 import com.maxim.diaryforstudents.editDiary.createLesson.presentation.ValidationException
 import com.maxim.diaryforstudents.editDiary.edit.data.GradeData
 import com.maxim.diaryforstudents.editDiary.edit.presentation.ReloadAfterDismiss
@@ -18,6 +17,7 @@ import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeManageResources
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
+import com.maxim.diaryforstudents.fakes.FakeUiValidator
 import com.maxim.diaryforstudents.fakes.Order
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
@@ -191,35 +191,6 @@ class CreateLessonViewModelTest {
         cache.checkRestoreCalledWith(bundleWrapper)
 
         bundleWrapper.checkSaveAndRestoreWasCalledWithSameKey()
-    }
-}
-
-private class FakeUiValidator : UiValidator {
-    private var counter = 0
-    private var firstException: Exception? = null
-    private var secondException: Exception? = null
-    private val list = mutableListOf<String>()
-    fun mustThrowFirst(value: Exception) {
-        firstException = value
-    }
-
-    fun mustThrowSecond(value: Exception) {
-        secondException = value
-    }
-
-    fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, list.size)
-    }
-
-    fun checkCalledWith(expected: String) {
-        assertEquals(expected, list.last())
-    }
-
-    override fun isValid(value: String) {
-        list.add(value)
-        counter++
-        if (counter == 1 && firstException != null) throw firstException!!
-        else if (counter == 2 && secondException != null) throw secondException!!
     }
 }
 

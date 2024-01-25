@@ -9,6 +9,8 @@ import com.maxim.diaryforstudents.editDiary.edit.presentation.EditDiaryViewModel
 import com.maxim.diaryforstudents.editDiary.edit.sl.EditDiaryModule
 import com.maxim.diaryforstudents.editDiary.selectClass.presentation.SelectClassViewModel
 import com.maxim.diaryforstudents.editDiary.selectClass.sl.SelectClassModule
+import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginViewModel
+import com.maxim.diaryforstudents.eduLogin.sl.EduLoginModule
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.login.sl.LoginModule
 import com.maxim.diaryforstudents.main.MainModule
@@ -40,6 +42,7 @@ interface DependencyContainer {
         override fun <T : ViewModel> module(clasz: Class<T>) = when (clasz) {
             MainViewModel::class.java -> MainModule(core)
             LoginViewModel::class.java -> LoginModule(core, clear)
+            EduLoginViewModel::class.java -> EduLoginModule(core, clear)
             MenuViewModel::class.java -> MenuModule(core)
             ProfileViewModel::class.java -> ProfileModule(core, clear)
             NewsViewModel::class.java -> NewsModule(core, clear)
