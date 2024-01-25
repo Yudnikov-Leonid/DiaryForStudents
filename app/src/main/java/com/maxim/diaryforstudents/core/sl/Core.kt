@@ -16,10 +16,15 @@ import com.maxim.diaryforstudents.editDiary.common.SelectedClassCache
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.openNews.OpenNewsData
 import com.maxim.diaryforstudents.profile.data.ClientWrapper
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideMyUser, ProvideCreateLessonCache,
     ProvideSelectedClassCache, ProvideClientWrapper, ProvideOpenNewsData, ProvideNavigation,
-    ProvideLessonsMapper {
+    ProvideLessonsMapper, ProvideRetrofit {
+
     class Base(private val context: Context) : Core {
 
         private val manageResource by lazy { ManageResource.Base(context.resources) }
@@ -28,6 +33,21 @@ interface Core : ManageResource, ProvideService, ProvideMyUser, ProvideCreateLes
 
         private val lessonsMapper = LessonMapper.Base(manageResource)
         override fun lessonsMapper() = lessonsMapper
+
+        val client: OkHttpClient.Builder
+
+        init {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+            client = OkHttpClient.Builder()
+            client.addInterceptor(interceptor)
+        }
+
+        private val retrofit =
+            Retrofit.Builder().baseUrl("https://mp.43edu.ru/journals/").client(client.build())
+                .addConverterFactory(GsonConverterFactory.create()).build()
+
+        override fun retrofit() = retrofit
 
 
         private val service = Service.Base(context, CoroutineHandler.Base())
@@ -93,4 +113,8 @@ interface ProvideNavigation {
 
 interface ProvideLessonsMapper {
     fun lessonsMapper(): LessonMapper
+}
+
+interface ProvideRetrofit {
+    fun retrofit(): Retrofit
 }

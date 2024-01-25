@@ -34,8 +34,8 @@ class EduLoginViewModel(
             communication.update(EduLoginState.Loading)
             handle({ repository.login(login, password) }) { result ->
                 if (result.isSuccessful()) {
-                    navigation.update(MenuScreen)
-                    clearViewModel.clearViewModel(EduLoginViewModel::class.java)
+                    //navigation.update(MenuScreen)
+                    //clearViewModel.clearViewModel(EduLoginViewModel::class.java)
                 }
                 else
                     communication.update(EduLoginState.Error(result.message()))
