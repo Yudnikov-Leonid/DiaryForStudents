@@ -1,0 +1,3 @@
+package com.maxim.diaryforstudents.eduLogin.presentation
+
+object EduLoginScreen
