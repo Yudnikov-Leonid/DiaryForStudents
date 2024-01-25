@@ -1,16 +1,18 @@
 package com.maxim.diaryforstudents.eduLogin.data
 
-import android.util.Log
+import com.maxim.diaryforstudents.core.data.SimpleStorage
 
 interface EduLoginRepository {
     suspend fun login(login: String, password: String): EduLoginResult
 
-    class Base(private val service: LoginService) : EduLoginRepository {
+    class Base(private val service: LoginService, private val storage: SimpleStorage) : EduLoginRepository {
         override suspend fun login(login: String, password: String): EduLoginResult {
             return try {
                 val data = service.login(LoginBody("", login, password))
                 if (data.success) {
-                    Log.d("MyLog", "name: ${data.data.SCHOOLS.first().PARTICIPANT.NAME}")
+                    val guid = data.data.SCHOOLS.first().PARTICIPANT.SYS_GUID
+                    val dataLogin = data.data.LOGIN
+                    storage.save("GUID", guid)
                     EduLoginResult.Success
                 } else {
                     EduLoginResult.Failure(data.message)
