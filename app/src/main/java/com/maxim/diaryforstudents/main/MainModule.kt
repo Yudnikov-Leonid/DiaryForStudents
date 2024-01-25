@@ -4,5 +4,6 @@ import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module
 
 class MainModule(private val core: Core) : Module<MainViewModel> {
-    override fun viewModel() = MainViewModel(core.navigation())
+    override fun viewModel() =
+        MainViewModel(MainInteractor.Base(core.simpleStorage()), core.navigation())
 }

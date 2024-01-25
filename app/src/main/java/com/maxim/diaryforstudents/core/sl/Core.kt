@@ -6,6 +6,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.data.LessonMapper
+import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.service.CoroutineHandler
 import com.maxim.diaryforstudents.core.service.MyUser
@@ -23,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideMyUser, ProvideCreateLessonCache,
     ProvideSelectedClassCache, ProvideClientWrapper, ProvideOpenNewsData, ProvideNavigation,
-    ProvideLessonsMapper, ProvideRetrofit {
+    ProvideLessonsMapper, ProvideRetrofit, ProvideSimpleStorage {
 
     class Base(private val context: Context) : Core {
 
@@ -48,6 +49,11 @@ interface Core : ManageResource, ProvideService, ProvideMyUser, ProvideCreateLes
                 .addConverterFactory(GsonConverterFactory.create()).build()
 
         override fun retrofit() = retrofit
+
+        private val simpleStorage =
+            SimpleStorage.Base(context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE))
+
+        override fun simpleStorage() = simpleStorage
 
 
         private val service = Service.Base(context, CoroutineHandler.Base())
@@ -79,6 +85,10 @@ interface Core : ManageResource, ProvideService, ProvideMyUser, ProvideCreateLes
                 .requestEmail()
                 .build()
             return GoogleSignIn.getClient(context, gso)
+        }
+
+        companion object {
+            private const val STORAGE_NAME = "DIARY_STORAGE"
         }
     }
 }
@@ -117,4 +127,8 @@ interface ProvideLessonsMapper {
 
 interface ProvideRetrofit {
     fun retrofit(): Retrofit
+}
+
+interface ProvideSimpleStorage {
+    fun simpleStorage(): SimpleStorage
 }
