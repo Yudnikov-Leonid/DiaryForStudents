@@ -30,7 +30,7 @@ interface DiaryUi: Serializable {
 
     data class Lesson(
         private val name: String,
-        private val theme: String,
+        private val topic: String,
         private val homework: String,
         private val startTime: String,
         private val endTime: String,
@@ -47,9 +47,9 @@ interface DiaryUi: Serializable {
         }
 
         override fun showTheme(textView: TextView, title: TextView) {
-            textView.text = theme
-            title.visibility = if (theme.isEmpty()) View.GONE else View.VISIBLE
-            textView.visibility = if (theme.isEmpty()) View.GONE else View.VISIBLE
+            textView.text = topic
+            title.visibility = if (topic.isEmpty()) View.GONE else View.VISIBLE
+            textView.visibility = if (topic.isEmpty()) View.GONE else View.VISIBLE
         }
 
         override fun showHomework(textView: TextView, title: TextView) {
@@ -61,7 +61,7 @@ interface DiaryUi: Serializable {
         override fun same(item: DiaryUi) = item is Lesson && item.date == date
 
         override fun sameContent(item: DiaryUi) =
-            item is Lesson && item.name == name && item.theme == theme
+            item is Lesson && item.name == name && item.topic == topic
                     && item.homework == homework && item.startTime == startTime && item.endTime == endTime
     }
 

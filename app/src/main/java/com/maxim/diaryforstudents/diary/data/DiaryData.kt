@@ -15,14 +15,14 @@ interface DiaryData {
 
     data class Lesson(
         private val name: String,
-        private val theme: String,
+        private val topic: String,
         private val homework: String,
         private val startTime: String,
         private val endTime: String,
         private val date: Int
     ) : DiaryData {
         override fun isDate(date: Int) = date == this.date
-        override fun toUi() = DiaryUi.Lesson(name, theme, homework, startTime, endTime, date)
+        override fun toUi() = DiaryUi.Lesson(name, topic, homework, startTime, endTime, date)
     }
 
     object Empty : DiaryData {

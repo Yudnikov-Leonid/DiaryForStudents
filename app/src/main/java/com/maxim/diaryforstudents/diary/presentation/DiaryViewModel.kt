@@ -6,30 +6,26 @@ import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
-import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.diary.data.DiaryRepository
+import com.maxim.diaryforstudents.diary.eduData.EduDiaryRepository
 
 class DiaryViewModel(
-    private val repository: DiaryRepository,
+    private val repository: EduDiaryRepository,
     private val communication: DiaryCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Reload, Communication.Observe<DiaryState> {
+) : BaseViewModel(runAsync), Communication.Observe<DiaryState> {
     private var actualDay = 0
-    private var week = 0
-    fun init() {
-        if (actualDay == 0) {
-            communication.update(DiaryState.Progress)
+
+    fun init(isFirstRun: Boolean) {
+        if (isFirstRun) {
             actualDay = repository.actualDate()
+            communication.update(DiaryState.Progress)
+            reload()
         }
-        week = (actualDay + 3) / 7 - 1
-        handle({
-            repository.init(this, week)
-        }) {}
     }
 
     fun save(bundleWrapper: BundleWrapper.Save) {
@@ -44,20 +40,17 @@ class DiaryViewModel(
 
     fun nextDay() {
         actualDay++
-        if (week != (actualDay + 3) / 7 - 1) init()
-        else reload()
+        reload()
     }
 
     fun previousDay() {
         actualDay--
-        if (week != (actualDay + 3) / 7 - 1) init()
-        else reload()
+        reload()
     }
 
     fun setActualDay(day: Int) {
         actualDay = day
-        if (week != (actualDay + 3) / 7 - 1) init()
-        else reload()
+        reload()
     }
 
     fun back() {
@@ -65,17 +58,10 @@ class DiaryViewModel(
         clear.clearViewModel(DiaryViewModel::class.java)
     }
 
-    override fun reload() {
-        communication.update(
-            DiaryState.Base(
-                repository.date(actualDay).toUi(),
-                repository.dayList(actualDay).map { it.toUi() }
-            )
-        )
-    }
-
-    override fun error(message: String) {
-        communication.update(DiaryState.Error(message))
+    fun reload() {
+        handle({repository.day(actualDay)}) { day ->
+            communication.update(DiaryState.Base(day.toUi(), repository.dayList(actualDay).map { it.toUi() }))
+        }
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<DiaryState>) {

@@ -54,7 +54,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 binding.lessonsRecyclerView
             )
         }
-        viewModel.init()
+        viewModel.init(savedInstanceState == null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
