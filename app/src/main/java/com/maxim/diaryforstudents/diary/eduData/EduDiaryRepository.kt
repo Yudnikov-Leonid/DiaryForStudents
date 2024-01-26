@@ -17,6 +17,8 @@ interface EduDiaryRepository {
         private val formatter: Formatter,
         private val eduUser: EduUser
     ) : EduDiaryRepository {
+        private val cache = mutableMapOf<String, DiaryData.Day>()
+
         override fun dayList(today: Int): List<DayData> {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = today * 86400000L
@@ -43,9 +45,11 @@ interface EduDiaryRepository {
 
         override suspend fun day(date: Int): DiaryData.Day {
             val formattedDate = formatter.format("dd.MM.yyyy", date)
+            cache[formattedDate]?.let { return it }
+
             val data =
                 service.getDay(EduDiaryBody(formattedDate, BuildConfig.SHORT_API_KEY, eduUser.guid(), ""))
-            return if (data.success) DiaryData.Day(
+            val day = if (data.success) DiaryData.Day(
                 date,
                 data.data.map { lesson ->
                     DiaryData.Lesson(
@@ -58,6 +62,8 @@ interface EduDiaryRepository {
                     )
                 }.ifEmpty { listOf(DiaryData.Empty) }
             ) else DiaryData.Day(0, emptyList())
+            cache[formattedDate] = day
+            return day
         }
 
         override fun actualDate() = (System.currentTimeMillis() / 86400000).toInt()
