@@ -4,18 +4,31 @@ import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.performance.data.PerformanceData
 
 interface EduLoginCloudDataSource {
-    suspend fun data(): List<PerformanceData>
+    suspend fun data(quarter: Int): List<PerformanceData>
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: DiaryService, private val storage: SimpleStorage) :
         EduLoginCloudDataSource {
 
-        override suspend fun data(): List<PerformanceData> {
+        override suspend fun data(quarter: Int): List<PerformanceData> {
+            val from = when (quarter) {
+                1 -> "01.09.2023"
+                2 -> "06.11.2023"
+                3 -> "09.01.2024"
+                else -> "01.04.2024"
+            }
+            val to = when (quarter) {
+                1 -> "27.10.2023"
+                2 -> "29.12.2023"
+                3 -> "22.03.2024"
+                else -> "26.05.2024"
+            }
+
             val data =
                 service.getMarks(
                     EduPerformanceBody(
                         "SRJTDhppUiI", storage.read("GUID", ""),
-                        "09.01.2024", "22.03.2024", ""
+                        from, to, ""
                     )
                 )
 
