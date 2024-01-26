@@ -20,15 +20,17 @@ class PerformanceViewModel(
 ) : BaseViewModel(runAsync), Communication.Observe<PerformanceState> {
     private var type: MarksType = MarksType.Base
     private var search = ""
+    private var quarter = 0
 
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
+            quarter = repository.actualQuarter()
             communication.update(PerformanceState.Loading)
             handle({ repository.init() }) {
                 val list = repository.cachedData()
                 communication.update(
                     PerformanceState.Base(
-                        repository.actualQuarter(),
+                        quarter,
                         list.map { it.toUi() },
                         false
                     )
@@ -45,10 +47,11 @@ class PerformanceViewModel(
     fun search(search: String) {
         this.search = search
         val list = type.search(repository, search)
-        communication.update(PerformanceState.Base(3, list.map { it.toUi() }, type.isFinal()))
+        communication.update(PerformanceState.Base(quarter, list.map { it.toUi() }, type.isFinal()))
     }
 
     fun changeQuarter(quarter: Int) {
+        this.quarter = quarter
         communication.update(PerformanceState.Loading)
         handle({ repository.changeQuarter(quarter) }) {
             val list = repository.cachedData(search)
