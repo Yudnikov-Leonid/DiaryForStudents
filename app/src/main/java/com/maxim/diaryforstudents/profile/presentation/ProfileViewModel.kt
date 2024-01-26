@@ -32,7 +32,7 @@ class ProfileViewModel(
     }
 
     fun signOut() {
-        //repository.signOut()
+        repository.signOut()
         navigation.update(EduLoginScreen)
         clear.clearViewModel(ProfileViewModel::class.java)
     }

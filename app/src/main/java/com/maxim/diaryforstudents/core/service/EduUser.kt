@@ -8,6 +8,7 @@ interface EduUser {
     fun profileData(): EduProfileData
     fun guid(): String
     fun isLogged(): Boolean
+    fun signOut()
 
     class Base(private val simpleStorage: SimpleStorage) : EduUser {
         override fun login(guid: String, fullName: String, schoolName: String, grade: String) {
@@ -25,7 +26,10 @@ interface EduUser {
             )
 
         override fun guid() = simpleStorage.read(GUID_KEY, "")
-        override fun isLogged() = simpleStorage.read(GUID_KEY, "\n") != "\n"
+        override fun isLogged() = simpleStorage.read(GUID_KEY, "") != ""
+        override fun signOut() {
+            simpleStorage.save(GUID_KEY, "")
+        }
 
         companion object {
             private const val GUID_KEY = "guid"

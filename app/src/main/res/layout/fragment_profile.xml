@@ -4,6 +4,7 @@
     style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="70dp"
     android:clickable="true"
     android:orientation="vertical">
 
@@ -21,17 +22,17 @@
         android:id="@+id/gradeTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:textSize="18sp"
-        tools:text="8M"
-        android:layout_marginTop="10dp"/>
+        tools:text="8M" />
 
     <ImageView
-        android:layout_marginTop="10dp"
         android:id="@+id/profileTextView"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:src="@drawable/profile_24" />
 
     <Button
