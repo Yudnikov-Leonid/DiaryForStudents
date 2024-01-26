@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.performance.eduData
 
-import com.maxim.diaryforstudents.performance.data.PerformanceData
 import java.util.Calendar
 
 interface EduPerformanceRepository {
@@ -19,19 +18,18 @@ interface EduPerformanceRepository {
         private val finalCache = mutableListOf<PerformanceData>()
 
         override suspend fun init() {
-            cache.clear()
-            try {
-                cache.addAll(cloudDataSource.data(actualQuarter()))
-            } catch (e: Exception) {
-                cache.add(PerformanceData.Error(e.message!!))
-            }
-
-
             finalCache.clear()
             try {
                 finalCache.addAll(cloudDataSource.finalData())
             } catch (e: Exception) {
                 finalCache.add(PerformanceData.Error(e.message!!))
+            }
+
+            cache.clear()
+            try {
+                cache.addAll(cloudDataSource.data(actualQuarter()))
+            } catch (e: Exception) {
+                cache.add(PerformanceData.Error(e.message!!))
             }
         }
 

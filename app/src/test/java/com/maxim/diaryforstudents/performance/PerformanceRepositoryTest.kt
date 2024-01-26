@@ -2,7 +2,7 @@ package com.maxim.diaryforstudents.performance
 
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.performance.data.PerformanceCloudDataSource
-import com.maxim.diaryforstudents.performance.data.PerformanceData
+import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import com.maxim.diaryforstudents.performance.data.PerformanceRepository
 import junit.framework.TestCase.assertEquals
 import org.junit.Before

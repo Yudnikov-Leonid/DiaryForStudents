@@ -11,7 +11,7 @@ import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
-import com.maxim.diaryforstudents.performance.data.PerformanceData
+import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import com.maxim.diaryforstudents.performance.data.PerformanceRepository
 import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.presentation.PerformanceState

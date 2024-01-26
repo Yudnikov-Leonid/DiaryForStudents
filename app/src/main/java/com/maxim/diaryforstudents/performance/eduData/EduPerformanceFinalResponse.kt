@@ -13,7 +13,8 @@ data class EduPerformanceFinalLesson(
 
 data class EduPerformanceFinalPeriod(
     val GRADE_TYPE_GUID: String,
-    val MARK: EduPerformanceFinalMark?
+    val MARK: EduPerformanceFinalMark?,
+    val AVERAGE: Float
 )
 
 data class EduPerformanceFinalMark(

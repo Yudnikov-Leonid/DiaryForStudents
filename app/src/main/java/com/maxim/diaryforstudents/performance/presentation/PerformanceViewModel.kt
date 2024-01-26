@@ -8,7 +8,7 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.performance.data.PerformanceData
+import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
 
 class PerformanceViewModel(

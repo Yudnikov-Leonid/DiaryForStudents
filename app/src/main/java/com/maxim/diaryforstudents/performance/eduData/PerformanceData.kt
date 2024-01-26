@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.data
+package com.maxim.diaryforstudents.performance.eduData
 
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 import java.io.Serializable

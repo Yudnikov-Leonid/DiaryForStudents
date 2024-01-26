@@ -2,7 +2,6 @@ package com.maxim.diaryforstudents.performance.eduData
 
 import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.service.EduUser
-import com.maxim.diaryforstudents.performance.data.PerformanceData
 
 interface EduPerformanceCloudDataSource {
     suspend fun data(quarter: Int): List<PerformanceData>
@@ -10,8 +9,10 @@ interface EduPerformanceCloudDataSource {
 
     class Base(private val service: DiaryService, private val eduUser: EduUser) :
         EduPerformanceCloudDataSource {
+        private val averageMap = mutableMapOf<Pair<String, Int>, Float>()
 
         override suspend fun data(quarter: Int): List<PerformanceData> {
+            //todo hardcode
             val from = when (quarter) {
                 1 -> "01.09.2023"
                 2 -> "06.11.2023"
@@ -44,7 +45,7 @@ interface EduPerformanceCloudDataSource {
                                 false
                             )
                         },
-                        false, it.MARKS.sumOf { it.VALUE }.toFloat() / it.MARKS.count()
+                        false, averageMap[Pair(it.SUBJECT_NAME, quarter)] ?: 0f
                     )
                 }
             } else listOf(PerformanceData.Error(data.message))
@@ -58,6 +59,12 @@ interface EduPerformanceCloudDataSource {
                     ""
                 )
             )
+
+            data.data.forEach { lesson ->
+                lesson.PERIODS.forEachIndexed { i, period ->
+                    averageMap[Pair(lesson.NAME, i + 1)] = period.AVERAGE
+                }
+            }
 
             return if (data.success) {
                 data.data.map { lesson ->
