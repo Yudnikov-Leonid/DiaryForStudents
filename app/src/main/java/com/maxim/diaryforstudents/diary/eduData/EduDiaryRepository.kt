@@ -76,7 +76,7 @@ interface EduDiaryRepository {
             val formattedDate = formatter.format("dd.MM.yyyy", date)
             val data = cache[formattedDate]!!
             val homeworks = data.homeworks()
-            val sb = StringBuilder("Домашнее задание, заданное с $formattedDate\n\n")
+            val sb = StringBuilder("Домашнее задание, заданное $formattedDate\n\n")
             homeworks.filter { it.second.isNotEmpty() }.forEach {
                 sb.append("${it.first}: ${it.second}\n\n")
             }

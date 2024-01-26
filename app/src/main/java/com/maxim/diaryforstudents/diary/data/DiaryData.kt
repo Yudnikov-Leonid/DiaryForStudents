@@ -17,7 +17,8 @@ interface DiaryData {
         override fun homeworks(): List<Pair<String, String>> {
             val list = mutableListOf<Pair<String, String>>()
             lessons.forEach {
-                list.add(it.homeworks().first())
+                if (it.homeworks().isNotEmpty())
+                    list.add(it.homeworks().first())
             }
             return list
         }
