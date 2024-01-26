@@ -31,7 +31,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
             it.show(
                 binding.nameTextView,
                 binding.gradeTextView,
-                binding.emailTextView,
                 binding.progressBar,
                 binding.profileTextView,
                 binding.signOutButton

@@ -12,7 +12,7 @@ import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginViewModel
 class EduLoginModule(private val core: Core, private val clear: ClearViewModel) :
     Module<EduLoginViewModel> {
     override fun viewModel() = EduLoginViewModel(
-        EduLoginRepository.Base(core.retrofit().create(LoginService::class.java), core.simpleStorage()),
+        EduLoginRepository.Base(core.retrofit().create(LoginService::class.java), core.eduUser()),
         EduLoginCommunication.Base(),
         UiValidator.Login(),
         UiValidator.Password(2),

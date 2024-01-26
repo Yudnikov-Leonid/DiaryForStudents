@@ -35,7 +35,6 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
                 binding.performanceButton,
                 binding.profileButton,
                 binding.newsButton,
-                binding.progressBar
             )
         }
 

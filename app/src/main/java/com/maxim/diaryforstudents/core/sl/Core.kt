@@ -9,6 +9,7 @@ import com.maxim.diaryforstudents.core.data.LessonMapper
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.service.CoroutineHandler
+import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.MyUser
 import com.maxim.diaryforstudents.core.service.NavigateToLogin
 import com.maxim.diaryforstudents.core.service.Service
@@ -24,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideMyUser, ProvideCreateLessonCache,
     ProvideSelectedClassCache, ProvideClientWrapper, ProvideOpenNewsData, ProvideNavigation,
-    ProvideLessonsMapper, ProvideRetrofit, ProvideSimpleStorage {
+    ProvideLessonsMapper, ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser {
 
     class Base(private val context: Context) : Core {
 
@@ -54,6 +55,9 @@ interface Core : ManageResource, ProvideService, ProvideMyUser, ProvideCreateLes
             SimpleStorage.Base(context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE))
 
         override fun simpleStorage() = simpleStorage
+
+        private val eduUser = EduUser.Base(simpleStorage)
+        override fun eduUser() = eduUser
 
 
         private val service = Service.Base(context, CoroutineHandler.Base())
@@ -131,4 +135,8 @@ interface ProvideRetrofit {
 
 interface ProvideSimpleStorage {
     fun simpleStorage(): SimpleStorage
+}
+
+interface ProvideEduUser {
+    fun eduUser(): EduUser
 }

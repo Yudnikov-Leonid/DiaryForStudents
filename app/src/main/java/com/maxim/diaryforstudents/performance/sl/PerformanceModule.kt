@@ -14,7 +14,7 @@ class PerformanceModule(private val core: Core, private val clear: ClearViewMode
     override fun viewModel() = PerformanceViewModel(
         EduPerformanceRepository.Base(
             EduPerformanceCloudDataSource.Base(
-                core.retrofit().create(DiaryService::class.java), core.simpleStorage()
+                core.retrofit().create(DiaryService::class.java), core.eduUser()
             )
         ),
         PerformanceCommunication.Base(),

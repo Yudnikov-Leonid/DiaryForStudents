@@ -12,7 +12,6 @@ interface ProfileState: Serializable {
     fun show(
         nameTextView: TextView,
         gradeTextView: TextView,
-        emailTextView: TextView,
         progressBar: ProgressBar,
         imageView: ImageView,
         signOutButton: Button
@@ -26,14 +25,12 @@ interface ProfileState: Serializable {
         override fun show(
             nameTextView: TextView,
             gradeTextView: TextView,
-            emailTextView: TextView,
             progressBar: ProgressBar,
             imageView: ImageView,
             signOutButton: Button
         ) {
             nameTextView.text = name
             grade.show(gradeTextView)
-            emailTextView.text = email
             progressBar.visibility = View.GONE
             imageView.visibility = View.VISIBLE
             signOutButton.isEnabled = true
@@ -44,7 +41,6 @@ interface ProfileState: Serializable {
         override fun show(
             nameTextView: TextView,
             gradeTextView: TextView,
-            emailTextView: TextView,
             progressBar: ProgressBar,
             imageView: ImageView,
             signOutButton: Button
