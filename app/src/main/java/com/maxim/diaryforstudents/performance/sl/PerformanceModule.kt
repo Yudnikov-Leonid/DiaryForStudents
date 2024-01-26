@@ -4,7 +4,7 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.performance.eduData.DiaryService
-import com.maxim.diaryforstudents.performance.eduData.EduLoginCloudDataSource
+import com.maxim.diaryforstudents.performance.eduData.EduPerformanceCloudDataSource
 import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
 import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
@@ -13,7 +13,7 @@ class PerformanceModule(private val core: Core, private val clear: ClearViewMode
     Module<PerformanceViewModel> {
     override fun viewModel() = PerformanceViewModel(
         EduPerformanceRepository.Base(
-            EduLoginCloudDataSource.Base(
+            EduPerformanceCloudDataSource.Base(
                 core.retrofit().create(DiaryService::class.java), core.simpleStorage()
             )
         ),

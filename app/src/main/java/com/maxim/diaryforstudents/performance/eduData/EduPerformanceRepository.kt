@@ -13,17 +13,26 @@ interface EduPerformanceRepository {
 
     fun actualQuarter(): Int
 
-    class Base(private val cloudDataSource: EduLoginCloudDataSource) :
+    class Base(private val cloudDataSource: EduPerformanceCloudDataSource) :
         EduPerformanceRepository {
         private val cache = mutableListOf<PerformanceData>()
         private val finalCache = mutableListOf<PerformanceData>()
 
         override suspend fun init() {
             cache.clear()
-            cache.addAll(cloudDataSource.data(actualQuarter()))
+            try {
+                cache.addAll(cloudDataSource.data(actualQuarter()))
+            } catch (e: Exception) {
+                cache.add(PerformanceData.Error(e.message!!))
+            }
+
 
             finalCache.clear()
-            finalCache.addAll(cloudDataSource.finalData())
+            try {
+                finalCache.addAll(cloudDataSource.finalData())
+            } catch (e: Exception) {
+                finalCache.add(PerformanceData.Error(e.message!!))
+            }
         }
 
         override fun cachedData() = cache.ifEmpty { listOf(PerformanceData.Empty) }
@@ -36,7 +45,11 @@ interface EduPerformanceRepository {
 
         override suspend fun changeQuarter(quarter: Int) {
             cache.clear()
-            cache.addAll(cloudDataSource.data(quarter))
+            try {
+                cache.addAll(cloudDataSource.data(quarter))
+            } catch (e: Exception) {
+                cache.add(PerformanceData.Error(e.message!!))
+            }
         }
 
         override fun actualQuarter() = when (Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {

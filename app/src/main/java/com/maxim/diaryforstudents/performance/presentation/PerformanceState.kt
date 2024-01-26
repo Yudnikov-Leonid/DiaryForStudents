@@ -64,6 +64,13 @@ interface PerformanceState: Serializable {
             progressBar: ProgressBar,
             searchEditText: TextInputEditText
         ) {
+            first.isEnabled = false
+            second.isEnabled = false
+            third.isEnabled = false
+            fourth.isEnabled = false
+            actualButton.isEnabled = false
+            finalButton.isEnabled = false
+            adapter.update(emptyList())
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE
             errorTextView.text = message

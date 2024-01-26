@@ -6,6 +6,8 @@ import java.io.Serializable
 interface PerformanceData: Serializable {
     fun toUi(): PerformanceUi
     fun search(search: String): Boolean = true
+    fun message(): String = ""
+
     data class Lesson(
         private val name: String,
         private val grades: List<Grade>,
@@ -26,5 +28,10 @@ interface PerformanceData: Serializable {
         private val isFinal: Boolean
     ) : PerformanceData {
         override fun toUi() = PerformanceUi.Grade(grade, date, isFinal)
+    }
+
+    data class Error(private val message: String): PerformanceData {
+        override fun toUi() = PerformanceUi.Error(message)
+        override fun message() = message
     }
 }

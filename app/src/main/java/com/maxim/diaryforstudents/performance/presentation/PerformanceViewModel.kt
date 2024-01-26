@@ -28,13 +28,16 @@ class PerformanceViewModel(
             communication.update(PerformanceState.Loading)
             handle({ repository.init() }) {
                 val list = repository.cachedData()
-                communication.update(
-                    PerformanceState.Base(
-                        quarter,
-                        list.map { it.toUi() },
-                        false
+                if (list.first() is PerformanceData.Error)
+                    communication.update(PerformanceState.Error(list.first().message()))
+                else
+                    communication.update(
+                        PerformanceState.Base(
+                            quarter,
+                            list.map { it.toUi() },
+                            false
+                        )
                     )
-                )
             }
         }
     }
@@ -47,7 +50,16 @@ class PerformanceViewModel(
     fun search(search: String) {
         this.search = search
         val list = type.search(repository, search)
-        communication.update(PerformanceState.Base(quarter, list.map { it.toUi() }, type.isFinal()))
+        if (list.first() is PerformanceData.Error)
+            communication.update(PerformanceState.Error(list.first().message()))
+        else
+            communication.update(
+                PerformanceState.Base(
+                    quarter,
+                    list.map { it.toUi() },
+                    type.isFinal()
+                )
+            )
     }
 
     fun changeQuarter(quarter: Int) {

@@ -3,12 +3,12 @@ package com.maxim.diaryforstudents.performance.eduData
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.performance.data.PerformanceData
 
-interface EduLoginCloudDataSource {
+interface EduPerformanceCloudDataSource {
     suspend fun data(quarter: Int): List<PerformanceData>
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: DiaryService, private val storage: SimpleStorage) :
-        EduLoginCloudDataSource {
+        EduPerformanceCloudDataSource {
 
         override suspend fun data(quarter: Int): List<PerformanceData> {
             val from = when (quarter) {
@@ -46,7 +46,7 @@ interface EduLoginCloudDataSource {
                         false, it.MARKS.sumOf { it.VALUE }.toFloat() / it.MARKS.count()
                     )
                 }
-            } else listOf(PerformanceData.Empty) //todo make error
+            } else listOf(PerformanceData.Error(data.message))
         }
 
         override suspend fun finalData(): List<PerformanceData> {
@@ -74,7 +74,7 @@ interface EduLoginCloudDataSource {
                         true, 0f
                     )
                 }
-            } else listOf(PerformanceData.Empty)
+            } else listOf(PerformanceData.Error(data.message))
         }
     }
 }

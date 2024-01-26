@@ -88,4 +88,8 @@ interface PerformanceUi : Serializable {
 
         override fun sameContent(item: PerformanceUi) = item is Grade && item.grade == grade
     }
+
+    data class Error(private val message: String): PerformanceUi {
+        override fun same(item: PerformanceUi) = item is Error
+    }
 }
