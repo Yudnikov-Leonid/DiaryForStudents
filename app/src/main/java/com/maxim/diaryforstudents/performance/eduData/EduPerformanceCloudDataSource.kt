@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.eduData
 
+import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.performance.data.PerformanceData
 
@@ -27,7 +28,7 @@ interface EduPerformanceCloudDataSource {
             val data =
                 service.getMarks(
                     EduPerformanceBody(
-                        "SRJTDhppUiI", storage.read("GUID", ""),
+                        BuildConfig.SHORT_API_KEY, storage.read("GUID", ""),
                         from, to, ""
                     )
                 )
@@ -52,7 +53,7 @@ interface EduPerformanceCloudDataSource {
         override suspend fun finalData(): List<PerformanceData> {
             val data = service.getFinalMarks(
                 EduPerformanceFinalBody(
-                    "SRJTDhppUiI",
+                    BuildConfig.SHORT_API_KEY,
                     storage.read("GUID", ""),
                     ""
                 )

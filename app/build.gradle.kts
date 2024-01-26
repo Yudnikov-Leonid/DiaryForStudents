@@ -25,6 +25,7 @@ android {
         properties.load(FileInputStream(project.rootProject.file("keys.properties")))
 
         buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
+        buildConfigField("String", "SHORT_API_KEY", "\"${properties.getProperty("SHORT_API_KEY")}\"")
     }
 
     buildTypes {

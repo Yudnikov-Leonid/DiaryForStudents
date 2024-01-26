@@ -20,6 +20,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 viewModel.back()
+                binding.searchEditText.setText("")
             }
         }
         super.onViewCreated(view, savedInstanceState)
