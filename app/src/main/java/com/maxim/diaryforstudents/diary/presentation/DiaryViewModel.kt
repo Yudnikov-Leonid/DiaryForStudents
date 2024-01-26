@@ -53,6 +53,10 @@ class DiaryViewModel(
         reload()
     }
 
+    fun homeworkToShare(): String {
+        return repository.homeworks(actualDay)
+    }
+
     fun back() {
         navigation.update(Screen.Pop)
         clear.clearViewModel(DiaryViewModel::class.java)

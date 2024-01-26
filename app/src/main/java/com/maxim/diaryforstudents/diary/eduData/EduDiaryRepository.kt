@@ -6,12 +6,14 @@ import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.diary.data.DayData
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.performance.eduData.PerformanceData
+import java.lang.StringBuilder
 import java.util.Calendar
 
 interface EduDiaryRepository {
     fun dayList(today: Int): List<DayData>
     suspend fun day(date: Int): DiaryData.Day
     fun actualDate(): Int
+    fun homeworks(date: Int): String
 
     class Base(
         private val service: EduDiaryService,
@@ -69,5 +71,16 @@ interface EduDiaryRepository {
         }
 
         override fun actualDate() = (System.currentTimeMillis() / 86400000).toInt()
+
+        override fun homeworks(date: Int): String {
+            val formattedDate = formatter.format("dd.MM.yyyy", date)
+            val data = cache[formattedDate]!!
+            val homeworks = data.homeworks()
+            val sb = StringBuilder("Домашнее задание, заданное с $formattedDate\n\n")
+            homeworks.filter { it.second.isNotEmpty() }.forEach {
+                sb.append("${it.first}: ${it.second}\n\n")
+            }
+            return sb.trim().toString()
+        }
     }
 }

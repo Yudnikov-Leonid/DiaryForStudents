@@ -10,6 +10,7 @@ interface DiaryState: Serializable {
     fun show(
         lessonsAdapter: DiaryLessonsAdapter,
         daysAdapter: DiaryDaysAdapter,
+        shareHomework: ImageButton,
         monthTitle: TextView,
         progressBar: ProgressBar,
         errorTextView: TextView,
@@ -26,6 +27,7 @@ interface DiaryState: Serializable {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DiaryDaysAdapter,
+            shareHomework: ImageButton,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -43,6 +45,7 @@ interface DiaryState: Serializable {
             nextDayButton.visibility = View.VISIBLE
             daysRecyclerView.visibility = View.VISIBLE
             lessonsRecyclerView.visibility = View.VISIBLE
+            shareHomework.visibility = View.VISIBLE
         }
     }
 
@@ -50,6 +53,7 @@ interface DiaryState: Serializable {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DiaryDaysAdapter,
+            shareHomework: ImageButton,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -64,6 +68,7 @@ interface DiaryState: Serializable {
             nextDayButton.visibility = View.GONE
             daysRecyclerView.visibility = View.GONE
             lessonsRecyclerView.visibility = View.GONE
+            shareHomework.visibility = View.GONE
         }
     }
 
@@ -71,6 +76,7 @@ interface DiaryState: Serializable {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DiaryDaysAdapter,
+            shareHomework: ImageButton,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -86,6 +92,7 @@ interface DiaryState: Serializable {
             nextDayButton.visibility = View.GONE
             daysRecyclerView.visibility = View.GONE
             lessonsRecyclerView.visibility = View.GONE
+            shareHomework.visibility = View.GONE
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.diary.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,11 +41,20 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         binding.moveRightButton.setOnClickListener {
             viewModel.nextDay()
         }
+        //todo !!
+        binding.shareHomeworkButton!!.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type="text/plain"
+                putExtra(Intent.EXTRA_TEXT, viewModel.homeworkToShare())
+            }
+            startActivity(Intent.createChooser(intent, "Send to"))
+        }
 
         viewModel.observe(this) {
             it.show(
                 lessonsAdapter,
                 daysAdapter,
+                binding.shareHomeworkButton!!,
                 binding.monthTextView,
                 binding.progressBar,
                 binding.errorTextView,
