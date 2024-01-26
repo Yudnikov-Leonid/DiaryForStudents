@@ -26,7 +26,7 @@
     <string name="classes_no_data">No classes. Perhaps your director has not created them yet.</string>
     <string name="start_time">Start time</string>
     <string name="end_time">End time</string>
-    <string name="theme">Theme</string>
+    <string name="topic">Topic</string>
     <string name="homework">Homework</string>
     <string name="save">Save</string>
     <string name="empty_news">No news</string>
@@ -49,4 +49,5 @@
     <string name="average">Average:</string>
     <string name="no_data">No data</string>
     <string name="you_have_created_lesson">You have already created a lesson today</string>
+    <string name="marks">Marks:</string>
 </resources>

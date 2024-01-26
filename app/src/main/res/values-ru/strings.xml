@@ -26,7 +26,7 @@
     <string name="classes_no_data">Нет классов. Возможно ваш директор ещё не создал их.</string>
     <string name="start_time">Время начала</string>
     <string name="end_time">Время конца</string>
-    <string name="theme">Тема</string>
+    <string name="topic">Тема</string>
     <string name="homework">Домашнее задание</string>
     <string name="save">Сохранить</string>
     <string name="empty_news">Нет новостей</string>
@@ -45,4 +45,5 @@
     <string name="average">Средний балл:</string>
     <string name="no_data">Нет данных</string>
     <string name="you_have_created_lesson">На сегодня урок уже создан</string>
+    <string name="marks">Оценки:</string>
 </resources>

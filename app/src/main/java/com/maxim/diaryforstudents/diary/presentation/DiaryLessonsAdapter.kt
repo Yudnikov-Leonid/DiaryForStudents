@@ -22,6 +22,7 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
             item.showName(binding.lessonNameTextView)
             item.showTheme(binding.themeTextView, binding.themeTitle)
             item.showHomework(binding.homeworkTextView, binding.homeWorkTitle)
+            item.showMarks(binding.marksLayout)
         }
     }
 

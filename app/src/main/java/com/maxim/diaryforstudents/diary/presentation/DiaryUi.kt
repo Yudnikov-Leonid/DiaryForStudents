@@ -1,8 +1,12 @@
 package com.maxim.diaryforstudents.diary.presentation
 
+import android.app.ActionBar.LayoutParams
 import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 import java.io.Serializable
 
 interface DiaryUi: Serializable {
@@ -13,6 +17,8 @@ interface DiaryUi: Serializable {
     fun showTheme(textView: TextView, title: TextView) {}
     fun showHomework(textView: TextView, title: TextView) {}
     fun showLessons(adapter: DiaryLessonsAdapter) {}
+    fun showMarks(linearLayout: LinearLayout) {}
+
     data class Day(
         private val date: Int,
         private val lessons: List<DiaryUi>
@@ -34,7 +40,8 @@ interface DiaryUi: Serializable {
         private val homework: String,
         private val startTime: String,
         private val endTime: String,
-        private val date: Int
+        private val date: Int,
+        private val marks: List<PerformanceUi.Grade>
     ) : DiaryUi {
 
         override fun showTime(textView: TextView) {
@@ -56,6 +63,22 @@ interface DiaryUi: Serializable {
             textView.text = homework
             title.visibility = if (homework.isEmpty()) View.GONE else View.VISIBLE
             textView.visibility = if (homework.isEmpty()) View.GONE else View.VISIBLE
+        }
+
+        override fun showMarks(linearLayout: LinearLayout) {
+            linearLayout.visibility = if (marks.isEmpty()) View.GONE else View.VISIBLE
+            if (linearLayout.childCount > 1)
+                linearLayout.removeViews(1, linearLayout.childCount - 1)
+            marks.forEach { grade ->
+                val layoutParams = LayoutParams(
+                    WRAP_CONTENT, WRAP_CONTENT
+                )
+                layoutParams.marginEnd = 15
+                val textView = TextView(linearLayout.context)
+                textView.layoutParams = layoutParams
+                grade.showName(textView)
+                linearLayout.addView(textView)
+            }
         }
 
         override fun same(item: DiaryUi) = item is Lesson && item.date == date

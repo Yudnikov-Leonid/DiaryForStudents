@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.diary.data
 
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
+import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 
 interface DiaryData {
     fun isDate(date: Int): Boolean
@@ -19,10 +20,12 @@ interface DiaryData {
         private val homework: String,
         private val startTime: String,
         private val endTime: String,
-        private val date: Int
+        private val date: Int,
+        private val marks: List<PerformanceData.Grade>
     ) : DiaryData {
         override fun isDate(date: Int) = date == this.date
-        override fun toUi() = DiaryUi.Lesson(name, topic, homework, startTime, endTime, date)
+        override fun toUi() =
+            DiaryUi.Lesson(name, topic, homework, startTime, endTime, date, marks.map { it.toUi() })
     }
 
     object Empty : DiaryData {

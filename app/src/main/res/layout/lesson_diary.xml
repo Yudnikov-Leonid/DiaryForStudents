@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="@string/theme"
+        android:text="@string/topic"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -74,7 +74,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="6dp"
         tools:text="Read text" />
+
+    <LinearLayout
+        android:id="@+id/marksLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="6dp"
+            android:text="@string/marks" />
+
+    </LinearLayout>
 
 </LinearLayout>

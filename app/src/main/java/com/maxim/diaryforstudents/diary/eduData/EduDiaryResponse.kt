@@ -1,5 +1,7 @@
 package com.maxim.diaryforstudents.diary.eduData
 
+import com.maxim.diaryforstudents.performance.eduData.EduCloudMark
+
 data class EduDiaryResponse(
     val success: Boolean,
     val message: String,
@@ -12,5 +14,6 @@ data class EduDiaryLesson(
     val LESSON_TIME_BEGIN: String,
     val LESSON_TIME_END: String,
     val TOPIC: String?,
-    val HOMEWORK: String?
+    val HOMEWORK: String?,
+    val MARKS: List<EduCloudMark>?
 )
