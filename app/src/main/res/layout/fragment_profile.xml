@@ -23,9 +23,11 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="18sp"
-        tools:text="8M" />
+        tools:text="8M"
+        android:layout_marginTop="10dp"/>
 
     <ImageView
+        android:layout_marginTop="10dp"
         android:id="@+id/profileTextView"
         android:layout_width="300dp"
         android:layout_height="300dp"
@@ -40,17 +42,5 @@
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:text="@string/sign_out" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
 </LinearLayout>

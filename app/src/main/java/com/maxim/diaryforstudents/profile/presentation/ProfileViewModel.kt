@@ -9,23 +9,18 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.login.presentation.LoginScreen
-import com.maxim.diaryforstudents.profile.data.ProfileRepository
+import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginScreen
+import com.maxim.diaryforstudents.profile.eduData.EduProfileRepository
 
 class ProfileViewModel(
-    private val repository: ProfileRepository,
+    private val repository: EduProfileRepository,
     private val communication: ProfileCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<ProfileState> {
-    fun init(isFirstRun: Boolean) {
-        if (isFirstRun) {
-            communication.update(ProfileState.Loading)
-            handle({ repository.data() }) {
-                communication.update(ProfileState.Base(it.first, it.second, it.third))
-            }
-        }
+    fun init() {
+        communication.update(ProfileState.Base(repository.data().toUi()))
     }
 
     fun save(bundleWrapper: BundleWrapper.Save) {
@@ -37,8 +32,8 @@ class ProfileViewModel(
     }
 
     fun signOut() {
-        repository.signOut()
-        navigation.update(LoginScreen)
+        //repository.signOut()
+        navigation.update(EduLoginScreen)
         clear.clearViewModel(ProfileViewModel::class.java)
     }
 

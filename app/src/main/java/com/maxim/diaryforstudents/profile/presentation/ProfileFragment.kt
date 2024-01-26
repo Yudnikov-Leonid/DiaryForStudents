@@ -30,14 +30,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         viewModel.observe(this) {
             it.show(
                 binding.nameTextView,
-                binding.gradeTextView,
-                binding.progressBar,
-                binding.profileTextView,
-                binding.signOutButton
+                binding.gradeTextView
             )
         }
 
-        viewModel.init(savedInstanceState == null)
+        viewModel.init()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

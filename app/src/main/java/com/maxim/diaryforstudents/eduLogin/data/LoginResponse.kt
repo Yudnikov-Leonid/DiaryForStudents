@@ -29,5 +29,5 @@ data class LoginGrade(
 )
 
 data class LoginSchool(
-    val NAME: String
+    val SHORT_NAME: String
 )

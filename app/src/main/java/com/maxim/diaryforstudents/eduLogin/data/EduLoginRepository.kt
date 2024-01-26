@@ -15,9 +15,9 @@ interface EduLoginRepository {
                     val user = data.data.SCHOOLS.first()
                     val guid = user.PARTICIPANT.SYS_GUID
                     val fullName =
-                        user.PARTICIPANT.SURNAME + user.PARTICIPANT.NAME + user.PARTICIPANT.SECONDNAME
+                        "${user.PARTICIPANT.SURNAME} ${user.PARTICIPANT.NAME} ${user.PARTICIPANT.SECONDNAME}"
                     val grade = user.PARTICIPANT.GRADE.NAME
-                    val school = user.PARTICIPANT.GRADE.SCHOOL.NAME
+                    val school = user.PARTICIPANT.GRADE.SCHOOL.SHORT_NAME
                     eduUser.login(guid, fullName, school, grade)
                     EduLoginResult.Success
                 } else {
