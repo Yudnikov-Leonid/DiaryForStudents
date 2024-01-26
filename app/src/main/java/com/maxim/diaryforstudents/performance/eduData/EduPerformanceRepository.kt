@@ -18,11 +18,16 @@ interface EduPerformanceRepository {
                 )
 
             return if (data.success) {
-                data.data.map {
+                data.data.filter { it.MARKS.isNotEmpty() }.map {
                     PerformanceData.Lesson(
                         it.SUBJECT_NAME,
-                        it.MARKS.map { grade -> PerformanceData.Grade(grade.VALUE, grade.DATE) },
-                        0f
+                        it.MARKS.map { grade ->
+                            PerformanceData.Grade(
+                                grade.VALUE,
+                                grade.DATE.substring(0, grade.DATE.length - 5)
+                            )
+                        },
+                        it.MARKS.sumOf { it.VALUE }.toFloat() / it.MARKS.count()
                     )
                 }
             } else listOf(PerformanceData.Empty)
