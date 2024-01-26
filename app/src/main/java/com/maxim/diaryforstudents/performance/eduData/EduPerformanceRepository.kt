@@ -1,36 +1,31 @@
 package com.maxim.diaryforstudents.performance.eduData
 
-import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.performance.data.PerformanceData
 
 interface EduPerformanceRepository {
-    suspend fun data(): List<PerformanceData>
+    suspend fun init()
+    fun cachedData(): List<PerformanceData>
+    fun cachedData(search: String): List<PerformanceData>
+    fun cachedFinalData(): List<PerformanceData>
+    fun cachedFinalData(search: String): List<PerformanceData>
 
-    class Base(private val service: DiaryService, private val storage: SimpleStorage) :
+    class Base(private val cloudDataSource: EduLoginCloudDataSource) :
         EduPerformanceRepository {
-        override suspend fun data(): List<PerformanceData> {
-            val data =
-                service.getMarks(
-                    EduPerformanceBody(
-                        "SRJTDhppUiI", storage.read("GUID", ""),
-                        "09.01.2024", "22.03.2024", ""
-                    )
-                )
+        private val cache = mutableListOf<PerformanceData>()
+        private val finalCache = mutableListOf<PerformanceData>()
 
-            return if (data.success) {
-                data.data.filter { it.MARKS.isNotEmpty() }.map {
-                    PerformanceData.Lesson(
-                        it.SUBJECT_NAME,
-                        it.MARKS.map { grade ->
-                            PerformanceData.Grade(
-                                grade.VALUE,
-                                grade.DATE.substring(0, grade.DATE.length - 5)
-                            )
-                        },
-                        it.MARKS.sumOf { it.VALUE }.toFloat() / it.MARKS.count()
-                    )
-                }
-            } else listOf(PerformanceData.Empty)
+        override suspend fun init() {
+            cache.clear()
+            cache.addAll(cloudDataSource.data())
+
+            finalCache.clear()
+            finalCache.addAll(cloudDataSource.finalData())
         }
+
+        override fun cachedData() = cache
+        override fun cachedData(search: String) = cache.filter { it.search(search) }
+
+        override fun cachedFinalData() = finalCache
+        override fun cachedFinalData(search: String) = finalCache.filter { it.search(search) }
     }
 }

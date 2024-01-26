@@ -74,7 +74,7 @@ interface PerformanceState: Serializable {
     data class Base(
         private val quarter: Int,
         private val lessons: List<PerformanceUi>,
-        private val isActual: Boolean
+        private val isFinal: Boolean
     ) : PerformanceState {
         override fun show(
             quarterLayout: View,
@@ -104,9 +104,9 @@ interface PerformanceState: Serializable {
             adapter.update(lessons as List<PerformanceUi.Lesson>)
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
-            quarterLayout.visibility = if (isActual) View.VISIBLE else View.GONE
-            actualButton.setBackgroundColor(if (isActual) enableColor else disableColor)
-            finalButton.setBackgroundColor(if (!isActual) enableColor else disableColor)
+            quarterLayout.visibility = if (!isFinal) View.VISIBLE else View.GONE
+            actualButton.setBackgroundColor(if (!isFinal) enableColor else disableColor)
+            finalButton.setBackgroundColor(if (isFinal) enableColor else disableColor)
             searchEditText.visibility = View.VISIBLE
             first.isEnabled = true
             second.isEnabled = true

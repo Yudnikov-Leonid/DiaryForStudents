@@ -8,6 +8,7 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.performance.data.PerformanceData
 import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
 
 class PerformanceViewModel(
@@ -17,24 +18,28 @@ class PerformanceViewModel(
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<PerformanceState> {
-    private var type = ACTUAL
+    private var type: MarksType = MarksType.Base
     private var search = ""
-    fun init() {
-        communication.update(PerformanceState.Loading)
-        handle({repository.data()}) { list ->
-            communication.update(PerformanceState.Base(3, list.map { it.toUi() }, true))
+
+    fun init(isFirstRun: Boolean) {
+        if (isFirstRun) {
+            communication.update(PerformanceState.Loading)
+            handle({ repository.init() }) {
+                val list = repository.cachedData()
+                communication.update(PerformanceState.Base(3, list.map { it.toUi() }, false))
+            }
         }
     }
 
-    fun changeType(type: String) {
-//        this.type = type
-//        repository.changeType(type)
-//        repository.init(this)
+    fun changeType(type: MarksType) {
+        this.type = type
+        search(search)
     }
 
     fun search(search: String) {
-//        this.search = search
-//        reload()
+        this.search = search
+        val list = type.search(repository, search)
+        communication.update(PerformanceState.Base(3, list.map { it.toUi() }, type.isFinal()))
     }
 
     fun changeQuarter(new: Int) {
@@ -58,9 +63,27 @@ class PerformanceViewModel(
     override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
         communication.observe(owner, observer)
     }
+}
 
-    companion object {
-        const val ACTUAL = "grades"
-        const val FINAL = "final-grades"
+interface MarksType {
+    fun search(repository: EduPerformanceRepository, search: String): List<PerformanceData>
+    fun isFinal(): Boolean
+
+    object Base : MarksType {
+        override fun search(
+            repository: EduPerformanceRepository,
+            search: String
+        ) = repository.cachedData(search)
+
+        override fun isFinal() = false
+    }
+
+    object Final : MarksType {
+        override fun search(
+            repository: EduPerformanceRepository,
+            search: String
+        ) = repository.cachedFinalData(search)
+
+        override fun isFinal() = true
     }
 }

@@ -5,7 +5,7 @@ import android.widget.TextView
 import com.maxim.diaryforstudents.R
 import java.io.Serializable
 
-interface PerformanceUi: Serializable {
+interface PerformanceUi : Serializable {
     fun showName(textView: TextView) {}
     fun showDate(textView: TextView) {}
     fun showGrades(adapter: PerformanceGradesAdapter) {}
@@ -20,6 +20,7 @@ interface PerformanceUi: Serializable {
     data class Lesson(
         private val name: String,
         private val grades: List<Grade>,
+        private val isFinal: Boolean,
         private val average: Float
     ) : PerformanceUi {
         override fun showName(textView: TextView) {
@@ -31,14 +32,14 @@ interface PerformanceUi: Serializable {
         }
 
         override fun showAverage(titleTextView: TextView, textView: TextView) {
-//            if (grades[0].isFinal()) {
-//                titleTextView.visibility = View.GONE
-//                textView.visibility = View.GONE
-//                return
-//            } else {
+            if (isFinal) {
+                titleTextView.visibility = View.GONE
+                textView.visibility = View.GONE
+                return
+            } else {
                 titleTextView.visibility = View.VISIBLE
                 textView.visibility = View.VISIBLE
-            //}
+            }
             val avr = average.toString()
             textView.text = if (avr.length > 3) avr.substring(0, 4) else avr
             val color =
@@ -53,11 +54,14 @@ interface PerformanceUi: Serializable {
             item is Lesson && item.name == name && item.grades == grades && item.average == average
     }
 
-    data class Grade(private val grade: Int, private val date: String) : PerformanceUi {
-        fun isFinal() = false
+    data class Grade(
+        private val grade: Int,
+        private val date: String,
+        private val isFinal: Boolean
+    ) : PerformanceUi {
         override fun showName(textView: TextView) {
             textView.text = grade.toString()
-            val color = when (grade) {
+            val color = if (isFinal) R.color.blue else when (grade) {
                 1, 2 -> R.color.red
                 3 -> R.color.yellow
                 4 -> R.color.green
@@ -68,7 +72,16 @@ interface PerformanceUi: Serializable {
         }
 
         override fun showDate(textView: TextView) {
-            textView.text = date
+            val dateUi = if (isFinal && date.toInt() in 1..7) {
+                when (date.toInt()) {
+                    1 -> "I"
+                    2 -> "II"
+                    3 -> "III"
+                    4 -> "IV"
+                    else -> "Year"
+                }
+            } else date
+            textView.text = dateUi
         }
 
         override fun same(item: PerformanceUi) = item is Grade && item.date == date

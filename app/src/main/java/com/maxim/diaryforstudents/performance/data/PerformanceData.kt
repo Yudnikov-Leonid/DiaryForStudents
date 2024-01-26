@@ -9,9 +9,10 @@ interface PerformanceData: Serializable {
     data class Lesson(
         private val name: String,
         private val grades: List<Grade>,
+        private val isFinal: Boolean,
         private val average: Float
     ) : PerformanceData {
-        override fun toUi() = PerformanceUi.Lesson(name, grades.map { it.toUi() }, average)
+        override fun toUi() = PerformanceUi.Lesson(name, grades.map { it.toUi() }, isFinal, average)
         override fun search(search: String) = name.contains(search, true)
     }
 
@@ -21,8 +22,9 @@ interface PerformanceData: Serializable {
 
     data class Grade(
         private val grade: Int,
-        private val date: String
+        private val date: String,
+        private val isFinal: Boolean
     ) : PerformanceData {
-        override fun toUi() = PerformanceUi.Grade(grade, date)
+        override fun toUi() = PerformanceUi.Grade(grade, date, isFinal)
     }
 }

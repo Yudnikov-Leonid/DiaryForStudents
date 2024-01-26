@@ -54,10 +54,10 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
             viewModel.changeQuarter(4)
         }
         binding.actualGradesButton.setOnClickListener {
-            viewModel.changeType(PerformanceViewModel.ACTUAL)
+            viewModel.changeType(MarksType.Base)
         }
         binding.finalGradesButton.setOnClickListener {
-            viewModel.changeType(PerformanceViewModel.FINAL)
+            viewModel.changeType(MarksType.Final)
         }
         binding.searchEditText.addTextChangedListener {
             viewModel.search(binding.searchEditText.text.toString())
@@ -67,6 +67,6 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
                 binding.searchEditText.clearFocus()
         }
 
-        viewModel.init()
+        viewModel.init(savedInstanceState == null)
     }
 }
