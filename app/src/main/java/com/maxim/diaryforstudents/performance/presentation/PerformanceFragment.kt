@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
-import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentPerformanceBinding
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
@@ -69,17 +68,5 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         }
 
         viewModel.init()
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.let {
-            viewModel.restore(BundleWrapper.Base(it))
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.save(BundleWrapper.Base(outState))
     }
 }

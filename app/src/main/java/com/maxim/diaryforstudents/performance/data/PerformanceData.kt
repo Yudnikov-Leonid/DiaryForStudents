@@ -21,7 +21,7 @@ interface PerformanceData: Serializable {
 
     data class Grade(
         private val grade: Int,
-        private val date: Int
+        private val date: String
     ) : PerformanceData {
         override fun toUi() = PerformanceUi.Grade(grade, date)
     }

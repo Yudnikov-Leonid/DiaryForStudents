@@ -8,7 +8,7 @@ interface EduLoginRepository {
     class Base(private val service: LoginService, private val storage: SimpleStorage) : EduLoginRepository {
         override suspend fun login(login: String, password: String): EduLoginResult {
             return try {
-                val data = service.login(LoginBody("", login, password))
+                val data = service.login(LoginBody("3F7G8I2JHGHJ3rrhskjm094321bqWRRolp3510u9", login, password))
                 if (data.success) {
                     val guid = data.data.SCHOOLS.first().PARTICIPANT.SYS_GUID
                     val dataLogin = data.data.LOGIN
