@@ -3,18 +3,10 @@ package com.maxim.diaryforstudents.core.sl
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
 import com.maxim.diaryforstudents.diary.sl.DiaryModule
-import com.maxim.diaryforstudents.editDiary.createLesson.presentation.CreateLessonViewModel
-import com.maxim.diaryforstudents.editDiary.createLesson.sl.CreateLessonModule
-import com.maxim.diaryforstudents.editDiary.edit.presentation.EditDiaryViewModel
-import com.maxim.diaryforstudents.editDiary.edit.sl.EditDiaryModule
-import com.maxim.diaryforstudents.editDiary.selectClass.presentation.SelectClassViewModel
-import com.maxim.diaryforstudents.editDiary.selectClass.sl.SelectClassModule
 import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginViewModel
 import com.maxim.diaryforstudents.eduLogin.sl.EduLoginModule
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsViewModel
 import com.maxim.diaryforstudents.lessonDetails.sl.LessonDetailsModule
-import com.maxim.diaryforstudents.login.presentation.LoginViewModel
-import com.maxim.diaryforstudents.login.sl.LoginModule
 import com.maxim.diaryforstudents.main.MainModule
 import com.maxim.diaryforstudents.main.MainViewModel
 import com.maxim.diaryforstudents.menu.presentation.MenuViewModel
@@ -43,7 +35,6 @@ interface DependencyContainer {
     ) : DependencyContainer {
         override fun <T : ViewModel> module(clasz: Class<T>) = when (clasz) {
             MainViewModel::class.java -> MainModule(core)
-            LoginViewModel::class.java -> LoginModule(core, clear)
             EduLoginViewModel::class.java -> EduLoginModule(core, clear)
             MenuViewModel::class.java -> MenuModule(core)
             ProfileViewModel::class.java -> ProfileModule(core, clear)
@@ -51,9 +42,6 @@ interface DependencyContainer {
             OpenNewsViewModel::class.java -> OpenNewsModule(core, clear)
             PerformanceViewModel::class.java -> PerformanceModule(core, clear)
             DiaryViewModel::class.java -> DiaryModule(core, clear)
-            SelectClassViewModel::class.java -> SelectClassModule(core, clear)
-            EditDiaryViewModel::class.java -> EditDiaryModule(core, clear)
-            CreateLessonViewModel::class.java -> CreateLessonModule(core, clear)
             LessonDetailsViewModel::class.java -> LessonDetailsModule(core, clear)
             else -> dependencyContainer.module(clasz)
         } as Module<T>

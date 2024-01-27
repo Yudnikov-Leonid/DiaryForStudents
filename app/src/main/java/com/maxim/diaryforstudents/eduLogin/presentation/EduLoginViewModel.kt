@@ -7,9 +7,6 @@ import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.editDiary.createLesson.presentation.LoginException
-import com.maxim.diaryforstudents.editDiary.createLesson.presentation.PasswordException
-import com.maxim.diaryforstudents.editDiary.createLesson.presentation.UiValidator
 import com.maxim.diaryforstudents.eduLogin.data.EduLoginRepository
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 

@@ -2,13 +2,13 @@ package com.maxim.diaryforstudents.eduLogin
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.maxim.diaryforstudents.editDiary.createLesson.presentation.LoginException
-import com.maxim.diaryforstudents.editDiary.createLesson.presentation.PasswordException
 import com.maxim.diaryforstudents.eduLogin.data.EduLoginRepository
 import com.maxim.diaryforstudents.eduLogin.data.EduLoginResult
 import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginCommunication
 import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginState
 import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginViewModel
+import com.maxim.diaryforstudents.eduLogin.presentation.LoginException
+import com.maxim.diaryforstudents.eduLogin.presentation.PasswordException
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation

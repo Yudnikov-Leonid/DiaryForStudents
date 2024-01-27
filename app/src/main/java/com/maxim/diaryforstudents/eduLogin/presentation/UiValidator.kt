@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.editDiary.createLesson.presentation
+package com.maxim.diaryforstudents.eduLogin.presentation
 
 interface UiValidator {
     fun isValid(value: String)
