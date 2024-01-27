@@ -4,6 +4,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
+import com.maxim.diaryforstudents.core.presentation.GoBack
+import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
@@ -17,12 +19,12 @@ class PerformanceViewModel(
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<PerformanceState> {
+) : BaseViewModel(runAsync), Communication.Observe<PerformanceState>, Init, GoBack {
     private var type: MarksType = MarksType.Base
     private var search = ""
     private var quarter = 0
 
-    fun init(isFirstRun: Boolean) {
+    override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             quarter = interactor.actualQuarter()
             communication.update(PerformanceState.Loading)
@@ -77,7 +79,7 @@ class PerformanceViewModel(
         }
     }
 
-    fun back() {
+    override fun goBack() {
         if (search.isEmpty()) {
             navigation.update(Screen.Pop)
             clear.clearViewModel(PerformanceViewModel::class.java)

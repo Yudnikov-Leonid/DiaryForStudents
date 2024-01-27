@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
+import com.maxim.diaryforstudents.core.presentation.GoBack
+import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
@@ -19,8 +21,8 @@ class NewsViewModel(
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     private val openNewsData: OpenNewsData.Save
-) : BaseViewModel(), Reload, Communication.Observe<NewsState> {
-    fun init(isFirstRun: Boolean) {
+) : BaseViewModel(), Reload, Communication.Observe<NewsState>, Init, GoBack {
+    override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(NewsState.Loading)
         }
@@ -43,7 +45,7 @@ class NewsViewModel(
         communication.update(NewsState.Base(listOf(NewsUi.Failure(message))))
     }
 
-    fun back() {
+    override fun goBack() {
         navigation.update(Screen.Pop)
         clear.clearViewModel(NewsViewModel::class.java)
     }

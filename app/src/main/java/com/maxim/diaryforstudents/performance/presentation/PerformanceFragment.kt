@@ -19,7 +19,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                viewModel.back()
+                viewModel.goBack()
                 binding.searchEditText.setText("")
             }
         }

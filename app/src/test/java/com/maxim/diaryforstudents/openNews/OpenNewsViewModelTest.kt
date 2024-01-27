@@ -29,7 +29,7 @@ class OpenNewsViewModelTest {
 
     @Test
     fun test_back() {
-        viewModel.back()
+        viewModel.goBack()
         navigation.checkCalledWith(Screen.Pop)
         clear.checkCalledWith(OpenNewsViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))

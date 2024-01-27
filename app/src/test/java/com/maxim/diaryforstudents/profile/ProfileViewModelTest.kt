@@ -70,7 +70,7 @@ class ProfileViewModelTest {
 
     @Test
     fun test_back() {
-        viewModel.back()
+        viewModel.goBack()
         navigation.checkCalledWith(Screen.Pop)
         clear.checkCalledWith(ProfileViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))

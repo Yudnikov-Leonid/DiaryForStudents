@@ -80,7 +80,7 @@ class DiaryViewModelTest {
 
     @Test
     fun test_go_back() {
-        viewModel.back()
+        viewModel.goBack()
         navigation.checkCalledWith(Screen.Pop)
         clearViewModel.checkCalledWith(DiaryViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))

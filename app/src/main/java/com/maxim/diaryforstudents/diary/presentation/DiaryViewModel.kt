@@ -4,6 +4,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
+import com.maxim.diaryforstudents.core.presentation.GoBack
+import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
@@ -22,11 +24,11 @@ class DiaryViewModel(
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<DiaryState> {
+) : BaseViewModel(runAsync), Communication.Observe<DiaryState>, Init, GoBack {
     private var actualDay = 0
     private var nameFilter = ""
 
-    fun init(isFirstRun: Boolean) {
+    override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             actualDay = interactor.actualDate()
             reload(true)
@@ -93,7 +95,7 @@ class DiaryViewModel(
     fun homeworkFrom() = interactor.homeworkFrom()
     fun nameFilter() = nameFilter
 
-    fun back() {
+    override fun goBack() {
         navigation.update(Screen.Pop)
         clear.clearViewModel(DiaryViewModel::class.java)
     }

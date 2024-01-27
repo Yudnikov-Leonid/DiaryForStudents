@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
+import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
@@ -15,8 +16,8 @@ class MenuViewModel(
     private val communication: MenuCommunication,
     private val navigation: Navigation.Update,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<MenuState> {
-    fun init(isFirstRun: Boolean) {
+) : BaseViewModel(runAsync), Communication.Observe<MenuState>, Init {
+    override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(MenuState.Initial)
         }

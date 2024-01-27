@@ -122,7 +122,7 @@ class PerformanceViewModelTest {
 
     @Test
     fun test_go_back_empty_search() {
-        viewModel.back()
+        viewModel.goBack()
         navigation.checkCalledWith(Screen.Pop)
         clearViewModel.checkCalledWith(PerformanceViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))
@@ -131,7 +131,7 @@ class PerformanceViewModelTest {
     @Test
     fun test_go_back_not_empty_search() {
         viewModel.search("22")
-        viewModel.back()
+        viewModel.goBack()
         order.check(emptyList())
         communication.checkCalledWith(
             PerformanceState.Base(

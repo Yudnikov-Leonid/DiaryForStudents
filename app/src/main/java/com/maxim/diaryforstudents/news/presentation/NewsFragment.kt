@@ -18,7 +18,7 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                viewModel.back()
+                viewModel.goBack()
             }
         }
         super.onViewCreated(view, savedInstanceState)

@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
+import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
@@ -18,8 +19,8 @@ class LoginViewModel(
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<LoginState> {
-    fun init(isFirstRun: Boolean) {
+) : BaseViewModel(runAsync), Communication.Observe<LoginState>, Init {
+    override fun init(isFirstRun: Boolean) {
         if (isFirstRun)
             communication.update(LoginState.Initial)
     }

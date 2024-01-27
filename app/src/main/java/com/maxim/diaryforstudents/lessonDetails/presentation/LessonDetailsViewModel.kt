@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.lessonDetails.presentation
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
+import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
@@ -12,7 +13,7 @@ class LessonDetailsViewModel(
     private val storage: LessonDetailsStorage.Read,
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel
-): ViewModel() {
+): ViewModel(), GoBack {
 
     fun show(
         nameTextView: TextView,
@@ -34,7 +35,7 @@ class LessonDetailsViewModel(
         lesson.showMarks(marksLayout)
     }
 
-    fun goBack() {
+    override fun goBack() {
         navigation.update(Screen.Pop)
         clearViewModel.clearViewModel(LessonDetailsViewModel::class.java)
     }
