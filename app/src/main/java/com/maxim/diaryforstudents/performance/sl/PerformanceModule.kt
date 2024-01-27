@@ -4,10 +4,10 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
-import com.maxim.diaryforstudents.performance.eduData.DiaryService
-import com.maxim.diaryforstudents.performance.eduData.EduPerformanceCloudDataSource
-import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
-import com.maxim.diaryforstudents.performance.eduData.FailureHandler
+import com.maxim.diaryforstudents.performance.data.DiaryService
+import com.maxim.diaryforstudents.performance.data.PerformanceCloudDataSource
+import com.maxim.diaryforstudents.performance.data.PerformanceRepository
+import com.maxim.diaryforstudents.performance.data.FailureHandler
 import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
 
@@ -15,8 +15,8 @@ class PerformanceModule(private val core: Core, private val clear: ClearViewMode
     Module<PerformanceViewModel> {
     override fun viewModel() = PerformanceViewModel(
         PerformanceInteractor.Base(
-            EduPerformanceRepository.Base(
-                EduPerformanceCloudDataSource.Base(
+            PerformanceRepository.Base(
+                PerformanceCloudDataSource.Base(
                     core.retrofit().create(DiaryService::class.java), core.eduUser()
                 )
             ), FailureHandler.Base()

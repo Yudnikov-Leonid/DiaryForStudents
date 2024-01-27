@@ -1,7 +1,7 @@
 package com.maxim.diaryforstudents.performance.domain
 
-import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
-import com.maxim.diaryforstudents.performance.eduData.FailureHandler
+import com.maxim.diaryforstudents.performance.data.PerformanceRepository
+import com.maxim.diaryforstudents.performance.data.FailureHandler
 
 interface PerformanceInteractor {
     suspend fun init()
@@ -12,7 +12,7 @@ interface PerformanceInteractor {
     fun actualQuarter(): Int
 
     class Base(
-        private val repository: EduPerformanceRepository,
+        private val repository: PerformanceRepository,
         private val failureHandler: FailureHandler
     ) : PerformanceInteractor {
         override suspend fun init() {

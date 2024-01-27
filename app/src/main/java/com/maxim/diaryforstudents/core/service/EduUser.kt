@@ -1,11 +1,11 @@
 package com.maxim.diaryforstudents.core.service
 
 import com.maxim.diaryforstudents.core.data.SimpleStorage
-import com.maxim.diaryforstudents.profile.eduData.EduProfileData
+import com.maxim.diaryforstudents.profile.data.ProfileData
 
 interface EduUser {
     fun login(guid: String, fullName: String, schoolName: String, grade: String)
-    fun profileData(): EduProfileData
+    fun profileData(): ProfileData
     fun guid(): String
     fun isLogged(): Boolean
     fun signOut()
@@ -19,7 +19,7 @@ interface EduUser {
         }
 
         override fun profileData() =
-            EduProfileData(
+            ProfileData(
                 simpleStorage.read(FULL_NAME_KEY, "Something went wrong"),
                 simpleStorage.read(SCHOOL_NAME_KEY, ""),
                 simpleStorage.read(GRADE_KEY, "")

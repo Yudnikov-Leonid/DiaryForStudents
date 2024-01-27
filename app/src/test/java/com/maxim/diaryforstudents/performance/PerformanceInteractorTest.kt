@@ -3,9 +3,9 @@ package com.maxim.diaryforstudents.performance
 import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
-import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
-import com.maxim.diaryforstudents.performance.eduData.FailureHandler
-import com.maxim.diaryforstudents.performance.eduData.PerformanceData
+import com.maxim.diaryforstudents.performance.data.PerformanceRepository
+import com.maxim.diaryforstudents.performance.data.FailureHandler
+import com.maxim.diaryforstudents.performance.data.PerformanceData
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -13,11 +13,11 @@ import org.junit.Test
 
 class PerformanceInteractorTest {
     private lateinit var interactor: PerformanceInteractor
-    private lateinit var repository: FakeEduPerformanceRepository
+    private lateinit var repository: FakePerformanceRepository
 
     @Before
     fun setUp() {
-        repository = FakeEduPerformanceRepository()
+        repository = FakePerformanceRepository()
         interactor = PerformanceInteractor.Base(repository, FailureHandler.Base())
     }
 
@@ -72,7 +72,7 @@ class PerformanceInteractorTest {
     }
 }
 
-private class FakeEduPerformanceRepository: EduPerformanceRepository {
+private class FakePerformanceRepository: PerformanceRepository {
     private var initCounter = 0
     override suspend fun init() {
         initCounter++

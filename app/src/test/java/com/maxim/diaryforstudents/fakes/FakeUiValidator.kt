@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.fakes
 
-import com.maxim.diaryforstudents.eduLogin.presentation.UiValidator
+import com.maxim.diaryforstudents.login.presentation.UiValidator
 import junit.framework.TestCase
 
 class FakeUiValidator : UiValidator {

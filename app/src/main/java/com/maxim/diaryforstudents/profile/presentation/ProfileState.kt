@@ -10,7 +10,7 @@ interface ProfileState: Serializable {
     )
 
     data class Base(
-        private val profile: EduProfileUi
+        private val profile: ProfileUi
     ) : ProfileState {
         override fun show(
             nameTextView: TextView,

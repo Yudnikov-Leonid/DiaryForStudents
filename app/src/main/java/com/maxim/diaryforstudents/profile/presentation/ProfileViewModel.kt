@@ -9,11 +9,11 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginScreen
-import com.maxim.diaryforstudents.profile.eduData.EduProfileRepository
+import com.maxim.diaryforstudents.login.presentation.LoginScreen
+import com.maxim.diaryforstudents.profile.data.ProfileRepository
 
 class ProfileViewModel(
-    private val repository: EduProfileRepository,
+    private val repository: ProfileRepository,
     private val communication: ProfileCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
@@ -33,7 +33,7 @@ class ProfileViewModel(
 
     fun signOut() {
         repository.signOut()
-        navigation.update(EduLoginScreen)
+        navigation.update(LoginScreen)
         clear.clearViewModel(ProfileViewModel::class.java)
     }
 

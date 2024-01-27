@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.main
 
-import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginScreen
+import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
@@ -36,7 +36,7 @@ class MainViewModelTest {
         interactor.mustReturn(false)
 
         viewModel.init(true)
-        navigation.checkCalledWith(EduLoginScreen)
+        navigation.checkCalledWith(LoginScreen)
         navigation.checkCalledTimes(1)
 
         viewModel.init(false)

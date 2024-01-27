@@ -1,7 +1,7 @@
 package com.maxim.diaryforstudents.diary.domain
 
-import com.maxim.diaryforstudents.diary.eduData.EduDiaryRepository
-import com.maxim.diaryforstudents.performance.eduData.FailureHandler
+import com.maxim.diaryforstudents.diary.data.DiaryRepository
+import com.maxim.diaryforstudents.performance.data.FailureHandler
 
 interface DiaryInteractor {
     fun dayList(today: Int): List<DayDomain>
@@ -16,7 +16,7 @@ interface DiaryInteractor {
     fun saveHomeworkFrom(value: Boolean)
     fun homeworkFrom(): Boolean
 
-    class Base(private val repository: EduDiaryRepository, private val failureHandler: FailureHandler) : DiaryInteractor {
+    class Base(private val repository: DiaryRepository, private val failureHandler: FailureHandler) : DiaryInteractor {
         override fun dayList(today: Int): List<DayDomain> {
             return repository.dayList(today).map { it.toDomain() }
         }

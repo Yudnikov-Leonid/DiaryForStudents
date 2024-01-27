@@ -3,8 +3,8 @@ package com.maxim.diaryforstudents.core.sl
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
 import com.maxim.diaryforstudents.diary.sl.DiaryModule
-import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginViewModel
-import com.maxim.diaryforstudents.eduLogin.sl.EduLoginModule
+import com.maxim.diaryforstudents.login.presentation.LoginViewModel
+import com.maxim.diaryforstudents.login.sl.EduLoginModule
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsViewModel
 import com.maxim.diaryforstudents.lessonDetails.sl.LessonDetailsModule
 import com.maxim.diaryforstudents.main.MainModule
@@ -35,7 +35,7 @@ interface DependencyContainer {
     ) : DependencyContainer {
         override fun <T : ViewModel> module(clasz: Class<T>) = when (clasz) {
             MainViewModel::class.java -> MainModule(core)
-            EduLoginViewModel::class.java -> EduLoginModule(core, clear)
+            LoginViewModel::class.java -> EduLoginModule(core, clear)
             MenuViewModel::class.java -> MenuModule(core)
             ProfileViewModel::class.java -> ProfileModule(core, clear)
             NewsViewModel::class.java -> NewsModule(core, clear)

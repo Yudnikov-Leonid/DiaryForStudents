@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginScreen
+import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.COMMUNICATION
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
@@ -14,9 +14,9 @@ import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.REPOSITORY
-import com.maxim.diaryforstudents.profile.eduData.EduProfileData
-import com.maxim.diaryforstudents.profile.eduData.EduProfileRepository
-import com.maxim.diaryforstudents.profile.presentation.EduProfileUi
+import com.maxim.diaryforstudents.profile.data.ProfileData
+import com.maxim.diaryforstudents.profile.data.ProfileRepository
+import com.maxim.diaryforstudents.profile.presentation.ProfileUi
 import com.maxim.diaryforstudents.profile.presentation.ProfileCommunication
 import com.maxim.diaryforstudents.profile.presentation.ProfileState
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
@@ -51,7 +51,7 @@ class ProfileViewModelTest {
         communication.checkCalledTimes(1)
         communication.checkCalledWith(
             ProfileState.Base(
-                EduProfileUi(
+                ProfileUi(
                     "name",
                     "school name",
                     "grade"
@@ -63,7 +63,7 @@ class ProfileViewModelTest {
     @Test
     fun test_sign_out() {
         viewModel.signOut()
-        navigation.checkCalledWith(EduLoginScreen)
+        navigation.checkCalledWith(LoginScreen)
         clear.checkCalledWith(ProfileViewModel::class.java)
         order.check(listOf(REPOSITORY, NAVIGATION, CLEAR))
     }
@@ -93,7 +93,7 @@ class ProfileViewModelTest {
     }
 }
 
-private class FakeProfileRepository(private val order: Order) : EduProfileRepository {
+private class FakeProfileRepository(private val order: Order) : ProfileRepository {
     private var data = Triple("", "", "")
     private var counter = 0
     fun mustReturn(name: String, schoolName: String, grade: String) {
@@ -105,7 +105,7 @@ private class FakeProfileRepository(private val order: Order) : EduProfileReposi
         counter++
     }
 
-    override fun data(): EduProfileData = EduProfileData(data.first, data.second, data.third)
+    override fun data(): ProfileData = ProfileData(data.first, data.second, data.third)
 }
 
 private class FakeProfileCommunication(private val order: Order) : ProfileCommunication {

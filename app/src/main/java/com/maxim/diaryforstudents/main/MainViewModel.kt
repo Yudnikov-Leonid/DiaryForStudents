@@ -5,7 +5,7 @@ import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginScreen
+import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 
 class MainViewModel(
@@ -16,7 +16,7 @@ class MainViewModel(
         if (isFirstRun && interactor.isLogged())
             navigation.update(MenuScreen)
         else if (isFirstRun)
-            navigation.update(EduLoginScreen)
+            navigation.update(LoginScreen)
     }
 
     override fun observe(owner: LifecycleOwner, observer: androidx.lifecycle.Observer<Screen>) {
