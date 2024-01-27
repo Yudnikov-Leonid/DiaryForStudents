@@ -6,6 +6,8 @@ import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.diary.eduData.DayData
 import com.maxim.diaryforstudents.diary.eduData.DiaryData
 import com.maxim.diaryforstudents.diary.eduData.EduDiaryRepository
+import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
+import com.maxim.diaryforstudents.performance.eduData.FailureHandler
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -18,7 +20,7 @@ class DiaryInteractorTest {
     @Before
     fun setUp() {
         repository = FakeEduDiaryRepository()
-        interactor = DiaryInteractor.Base(repository)
+        interactor = DiaryInteractor.Base(repository, FailureHandler.Base())
     }
 
     @Test
@@ -31,12 +33,21 @@ class DiaryInteractorTest {
     }
 
     @Test
-    fun test_day() = runBlocking {
+    fun test_day_success() = runBlocking {
         repository.dayMustReturn(DiaryData.Day(55, emptyList()))
         val actual = interactor.day(123)
         repository.checkDayCalledTimes(1)
         repository.checkDayCalledWith(123)
         assertEquals(DiaryDomain.Day(55, emptyList()), actual)
+    }
+
+    @Test
+    fun test_day_failure() = runBlocking {
+        repository.dayMustThrow("message")
+        val actual = interactor.day(123)
+        repository.checkDayCalledTimes(1)
+        repository.checkDayCalledWith(123)
+        assertEquals(DiaryDomain.Error("message"), actual)
     }
 
     @Test
@@ -133,9 +144,15 @@ private class FakeEduDiaryRepository: EduDiaryRepository {
 
     private lateinit var dayValue: DiaryData.Day
     private val dayList = mutableListOf<Int>()
+    private var dayException: Exception? = null
     override suspend fun day(date: Int): DiaryData.Day {
         dayList.add(date)
+        dayException?.let { throw it }
         return dayValue
+    }
+
+    fun dayMustThrow(message: String) {
+        dayException = ServiceUnavailableException(message)
     }
 
     fun dayMustReturn(value: DiaryData.Day) {
@@ -236,7 +253,7 @@ private class FakeEduDiaryRepository: EduDiaryRepository {
 
     private val saveHomeworkFromList = mutableListOf<Boolean>()
     override fun saveHomeworkFrom(value: Boolean) {
-        TODO("Not yet implemented")
+        saveHomeworkFromList.add(value)
     }
 
     fun checkSaveHomeworkFromCalledTimes(expected: Int) {

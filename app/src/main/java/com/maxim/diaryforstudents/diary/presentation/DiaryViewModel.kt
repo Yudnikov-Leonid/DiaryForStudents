@@ -8,14 +8,15 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.diary.eduData.EduDiaryRepository
+import com.maxim.diaryforstudents.diary.domain.DiaryDomain
+import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 
 class DiaryViewModel(
     private val filters: MutableList<DiaryUi.Mapper<Boolean>>,
-    private val repository: EduDiaryRepository,
+    private val interactor: DiaryInteractor,
     private val communication: DiaryCommunication,
     private val storage: LessonDetailsStorage.Save,
     private val navigation: Navigation.Update,
@@ -27,9 +28,8 @@ class DiaryViewModel(
 
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
-            actualDay = repository.actualDate()
-            communication.update(DiaryState.Progress)
-            reload()
+            actualDay = interactor.actualDate()
+            reload(true)
         }
     }
 
@@ -45,17 +45,17 @@ class DiaryViewModel(
 
     fun nextDay() {
         actualDay++
-        reload()
+        reload(false)
     }
 
     fun previousDay() {
         actualDay--
-        reload()
+        reload(false)
     }
 
     fun setActualDay(day: Int) {
         actualDay = day
-        reload()
+        reload(false)
     }
 
     fun openDetails(item: DiaryUi.Lesson) {
@@ -63,14 +63,14 @@ class DiaryViewModel(
         navigation.update(LessonDetailsScreen)
     }
 
-    fun homeworkToShare() = repository.homeworks(actualDay)
-    fun previousHomeworkToShare() = repository.previousHomeworks(actualDay)
+    fun homeworkToShare() = interactor.homeworks(actualDay)
+    fun previousHomeworkToShare() = interactor.previousHomeworks(actualDay)
 
     fun setFilter(position: Int, isChecked: Boolean) {
         val checks = checks()
         checks[position] = isChecked
-        repository.saveFilters(checks)
-        reload()
+        interactor.saveFilters(checks)
+        reload(false)
     }
 
     fun setNameFilter(value: String) {
@@ -81,16 +81,16 @@ class DiaryViewModel(
             ) = name.contains(value, true)
         }
         nameFilter = value
-        reload()
+        reload(false)
     }
 
     fun setHomeworkType(from: Boolean) {
-        repository.saveHomeworkFrom(from)
-        reload()
+        interactor.saveHomeworkFrom(from)
+        reload(false)
     }
 
-    fun checks() = repository.filters()
-    fun homeworkFrom() = repository.homeworkFrom()
+    fun checks() = interactor.filters()
+    fun homeworkFrom() = interactor.homeworkFrom()
     fun nameFilter() = nameFilter
 
     fun back() {
@@ -98,8 +98,17 @@ class DiaryViewModel(
         clear.clearViewModel(DiaryViewModel::class.java)
     }
 
-    fun reload() {
-        handle({ repository.day(actualDay) }) { day ->
+    fun reload(showLoading: Boolean) {
+        if (showLoading)
+            communication.update(DiaryState.Progress)
+        handle({ interactor.day(actualDay) }) { day ->
+            if (day is DiaryDomain.Error) {
+                communication.update(
+                    DiaryState.Error(day.message())
+                )
+                return@handle
+            }
+
             val checks = checks()
             var filteredDay = day.toUi()
             checks.forEachIndexed { i, b ->
@@ -111,9 +120,9 @@ class DiaryViewModel(
             communication.update(
                 DiaryState.Base(
                     filteredDay,
-                    repository.dayList(actualDay).map { it.toUi() },
+                    interactor.dayList(actualDay).map { it.toUi() },
                     checks.filter { it }.size + if (nameFilter.isNotEmpty()) 1 else 0,
-                    repository.homeworkFrom()
+                    interactor.homeworkFrom()
                 ),
             )
         }

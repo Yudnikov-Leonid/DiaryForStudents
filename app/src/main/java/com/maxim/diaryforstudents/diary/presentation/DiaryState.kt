@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.diary.presentation
 
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -16,6 +17,7 @@ interface DiaryState : Serializable {
         monthTitle: TextView,
         progressBar: ProgressBar,
         errorTextView: TextView,
+        retryButton: Button,
         previousDayButton: ImageButton,
         nextDayButton: ImageButton,
         daysRecyclerView: View,
@@ -23,7 +25,7 @@ interface DiaryState : Serializable {
     )
 
     data class Base(
-        private val day: DiaryUi.Day,
+        private val day: DiaryUi,
         private val days: List<DayUi>,
         private val filterCount: Int,
         private val homeworkFrom: Boolean
@@ -37,6 +39,7 @@ interface DiaryState : Serializable {
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
+            retryButton: Button,
             previousDayButton: ImageButton,
             nextDayButton: ImageButton,
             daysRecyclerView: View,
@@ -52,6 +55,7 @@ interface DiaryState : Serializable {
             day.showName(monthTitle)
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
+            retryButton.visibility = View.GONE
             previousDayButton.visibility = View.VISIBLE
             nextDayButton.visibility = View.VISIBLE
             daysRecyclerView.visibility = View.VISIBLE
@@ -72,12 +76,14 @@ interface DiaryState : Serializable {
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
+            retryButton: Button,
             previousDayButton: ImageButton,
             nextDayButton: ImageButton,
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
             errorTextView.visibility = View.GONE
+            retryButton.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             previousDayButton.visibility = View.GONE
             nextDayButton.visibility = View.GONE
@@ -99,12 +105,14 @@ interface DiaryState : Serializable {
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
+            retryButton: Button,
             previousDayButton: ImageButton,
             nextDayButton: ImageButton,
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
             progressBar.visibility = View.GONE
+            retryButton.visibility = View.VISIBLE
             errorTextView.visibility = View.VISIBLE
             errorTextView.text = message
             previousDayButton.visibility = View.GONE

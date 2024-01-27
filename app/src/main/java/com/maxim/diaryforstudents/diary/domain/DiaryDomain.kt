@@ -63,4 +63,12 @@ interface DiaryDomain {
         override fun homeworks() = emptyList<Pair<String, String>>()
         override fun previousHomeworks() = emptyList<Pair<String, String>>()
     }
+
+    data class Error(private val message: String): DiaryDomain {
+        override fun isDate(date: Int) = false
+        override fun toUi() = DiaryUi.Empty
+        override fun homeworks() = emptyList<Pair<String, String>>()
+        override fun previousHomeworks() = emptyList<Pair<String, String>>()
+        fun message() = message
+    }
 }

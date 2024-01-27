@@ -4,6 +4,7 @@ import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
+import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import java.util.Calendar
 
@@ -56,17 +57,9 @@ interface EduDiaryRepository {
             val formattedDate = formatter.format("dd.MM.yyyy", date)
             cache[formattedDate]?.let { return it }
 
-            val data =
-                service.getDay(
-                    EduDiaryBody(
-                        formattedDate,
-                        BuildConfig.SHORT_API_KEY,
-                        eduUser.guid(),
-                        ""
-                    )
-                )
-            val day = if (data.success) DiaryData.Day(
-                date,
+            val data = service
+                .getDay(EduDiaryBody(formattedDate, BuildConfig.SHORT_API_KEY, eduUser.guid(), ""))
+            val day = if (data.success) DiaryData.Day(date,
                 data.data.map { lesson ->
                     DiaryData.Lesson(
                         lesson.SUBJECT_NAME,
@@ -81,7 +74,7 @@ interface EduDiaryRepository {
                             ?: emptyList()
                     )
                 }.ifEmpty { listOf(DiaryData.Empty) }
-            ) else DiaryData.Day(0, emptyList())
+            ) else throw ServiceUnavailableException(data.message)
             cache[formattedDate] = day
             return day
         }

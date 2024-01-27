@@ -48,6 +48,10 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         binding.moveRightButton.setOnClickListener {
             viewModel.nextDay()
         }
+        binding.retryButton!!.setOnClickListener {
+            viewModel.reload(true)
+        }
+
         //todo !!
         binding.shareHomeworkButton!!.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
@@ -108,6 +112,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 binding.monthTextView,
                 binding.progressBar,
                 binding.errorTextView,
+                binding.retryButton!!,
                 binding.moveLeftButton,
                 binding.moveRightButton,
                 binding.daysRecyclerView,
