@@ -55,6 +55,7 @@ class DiaryViewModel(
     }
 
     fun homeworkToShare() = repository.homeworks(actualDay)
+    fun previousHomeworkToShare() = repository.previousHomeworks(actualDay)
 
     fun setFilter(position: Int, isChecked: Boolean) {
         val checks = checks()
@@ -63,7 +64,13 @@ class DiaryViewModel(
         reload()
     }
 
+    fun setHomeworkType(from: Boolean) {
+        repository.saveHomeworkFrom(from)
+        reload()
+    }
+
     fun checks() = repository.filters()
+    fun homeworkFrom() = repository.homeworkFrom()
 
     fun back() {
         navigation.update(Screen.Pop)
@@ -82,7 +89,8 @@ class DiaryViewModel(
                 DiaryState.Base(
                     filteredDay,
                     repository.dayList(actualDay).map { it.toUi() },
-                    checks.filter { it }.size
+                    checks.filter { it }.size,
+                    repository.homeworkFrom()
                 ),
             )
         }

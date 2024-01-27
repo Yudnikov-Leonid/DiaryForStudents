@@ -15,5 +15,11 @@ data class EduDiaryLesson(
     val LESSON_TIME_END: String,
     val TOPIC: String?,
     val HOMEWORK: String?,
+    val HOMEWORK_PREVIOUS: EduDiaryPreviousHomework?,
     val MARKS: List<EduCloudMark>?
+)
+
+data class EduDiaryPreviousHomework(
+    val DATE: String,
+    val HOMEWORK: String
 )

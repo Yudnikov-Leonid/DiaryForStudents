@@ -46,9 +46,18 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         binding.shareHomeworkButton!!.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, viewModel.homeworkToShare())
             }
-            startActivity(Intent.createChooser(intent, "Send to"))
+            AlertDialog.Builder(requireContext())
+                .setTitle("Share homework")
+                .setItems(arrayOf("From", "For")) { _, i ->
+                    if (i == 0) {
+                        intent.putExtra(Intent.EXTRA_TEXT, viewModel.homeworkToShare())
+                        startActivity(Intent.createChooser(intent, "Send to"))
+                    } else {
+                        intent.putExtra(Intent.EXTRA_TEXT, viewModel.previousHomeworkToShare())
+                        startActivity(Intent.createChooser(intent, "Send to"))
+                    }
+                }.create().show()
         }
 
 
@@ -60,8 +69,17 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                     viewModel.checks()
                 ) { _, i, isChecked ->
                     viewModel.setFilter(i, isChecked)
-                }.setPositiveButton("Close") { _, _ ->
+                }.create().show()
+        }
 
+        binding.homeworkTypeButton!!.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Homewrok type")
+                .setSingleChoiceItems(
+                    arrayOf("From", "For"),
+                    if (viewModel.homeworkFrom()) 0 else 1
+                ) { _, i ->
+                    viewModel.setHomeworkType(i == 0)
                 }.create().show()
         }
 
@@ -71,6 +89,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 daysAdapter,
                 binding.shareHomeworkButton!!,
                 binding.filtersButton!!,
+                binding.homeworkTypeButton!!,
                 binding.monthTextView,
                 binding.progressBar,
                 binding.errorTextView,

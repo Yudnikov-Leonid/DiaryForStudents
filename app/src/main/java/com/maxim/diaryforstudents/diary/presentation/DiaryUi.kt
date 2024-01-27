@@ -16,7 +16,8 @@ interface DiaryUi : Serializable {
     fun showName(textView: TextView) {}
     fun showTheme(textView: TextView, title: TextView) {}
     fun showHomework(textView: TextView, title: TextView) {}
-    fun showLessons(adapter: DiaryLessonsAdapter) {}
+    fun showPreviousHomework(textView: TextView, title: TextView) {}
+    fun showLessons(adapter: DiaryLessonsAdapter, homeworkFrom: Boolean) {}
     fun showMarks(linearLayout: LinearLayout) {}
     fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
     fun map(mapper: Mapper<Boolean>): Boolean
@@ -43,8 +44,8 @@ interface DiaryUi : Serializable {
         }
 
         override fun sameContent(item: DiaryUi) = item is Day && item.lessons == lessons
-        override fun showLessons(adapter: DiaryLessonsAdapter) {
-            adapter.update(lessons)
+        override fun showLessons(adapter: DiaryLessonsAdapter, homeworkFrom: Boolean) {
+            adapter.update(lessons, homeworkFrom)
         }
 
         override fun filter(mapper: Mapper<Boolean>) = Day(
@@ -59,6 +60,7 @@ interface DiaryUi : Serializable {
         private val name: String,
         private val topic: String,
         private val homework: String,
+        private val previousHomework: String,
         private val startTime: String,
         private val endTime: String,
         private val date: Int,
@@ -82,8 +84,16 @@ interface DiaryUi : Serializable {
 
         override fun showHomework(textView: TextView, title: TextView) {
             textView.text = homework
-            title.visibility = if (homework.isEmpty()) View.GONE else View.VISIBLE
-            textView.visibility = if (homework.isEmpty()) View.GONE else View.VISIBLE
+            val visibility = if (homework.isEmpty()) View.GONE else View.VISIBLE
+            title.visibility = visibility
+            textView.visibility = visibility
+        }
+
+        override fun showPreviousHomework(textView: TextView, title: TextView) {
+            textView.text = previousHomework
+            val visibility = if (previousHomework.isEmpty()) View.GONE else View.VISIBLE
+            title.visibility = visibility
+            textView.visibility = visibility
         }
 
         override fun showMarks(linearLayout: LinearLayout) {

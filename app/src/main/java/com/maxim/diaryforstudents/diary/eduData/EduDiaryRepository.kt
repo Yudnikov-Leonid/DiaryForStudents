@@ -15,9 +15,12 @@ interface EduDiaryRepository {
     fun cachedDay(date: Int): DiaryData.Day
     fun actualDate(): Int
     fun homeworks(date: Int): String
+    fun previousHomeworks(date: Int): String
 
     fun saveFilters(booleanArray: BooleanArray)
     fun filters(): BooleanArray
+    fun saveHomeworkFrom(value: Boolean)
+    fun homeworkFrom(): Boolean
 
     class Base(
         private val service: EduDiaryService,
@@ -71,6 +74,7 @@ interface EduDiaryRepository {
                         lesson.SUBJECT_NAME,
                         lesson.TOPIC ?: "",
                         lesson.HOMEWORK ?: "",
+                        lesson.HOMEWORK_PREVIOUS?.HOMEWORK ?: "",
                         lesson.LESSON_TIME_BEGIN,
                         lesson.LESSON_TIME_END,
                         date,
@@ -91,7 +95,18 @@ interface EduDiaryRepository {
             val formattedDate = formatter.format("dd.MM.yyyy", date)
             val data = cache[formattedDate]!!
             val homeworks = data.homeworks()
-            val sb = StringBuilder("Домашнее задание, заданное $formattedDate\n\n")
+            val sb = StringBuilder("Homework from $formattedDate\n\n")
+            homeworks.filter { it.second.isNotEmpty() }.forEach {
+                sb.append("${it.first}: ${it.second}\n\n")
+            }
+            return sb.trim().toString()
+        }
+
+        override fun previousHomeworks(date: Int): String {
+            val formattedDate = formatter.format("dd.MM.yyyy", date)
+            val data = cache[formattedDate]!!
+            val homeworks = data.previousHomeworks()
+            val sb = StringBuilder("Homework for $formattedDate\n\n")
             homeworks.filter { it.second.isNotEmpty() }.forEach {
                 sb.append("${it.first}: ${it.second}\n\n")
             }
@@ -104,19 +119,23 @@ interface EduDiaryRepository {
             simpleStorage.save(MARKS_FILTER, booleanArray[2])
         }
 
-        override fun filters(): BooleanArray {
-            val checks = booleanArrayOf(
-                simpleStorage.read(HOMEWORK_FILTER, false),
-                simpleStorage.read(TOPIC_FILTER, false),
-                simpleStorage.read(MARKS_FILTER, false),
-            )
-            return checks
+        override fun filters() = booleanArrayOf(
+            simpleStorage.read(HOMEWORK_FILTER, false),
+            simpleStorage.read(TOPIC_FILTER, false),
+            simpleStorage.read(MARKS_FILTER, false),
+        )
+
+        override fun saveHomeworkFrom(value: Boolean) {
+            simpleStorage.save(HOMEWORK_FROM, value)
         }
+
+        override fun homeworkFrom() = simpleStorage.read(HOMEWORK_FROM, true)
 
         companion object {
             private const val HOMEWORK_FILTER = "homework_filter"
             private const val TOPIC_FILTER = "topic_filter"
             private const val MARKS_FILTER = "marks_filter"
+            private const val HOMEWORK_FROM = "homework_from"
         }
     }
 }

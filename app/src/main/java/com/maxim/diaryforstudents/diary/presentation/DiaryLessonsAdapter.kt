@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.diary.presentation
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,18 +11,22 @@ import com.maxim.diaryforstudents.databinding.NoDataBinding
 
 class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DiaryUi>()
+    private var homeworkFrom = true
 
     abstract class ItemViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        open fun bind(item: DiaryUi) {}
+        open fun bind(item: DiaryUi, homeworkFrom: Boolean) {}
     }
 
     class BaseItemViewHolder(private val binding: LessonDiaryBinding) : ItemViewHolder(binding) {
-        override fun bind(item: DiaryUi) {
+        override fun bind(item: DiaryUi, homeworkFrom: Boolean) {
             item.showTime(binding.timeTextView)
             item.showName(binding.lessonNameTextView)
             item.showTheme(binding.themeTextView, binding.themeTitle)
-            item.showHomework(binding.homeworkTextView, binding.homeWorkTitle)
+            if (homeworkFrom)
+                item.showHomework(binding.homeworkTextView, binding.homeWorkTitle)
+            else
+                item.showPreviousHomework(binding.homeworkTextView, binding.homeWorkTitle)
             item.showMarks(binding.marksLayout)
         }
     }
@@ -43,10 +48,16 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], homeworkFrom)
     }
 
-    fun update(newList: List<DiaryUi>) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun update(newList: List<DiaryUi>, homeworkFrom: Boolean) {
+        if (homeworkFrom != this.homeworkFrom) {
+            this.homeworkFrom = homeworkFrom
+            notifyDataSetChanged()
+        } else
+            this.homeworkFrom = homeworkFrom
         val diff = DiaryLessonDiffUtil(list, newList)
         val result = DiffUtil.calculateDiff(diff)
         list.clear()
