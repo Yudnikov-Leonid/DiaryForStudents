@@ -11,7 +11,7 @@ interface MenuState: Serializable {
         news: View,
     )
 
-    object Student : MenuState {
+    object Initial : MenuState {
         override fun show(diary: View, performance: View, profile: View, news: View) {
             diary.visibility = View.VISIBLE
             performance.visibility = View.VISIBLE

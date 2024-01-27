@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Screen
+import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginScreen
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.COMMUNICATION
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
@@ -13,9 +14,9 @@ import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.REPOSITORY
-import com.maxim.diaryforstudents.login.presentation.LoginScreen
-import com.maxim.diaryforstudents.profile.data.GradeResult
-import com.maxim.diaryforstudents.profile.data.ProfileRepository
+import com.maxim.diaryforstudents.profile.eduData.EduProfileData
+import com.maxim.diaryforstudents.profile.eduData.EduProfileRepository
+import com.maxim.diaryforstudents.profile.presentation.EduProfileUi
 import com.maxim.diaryforstudents.profile.presentation.ProfileCommunication
 import com.maxim.diaryforstudents.profile.presentation.ProfileState
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
@@ -45,26 +46,24 @@ class ProfileViewModelTest {
 
     @Test
     fun test_init() {
-        repository.mustReturn("email@gmail.com", "name", GradeResult.Student("10"))
-        viewModel.init(true)
+        repository.mustReturn("name", "school name", "grade")
+        viewModel.init()
         communication.checkCalledTimes(1)
-        runAsync.returnResult()
-        communication.checkCalledTimes(2)
         communication.checkCalledWith(
-            listOf(
-                ProfileState.Loading,
-                ProfileState.Base("name", GradeResult.Student("10"), "email@gmail.com")
+            ProfileState.Base(
+                EduProfileUi(
+                    "name",
+                    "school name",
+                    "grade"
+                )
             )
         )
-
-        viewModel.init(false)
-        communication.checkCalledTimes(2)
     }
 
     @Test
     fun test_sign_out() {
         viewModel.signOut()
-        navigation.checkCalledWith(LoginScreen)
+        navigation.checkCalledWith(EduLoginScreen)
         clear.checkCalledWith(ProfileViewModel::class.java)
         order.check(listOf(REPOSITORY, NAVIGATION, CLEAR))
     }
@@ -94,11 +93,11 @@ class ProfileViewModelTest {
     }
 }
 
-private class FakeProfileRepository(private val order: Order) : ProfileRepository {
-    private var data = Triple<String, GradeResult, String>("", GradeResult.Empty, "")
+private class FakeProfileRepository(private val order: Order) : EduProfileRepository {
+    private var data = Triple("", "", "")
     private var counter = 0
-    fun mustReturn(email: String, name: String, grade: GradeResult) {
-        data = Triple(name, grade, email)
+    fun mustReturn(name: String, schoolName: String, grade: String) {
+        data = Triple(name, schoolName, grade)
     }
 
     override fun signOut() {
@@ -106,7 +105,7 @@ private class FakeProfileRepository(private val order: Order) : ProfileRepositor
         counter++
     }
 
-    override suspend fun data(): Triple<String, GradeResult, String> = data
+    override fun data(): EduProfileData = EduProfileData(data.first, data.second, data.third)
 }
 
 private class FakeProfileCommunication(private val order: Order) : ProfileCommunication {
@@ -116,8 +115,8 @@ private class FakeProfileCommunication(private val order: Order) : ProfileCommun
         list.add(value)
     }
 
-    fun checkCalledWith(expected: List<ProfileState>) {
-        assertEquals(expected, list)
+    fun checkCalledWith(expected: ProfileState) {
+        assertEquals(expected, list.last())
     }
 
     fun checkCalledTimes(expected: Int) {

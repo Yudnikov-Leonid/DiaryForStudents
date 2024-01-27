@@ -2,15 +2,10 @@ package com.maxim.diaryforstudents.menu
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
-import com.maxim.diaryforstudents.editDiary.selectClass.presentation.SelectClassScreen
-import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.Order
-import com.maxim.diaryforstudents.menu.domain.MenuInteractor
-import com.maxim.diaryforstudents.menu.domain.UserStatus
 import com.maxim.diaryforstudents.menu.presentation.MenuCommunication
 import com.maxim.diaryforstudents.menu.presentation.MenuState
 import com.maxim.diaryforstudents.menu.presentation.MenuViewModel
@@ -23,7 +18,6 @@ import org.junit.Test
 
 class MenuViewModelTest {
     private lateinit var navigation: FakeNavigation
-    private lateinit var interactor: FakeMenuInteractor
     private lateinit var communication: FakeMenuCommunication
     private lateinit var viewModel: MenuViewModel
     private lateinit var runAsync: FakeRunAsync
@@ -31,37 +25,19 @@ class MenuViewModelTest {
     @Before
     fun before() {
         navigation = FakeNavigation(Order())
-        interactor = FakeMenuInteractor()
         communication = FakeMenuCommunication()
         runAsync = FakeRunAsync()
-        viewModel = MenuViewModel(interactor, communication, navigation, runAsync)
+        viewModel = MenuViewModel(communication, navigation, runAsync)
     }
 
     @Test
     fun test_init() {
-        interactor.mustReturn(UserStatus.Student)
         viewModel.init(true)
-        interactor.checkCalledTimes(1)
         communication.checkCalledTimes(1)
-        communication.checkCalledWith(MenuState.Loading)
-        runAsync.returnResult()
-        communication.checkCalledTimes(2)
-        communication.checkCalledWith(MenuState.Student)
+        communication.checkCalledWith(MenuState.Initial)
 
         viewModel.init(false)
-        interactor.checkCalledTimes(1)
-        communication.checkCalledTimes(2)
-
-        interactor.mustReturn(UserStatus.Teacher)
-        viewModel.init(true)
-        runAsync.returnResult()
-        interactor.checkCalledTimes(2)
-        communication.checkCalledTimes(4)
-        communication.checkCalledWith(MenuState.Teacher)
-
-        viewModel.init(false)
-        interactor.checkCalledTimes(2)
-        communication.checkCalledTimes(4)
+        communication.checkCalledTimes(1)
     }
 
     @Test
@@ -69,13 +45,6 @@ class MenuViewModelTest {
         viewModel.diary()
         navigation.checkCalledTimes(1)
         navigation.checkCalledWith(DiaryScreen)
-    }
-
-    @Test
-    fun test_diary_for_teacher() {
-        viewModel.diaryForTeacher()
-        navigation.checkCalledTimes(1)
-        navigation.checkCalledWith(SelectClassScreen)
     }
 
     @Test
@@ -98,22 +67,6 @@ class MenuViewModelTest {
         navigation.checkCalledTimes(1)
         navigation.checkCalledWith(NewsScreen)
     }
-
-    @Test
-    fun test_save_and_restore() {
-        val bundleWrapper = FakeBundleWrapper()
-        viewModel.save(bundleWrapper)
-        communication.checkSaveCalledTimes(1)
-        communication.checkRestoreCalledTimes(0)
-        communication.checkSaveCalledWith(bundleWrapper)
-
-        viewModel.restore(bundleWrapper)
-        communication.checkSaveCalledTimes(1)
-        communication.checkRestoreCalledTimes(1)
-        communication.checkRestoreCalledWith(bundleWrapper)
-
-        communication.checkSaveAndRestoreWasCalledWithSameKey()
-    }
 }
 
 private class FakeMenuCommunication : MenuCommunication {
@@ -132,56 +85,5 @@ private class FakeMenuCommunication : MenuCommunication {
 
     override fun observe(owner: LifecycleOwner, observer: Observer<MenuState>) {
         throw IllegalStateException("not using in test")
-    }
-
-    private val saveList = mutableListOf<BundleWrapper.Save>()
-    private val restoreList = mutableListOf<BundleWrapper.Restore>()
-    private var saveKey = ""
-    private var restoreKey = ""
-    fun checkSaveCalledTimes(expected: Int) {
-        assertEquals(expected, saveList.size)
-    }
-
-    fun checkSaveCalledWith(expected: BundleWrapper.Save) {
-        assertEquals(expected, saveList.last())
-    }
-
-    fun checkSaveAndRestoreWasCalledWithSameKey() {
-        assertEquals(saveKey, restoreKey)
-    }
-
-    fun checkRestoreCalledTimes(expected: Int) {
-        assertEquals(expected, restoreList.size)
-    }
-
-    fun checkRestoreCalledWith(expected: BundleWrapper.Restore) {
-        assertEquals(expected, restoreList.last())
-    }
-
-    override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
-        saveList.add(bundleWrapper)
-        saveKey = key
-    }
-
-    override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
-        restoreList.add(bundleWrapper)
-        restoreKey = key
-    }
-}
-
-private class FakeMenuInteractor : MenuInteractor {
-    private var data: UserStatus? = null
-    private var counter = 0
-    fun mustReturn(value: UserStatus) {
-        data = value
-    }
-
-    fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, counter)
-    }
-
-    override suspend fun userStatus(): UserStatus {
-        counter++
-        return data!!
     }
 }

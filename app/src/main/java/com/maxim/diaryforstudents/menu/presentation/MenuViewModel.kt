@@ -18,7 +18,7 @@ class MenuViewModel(
 ) : BaseViewModel(runAsync), Communication.Observe<MenuState> {
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
-            communication.update(MenuState.Student)
+            communication.update(MenuState.Initial)
         }
     }
 
