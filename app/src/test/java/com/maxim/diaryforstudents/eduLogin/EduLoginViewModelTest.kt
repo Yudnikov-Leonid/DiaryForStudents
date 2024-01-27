@@ -53,6 +53,16 @@ class EduLoginViewModelTest {
     }
 
     @Test
+    fun test_init() {
+        viewModel.init(true)
+        communication.checkCalledTimes(1)
+        communication.checkCalledWith(EduLoginState.Initial)
+
+        viewModel.init(false)
+        communication.checkCalledTimes(1)
+    }
+
+    @Test
     fun test_correct_login() {
         viewModel.login("123@gmail.com", "321")
         loginValidator.checkCalledTimes(1)
