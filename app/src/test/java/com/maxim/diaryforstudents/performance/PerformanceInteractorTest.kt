@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance
 
+import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
 import com.maxim.diaryforstudents.performance.eduData.PerformanceData
@@ -7,6 +8,7 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
+import java.lang.IllegalStateException
 
 class PerformanceInteractorTest {
     private lateinit var interactor: PerformanceInteractor
@@ -25,19 +27,33 @@ class PerformanceInteractorTest {
     }
 
     @Test
-    fun test_data() {
+    fun test_data_success() {
         repository.dataMustReturn(listOf(PerformanceData.Error("for example")))
         val actual = interactor.data("search")
         repository.checkDataCalledWith("search")
-        assertEquals(listOf(PerformanceData.Error("for example")), actual)
+        assertEquals(listOf(PerformanceDomain.Error("for example")), actual)
     }
 
     @Test
-    fun test_final_date() {
+    fun test_data_failure() {
+        repository.dataMustThrowException("message")
+        val actual = interactor.data("")
+        assertEquals(listOf(PerformanceDomain.Error("message")), actual)
+    }
+
+    @Test
+    fun test_final_date_success() {
         repository.finalDataMustReturn(listOf(PerformanceData.Error("abcd")))
         val actual = interactor.finalData("final")
         repository.checkFinalDataCalledWith("final")
-        assertEquals(listOf(PerformanceData.Error("abcd")), actual)
+        assertEquals(listOf(PerformanceDomain.Error("abcd")), actual)
+    }
+
+    @Test
+    fun test_final_date_failure() {
+        repository.finalDataMustThrowException("final message")
+        val actual = interactor.finalData("")
+        assertEquals(listOf(PerformanceDomain.Error("final message")), actual)
     }
 
     @Test
@@ -67,9 +83,15 @@ private class FakeEduPerformanceRepository: EduPerformanceRepository {
 
     private val dataValue = mutableListOf<PerformanceData>()
     private val dataList = mutableListOf<String>()
+    private var exception: Exception? = null
     override fun cachedData(search: String): List<PerformanceData> {
         dataList.add(search)
+        exception?.let { throw it }
         return dataValue
+    }
+
+    fun dataMustThrowException(message: String) {
+        exception = IllegalStateException(message)
     }
 
     fun dataMustReturn(value: List<PerformanceData>) {
@@ -83,8 +105,15 @@ private class FakeEduPerformanceRepository: EduPerformanceRepository {
 
     private val finalDataValue = mutableListOf<PerformanceData>()
     private val finalDataList = mutableListOf<String>()
+    private var finalException: Exception? = null
     override fun cachedFinalData(search: String): List<PerformanceData> {
+        finalDataList.add(search)
+        finalException?.let { throw it }
         return finalDataValue
+    }
+
+    fun finalDataMustThrowException(message: String) {
+        finalException = IllegalStateException(message)
     }
 
     fun finalDataMustReturn(value: List<PerformanceData>) {

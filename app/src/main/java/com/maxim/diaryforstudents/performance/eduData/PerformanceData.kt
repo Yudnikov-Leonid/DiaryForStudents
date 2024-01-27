@@ -1,12 +1,12 @@
 package com.maxim.diaryforstudents.performance.eduData
 
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
 import java.io.Serializable
 
 interface PerformanceData: Serializable {
-    fun toUi(): PerformanceUi
+
+    fun toDomain(): PerformanceDomain
     fun search(search: String): Boolean = true
-    fun message(): String = ""
 
     data class Lesson(
         private val name: String,
@@ -14,12 +14,12 @@ interface PerformanceData: Serializable {
         private val isFinal: Boolean,
         private val average: Float
     ) : PerformanceData {
-        override fun toUi() = PerformanceUi.Lesson(name, grades.map { it.toUi() }, isFinal, average)
+        override fun toDomain() = PerformanceDomain.Lesson(name, grades.map { it.toDomain() }, isFinal, average)
         override fun search(search: String) = name.contains(search, true)
     }
 
     object Empty : PerformanceData {
-        override fun toUi() = PerformanceUi.Empty
+        override fun toDomain() = PerformanceDomain.Empty
     }
 
     data class Grade(
@@ -27,11 +27,10 @@ interface PerformanceData: Serializable {
         private val date: String,
         private val isFinal: Boolean
     ) : PerformanceData {
-        override fun toUi() = PerformanceUi.Mark(grade, date, isFinal)
+        override fun toDomain() = PerformanceDomain.Grade(grade, date, isFinal)
     }
 
     data class Error(private val message: String): PerformanceData {
-        override fun toUi() = PerformanceUi.Error(message)
-        override fun message() = message
+        override fun toDomain()= PerformanceDomain.Error(message)
     }
 }
