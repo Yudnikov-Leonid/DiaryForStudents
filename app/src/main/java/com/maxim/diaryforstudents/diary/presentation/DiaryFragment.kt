@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.diary.presentation
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
+import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 
 class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
     override val viewModelClass: Class<DiaryViewModel>
@@ -44,10 +46,44 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         //todo !!
         binding.shareHomeworkButton!!.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
-                type="text/plain"
+                type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, viewModel.homeworkToShare())
             }
             startActivity(Intent.createChooser(intent, "Send to"))
+        }
+
+        val homeworkFilter = object : DiaryUi.Mapper<Boolean> {
+            override fun map(name: String, topic: String, homework: String,
+                startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+            ) = homework.isNotEmpty()
+        }
+        val topicFilter = object : DiaryUi.Mapper<Boolean> {
+            override fun map(name: String, topic: String, homework: String,
+                             startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+            ) = topic.isNotEmpty()
+        }
+        val marksFilter = object : DiaryUi.Mapper<Boolean> {
+            override fun map(name: String, topic: String, homework: String,
+                             startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+            ) = marks.isNotEmpty()
+        }
+
+
+        binding.filtersButton!!.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Set filters")
+                .setMultiChoiceItems(
+                    arrayOf("Have homework", "Have topic", "Have marks"),
+                    viewModel.checks()
+                ) { _, i, isChecked ->
+                    viewModel.setFilter(when(i) {
+                        0 -> homeworkFilter
+                        1 -> topicFilter
+                        else -> marksFilter
+                    }, i, isChecked)
+                }.setPositiveButton("Close") { _, _ ->
+
+                }.create().show()
         }
 
         viewModel.observe(this) {
@@ -55,13 +91,14 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 lessonsAdapter,
                 daysAdapter,
                 binding.shareHomeworkButton!!,
+                binding.filtersButton!!,
                 binding.monthTextView,
                 binding.progressBar,
                 binding.errorTextView,
                 binding.moveLeftButton,
                 binding.moveRightButton,
                 binding.daysRecyclerView,
-                binding.lessonsRecyclerView
+                binding.lessonsRecyclerView,
             )
         }
         viewModel.init(savedInstanceState == null)

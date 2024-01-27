@@ -53,9 +53,20 @@ class DiaryViewModel(
         reload()
     }
 
-    fun homeworkToShare(): String {
-        return repository.homeworks(actualDay)
+    fun homeworkToShare() = repository.homeworks(actualDay)
+
+    private val filters = mutableListOf<DiaryUi.Mapper<Boolean>>()
+    private val checks = mutableListOf(false, false, false)
+    fun setFilter(mapper: DiaryUi.Mapper<Boolean>, position: Int, isChecked: Boolean) {
+        if (!isChecked)
+            filters.remove(mapper)
+        else
+            filters.add(mapper)
+        checks[position] = isChecked
+        reload()
     }
+
+    fun checks() = checks.toBooleanArray()
 
     fun back() {
         navigation.update(Screen.Pop)
@@ -63,8 +74,18 @@ class DiaryViewModel(
     }
 
     fun reload() {
-        handle({repository.day(actualDay)}) { day ->
-            communication.update(DiaryState.Base(day.toUi(), repository.dayList(actualDay).map { it.toUi() }))
+        handle({ repository.day(actualDay) }) { day ->
+            var filteredDay = day.toUi()
+            filters.forEach { filter ->
+                filteredDay = filteredDay.filter(filter)
+            }
+            communication.update(
+                DiaryState.Base(
+                    filteredDay,
+                    repository.dayList(actualDay).map { it.toUi() },
+                    filters.size
+                ),
+            )
         }
     }
 

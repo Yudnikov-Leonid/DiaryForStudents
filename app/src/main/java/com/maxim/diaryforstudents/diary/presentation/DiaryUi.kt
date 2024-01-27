@@ -9,7 +9,7 @@ import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 import java.io.Serializable
 
-interface DiaryUi: Serializable {
+interface DiaryUi : Serializable {
     fun same(item: DiaryUi): Boolean
     fun sameContent(item: DiaryUi): Boolean
     fun showTime(textView: TextView) {}
@@ -18,6 +18,20 @@ interface DiaryUi: Serializable {
     fun showHomework(textView: TextView, title: TextView) {}
     fun showLessons(adapter: DiaryLessonsAdapter) {}
     fun showMarks(linearLayout: LinearLayout) {}
+    fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
+    fun map(mapper: Mapper<Boolean>): Boolean
+
+    interface Mapper<T> {
+        fun map(
+            name: String,
+            topic: String,
+            homework: String,
+            startTime: String,
+            endTime: String,
+            date: Int,
+            marks: List<PerformanceUi.Grade>
+        ): T
+    }
 
     data class Day(
         private val date: Int,
@@ -32,6 +46,13 @@ interface DiaryUi: Serializable {
         override fun showLessons(adapter: DiaryLessonsAdapter) {
             adapter.update(lessons)
         }
+
+        override fun filter(mapper: Mapper<Boolean>) = Day(
+            date,
+            lessons.filter { it.map(mapper) }
+        )
+
+        override fun map(mapper: Mapper<Boolean>) = true
     }
 
     data class Lesson(
@@ -81,6 +102,9 @@ interface DiaryUi: Serializable {
             }
         }
 
+        override fun map(mapper: Mapper<Boolean>): Boolean =
+            mapper.map(name, topic, homework, startTime, endTime, date, marks)
+
         override fun same(item: DiaryUi) = item is Lesson && item.date == date
 
         override fun sameContent(item: DiaryUi) =
@@ -90,7 +114,7 @@ interface DiaryUi: Serializable {
 
     object Empty : DiaryUi {
         override fun same(item: DiaryUi) = item is Empty
-
         override fun sameContent(item: DiaryUi) = false
+        override fun map(mapper: Mapper<Boolean>) = true
     }
 }

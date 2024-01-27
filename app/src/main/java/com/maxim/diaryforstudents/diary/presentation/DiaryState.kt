@@ -6,11 +6,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import java.io.Serializable
 
-interface DiaryState: Serializable {
+interface DiaryState : Serializable {
     fun show(
         lessonsAdapter: DiaryLessonsAdapter,
         daysAdapter: DiaryDaysAdapter,
         shareHomework: ImageButton,
+        filterTextView: TextView,
         monthTitle: TextView,
         progressBar: ProgressBar,
         errorTextView: TextView,
@@ -22,12 +23,14 @@ interface DiaryState: Serializable {
 
     data class Base(
         private val day: DiaryUi.Day,
-        private val days: List<DayUi>
+        private val days: List<DayUi>,
+        private val filterCount: Int
     ) : DiaryState {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DiaryDaysAdapter,
             shareHomework: ImageButton,
+            filterTextView: TextView,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -36,6 +39,9 @@ interface DiaryState: Serializable {
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
+            val text =
+                "$filterCount ${if (filterCount > 1 || filterCount == 0) "filters" else "filter"}"
+            filterTextView.text = text
             day.showLessons(lessonsAdapter)
             daysAdapter.update(days)
             day.showName(monthTitle)
@@ -46,6 +52,7 @@ interface DiaryState: Serializable {
             daysRecyclerView.visibility = View.VISIBLE
             lessonsRecyclerView.visibility = View.VISIBLE
             shareHomework.visibility = View.VISIBLE
+            filterTextView.visibility = View.VISIBLE
         }
     }
 
@@ -54,6 +61,7 @@ interface DiaryState: Serializable {
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DiaryDaysAdapter,
             shareHomework: ImageButton,
+            filterTextView: TextView,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -69,6 +77,7 @@ interface DiaryState: Serializable {
             daysRecyclerView.visibility = View.GONE
             lessonsRecyclerView.visibility = View.GONE
             shareHomework.visibility = View.GONE
+            filterTextView.visibility = View.GONE
         }
     }
 
@@ -77,6 +86,7 @@ interface DiaryState: Serializable {
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DiaryDaysAdapter,
             shareHomework: ImageButton,
+            filterTextView: TextView,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -93,6 +103,7 @@ interface DiaryState: Serializable {
             daysRecyclerView.visibility = View.GONE
             lessonsRecyclerView.visibility = View.GONE
             shareHomework.visibility = View.GONE
+            filterTextView.visibility = View.GONE
         }
     }
 }

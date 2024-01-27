@@ -12,6 +12,7 @@ import java.util.Calendar
 interface EduDiaryRepository {
     fun dayList(today: Int): List<DayData>
     suspend fun day(date: Int): DiaryData.Day
+    fun cachedDay(date: Int): DiaryData.Day
     fun actualDate(): Int
     fun homeworks(date: Int): String
 
@@ -69,6 +70,8 @@ interface EduDiaryRepository {
             cache[formattedDate] = day
             return day
         }
+
+        override fun cachedDay(date: Int) = cache[formatter.format("dd.MM.yyyy", date)]!!
 
         override fun actualDate() = (System.currentTimeMillis() / 86400000).toInt()
 
