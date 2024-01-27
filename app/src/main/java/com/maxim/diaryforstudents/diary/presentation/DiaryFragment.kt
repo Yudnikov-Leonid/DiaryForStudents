@@ -3,10 +3,13 @@ package com.maxim.diaryforstudents.diary.presentation
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.addTextChangedListener
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
@@ -62,6 +65,15 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
 
 
         binding.filtersButton!!.setOnClickListener {
+            val editText = EditText(requireContext()).apply {
+                hint = "Name filter"
+                inputType = (InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                maxLines = 1
+            }
+            editText.setText(viewModel.nameFilter())
+            editText.addTextChangedListener {
+                viewModel.setNameFilter(editText.text.toString())
+            }
             AlertDialog.Builder(requireContext())
                 .setTitle("Set filters")
                 .setMultiChoiceItems(
@@ -69,7 +81,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                     viewModel.checks()
                 ) { _, i, isChecked ->
                     viewModel.setFilter(i, isChecked)
-                }.create().show()
+                }.setView(editText).create().show()
         }
 
         binding.homeworkTypeButton!!.setOnClickListener {

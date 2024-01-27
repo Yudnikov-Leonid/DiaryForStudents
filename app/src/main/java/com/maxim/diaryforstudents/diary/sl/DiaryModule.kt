@@ -32,9 +32,15 @@ class DiaryModule(private val core: Core, private val clear: ClearViewModel) :
             startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
         ) = marks.isNotEmpty()
     }
+    private val nameFilter = object : DiaryUi.Mapper<Boolean> {
+        override fun map(
+            name: String, topic: String, homework: String,
+            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+        ) = true
+    }
 
     override fun viewModel() = DiaryViewModel(
-        listOf(homeworkFilter, topicFilter, marksFilter),
+        mutableListOf(homeworkFilter, topicFilter, marksFilter, nameFilter),
         EduDiaryRepository.Base(
             core.retrofit().create(EduDiaryService::class.java),
             Formatter.Base,
