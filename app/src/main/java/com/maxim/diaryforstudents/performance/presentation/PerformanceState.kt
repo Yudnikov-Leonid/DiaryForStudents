@@ -21,6 +21,7 @@ interface PerformanceState: Serializable {
         finalButton: Button,
         adapter: PerformanceLessonsAdapter,
         errorTextView: TextView,
+        retryButton: Button,
         progressBar: ProgressBar,
         searchEditText: TextInputEditText
     )
@@ -36,11 +37,14 @@ interface PerformanceState: Serializable {
             finalButton: Button,
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
+            retryButton: Button,
             progressBar: ProgressBar,
             searchEditText: TextInputEditText
         ) {
             progressBar.visibility = View.VISIBLE
             searchEditText.visibility = View.GONE
+            errorTextView.visibility = View.GONE
+            retryButton.visibility = View.GONE
             first.isEnabled = false
             second.isEnabled = false
             third.isEnabled = false
@@ -61,6 +65,7 @@ interface PerformanceState: Serializable {
             finalButton: Button,
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
+            retryButton: Button,
             progressBar: ProgressBar,
             searchEditText: TextInputEditText
         ) {
@@ -73,6 +78,7 @@ interface PerformanceState: Serializable {
             adapter.update(emptyList())
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE
+            retryButton.visibility = View.VISIBLE
             errorTextView.text = message
             searchEditText.visibility = View.GONE
         }
@@ -93,6 +99,7 @@ interface PerformanceState: Serializable {
             finalButton: Button,
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
+            retryButton: Button,
             progressBar: ProgressBar,
             searchEditText: TextInputEditText
         ) {
@@ -111,6 +118,7 @@ interface PerformanceState: Serializable {
             adapter.update(lessons as List<PerformanceUi.Lesson>)
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
+            retryButton.visibility = View.GONE
             quarterLayout.visibility = if (!isFinal) View.VISIBLE else View.GONE
             actualButton.setBackgroundColor(if (!isFinal) enableColor else disableColor)
             finalButton.setBackgroundColor(if (isFinal) enableColor else disableColor)

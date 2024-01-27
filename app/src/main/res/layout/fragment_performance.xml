@@ -99,6 +99,16 @@
         android:visibility="gone"
         tools:text="Error text" />
 
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:text="Retry" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

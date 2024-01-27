@@ -38,6 +38,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
                 binding.finalGradesButton,
                 adapter,
                 binding.errorTextView,
+                binding.retryButton!!,
                 binding.progressBar,
                 binding.searchEditText
             )
@@ -62,6 +63,9 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         }
         binding.searchEditText.addTextChangedListener {
             viewModel.search(binding.searchEditText.text.toString())
+        }
+        binding.retryButton!!.setOnClickListener {
+            viewModel.init(true)
         }
         KeyboardVisibilityEvent.setEventListener(requireActivity(), this) { isOpen ->
             if (!isOpen)
