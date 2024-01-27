@@ -10,7 +10,6 @@ import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 
 class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
     override val viewModelClass: Class<DiaryViewModel>
@@ -52,22 +51,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             startActivity(Intent.createChooser(intent, "Send to"))
         }
 
-        val homeworkFilter = object : DiaryUi.Mapper<Boolean> {
-            override fun map(name: String, topic: String, homework: String,
-                startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
-            ) = homework.isNotEmpty()
-        }
-        val topicFilter = object : DiaryUi.Mapper<Boolean> {
-            override fun map(name: String, topic: String, homework: String,
-                             startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
-            ) = topic.isNotEmpty()
-        }
-        val marksFilter = object : DiaryUi.Mapper<Boolean> {
-            override fun map(name: String, topic: String, homework: String,
-                             startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
-            ) = marks.isNotEmpty()
-        }
-
 
         binding.filtersButton!!.setOnClickListener {
             AlertDialog.Builder(requireContext())
@@ -76,11 +59,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                     arrayOf("Have homework", "Have topic", "Have marks"),
                     viewModel.checks()
                 ) { _, i, isChecked ->
-                    viewModel.setFilter(when(i) {
-                        0 -> homeworkFilter
-                        1 -> topicFilter
-                        else -> marksFilter
-                    }, i, isChecked)
+                    viewModel.setFilter(i, isChecked)
                 }.setPositiveButton("Close") { _, _ ->
 
                 }.create().show()

@@ -1,12 +1,12 @@
 package com.maxim.diaryforstudents.diary.eduData
 
 import com.maxim.diaryforstudents.BuildConfig
+import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.diary.data.DayData
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.performance.eduData.PerformanceData
-import java.lang.StringBuilder
 import java.util.Calendar
 
 interface EduDiaryRepository {
@@ -16,10 +16,14 @@ interface EduDiaryRepository {
     fun actualDate(): Int
     fun homeworks(date: Int): String
 
+    fun saveFilters(booleanArray: BooleanArray)
+    fun filters(): BooleanArray
+
     class Base(
         private val service: EduDiaryService,
         private val formatter: Formatter,
-        private val eduUser: EduUser
+        private val eduUser: EduUser,
+        private val simpleStorage: SimpleStorage
     ) : EduDiaryRepository {
         private val cache = mutableMapOf<String, DiaryData.Day>()
 
@@ -52,7 +56,14 @@ interface EduDiaryRepository {
             cache[formattedDate]?.let { return it }
 
             val data =
-                service.getDay(EduDiaryBody(formattedDate, BuildConfig.SHORT_API_KEY, eduUser.guid(), ""))
+                service.getDay(
+                    EduDiaryBody(
+                        formattedDate,
+                        BuildConfig.SHORT_API_KEY,
+                        eduUser.guid(),
+                        ""
+                    )
+                )
             val day = if (data.success) DiaryData.Day(
                 date,
                 data.data.map { lesson ->
@@ -63,7 +74,8 @@ interface EduDiaryRepository {
                         lesson.LESSON_TIME_BEGIN,
                         lesson.LESSON_TIME_END,
                         date,
-                        lesson.MARKS?.map { PerformanceData.Grade(it.VALUE, formattedDate, false) } ?: emptyList()
+                        lesson.MARKS?.map { PerformanceData.Grade(it.VALUE, formattedDate, false) }
+                            ?: emptyList()
                     )
                 }.ifEmpty { listOf(DiaryData.Empty) }
             ) else DiaryData.Day(0, emptyList())
@@ -84,6 +96,27 @@ interface EduDiaryRepository {
                 sb.append("${it.first}: ${it.second}\n\n")
             }
             return sb.trim().toString()
+        }
+
+        override fun saveFilters(booleanArray: BooleanArray) {
+            simpleStorage.save(HOMEWORK_FILTER, booleanArray[0])
+            simpleStorage.save(TOPIC_FILTER, booleanArray[1])
+            simpleStorage.save(MARKS_FILTER, booleanArray[2])
+        }
+
+        override fun filters(): BooleanArray {
+            val checks = booleanArrayOf(
+                simpleStorage.read(HOMEWORK_FILTER, false),
+                simpleStorage.read(TOPIC_FILTER, false),
+                simpleStorage.read(MARKS_FILTER, false),
+            )
+            return checks
+        }
+
+        companion object {
+            private const val HOMEWORK_FILTER = "homework_filter"
+            private const val TOPIC_FILTER = "topic_filter"
+            private const val MARKS_FILTER = "marks_filter"
         }
     }
 }

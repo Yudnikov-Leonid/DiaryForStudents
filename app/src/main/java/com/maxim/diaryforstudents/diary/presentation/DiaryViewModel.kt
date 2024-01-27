@@ -12,6 +12,7 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.eduData.EduDiaryRepository
 
 class DiaryViewModel(
+    private val filters: List<DiaryUi.Mapper<Boolean>>,
     private val repository: EduDiaryRepository,
     private val communication: DiaryCommunication,
     private val navigation: Navigation.Update,
@@ -55,18 +56,14 @@ class DiaryViewModel(
 
     fun homeworkToShare() = repository.homeworks(actualDay)
 
-    private val filters = mutableListOf<DiaryUi.Mapper<Boolean>>()
-    private val checks = mutableListOf(false, false, false)
-    fun setFilter(mapper: DiaryUi.Mapper<Boolean>, position: Int, isChecked: Boolean) {
-        if (!isChecked)
-            filters.remove(mapper)
-        else
-            filters.add(mapper)
+    fun setFilter(position: Int, isChecked: Boolean) {
+        val checks = checks()
         checks[position] = isChecked
+        repository.saveFilters(checks)
         reload()
     }
 
-    fun checks() = checks.toBooleanArray()
+    fun checks() = repository.filters()
 
     fun back() {
         navigation.update(Screen.Pop)
@@ -75,15 +72,17 @@ class DiaryViewModel(
 
     fun reload() {
         handle({ repository.day(actualDay) }) { day ->
+            val checks = checks()
             var filteredDay = day.toUi()
-            filters.forEach { filter ->
-                filteredDay = filteredDay.filter(filter)
+            checks.forEachIndexed { i, b ->
+                if (b)
+                    filteredDay = filteredDay.filter(filters[i])
             }
             communication.update(
                 DiaryState.Base(
                     filteredDay,
                     repository.dayList(actualDay).map { it.toUi() },
-                    filters.size
+                    checks.filter { it }.size
                 ),
             )
         }
