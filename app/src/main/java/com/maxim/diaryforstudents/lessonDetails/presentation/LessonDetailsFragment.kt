@@ -24,8 +24,12 @@ class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDe
             binding.lessonNameTextView,
             binding.teacherNameTextView,
             binding.topicTextView,
+            binding.topicTitleTextView,
             binding.homeworkTextView,
-            binding.previousHomeworkTextView
+            binding.homeworkTitleTextView,
+            binding.previousHomeworkTextView,
+            binding.previousHomeworkTitleTextView,
+            binding.marksLayout
         )
     }
 }

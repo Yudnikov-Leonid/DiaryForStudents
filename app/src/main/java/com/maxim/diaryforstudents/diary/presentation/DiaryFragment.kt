@@ -56,7 +56,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             }
             AlertDialog.Builder(requireContext())
                 .setTitle("Share homework")
-                .setItems(arrayOf("From", "For")) { _, i ->
+                .setItems(arrayOf("Actual", "Previous")) { _, i ->
                     if (i == 0) {
                         intent.putExtra(Intent.EXTRA_TEXT, viewModel.homeworkToShare())
                         startActivity(Intent.createChooser(intent, "Send to"))
@@ -90,9 +90,9 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
 
         binding.homeworkTypeButton!!.setOnClickListener {
             AlertDialog.Builder(requireContext())
-                .setTitle("Homewrok type")
+                .setTitle("Homework type")
                 .setSingleChoiceItems(
-                    arrayOf("From", "For"),
+                    arrayOf("Actual", "Previous"),
                     if (viewModel.homeworkFrom()) 0 else 1
                 ) { _, i ->
                     viewModel.setHomeworkType(i == 0)

@@ -45,7 +45,7 @@ interface DiaryState : Serializable {
             val text =
                 "$filterCount ${if (filterCount > 1 || filterCount == 0) "filters" else "filter"}"
             filterTextView.text = text
-            val homeworkTypeText = "Homework: ${if (homeworkFrom) "from" else "for"}"
+            val homeworkTypeText = "Homework: ${if (homeworkFrom) "actual" else "previous"}"
             homeworkType.text = homeworkTypeText
             day.showLessons(lessonsAdapter, homeworkFrom)
             daysAdapter.update(days)

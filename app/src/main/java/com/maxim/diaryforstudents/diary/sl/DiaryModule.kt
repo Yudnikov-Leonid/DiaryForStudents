@@ -17,25 +17,25 @@ class DiaryModule(private val core: Core, private val clear: ClearViewModel) :
     private val homeworkFilter = object : DiaryUi.Mapper<Boolean> {
         override fun map(
             name: String, topic: String, homework: String,
-            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Mark>
         ) = homework.isNotEmpty()
     }
     private val topicFilter = object : DiaryUi.Mapper<Boolean> {
         override fun map(
             name: String, topic: String, homework: String,
-            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Mark>
         ) = topic.isNotEmpty()
     }
     private val marksFilter = object : DiaryUi.Mapper<Boolean> {
         override fun map(
             name: String, topic: String, homework: String,
-            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Mark>
         ) = marks.isNotEmpty()
     }
     private val nameFilter = object : DiaryUi.Mapper<Boolean> {
         override fun map(
             name: String, topic: String, homework: String,
-            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+            startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Mark>
         ) = true
     }
 

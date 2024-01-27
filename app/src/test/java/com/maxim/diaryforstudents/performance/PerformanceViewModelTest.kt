@@ -66,7 +66,7 @@ class PerformanceViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 2,
-                listOf(PerformanceUi.Lesson("Math", listOf(PerformanceUi.Grade(3, 34)), 5f)),
+                listOf(PerformanceUi.Lesson("Math", listOf(PerformanceUi.Mark(3, 34)), 5f)),
                 true
             )
         )
@@ -86,7 +86,7 @@ class PerformanceViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 3,
-                listOf(PerformanceUi.Lesson("Math", listOf(PerformanceUi.Grade(3, 34)), 5f)),
+                listOf(PerformanceUi.Lesson("Math", listOf(PerformanceUi.Mark(3, 34)), 5f)),
                 true
             )
         )

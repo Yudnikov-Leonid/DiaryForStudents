@@ -6,7 +6,6 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
-import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 import java.io.Serializable
 
@@ -15,14 +14,14 @@ interface DiaryUi : Serializable {
     fun sameContent(item: DiaryUi): Boolean
     fun showTime(textView: TextView) {}
     fun showName(textView: TextView) {}
-    fun showTheme(textView: TextView, title: TextView) {}
+    fun showTeacherName(textView: TextView) {}
+    fun showTopic(textView: TextView, title: TextView) {}
     fun showHomework(textView: TextView, title: TextView) {}
     fun showPreviousHomework(textView: TextView, title: TextView) {}
     fun showLessons(adapter: DiaryLessonsAdapter, homeworkFrom: Boolean) {}
     fun showMarks(linearLayout: LinearLayout) {}
     fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
     fun map(mapper: Mapper<Boolean>): Boolean
-    fun save(storage: LessonDetailsStorage.Save) = Unit
 
     interface Mapper<T> {
         fun map(
@@ -32,7 +31,7 @@ interface DiaryUi : Serializable {
             startTime: String,
             endTime: String,
             date: Int,
-            marks: List<PerformanceUi.Grade>
+            marks: List<PerformanceUi.Mark>
         ): T
     }
 
@@ -67,7 +66,7 @@ interface DiaryUi : Serializable {
         private val startTime: String,
         private val endTime: String,
         private val date: Int,
-        private val marks: List<PerformanceUi.Grade>
+        private val marks: List<PerformanceUi.Mark>
     ) : DiaryUi {
 
         override fun showTime(textView: TextView) {
@@ -79,7 +78,11 @@ interface DiaryUi : Serializable {
             textView.text = name
         }
 
-        override fun showTheme(textView: TextView, title: TextView) {
+        override fun showTeacherName(textView: TextView) {
+            textView.text = teacherName
+        }
+
+        override fun showTopic(textView: TextView, title: TextView) {
             textView.text = topic
             title.visibility = if (topic.isEmpty()) View.GONE else View.VISIBLE
             textView.visibility = if (topic.isEmpty()) View.GONE else View.VISIBLE
@@ -117,10 +120,6 @@ interface DiaryUi : Serializable {
 
         override fun map(mapper: Mapper<Boolean>): Boolean =
             mapper.map(name, topic, homework, startTime, endTime, date, marks)
-
-        override fun save(storage: LessonDetailsStorage.Save) {
-            storage.save(name, teacherName, topic, homework, previousHomework)
-        }
 
         override fun same(item: DiaryUi) = item is Lesson && item.date == date
 

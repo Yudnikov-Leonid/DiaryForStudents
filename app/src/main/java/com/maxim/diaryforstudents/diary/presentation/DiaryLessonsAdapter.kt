@@ -27,7 +27,7 @@ class DiaryLessonsAdapter(
         override fun bind(item: DiaryUi, homeworkFrom: Boolean) {
             item.showTime(binding.timeTextView)
             item.showName(binding.lessonNameTextView)
-            item.showTheme(binding.themeTextView, binding.themeTitle)
+            item.showTopic(binding.themeTextView, binding.themeTitle)
             if (homeworkFrom)
                 item.showHomework(binding.homeworkTextView, binding.homeWorkTitle)
             else

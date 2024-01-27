@@ -60,7 +60,7 @@ class DiaryViewModel(
     }
 
     fun openDetails(item: DiaryUi.Lesson) {
-        item.save(storage)
+        storage.save(item)
         navigation.update(LessonDetailsScreen)
     }
 
@@ -78,7 +78,7 @@ class DiaryViewModel(
         filters[3] = object : DiaryUi.Mapper<Boolean> {
             override fun map(
                 name: String, topic: String, homework: String,
-                startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Grade>
+                startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Mark>
             ) = name.contains(value, true)
         }
         nameFilter = value

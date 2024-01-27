@@ -1,45 +1,25 @@
 package com.maxim.diaryforstudents.lessonDetails.data
 
+import com.maxim.diaryforstudents.diary.presentation.DiaryUi
+
 interface LessonDetailsStorage {
     interface Save {
-        fun save(name: String, teacherName: String, topic: String, homework: String, previousHomework: String)
+        fun save(value: DiaryUi.Lesson)
     }
 
     interface Read {
-        fun name(): String
-        fun teacherName(): String
-        fun topic(): String
-        fun homework(): String
-        fun previousHomework(): String
+        fun lesson(): DiaryUi.Lesson
     }
 
-    interface Mutable: Save, Read
+    interface Mutable : Save, Read
 
-    class Base: Mutable {
-        private var name = ""
-        private var teacherName = ""
-        private var topic = ""
-        private var homework = ""
-        private var previousHomework = ""
+    class Base : Mutable {
+        private lateinit var cache: DiaryUi.Lesson
 
-        override fun save(
-            name: String,
-            teacherName: String,
-            topic: String,
-            homework: String,
-            previousHomework: String
-        ) {
-            this.name = name
-            this.teacherName = teacherName
-            this.topic = topic
-            this.homework = homework
-            this.previousHomework = previousHomework
+        override fun save(value: DiaryUi.Lesson) {
+            cache = value
         }
 
-        override fun name() = name
-        override fun teacherName() = teacherName
-        override fun topic() = topic
-        override fun homework() = homework
-        override fun previousHomework() = previousHomework
+        override fun lesson() = cache
     }
 }

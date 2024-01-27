@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.lessonDetails.presentation
 
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.core.presentation.Navigation
@@ -17,17 +18,20 @@ class LessonDetailsViewModel(
         nameTextView: TextView,
         teacherTextView: TextView,
         topicTextView: TextView,
+        topicTitle: TextView,
         homeworkTextView: TextView,
-        previousHomeworkTextView: TextView
+        homeworkTitle: TextView,
+        previousHomeworkTextView: TextView,
+        previousHomeworkTitle: TextView,
+        marksLayout: LinearLayout
     ) {
-        nameTextView.text = storage.name()
-        teacherTextView.text = storage.teacherName()
-        val topicText = "Topic: ${storage.topic()}"
-        topicTextView.text = topicText
-        val homeworkText = "Homework: ${storage.homework()}"
-        homeworkTextView.text = homeworkText
-        val previousHomeworkText = "Previous homework: ${storage.previousHomework()}"
-        previousHomeworkTextView.text = previousHomeworkText
+        val lesson = storage.lesson()
+        lesson.showName(nameTextView)
+        lesson.showTeacherName(teacherTextView)
+        lesson.showTopic(topicTextView, topicTitle)
+        lesson.showHomework(homeworkTextView, homeworkTitle)
+        lesson.showPreviousHomework(previousHomeworkTextView, previousHomeworkTitle)
+        lesson.showMarks(marksLayout)
     }
 
     fun goBack() {

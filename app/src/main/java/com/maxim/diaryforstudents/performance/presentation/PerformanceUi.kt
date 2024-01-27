@@ -19,7 +19,7 @@ interface PerformanceUi : Serializable {
 
     data class Lesson(
         private val name: String,
-        private val grades: List<Grade>,
+        private val marks: List<Mark>,
         private val isFinal: Boolean,
         private val average: Float
     ) : PerformanceUi {
@@ -28,7 +28,7 @@ interface PerformanceUi : Serializable {
         }
 
         override fun showGrades(adapter: PerformanceGradesAdapter) {
-            adapter.update(grades)
+            adapter.update(marks)
         }
 
         override fun showAverage(titleTextView: TextView, textView: TextView) {
@@ -51,10 +51,10 @@ interface PerformanceUi : Serializable {
         override fun same(item: PerformanceUi) = item is Lesson && item.name == name
 
         override fun sameContent(item: PerformanceUi) =
-            item is Lesson && item.name == name && item.grades == grades && item.average == average
+            item is Lesson && item.name == name && item.marks == marks && item.average == average
     }
 
-    data class Grade(
+    data class Mark(
         private val grade: Int,
         private val date: String,
         private val isFinal: Boolean
@@ -84,9 +84,9 @@ interface PerformanceUi : Serializable {
             textView.text = dateUi
         }
 
-        override fun same(item: PerformanceUi) = item is Grade && item.date == date
+        override fun same(item: PerformanceUi) = item is Mark && item.date == date
 
-        override fun sameContent(item: PerformanceUi) = item is Grade && item.grade == grade
+        override fun sameContent(item: PerformanceUi) = item is Mark && item.grade == grade
     }
 
     data class Error(private val message: String): PerformanceUi {

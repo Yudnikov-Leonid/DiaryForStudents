@@ -27,7 +27,7 @@ interface PerformanceData: Serializable {
         private val date: String,
         private val isFinal: Boolean
     ) : PerformanceData {
-        override fun toUi() = PerformanceUi.Grade(grade, date, isFinal)
+        override fun toUi() = PerformanceUi.Mark(grade, date, isFinal)
     }
 
     data class Error(private val message: String): PerformanceData {
