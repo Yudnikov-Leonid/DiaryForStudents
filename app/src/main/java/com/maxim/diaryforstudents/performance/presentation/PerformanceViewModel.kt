@@ -8,11 +8,11 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.performance.eduData.PerformanceData
-import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
+import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
 
 class PerformanceViewModel(
-    private val repository: EduPerformanceRepository,
+    private val interactor: PerformanceInteractor,
     private val communication: PerformanceCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
@@ -24,11 +24,11 @@ class PerformanceViewModel(
 
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
-            quarter = repository.actualQuarter()
+            quarter = interactor.actualQuarter()
             communication.update(PerformanceState.Loading)
-            handle({ repository.init() }) {
-                val list = repository.cachedData("")
-                if (list.first() is PerformanceData.Error)
+            handle({ interactor.init() }) {
+                val list = interactor.data("")
+                if (list.first() is PerformanceDomain.Error)
                     communication.update(PerformanceState.Error(list.first().message()))
                 else
                     communication.update(
@@ -49,8 +49,8 @@ class PerformanceViewModel(
 
     fun search(search: String) {
         this.search = search
-        val list = type.search(repository, search)
-        if (list.first() is PerformanceData.Error)
+        val list = type.search(interactor, search)
+        if (list.first() is PerformanceDomain.Error)
             communication.update(PerformanceState.Error(list.first().message()))
         else
             communication.update(
@@ -65,8 +65,8 @@ class PerformanceViewModel(
     fun changeQuarter(quarter: Int) {
         this.quarter = quarter
         communication.update(PerformanceState.Loading)
-        handle({ repository.changeQuarter(quarter) }) {
-            val list = repository.cachedData(search)
+        handle({ interactor.changeQuarter(quarter) }) {
+            val list = interactor.data(search)
             communication.update(
                 PerformanceState.Base(
                     quarter,
@@ -93,23 +93,23 @@ class PerformanceViewModel(
 }
 
 interface MarksType {
-    fun search(repository: EduPerformanceRepository, search: String): List<PerformanceData>
+    fun search(interactor: PerformanceInteractor, search: String): List<PerformanceDomain>
     fun isFinal(): Boolean
 
     object Base : MarksType {
         override fun search(
-            repository: EduPerformanceRepository,
+            interactor: PerformanceInteractor,
             search: String
-        ) = repository.cachedData(search)
+        ): List<PerformanceDomain> = interactor.data(search)
 
         override fun isFinal() = false
     }
 
     object Final : MarksType {
         override fun search(
-            repository: EduPerformanceRepository,
+            interactor: PerformanceInteractor,
             search: String
-        ) = repository.cachedFinalData(search)
+        ): List<PerformanceDomain> = interactor.finalData(search)
 
         override fun isFinal() = true
     }

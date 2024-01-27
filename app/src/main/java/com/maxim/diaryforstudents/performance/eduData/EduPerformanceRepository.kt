@@ -12,37 +12,47 @@ interface EduPerformanceRepository {
 
     class Base(private val cloudDataSource: EduPerformanceCloudDataSource) :
         EduPerformanceRepository {
+        private var dataException: Exception? = null
+        private var finalDataException: Exception? = null
+
         private val cache = mutableListOf<PerformanceData>()
         private val finalCache = mutableListOf<PerformanceData>()
 
         override suspend fun init() {
+            dataException = null
+            finalDataException = null
+            cache.clear()
             finalCache.clear()
+
             try {
                 finalCache.addAll(cloudDataSource.finalData())
             } catch (e: Exception) {
-                finalCache.add(PerformanceData.Error(e.message!!))
+                dataException = e
             }
 
-            cache.clear()
+
             try {
                 cache.addAll(cloudDataSource.data(actualQuarter()))
             } catch (e: Exception) {
-                cache.add(PerformanceData.Error(e.message!!))
+                finalDataException = e
             }
         }
 
         override fun cachedData(search: String) =
-            cache.filter { it.search(search) }.ifEmpty { listOf(PerformanceData.Empty) }
+            dataException?.let { throw it } ?: cache.filter { it.search(search) }
+                .ifEmpty { listOf(PerformanceData.Empty) }
 
         override fun cachedFinalData(search: String) =
-            finalCache.filter { it.search(search) }.ifEmpty { listOf(PerformanceData.Empty) }
+            finalDataException?.let { throw it } ?: finalCache.filter { it.search(search) }
+                .ifEmpty { listOf(PerformanceData.Empty) }
 
         override suspend fun changeQuarter(quarter: Int) {
+            dataException = null
             cache.clear()
             try {
                 cache.addAll(cloudDataSource.data(quarter))
             } catch (e: Exception) {
-                cache.add(PerformanceData.Error(e.message!!))
+                dataException = e
             }
         }
 

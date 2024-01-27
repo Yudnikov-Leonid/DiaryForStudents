@@ -2,13 +2,14 @@ package com.maxim.diaryforstudents.performance
 
 import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
+import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
+import com.maxim.diaryforstudents.performance.eduData.FailureHandler
 import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import java.lang.IllegalStateException
 
 class PerformanceInteractorTest {
     private lateinit var interactor: PerformanceInteractor
@@ -17,7 +18,7 @@ class PerformanceInteractorTest {
     @Before
     fun setUp() {
         repository = FakeEduPerformanceRepository()
-        interactor = PerformanceInteractor.Base(repository)
+        interactor = PerformanceInteractor.Base(repository, FailureHandler.Base())
     }
 
     @Test
@@ -28,10 +29,10 @@ class PerformanceInteractorTest {
 
     @Test
     fun test_data_success() {
-        repository.dataMustReturn(listOf(PerformanceData.Error("for example")))
+        repository.dataMustReturn(listOf(PerformanceData.Grade(5, "date", false)))
         val actual = interactor.data("search")
         repository.checkDataCalledWith("search")
-        assertEquals(listOf(PerformanceDomain.Error("for example")), actual)
+        assertEquals(listOf(PerformanceDomain.Grade(5, "date", false)), actual)
     }
 
     @Test
@@ -43,10 +44,10 @@ class PerformanceInteractorTest {
 
     @Test
     fun test_final_date_success() {
-        repository.finalDataMustReturn(listOf(PerformanceData.Error("abcd")))
+        repository.finalDataMustReturn(listOf(PerformanceData.Grade(5, "date", false)))
         val actual = interactor.finalData("final")
         repository.checkFinalDataCalledWith("final")
-        assertEquals(listOf(PerformanceDomain.Error("abcd")), actual)
+        assertEquals(listOf(PerformanceDomain.Grade(5, "date", false)), actual)
     }
 
     @Test
@@ -91,7 +92,7 @@ private class FakeEduPerformanceRepository: EduPerformanceRepository {
     }
 
     fun dataMustThrowException(message: String) {
-        exception = IllegalStateException(message)
+        exception = ServiceUnavailableException(message)
     }
 
     fun dataMustReturn(value: List<PerformanceData>) {
@@ -113,7 +114,7 @@ private class FakeEduPerformanceRepository: EduPerformanceRepository {
     }
 
     fun finalDataMustThrowException(message: String) {
-        finalException = IllegalStateException(message)
+        finalException = ServiceUnavailableException(message)
     }
 
     fun finalDataMustReturn(value: List<PerformanceData>) {

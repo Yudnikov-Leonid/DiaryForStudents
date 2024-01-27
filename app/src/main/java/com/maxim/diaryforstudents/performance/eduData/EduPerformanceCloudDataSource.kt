@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.performance.eduData
 
 import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.service.EduUser
+import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
 
 interface EduPerformanceCloudDataSource {
     suspend fun data(quarter: Int): List<PerformanceData>
@@ -48,7 +49,7 @@ interface EduPerformanceCloudDataSource {
                         false, averageMap[Pair(it.SUBJECT_NAME, quarter)] ?: 0f
                     )
                 }
-            } else listOf(PerformanceData.Error(data.message))
+            } else throw ServiceUnavailableException(data.message)
         }
 
         override suspend fun finalData(): List<PerformanceData> {
@@ -82,7 +83,7 @@ interface EduPerformanceCloudDataSource {
                         true, 0f
                     )
                 }
-            } else listOf(PerformanceData.Error(data.message))
+            } else throw ServiceUnavailableException(data.message)
         }
     }
 }

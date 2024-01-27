@@ -29,8 +29,4 @@ interface PerformanceData: Serializable {
     ) : PerformanceData {
         override fun toDomain() = PerformanceDomain.Grade(grade, date, isFinal)
     }
-
-    data class Error(private val message: String): PerformanceData {
-        override fun toDomain()= PerformanceDomain.Error(message)
-    }
 }

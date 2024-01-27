@@ -9,8 +9,8 @@ import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
+import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
-import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import com.maxim.diaryforstudents.performance.presentation.MarksType
 import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.presentation.PerformanceState
@@ -199,12 +199,12 @@ private class FakePerformanceInteractor: PerformanceInteractor {
     }
 
     private val cachedDataList = mutableListOf<String>()
-    override fun data(search: String): List<PerformanceData> {
+    override fun data(search: String): List<PerformanceDomain> {
         cachedDataList.add(search)
         return if (initThrowError)
-            listOf(PerformanceData.Error("error message from repository"))
+            listOf(PerformanceDomain.Error("error message from repository"))
         else
-            listOf(PerformanceData.Lesson("Lesson name", emptyList(), false, 5.0f))
+            listOf(PerformanceDomain.Lesson("Lesson name", emptyList(), false, 5.0f))
     }
 
     fun checkActualSearchCalledTimes(expected: Int) {
@@ -216,9 +216,9 @@ private class FakePerformanceInteractor: PerformanceInteractor {
     }
 
     private val cachedFinalDataList = mutableListOf<String>()
-    override fun finalData(search: String): List<PerformanceData> {
+    override fun finalData(search: String): List<PerformanceDomain> {
         cachedFinalDataList.add(search)
-        return listOf(PerformanceData.Lesson("Lesson name", emptyList(), true, 5.0f))
+        return listOf(PerformanceDomain.Lesson("Lesson name", emptyList(), true, 5.0f))
     }
 
     fun checkFinalSearchCalledTimes(expected: Int) {
