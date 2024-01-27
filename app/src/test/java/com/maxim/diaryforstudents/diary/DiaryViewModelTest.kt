@@ -98,6 +98,33 @@ class DiaryViewModelTest {
         storage.checkCalledWith(fakeLesson)
         order.check(listOf(STORAGE, NAVIGATION))
     }
+
+    @Test
+    fun test_homework_to_share() {
+        viewModel.setActualDay(5)
+        repository.homeworksToShareMustReturn("12345-")
+        val actual = viewModel.homeworkToShare()
+        assertEquals("12345-5", actual)
+    }
+
+    @Test
+    fun test_previous_homework_to_share() {
+        viewModel.setActualDay(7)
+        repository.previousHomeworksToShareMustReturn("123456-")
+        val actual = viewModel.previousHomeworkToShare()
+        assertEquals("123456-7", actual)
+    }
+
+    @Test
+    fun test_homework_from() {
+        repository.homeworkFromMustReturn(false)
+        var actual = viewModel.homeworkFrom()
+        assertEquals(false, actual)
+
+        repository.homeworkFromMustReturn(true)
+        actual = viewModel.homeworkFrom()
+        assertEquals(true, actual)
+    }
 }
 
 private class FakeLessonDetailsStorage(private val order: Order) : LessonDetailsStorage.Save {
@@ -149,12 +176,18 @@ private class FakeEduDiaryRepository : EduDiaryRepository {
         assertEquals(expected, actualDateCounter)
     }
 
-    override fun homeworks(date: Int): String {
-        TODO("Not yet implemented")
+    private var homeworkValue = ""
+    override fun homeworks(date: Int) = "$homeworkValue$date"
+
+    fun homeworksToShareMustReturn(value: String) {
+        homeworkValue = value
     }
 
-    override fun previousHomeworks(date: Int): String {
-        TODO("Not yet implemented")
+    private var previousHomeworkValue = ""
+    override fun previousHomeworks(date: Int) = "$previousHomeworkValue$date"
+
+    fun previousHomeworksToShareMustReturn(value: String) {
+        previousHomeworkValue = value
     }
 
     override fun saveFilters(booleanArray: BooleanArray) {
@@ -167,7 +200,12 @@ private class FakeEduDiaryRepository : EduDiaryRepository {
         TODO("Not yet implemented")
     }
 
-    override fun homeworkFrom() = false
+    private var homeworkFromValue = false
+    override fun homeworkFrom() = homeworkFromValue
+
+    fun homeworkFromMustReturn(value: Boolean) {
+        homeworkFromValue = value
+    }
 }
 
 private class FakeDiaryCommunication : DiaryCommunication {
