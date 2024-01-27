@@ -18,9 +18,9 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
     class BaseViewHolder(private val binding: LessonPerformanceBinding) : ItemViewHolder(binding) {
         override fun bind(item: PerformanceUi) {
             item.showName(binding.lessonNameTextView)
-            val adapter = PerformanceGradesAdapter()
-            binding.gradesRecyclerView.adapter = adapter
-            item.showGrades(adapter)
+            val adapter = PerformanceMarksAdapter()
+            binding.marksRecyclerView.adapter = adapter
+            item.showMarks(adapter)
             item.showAverage(binding.averageTitleTextView, binding.averageTextView)
         }
     }

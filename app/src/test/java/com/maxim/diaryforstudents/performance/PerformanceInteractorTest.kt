@@ -29,10 +29,10 @@ class PerformanceInteractorTest {
 
     @Test
     fun test_data_success() {
-        repository.dataMustReturn(listOf(PerformanceData.Grade(5, "date", false)))
+        repository.dataMustReturn(listOf(PerformanceData.Mark(5, "date", false)))
         val actual = interactor.data("search")
         repository.checkDataCalledWith("search")
-        assertEquals(listOf(PerformanceDomain.Grade(5, "date", false)), actual)
+        assertEquals(listOf(PerformanceDomain.Mark(5, "date", false)), actual)
     }
 
     @Test
@@ -44,10 +44,10 @@ class PerformanceInteractorTest {
 
     @Test
     fun test_final_date_success() {
-        repository.finalDataMustReturn(listOf(PerformanceData.Grade(5, "date", false)))
+        repository.finalDataMustReturn(listOf(PerformanceData.Mark(5, "date", false)))
         val actual = interactor.finalData("final")
         repository.checkFinalDataCalledWith("final")
-        assertEquals(listOf(PerformanceDomain.Grade(5, "date", false)), actual)
+        assertEquals(listOf(PerformanceDomain.Mark(5, "date", false)), actual)
     }
 
     @Test

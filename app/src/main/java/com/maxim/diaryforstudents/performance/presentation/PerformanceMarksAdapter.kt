@@ -4,22 +4,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.maxim.diaryforstudents.databinding.GradeBinding
+import com.maxim.diaryforstudents.databinding.MarkBinding
 
-class PerformanceGradesAdapter : RecyclerView.Adapter<PerformanceGradesAdapter.ItemViewHolder>() {
+class PerformanceMarksAdapter : RecyclerView.Adapter<PerformanceMarksAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi.Mark>()
 
-    class ItemViewHolder(private val binding: GradeBinding) :
+    class ItemViewHolder(private val binding: MarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PerformanceUi.Mark) {
-            item.showName(binding.gradeTextView)
+            item.showName(binding.markTextView)
             item.showDate(binding.dateTextView)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
-            GradeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            MarkBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

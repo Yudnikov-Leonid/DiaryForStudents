@@ -10,11 +10,11 @@ interface PerformanceData: Serializable {
 
     data class Lesson(
         private val name: String,
-        private val grades: List<Grade>,
+        private val marks: List<Mark>,
         private val isFinal: Boolean,
         private val average: Float
     ) : PerformanceData {
-        override fun toDomain() = PerformanceDomain.Lesson(name, grades.map { it.toDomain() }, isFinal, average)
+        override fun toDomain() = PerformanceDomain.Lesson(name, marks.map { it.toDomain() }, isFinal, average)
         override fun search(search: String) = name.contains(search, true)
     }
 
@@ -22,11 +22,11 @@ interface PerformanceData: Serializable {
         override fun toDomain() = PerformanceDomain.Empty
     }
 
-    data class Grade(
-        private val grade: Int,
+    data class Mark(
+        private val mark: Int,
         private val date: String,
         private val isFinal: Boolean
     ) : PerformanceData {
-        override fun toDomain() = PerformanceDomain.Grade(grade, date, isFinal)
+        override fun toDomain() = PerformanceDomain.Mark(mark, date, isFinal)
     }
 }

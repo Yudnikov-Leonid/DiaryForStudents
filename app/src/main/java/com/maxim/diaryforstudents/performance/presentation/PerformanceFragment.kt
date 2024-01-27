@@ -34,8 +34,8 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
                 binding.secondQuarterButton,
                 binding.thirdQuarterButton,
                 binding.fourthQuarterButton,
-                binding.actualGradesButton,
-                binding.finalGradesButton,
+                binding.actualMarksButton,
+                binding.actualMarksButton,
                 adapter,
                 binding.errorTextView,
                 binding.retryButton!!,
@@ -55,10 +55,10 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         binding.fourthQuarterButton.setOnClickListener {
             viewModel.changeQuarter(4)
         }
-        binding.actualGradesButton.setOnClickListener {
+        binding.actualMarksButton.setOnClickListener {
             viewModel.changeType(MarksType.Base)
         }
-        binding.finalGradesButton.setOnClickListener {
+        binding.actualMarksButton.setOnClickListener {
             viewModel.changeType(MarksType.Final)
         }
         binding.searchEditText.addTextChangedListener {

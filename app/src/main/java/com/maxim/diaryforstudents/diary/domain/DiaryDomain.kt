@@ -37,7 +37,7 @@ interface DiaryDomain {
         private val startTime: String,
         private val endTime: String,
         private val date: Int,
-        private val marks: List<PerformanceDomain.Grade>
+        private val marks: List<PerformanceDomain.Mark>
     ) : DiaryDomain {
         override fun isDate(date: Int) = date == this.date
         override fun toUi() =

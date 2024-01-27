@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/actualGradesButton"
+                android:id="@+id/actualMarksButton"
                 style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,12 +30,12 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/finalGradesButton"
+                android:id="@+id/finalMarksButton"
                 style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="@string/final_grades"
+                android:text="@string/final_marks"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 

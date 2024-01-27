@@ -31,7 +31,7 @@
     <string name="save">Сохранить</string>
     <string name="empty_news">Нет новостей</string>
     <string name="retry">Ещё раз</string>
-    <string name="final_grades">Итоговые</string>
+    <string name="final_marks">Итоговые</string>
     <string name="welcome">Добро пожаловать в дневник!</string>
     <string name="diary">Дневник</string>
     <string name="diary_for_teacher">Дневник для учителей</string>

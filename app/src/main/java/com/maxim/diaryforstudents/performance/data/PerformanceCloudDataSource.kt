@@ -39,10 +39,10 @@ interface PerformanceCloudDataSource {
                 data.data.filter { it.MARKS.isNotEmpty() }.map {
                     PerformanceData.Lesson(
                         it.SUBJECT_NAME,
-                        it.MARKS.map { grade ->
-                            PerformanceData.Grade(
-                                grade.VALUE,
-                                grade.DATE.substring(0, grade.DATE.length - 5),
+                        it.MARKS.map { mark ->
+                            PerformanceData.Mark(
+                                mark.VALUE,
+                                mark.DATE.substring(0, mark.DATE.length - 5),
                                 false
                             )
                         },
@@ -73,7 +73,7 @@ interface PerformanceCloudDataSource {
                         lesson.NAME,
                         lesson.PERIODS.mapNotNull { period ->
                             period.MARK?.let { mark ->
-                                PerformanceData.Grade(
+                                PerformanceData.Mark(
                                     mark.VALUE,
                                     period.GRADE_TYPE_GUID,
                                     true

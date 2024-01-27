@@ -70,7 +70,7 @@ interface DiaryRepository {
                         lesson.LESSON_TIME_BEGIN,
                         lesson.LESSON_TIME_END,
                         date,
-                        lesson.MARKS?.map { PerformanceData.Grade(it.VALUE, formattedDate, false) }
+                        lesson.MARKS?.map { PerformanceData.Mark(it.VALUE, formattedDate, false) }
                             ?: emptyList()
                     )
                 }.ifEmpty { listOf(DiaryData.Empty) }

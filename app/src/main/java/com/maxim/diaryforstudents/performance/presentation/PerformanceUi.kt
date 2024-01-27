@@ -8,7 +8,7 @@ import java.io.Serializable
 interface PerformanceUi : Serializable {
     fun showName(textView: TextView) {}
     fun showDate(textView: TextView) {}
-    fun showGrades(adapter: PerformanceGradesAdapter) {}
+    fun showMarks(adapter: PerformanceMarksAdapter) {}
     fun showAverage(titleTextView: TextView, textView: TextView) {}
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
@@ -27,7 +27,7 @@ interface PerformanceUi : Serializable {
             textView.text = name
         }
 
-        override fun showGrades(adapter: PerformanceGradesAdapter) {
+        override fun showMarks(adapter: PerformanceMarksAdapter) {
             adapter.update(marks)
         }
 
@@ -55,13 +55,13 @@ interface PerformanceUi : Serializable {
     }
 
     data class Mark(
-        private val grade: Int,
+        private val mark: Int,
         private val date: String,
         private val isFinal: Boolean
     ) : PerformanceUi {
         override fun showName(textView: TextView) {
-            textView.text = grade.toString()
-            val color = if (isFinal) R.color.blue else when (grade) {
+            textView.text = mark.toString()
+            val color = if (isFinal) R.color.blue else when (mark) {
                 1, 2 -> R.color.red
                 3 -> R.color.yellow
                 4 -> R.color.green
@@ -86,7 +86,7 @@ interface PerformanceUi : Serializable {
 
         override fun same(item: PerformanceUi) = item is Mark && item.date == date
 
-        override fun sameContent(item: PerformanceUi) = item is Mark && item.grade == grade
+        override fun sameContent(item: PerformanceUi) = item is Mark && item.mark == mark
     }
 
     data class Error(private val message: String): PerformanceUi {
