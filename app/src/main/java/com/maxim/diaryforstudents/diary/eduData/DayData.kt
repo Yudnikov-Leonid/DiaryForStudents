@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.diary.data
+package com.maxim.diaryforstudents.diary.eduData
 
 import com.maxim.diaryforstudents.diary.presentation.DayUi
 

@@ -10,12 +10,15 @@ import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.eduData.EduDiaryRepository
+import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
+import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 
 class DiaryViewModel(
     private val filters: MutableList<DiaryUi.Mapper<Boolean>>,
     private val repository: EduDiaryRepository,
     private val communication: DiaryCommunication,
+    private val storage: LessonDetailsStorage.Save,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
@@ -54,6 +57,11 @@ class DiaryViewModel(
     fun setActualDay(day: Int) {
         actualDay = day
         reload()
+    }
+
+    fun openDetails(item: DiaryUi.Lesson) {
+        item.save(storage)
+        navigation.update(LessonDetailsScreen)
     }
 
     fun homeworkToShare() = repository.homeworks(actualDay)

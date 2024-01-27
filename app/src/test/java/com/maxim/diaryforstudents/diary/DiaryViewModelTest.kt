@@ -6,8 +6,8 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.diary.data.DayData
-import com.maxim.diaryforstudents.diary.data.DiaryData
+import com.maxim.diaryforstudents.diary.eduData.DayData
+import com.maxim.diaryforstudents.diary.eduData.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.presentation.DayUi
 import com.maxim.diaryforstudents.diary.presentation.DiaryCommunication

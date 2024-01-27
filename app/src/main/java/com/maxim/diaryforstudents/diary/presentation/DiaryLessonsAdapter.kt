@@ -9,7 +9,9 @@ import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.LessonDiaryBinding
 import com.maxim.diaryforstudents.databinding.NoDataBinding
 
-class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHolder>() {
+class DiaryLessonsAdapter(
+    private val listener: Listener
+) : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DiaryUi>()
     private var homeworkFrom = true
 
@@ -18,7 +20,10 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
         open fun bind(item: DiaryUi, homeworkFrom: Boolean) {}
     }
 
-    class BaseItemViewHolder(private val binding: LessonDiaryBinding) : ItemViewHolder(binding) {
+    class BaseItemViewHolder(
+        private val binding: LessonDiaryBinding,
+        private val listener: Listener
+    ) : ItemViewHolder(binding) {
         override fun bind(item: DiaryUi, homeworkFrom: Boolean) {
             item.showTime(binding.timeTextView)
             item.showName(binding.lessonNameTextView)
@@ -28,6 +33,9 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
             else
                 item.showPreviousHomework(binding.homeworkTextView, binding.homeWorkTitle)
             item.showMarks(binding.marksLayout)
+            itemView.setOnClickListener {
+                listener.openDetails(item as DiaryUi.Lesson)
+            }
         }
     }
 
@@ -39,7 +47,7 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         if (viewType == 0) BaseItemViewHolder(
-            LessonDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            LessonDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener
         ) else EmptyViewHolder(
             NoDataBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -63,6 +71,10 @@ class DiaryLessonsAdapter : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHol
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
+    }
+
+    interface Listener {
+        fun openDetails(item: DiaryUi.Lesson)
     }
 }
 

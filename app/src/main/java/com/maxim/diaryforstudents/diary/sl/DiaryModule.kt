@@ -48,6 +48,7 @@ class DiaryModule(private val core: Core, private val clear: ClearViewModel) :
             core.simpleStorage()
         ),
         DiaryCommunication.Base(),
+        core.lessonDetailsStorage(),
         core.navigation(),
         clear
     )

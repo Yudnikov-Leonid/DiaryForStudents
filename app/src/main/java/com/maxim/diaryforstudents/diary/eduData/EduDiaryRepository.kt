@@ -4,8 +4,6 @@ import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
-import com.maxim.diaryforstudents.diary.data.DayData
-import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import java.util.Calendar
 
@@ -72,6 +70,7 @@ interface EduDiaryRepository {
                 data.data.map { lesson ->
                     DiaryData.Lesson(
                         lesson.SUBJECT_NAME,
+                        lesson.TEACHER_NAME,
                         lesson.TOPIC ?: "",
                         lesson.HOMEWORK ?: "",
                         lesson.HOMEWORK_PREVIOUS?.HOMEWORK ?: "",

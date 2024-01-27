@@ -29,7 +29,11 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         }
         super.onViewCreated(view, savedInstanceState)
 
-        val lessonsAdapter = DiaryLessonsAdapter()
+        val lessonsAdapter = DiaryLessonsAdapter(object : DiaryLessonsAdapter.Listener {
+            override fun openDetails(item: DiaryUi.Lesson) {
+                viewModel.openDetails(item)
+            }
+        })
         binding.lessonsRecyclerView.adapter = lessonsAdapter
 
         val daysAdapter = DiaryDaysAdapter(object : DiaryDaysAdapter.Listener {

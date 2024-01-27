@@ -11,6 +11,8 @@ import com.maxim.diaryforstudents.editDiary.selectClass.presentation.SelectClass
 import com.maxim.diaryforstudents.editDiary.selectClass.sl.SelectClassModule
 import com.maxim.diaryforstudents.eduLogin.presentation.EduLoginViewModel
 import com.maxim.diaryforstudents.eduLogin.sl.EduLoginModule
+import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsViewModel
+import com.maxim.diaryforstudents.lessonDetails.sl.LessonDetailsModule
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.login.sl.LoginModule
 import com.maxim.diaryforstudents.main.MainModule
@@ -52,6 +54,7 @@ interface DependencyContainer {
             SelectClassViewModel::class.java -> SelectClassModule(core, clear)
             EditDiaryViewModel::class.java -> EditDiaryModule(core, clear)
             CreateLessonViewModel::class.java -> CreateLessonModule(core, clear)
+            LessonDetailsViewModel::class.java -> LessonDetailsModule(core, clear)
             else -> dependencyContainer.module(clasz)
         } as Module<T>
     }

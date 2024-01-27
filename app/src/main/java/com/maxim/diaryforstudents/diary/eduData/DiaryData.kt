@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.diary.data
+package com.maxim.diaryforstudents.diary.eduData
 
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.performance.eduData.PerformanceData
@@ -30,6 +30,7 @@ interface DiaryData {
 
     data class Lesson(
         private val name: String,
+        private val teacherName: String,
         private val topic: String,
         private val homework: String,
         private val previousHomework: String,
@@ -42,6 +43,7 @@ interface DiaryData {
         override fun toUi() =
             DiaryUi.Lesson(
                 name,
+                teacherName,
                 topic,
                 homework,
                 previousHomework,

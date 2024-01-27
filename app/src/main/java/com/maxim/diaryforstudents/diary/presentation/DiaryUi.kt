@@ -6,6 +6,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 import java.io.Serializable
 
@@ -21,6 +22,7 @@ interface DiaryUi : Serializable {
     fun showMarks(linearLayout: LinearLayout) {}
     fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
     fun map(mapper: Mapper<Boolean>): Boolean
+    fun save(storage: LessonDetailsStorage.Save) = Unit
 
     interface Mapper<T> {
         fun map(
@@ -58,6 +60,7 @@ interface DiaryUi : Serializable {
 
     data class Lesson(
         private val name: String,
+        private val teacherName: String,
         private val topic: String,
         private val homework: String,
         private val previousHomework: String,
@@ -114,6 +117,10 @@ interface DiaryUi : Serializable {
 
         override fun map(mapper: Mapper<Boolean>): Boolean =
             mapper.map(name, topic, homework, startTime, endTime, date, marks)
+
+        override fun save(storage: LessonDetailsStorage.Save) {
+            storage.save(name, teacherName, topic, homework, previousHomework)
+        }
 
         override fun same(item: DiaryUi) = item is Lesson && item.date == date
 
