@@ -3,15 +3,14 @@ package com.maxim.diaryforstudents.diary.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
-import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.eduData.EduDiaryRepository
-import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
+import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 
 class DiaryViewModel(
@@ -34,15 +33,15 @@ class DiaryViewModel(
         }
     }
 
-    fun save(bundleWrapper: BundleWrapper.Save) {
-        communication.save(COMMUNICATION_RESTORE_KEY, bundleWrapper)
-        bundleWrapper.save(ACTUAL_DAY_RESTORE_KEY, actualDay)
-    }
-
-    fun restore(bundleWrapper: BundleWrapper.Restore) {
-        communication.restore(COMMUNICATION_RESTORE_KEY, bundleWrapper)
-        setActualDay(bundleWrapper.restore(ACTUAL_DAY_RESTORE_KEY)!!)
-    }
+//    fun save(bundleWrapper: BundleWrapper.Save) {
+//        communication.save(COMMUNICATION_RESTORE_KEY, bundleWrapper)
+//        bundleWrapper.save(ACTUAL_DAY_RESTORE_KEY, actualDay)
+//    }
+//
+//    fun restore(bundleWrapper: BundleWrapper.Restore) {
+//        communication.restore(COMMUNICATION_RESTORE_KEY, bundleWrapper)
+//        setActualDay(bundleWrapper.restore(ACTUAL_DAY_RESTORE_KEY)!!)
+//    }
 
     fun nextDay() {
         actualDay++
@@ -107,7 +106,8 @@ class DiaryViewModel(
                 if (b)
                     filteredDay = filteredDay.filter(filters[i])
             }
-            filteredDay = filteredDay.filter(filters[3])
+            if (filters.size >= 4)
+                filteredDay = filteredDay.filter(filters[3])
             communication.update(
                 DiaryState.Base(
                     filteredDay,
@@ -123,8 +123,8 @@ class DiaryViewModel(
         communication.observe(owner, observer)
     }
 
-    companion object {
-        private const val COMMUNICATION_RESTORE_KEY = "diary_communication_restore"
-        private const val ACTUAL_DAY_RESTORE_KEY = "diary_actual_day_restore"
-    }
+//    companion object {
+//        private const val COMMUNICATION_RESTORE_KEY = "diary_communication_restore"
+//        private const val ACTUAL_DAY_RESTORE_KEY = "diary_actual_day_restore"
+//    }
 }
