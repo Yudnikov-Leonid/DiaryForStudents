@@ -1,20 +1,20 @@
-package com.maxim.diaryforstudents.diary.eduData
+package com.maxim.diaryforstudents.diary.domain
 
-import com.maxim.diaryforstudents.diary.domain.DiaryDomain
-import com.maxim.diaryforstudents.performance.eduData.PerformanceData
+import com.maxim.diaryforstudents.diary.presentation.DiaryUi
+import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
 
-interface DiaryData {
+interface DiaryDomain {
     fun isDate(date: Int): Boolean
-    fun toDomain(): DiaryDomain
+    fun toUi(): DiaryUi
     fun homeworks(): List<Pair<String, String>>
     fun previousHomeworks(): List<Pair<String, String>>
 
     data class Day(
         private val date: Int,
-        private val lessons: List<DiaryData>
-    ) : DiaryData {
+        private val lessons: List<DiaryDomain>
+    ) : DiaryDomain {
         override fun isDate(date: Int) = date == this.date
-        override fun toDomain() = DiaryDomain.Day(date, lessons.map { it.toDomain() })
+        override fun toUi() = DiaryUi.Day(date, lessons.map { it.toUi() })
         override fun homeworks(): List<Pair<String, String>> {
             return lessons.mapNotNull {
                 if (it.homeworks().isNotEmpty()) it.homeworks().first() else null
@@ -37,11 +37,11 @@ interface DiaryData {
         private val startTime: String,
         private val endTime: String,
         private val date: Int,
-        private val marks: List<PerformanceData.Grade>
-    ) : DiaryData {
+        private val marks: List<PerformanceDomain.Grade>
+    ) : DiaryDomain {
         override fun isDate(date: Int) = date == this.date
-        override fun toDomain() =
-            DiaryDomain.Lesson(
+        override fun toUi() =
+            DiaryUi.Lesson(
                 name,
                 teacherName,
                 topic,
@@ -50,16 +50,16 @@ interface DiaryData {
                 startTime,
                 endTime,
                 date,
-                marks.map { it.toDomain() })
+                marks.map { it.toUi() })
 
         override fun homeworks() = listOf(Pair(name, homework))
         override fun previousHomeworks() = listOf(Pair(name, previousHomework))
     }
 
-    object Empty : DiaryData {
+    object Empty : DiaryDomain {
         override fun isDate(date: Int) = false
 
-        override fun toDomain() = DiaryDomain.Empty
+        override fun toUi() = DiaryUi.Empty
         override fun homeworks() = emptyList<Pair<String, String>>()
         override fun previousHomeworks() = emptyList<Pair<String, String>>()
     }

@@ -3,9 +3,9 @@ package com.maxim.diaryforstudents.diary
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.diary.eduData.DayData
-import com.maxim.diaryforstudents.diary.eduData.DiaryData
-import com.maxim.diaryforstudents.diary.eduData.EduDiaryRepository
+import com.maxim.diaryforstudents.diary.domain.DayDomain
+import com.maxim.diaryforstudents.diary.domain.DiaryDomain
+import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.diary.presentation.DiaryCommunication
 import com.maxim.diaryforstudents.diary.presentation.DiaryState
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
@@ -27,7 +27,7 @@ import org.junit.Test
 class DiaryViewModelTest {
     private lateinit var viewModel: DiaryViewModel
     private val order = Order()
-    private val repository = FakeEduDiaryRepository()
+    private val interactor = FakeDiaryInteractor()
     private val communication = FakeDiaryCommunication()
     private val storage = FakeLessonDetailsStorage(order)
     private val navigation = FakeNavigation(order)
@@ -38,7 +38,7 @@ class DiaryViewModelTest {
     fun setUp() {
         viewModel = DiaryViewModel(
             ArrayList(),
-            repository,
+            interactor,
             communication,
             storage,
             navigation,
@@ -49,17 +49,17 @@ class DiaryViewModelTest {
 
     @Test
     fun test_init_and_reload() {
-        repository.actualDateMustReturn(55)
+        interactor.actualDateMustReturn(55)
 
         viewModel.init(true)
-        repository.checkActualDateCalledTimes(1)
+        interactor.checkActualDateCalledTimes(1)
         communication.checkCalledTimes(1)
         communication.checkCalledWith(DiaryState.Progress)
 
         //return()
 
-        repository.checkDayCalledTimes(1)
-        repository.checkActualDayCalledWith(55)
+        interactor.checkDayCalledTimes(1)
+        interactor.checkActualDayCalledWith(55)
         runAsync.returnResult()
         communication.checkCalledTimes(2)
         communication.checkCalledWith(
@@ -75,7 +75,7 @@ class DiaryViewModelTest {
     @Test
     fun test_false_init() {
         viewModel.init(false)
-        repository.checkActualDateCalledTimes(0)
+        interactor.checkActualDateCalledTimes(0)
     }
 
     @Test
@@ -102,7 +102,7 @@ class DiaryViewModelTest {
     @Test
     fun test_homework_to_share() {
         viewModel.setActualDay(5)
-        repository.homeworksToShareMustReturn("12345-")
+        interactor.homeworksToShareMustReturn("12345-")
         val actual = viewModel.homeworkToShare()
         assertEquals("12345-5", actual)
     }
@@ -110,18 +110,18 @@ class DiaryViewModelTest {
     @Test
     fun test_previous_homework_to_share() {
         viewModel.setActualDay(7)
-        repository.previousHomeworksToShareMustReturn("123456-")
+        interactor.previousHomeworksToShareMustReturn("123456-")
         val actual = viewModel.previousHomeworkToShare()
         assertEquals("123456-7", actual)
     }
 
     @Test
     fun test_homework_from() {
-        repository.homeworkFromMustReturn(false)
+        interactor.homeworkFromMustReturn(false)
         var actual = viewModel.homeworkFrom()
         assertEquals(false, actual)
 
-        repository.homeworkFromMustReturn(true)
+        interactor.homeworkFromMustReturn(true)
         actual = viewModel.homeworkFrom()
         assertEquals(true, actual)
     }
@@ -140,13 +140,13 @@ private class FakeLessonDetailsStorage(private val order: Order) : LessonDetails
     }
 }
 
-private class FakeEduDiaryRepository : EduDiaryRepository {
-    override fun dayList(today: Int): List<DayData> = emptyList()
+private class FakeDiaryInteractor : DiaryInteractor {
+    override fun dayList(today: Int): List<DayDomain> = emptyList()
 
     private val dayList = mutableListOf<Int>()
-    override suspend fun day(date: Int): DiaryData.Day {
+    override suspend fun day(date: Int): DiaryDomain.Day {
         dayList.add(date)
-        return DiaryData.Day(date, emptyList())
+        return DiaryDomain.Day(date, emptyList())
     }
 
     fun checkDayCalledTimes(expected: Int) {
@@ -157,7 +157,7 @@ private class FakeEduDiaryRepository : EduDiaryRepository {
         assertEquals(expected, dayList.last())
     }
 
-    override fun cachedDay(date: Int): DiaryData.Day {
+    override fun cachedDay(date: Int): DiaryDomain.Day {
         TODO("Not yet implemented")
     }
 

@@ -4,7 +4,7 @@ import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import java.util.Calendar
 
 interface EduDiaryRepository {
@@ -77,7 +77,7 @@ interface EduDiaryRepository {
                         lesson.LESSON_TIME_BEGIN,
                         lesson.LESSON_TIME_END,
                         date,
-                        lesson.MARKS?.map { PerformanceDomain.Grade(it.VALUE, formattedDate, false) }
+                        lesson.MARKS?.map { PerformanceData.Grade(it.VALUE, formattedDate, false) }
                             ?: emptyList()
                     )
                 }.ifEmpty { listOf(DiaryData.Empty) }
