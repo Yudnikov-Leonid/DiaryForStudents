@@ -27,7 +27,7 @@ class PerformanceViewModel(
             quarter = repository.actualQuarter()
             communication.update(PerformanceState.Loading)
             handle({ repository.init() }) {
-                val list = repository.cachedData()
+                val list = repository.cachedData("")
                 if (list.first() is PerformanceData.Error)
                     communication.update(PerformanceState.Error(list.first().message()))
                 else

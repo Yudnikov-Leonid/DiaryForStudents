@@ -4,9 +4,7 @@ import java.util.Calendar
 
 interface EduPerformanceRepository {
     suspend fun init()
-    fun cachedData(): List<PerformanceData>
     fun cachedData(search: String): List<PerformanceData>
-    fun cachedFinalData(): List<PerformanceData>
     fun cachedFinalData(search: String): List<PerformanceData>
     suspend fun changeQuarter(quarter: Int)
 
@@ -33,11 +31,9 @@ interface EduPerformanceRepository {
             }
         }
 
-        override fun cachedData() = cache.ifEmpty { listOf(PerformanceData.Empty) }
         override fun cachedData(search: String) =
             cache.filter { it.search(search) }.ifEmpty { listOf(PerformanceData.Empty) }
 
-        override fun cachedFinalData() = finalCache.ifEmpty { listOf(PerformanceData.Empty) }
         override fun cachedFinalData(search: String) =
             finalCache.filter { it.search(search) }.ifEmpty { listOf(PerformanceData.Empty) }
 

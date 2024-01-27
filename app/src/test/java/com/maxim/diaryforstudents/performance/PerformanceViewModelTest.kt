@@ -9,7 +9,7 @@ import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
-import com.maxim.diaryforstudents.performance.eduData.EduPerformanceRepository
+import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.eduData.PerformanceData
 import com.maxim.diaryforstudents.performance.presentation.MarksType
 import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
@@ -22,7 +22,7 @@ import org.junit.Test
 
 class PerformanceViewModelTest {
     private lateinit var viewModel: PerformanceViewModel
-    private lateinit var repository: FakeEduPerformanceRepository
+    private lateinit var interactor: FakePerformanceInteractor
     private lateinit var communication: FakePerformanceCommunication
     private val order = Order()
     private val navigation = FakeNavigation(order)
@@ -31,20 +31,20 @@ class PerformanceViewModelTest {
 
     @Before
     fun setUp() {
-        repository = FakeEduPerformanceRepository()
+        interactor = FakePerformanceInteractor()
         communication = FakePerformanceCommunication()
-        viewModel = PerformanceViewModel(repository, communication, navigation, clearViewModel, runAsync)
+        viewModel = PerformanceViewModel(interactor, communication, navigation, clearViewModel, runAsync)
     }
 
     @Test
     fun test_init_success() {
-        repository.actualQuarterMustReturn(3)
-        repository.initMustThrowError(false)
+        interactor.actualQuarterMustReturn(3)
+        interactor.initMustThrowError(false)
 
         viewModel.init(true)
         communication.checkCalledTimes(1)
         communication.checkCalledWith(PerformanceState.Loading)
-        repository.checkInitCalledTimes(1)
+        interactor.checkInitCalledTimes(1)
 
         runAsync.returnResult()
 
@@ -60,13 +60,13 @@ class PerformanceViewModelTest {
 
     @Test
     fun test_init_fail() {
-        repository.actualQuarterMustReturn(3)
-        repository.initMustThrowError(true)
+        interactor.actualQuarterMustReturn(3)
+        interactor.initMustThrowError(true)
 
         viewModel.init(true)
         communication.checkCalledTimes(1)
         communication.checkCalledWith(PerformanceState.Loading)
-        repository.checkInitCalledTimes(1)
+        interactor.checkInitCalledTimes(1)
 
         runAsync.returnResult()
 
@@ -79,11 +79,11 @@ class PerformanceViewModelTest {
         viewModel.changeQuarter(2)
         runAsync.returnResult()
         communication.checkCalledTimes(2)
-        repository.checkActualSearchCalledTimes(1)
+        interactor.checkActualSearchCalledTimes(1)
 
         viewModel.search("text")
-        repository.checkActualSearchCalledTimes(2)
-        repository.checkActualSearchCalledWith("text")
+        interactor.checkActualSearchCalledTimes(2)
+        interactor.checkActualSearchCalledWith("text")
 
         communication.checkCalledTimes(3)
         communication.checkCalledWith(
@@ -100,15 +100,15 @@ class PerformanceViewModelTest {
         viewModel.changeQuarter(2)
         runAsync.returnResult()
         communication.checkCalledTimes(2)
-        repository.checkActualSearchCalledTimes(1)
+        interactor.checkActualSearchCalledTimes(1)
 
         viewModel.changeType(MarksType.Final)
         communication.checkCalledTimes(3)
 
 
         viewModel.search("text")
-        repository.checkFinalSearchCalledTimes(2)
-        repository.checkFinalSearchCalledWith("text")
+        interactor.checkFinalSearchCalledTimes(2)
+        interactor.checkFinalSearchCalledWith("text")
 
         communication.checkCalledTimes(4)
         communication.checkCalledWith(
@@ -147,8 +147,8 @@ class PerformanceViewModelTest {
         viewModel.changeQuarter(3)
         communication.checkCalledTimes(1)
         communication.checkCalledWith(PerformanceState.Loading)
-        repository.checkChangeQuarterCalledTimes(1)
-        repository.checkChangeQuarterCalledWith(3)
+        interactor.checkChangeQuarterCalledTimes(1)
+        interactor.checkChangeQuarterCalledWith(3)
 
         runAsync.returnResult()
 
@@ -182,7 +182,7 @@ private class FakePerformanceCommunication: PerformanceCommunication {
     }
 }
 
-private class FakeEduPerformanceRepository: EduPerformanceRepository {
+private class FakePerformanceInteractor: PerformanceInteractor {
 
     private var initCounter = 0
     private var initThrowError = false
@@ -198,17 +198,13 @@ private class FakeEduPerformanceRepository: EduPerformanceRepository {
         initThrowError = value
     }
 
-    override fun cachedData(): List<PerformanceData> {
+    private val cachedDataList = mutableListOf<String>()
+    override fun data(search: String): List<PerformanceData> {
+        cachedDataList.add(search)
         return if (initThrowError)
             listOf(PerformanceData.Error("error message from repository"))
         else
             listOf(PerformanceData.Lesson("Lesson name", emptyList(), false, 5.0f))
-    }
-
-    private val cachedDataList = mutableListOf<String>()
-    override fun cachedData(search: String): List<PerformanceData> {
-        cachedDataList.add(search)
-        return listOf(PerformanceData.Lesson("Lesson name", emptyList(), false, 5.0f))
     }
 
     fun checkActualSearchCalledTimes(expected: Int) {
@@ -219,12 +215,8 @@ private class FakeEduPerformanceRepository: EduPerformanceRepository {
         assertEquals(expected, cachedDataList.last())
     }
 
-    override fun cachedFinalData(): List<PerformanceData> {
-        return listOf(PerformanceData.Lesson("Lesson name", emptyList(), true, 5.0f))
-    }
-
     private val cachedFinalDataList = mutableListOf<String>()
-    override fun cachedFinalData(search: String): List<PerformanceData> {
+    override fun finalData(search: String): List<PerformanceData> {
         cachedFinalDataList.add(search)
         return listOf(PerformanceData.Lesson("Lesson name", emptyList(), true, 5.0f))
     }
