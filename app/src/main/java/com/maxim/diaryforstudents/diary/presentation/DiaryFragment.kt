@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.diary.presentation
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -13,7 +14,9 @@ import androidx.core.widget.addTextChangedListener
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
+import java.util.Calendar
 
 class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
     override val viewModelClass: Class<DiaryViewModel>
@@ -68,14 +71,23 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 ) { _, i ->
                     if (i == 0) {
                         intent.putExtra(Intent.EXTRA_TEXT, viewModel.homeworkToShare())
-                        startActivity(Intent.createChooser(intent, requireContext().getString(R.string.send_to)))
+                        startActivity(
+                            Intent.createChooser(
+                                intent,
+                                requireContext().getString(R.string.send_to)
+                            )
+                        )
                     } else {
                         intent.putExtra(Intent.EXTRA_TEXT, viewModel.previousHomeworkToShare())
-                        startActivity(Intent.createChooser(intent, requireContext().getString(R.string.send_to)))
+                        startActivity(
+                            Intent.createChooser(
+                                intent,
+                                requireContext().getString(R.string.send_to)
+                            )
+                        )
                     }
                 }.create().show()
         }
-
 
         binding.filtersButton.setOnClickListener {
             val editText = EditText(requireContext()).apply {
@@ -116,6 +128,21 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 }.create().show()
         }
 
+        binding.selectDateButton.setOnClickListener {
+            val actualDay = viewModel.actualDay()
+
+            val year = Formatter.Base.format("yyyy", actualDay).toInt()
+            val month = Formatter.Base.format("MM", actualDay).toInt() - 1
+            val day = Formatter.Base.format("dd", actualDay).toInt()
+            DatePickerDialog(requireContext(), { _, yearValue, monthValue, dayOfMonthValue ->
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.YEAR, yearValue)
+                calendar.set(Calendar.MONTH, monthValue)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonthValue)
+                viewModel.setActualDay((calendar.timeInMillis / 86400000).toInt())
+            }, year, month, day).show()
+        }
+
         viewModel.observe(this) {
             it.show(
                 lessonsAdapter,
@@ -123,6 +150,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 binding.shareHomeworkButton,
                 binding.filtersButton,
                 binding.homeworkTypeButton,
+                binding.selectDateButton,
                 binding.monthTextView,
                 binding.progressBar,
                 binding.errorTextView,

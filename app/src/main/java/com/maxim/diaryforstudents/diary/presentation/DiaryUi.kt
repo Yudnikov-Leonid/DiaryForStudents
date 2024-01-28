@@ -41,7 +41,7 @@ interface DiaryUi : Serializable {
     ) : DiaryUi {
         override fun same(item: DiaryUi) = item is Day && item.date == date
         override fun showName(textView: TextView) {
-            textView.text = Formatter.Base.format("LLLL", date)
+            textView.text = Formatter.Base.format("LLLL yyyy", date)
         }
 
         override fun sameContent(item: DiaryUi) = item is Day && item.lessons == lessons

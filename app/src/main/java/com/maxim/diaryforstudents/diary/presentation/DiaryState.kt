@@ -16,6 +16,7 @@ interface DiaryState : Serializable {
         shareHomework: ImageButton,
         filterTextView: TextView,
         homeworkType: TextView,
+        monthSelector: View,
         monthTitle: TextView,
         progressBar: ProgressBar,
         errorTextView: TextView,
@@ -38,6 +39,7 @@ interface DiaryState : Serializable {
             shareHomework: ImageButton,
             filterTextView: TextView,
             homeworkType: TextView,
+            monthSelector: View,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -60,6 +62,7 @@ interface DiaryState : Serializable {
             day.showLessons(lessonsAdapter, homeworkFrom)
             daysAdapter.update(days)
             day.showName(monthTitle)
+            monthSelector.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
@@ -80,6 +83,7 @@ interface DiaryState : Serializable {
             shareHomework: ImageButton,
             filterTextView: TextView,
             homeworkType: TextView,
+            monthSelector: View,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -89,6 +93,7 @@ interface DiaryState : Serializable {
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
+            monthSelector.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
@@ -109,6 +114,7 @@ interface DiaryState : Serializable {
             shareHomework: ImageButton,
             filterTextView: TextView,
             homeworkType: TextView,
+            monthSelector: View,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -118,6 +124,7 @@ interface DiaryState : Serializable {
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
+            monthSelector.visibility = View.GONE
             progressBar.visibility = View.GONE
             retryButton.visibility = View.VISIBLE
             errorTextView.visibility = View.VISIBLE

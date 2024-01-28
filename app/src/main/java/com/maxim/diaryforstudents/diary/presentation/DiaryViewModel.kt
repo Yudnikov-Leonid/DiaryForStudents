@@ -67,6 +67,8 @@ class DiaryViewModel(
         reload(false)
     }
 
+    fun actualDay() = actualDay
+
     fun openDetails(item: DiaryUi.Lesson) {
         storage.save(item)
         navigation.update(LessonDetailsScreen)
