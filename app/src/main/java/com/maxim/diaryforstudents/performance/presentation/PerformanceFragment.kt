@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.activity.OnBackPressedCallback
-import androidx.core.widget.addTextChangedListener
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentPerformanceBinding
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, PerformanceViewModel>() {
     override val viewModelClass = PerformanceViewModel::class.java
@@ -17,61 +19,63 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentPerformanceBinding.inflate(inflater, container, false)
 
+    private var spinnerLastPosition = -1
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 viewModel.goBack()
-                binding.searchEditText.setText("")
             }
         }
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = PerformanceLessonsAdapter()
         binding.lessonsRecyclerView.adapter = adapter
+
+        val spinnerAdapter = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (position != spinnerLastPosition && spinnerLastPosition != -1) {
+                    viewModel.changeQuarter(position + 1)
+                }
+
+                spinnerLastPosition = position
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+        }
+
         viewModel.observe(this) {
+            binding.quarterSpinner.onItemSelectedListener = null
             it.show(
-                binding.quarterButtonLayout,
-                binding.firstQuarterButton,
-                binding.secondQuarterButton,
-                binding.thirdQuarterButton,
-                binding.fourthQuarterButton,
-                binding.actualMarksButton,
-                binding.finalMarksButton,
+                binding.quarterSpinner,
                 adapter,
                 binding.errorTextView,
                 binding.retryButton,
                 binding.progressBar,
-                binding.searchEditText
             )
-        }
-        binding.firstQuarterButton.setOnClickListener {
-            viewModel.changeQuarter(1)
-        }
-        binding.secondQuarterButton.setOnClickListener {
-            viewModel.changeQuarter(2)
-        }
-        binding.thirdQuarterButton.setOnClickListener {
-            viewModel.changeQuarter(3)
-        }
-        binding.fourthQuarterButton.setOnClickListener {
-            viewModel.changeQuarter(4)
-        }
-        binding.actualMarksButton.setOnClickListener {
-            viewModel.changeType(MarksType.Base)
-        }
-        binding.finalMarksButton.setOnClickListener {
-            viewModel.changeType(MarksType.Final)
-        }
-        binding.searchEditText.addTextChangedListener {
-            viewModel.search(binding.searchEditText.text.toString())
+            binding.quarterSpinner.onItemSelectedListener = spinnerAdapter
+
         }
         binding.retryButton.setOnClickListener {
             viewModel.init(true)
         }
-        KeyboardVisibilityEvent.setEventListener(requireActivity(), this) { isOpen ->
-            if (!isOpen)
-                binding.searchEditText.clearFocus()
-        }
+
+        binding.screenTabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> viewModel.changeType(MarksType.Base)
+                    1 -> viewModel.changeType(MarksType.Final)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
+            override fun onTabReselected(tab: TabLayout.Tab?) = Unit
+        })
 
         viewModel.init(savedInstanceState == null)
     }

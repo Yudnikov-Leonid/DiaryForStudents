@@ -83,13 +83,8 @@ class PerformanceViewModel(
     }
 
     override fun goBack() {
-        if (search.isEmpty()) {
-            navigation.update(Screen.Pop)
-            clear.clearViewModel(PerformanceViewModel::class.java)
-        } else {
-            search = ""
-            search(search)
-        }
+        navigation.update(Screen.Pop)
+        clear.clearViewModel(PerformanceViewModel::class.java)
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {

@@ -7,100 +7,35 @@
     android:background="@color/background"
     android:orientation="vertical">
 
-    <LinearLayout
-        style="?android:attr/buttonBarStyle"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/screenTabLayout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actual" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/final_marks" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/analytics" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <Spinner
+        android:layout_marginTop="10dp"
+        android:id="@+id/quarterSpinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/actualMarksButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
-            android:text="@string/actual"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/finalMarksButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
-            android:text="@string/final_marks"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/quarterButtonLayout"
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/firstQuarterButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
-            android:text="@string/first_quarter"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/secondQuarterButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
-            android:text="@string/second_quarter"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/thirdQuarterButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
-            android:text="@string/third_quarter"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/fourthQuarterButton"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/disable_button"
-            android:text="@string/fourth_quarter"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        android:layout_gravity="center"
+        android:entries="@array/quarter" />
 
     <TextView
         android:id="@+id/errorTextView"
@@ -130,16 +65,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="5dp" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/searchEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="@string/search"
-        android:inputType="textCapSentences"
-        android:maxLength="30"
-        android:maxLines="1" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lessonsRecyclerView"

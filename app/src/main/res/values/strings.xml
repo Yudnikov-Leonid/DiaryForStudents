@@ -43,4 +43,12 @@
     <string name="share_homework">Share homework</string>
     <string name="send_to">Send to</string>
     <string name="notes">Notes</string>
+    <string name="analytics">Analytics</string>
+
+    <string-array name="quarter">
+        <item>First quarter</item>
+        <item>Second quarter</item>
+        <item>Third quarter</item>
+        <item>Fourth quarter</item>
+    </string-array>
 </resources>

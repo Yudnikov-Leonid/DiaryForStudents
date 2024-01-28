@@ -39,4 +39,12 @@
     <string name="share_homework">Поделиться заданием</string>
     <string name="send_to">Отправить</string>
     <string name="notes">Комментарий</string>
+    <string name="analytics">Аналитика</string>
+
+    <string-array name="quarter">
+        <item>Первая четверть</item>
+        <item>Вторая четверть</item>
+        <item>Третья четверть</item>
+        <item>Четвёртая четверть</item>
+    </string-array>
 </resources>
