@@ -47,7 +47,7 @@ interface PerformanceCloudDataSource {
                             calendar.set(Calendar.DAY_OF_MONTH, markDate[0].toInt())
                             calendar.set(Calendar.MONTH, markDate[1].toInt() - 1)
                             calendar.set(Calendar.YEAR, markDate[2].toInt())
-                            calendar.timeInMillis / 86400000 < aWeekAgo
+                            calendar.timeInMillis / 86400000 <= aWeekAgo
                         }
                         averageAWeekAgo =
                             marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
