@@ -8,6 +8,7 @@ import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.presentation.SimpleInit
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
@@ -22,16 +23,16 @@ class ProfileViewModel(
     private val clear: ClearViewModel,
     private val mapper: ProfileData.Mapper<ProfileUi>,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<ProfileState>, SimpleInit, GoBack {
+) : BaseViewModel(runAsync), Communication.Observe<ProfileState>, SimpleInit, GoBack, SaveAndRestore {
     override fun init() {
         communication.update(ProfileState.Base(repository.data().map(mapper)))
     }
 
-    fun save(bundleWrapper: BundleWrapper.Save) {
+    override fun save(bundleWrapper: BundleWrapper.Save) {
         communication.save(RESTORE_KEY, bundleWrapper)
     }
 
-    fun restore(bundleWrapper: BundleWrapper.Restore) {
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
         communication.restore(RESTORE_KEY, bundleWrapper)
     }
 

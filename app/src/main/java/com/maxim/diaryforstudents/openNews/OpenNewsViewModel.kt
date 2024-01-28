@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsUi
@@ -16,7 +18,7 @@ class OpenNewsViewModel(
     private val data: OpenNewsStorage.Read,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel
-) : BaseViewModel(), Init, GoBack {
+) : BaseViewModel(), Init, GoBack, SaveAndRestore, Communication.Observe<NewsUi> {
     private val mutableLiveData = MutableLiveData<NewsUi>()
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun)
@@ -28,16 +30,16 @@ class OpenNewsViewModel(
         clear.clearViewModel(OpenNewsViewModel::class.java)
     }
 
-    fun save(bundleWrapper: BundleWrapper.Save) {
+    override fun save(bundleWrapper: BundleWrapper.Save) {
         data.save(bundleWrapper)
     }
 
-    fun restore(bundleWrapper: BundleWrapper.Restore) {
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
         data.restore(bundleWrapper)
         mutableLiveData.value = data.read()
     }
 
-    fun observe(owner: LifecycleOwner, observer: Observer<NewsUi>) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<NewsUi>) {
         mutableLiveData.observe(owner, observer)
     }
 }

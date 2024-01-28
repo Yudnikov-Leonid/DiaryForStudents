@@ -9,6 +9,7 @@ import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.data.NewsData
@@ -23,7 +24,7 @@ class NewsViewModel(
     private val clear: ClearViewModel,
     private val openNewsStorage: OpenNewsStorage.Save,
     private val mapper: NewsData.Mapper<NewsUi>
-) : BaseViewModel(), Reload, Communication.Observe<NewsState>, Init, GoBack {
+) : BaseViewModel(), Reload, Communication.Observe<NewsState>, Init, GoBack, SaveAndRestore {
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(NewsState.Loading)
@@ -31,11 +32,11 @@ class NewsViewModel(
         repository.init(this)
     }
 
-    fun save(bundleWrapper: BundleWrapper.Save) {
+    override fun save(bundleWrapper: BundleWrapper.Save) {
         communication.save(RESTORE_KEY, bundleWrapper)
     }
 
-    fun restore(bundleWrapper: BundleWrapper.Restore) {
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
         communication.restore(RESTORE_KEY, bundleWrapper)
     }
 
