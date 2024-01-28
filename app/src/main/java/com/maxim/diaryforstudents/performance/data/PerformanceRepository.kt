@@ -32,7 +32,7 @@ interface PerformanceRepository {
 
 
             try {
-                cache.addAll(cloudDataSource.data(actualQuarter()))
+                cache.addAll(cloudDataSource.data(actualQuarter(), true))
             } catch (e: Exception) {
                 finalDataException = e
             }
@@ -50,7 +50,7 @@ interface PerformanceRepository {
             dataException = null
             cache.clear()
             try {
-                cache.addAll(cloudDataSource.data(quarter))
+                cache.addAll(cloudDataSource.data(quarter, quarter == actualQuarter()))
             } catch (e: Exception) {
                 dataException = e
             }

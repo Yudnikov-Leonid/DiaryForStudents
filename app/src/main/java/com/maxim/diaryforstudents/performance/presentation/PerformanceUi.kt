@@ -53,7 +53,7 @@ interface PerformanceUi : Serializable {
         }
 
         override fun showProgress(imageView: ImageView, textView: TextView) {
-            val visibility = if (progress in -10..10) View.GONE else View.VISIBLE
+            val visibility = if (progress in -5..5) View.GONE else View.VISIBLE
             imageView.visibility = visibility
             textView.visibility = visibility
 

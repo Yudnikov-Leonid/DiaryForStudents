@@ -6,14 +6,14 @@ import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
 import java.util.Calendar
 
 interface PerformanceCloudDataSource {
-    suspend fun data(quarter: Int): List<PerformanceData>
+    suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData>
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: DiaryService, private val eduUser: EduUser) :
         PerformanceCloudDataSource {
         private val averageMap = mutableMapOf<Pair<String, Int>, Float>()
 
-        override suspend fun data(quarter: Int): List<PerformanceData> {
+        override suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData> {
             //todo hardcode
             val from = when (quarter) {
                 1 -> "01.09.2023"
@@ -38,16 +38,20 @@ interface PerformanceCloudDataSource {
 
             return if (data.success) {
                 data.data.filter { it.MARKS.isNotEmpty() }.map {
-                    val aWeekAgo = System.currentTimeMillis() / 86400000 - 7
-                    val calendar = Calendar.getInstance()
-                    val marksAWeekAgo = it.MARKS.filter { mark ->
-                        val markDate = mark.DATE.split('.')
-                        calendar.set(Calendar.DAY_OF_MONTH, markDate[0].toInt())
-                        calendar.set(Calendar.MONTH, markDate[1].toInt() - 1)
-                        calendar.set(Calendar.YEAR, markDate[2].toInt())
-                        calendar.timeInMillis / 86400000 < aWeekAgo
+                    var averageAWeekAgo = 0f
+                    if (calculateProgress) {
+                        val aWeekAgo = System.currentTimeMillis() / 86400000 - 7
+                        val calendar = Calendar.getInstance()
+                        val marksAWeekAgo = it.MARKS.filter { mark ->
+                            val markDate = mark.DATE.split('.')
+                            calendar.set(Calendar.DAY_OF_MONTH, markDate[0].toInt())
+                            calendar.set(Calendar.MONTH, markDate[1].toInt() - 1)
+                            calendar.set(Calendar.YEAR, markDate[2].toInt())
+                            calendar.timeInMillis / 86400000 < aWeekAgo
+                        }
+                        averageAWeekAgo =
+                            marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
                     }
-                    val averageAWeekAgo = marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
                     val actualAverage = averageMap[Pair(it.SUBJECT_NAME, quarter)] ?: 0f
 
                     PerformanceData.Lesson(
@@ -59,7 +63,8 @@ interface PerformanceCloudDataSource {
                                 false
                             )
                         },
-                        false, actualAverage, ((actualAverage / averageAWeekAgo - 1) * 100).toInt()
+                        false, actualAverage,
+                        if (calculateProgress) ((actualAverage / averageAWeekAgo - 1) * 100).toInt() else 0
                     )
                 }
             } else throw ServiceUnavailableException(data.message)
