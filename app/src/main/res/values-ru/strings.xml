@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Дневник</string>
-    <string name="student_of">Ученик класса: %s</string>
-    <string name="teacher_of">Учитель по предмету %s</string>
 
-    <!-- lessons -->
-    <string name="algebra">Алгебра</string>
-    <string name="biology">Биология</string>
-    <string name="history">История</string>
-    <string name="french">Французский язык</string>
-    <string name="geography">География</string>
-    <string name="english_language">Английский язык</string>
-    <string name="informatics">Информатика</string>
-    <string name="literature">Литература</string>
-    <string name="music">Музыка</string>
-    <string name="social_science">Обществознание</string>
-    <string name="russian_language">Русский язык</string>
-    <string name="technology">Технология</string>
-    <string name="physics">Физика</string>
-    <string name="pe">Физкультура</string>
-    <string name="chemistry">Химия</string>
-    <string name="unknown_lesson">Неизвестный предмет</string>
-
-
-    <string name="classes_no_data">Нет классов. Возможно ваш директор ещё не создал их.</string>
     <string name="start_time">Время начала</string>
     <string name="end_time">Время конца</string>
     <string name="topic">Тема</string>
@@ -45,7 +23,6 @@
     <string name="lesson">Урок</string>
     <string name="average">Средний балл:</string>
     <string name="no_data">Нет данных</string>
-    <string name="you_have_created_lesson">На сегодня урок уже создан</string>
     <string name="marks">Оценки:</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
@@ -61,4 +38,5 @@
     <string name="name_filter_hint">Фильтр по имени</string>
     <string name="share_homework">Поделиться заданием</string>
     <string name="send_to">Отправить</string>
+    <string name="notes">Комментарий</string>
 </resources>

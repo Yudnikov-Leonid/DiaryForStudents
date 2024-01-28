@@ -1,29 +1,7 @@
 <resources>
     <string name="app_name">Diary for students</string>
     <string name="client_web_id" translatable="false">"575101660631-snd45ng04apnq52vv7r4t8hk3of8rd11.apps.googleusercontent.com"</string>
-    <string name="student_of">Student of the class: %s</string>
-    <string name="teacher_of">Teacher of %s</string>
 
-    <!-- lessons -->
-    <string name="algebra">Algebra</string>
-    <string name="biology">Biology</string>
-    <string name="history">History</string>
-    <string name="french">French</string>
-    <string name="geography">Geography</string>
-    <string name="english_language">English Language</string>
-    <string name="informatics">Informatics</string>
-    <string name="literature">Literature</string>
-    <string name="music">Music</string>
-    <string name="social_science">Social_science</string>
-    <string name="russian_language">Russian Language</string>
-    <string name="technology">Technology</string>
-    <string name="physics">Physics</string>
-    <string name="pe">PE</string>
-    <string name="chemistry">Chemistry</string>
-    <string name="unknown_lesson">Unknown lesson</string>
-
-
-    <string name="classes_no_data">No classes. Perhaps your director has not created them yet.</string>
     <string name="start_time">Start time</string>
     <string name="end_time">End time</string>
     <string name="topic">Topic</string>
@@ -49,7 +27,6 @@
     <string name="lesson">Lesson</string>
     <string name="average">Average:</string>
     <string name="no_data">No data</string>
-    <string name="you_have_created_lesson">You have already created a lesson today</string>
     <string name="marks">Marks:</string>
     <string name="login">Login</string>
     <string name="password">Password</string>

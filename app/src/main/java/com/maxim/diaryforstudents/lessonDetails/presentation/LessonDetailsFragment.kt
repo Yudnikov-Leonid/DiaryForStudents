@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentLessonDetailsBinding
 
 class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDetailsViewModel>() {
@@ -20,6 +21,9 @@ class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDe
             }
         }
         super.onViewCreated(view, savedInstanceState)
+
+        savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
+
         viewModel.show(
             binding.lessonNameTextView,
             binding.teacherNameTextView,
@@ -33,5 +37,10 @@ class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDe
             binding.noteTitleTextView,
             binding.noteTextView
         )
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
     }
 }
