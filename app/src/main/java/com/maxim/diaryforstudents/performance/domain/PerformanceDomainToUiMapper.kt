@@ -4,9 +4,13 @@ import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 
 class PerformanceDomainToUiMapper : PerformanceDomain.Mapper<PerformanceUi> {
     override fun map(
-        name: String, marks: List<PerformanceDomain.Mark>, isFinal: Boolean, average: Float
-    ) = PerformanceUi.Lesson(
-        name, marks.map { it.map(this) as PerformanceUi.Mark }, isFinal, average
+        name: String,
+        marks: List<PerformanceDomain.Mark>,
+        isFinal: Boolean,
+        average: Float,
+        progress: Int
+    ): PerformanceUi = PerformanceUi.Lesson(
+        name, marks.map { it.map(this) as PerformanceUi.Mark }, isFinal, average, progress
     )
 
     override fun map() = PerformanceUi.Empty

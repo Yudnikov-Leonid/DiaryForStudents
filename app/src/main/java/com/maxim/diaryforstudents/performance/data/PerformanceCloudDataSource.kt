@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.performance.data
 import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
+import java.util.Calendar
 
 interface PerformanceCloudDataSource {
     suspend fun data(quarter: Int): List<PerformanceData>
@@ -37,6 +38,18 @@ interface PerformanceCloudDataSource {
 
             return if (data.success) {
                 data.data.filter { it.MARKS.isNotEmpty() }.map {
+                    val aWeekAgo = System.currentTimeMillis() / 86400000 - 7
+                    val calendar = Calendar.getInstance()
+                    val marksAWeekAgo = it.MARKS.filter { mark ->
+                        val markDate = mark.DATE.split('.')
+                        calendar.set(Calendar.DAY_OF_MONTH, markDate[0].toInt())
+                        calendar.set(Calendar.MONTH, markDate[1].toInt() - 1)
+                        calendar.set(Calendar.YEAR, markDate[2].toInt())
+                        calendar.timeInMillis / 86400000 < aWeekAgo
+                    }
+                    val averageAWeekAgo = marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
+                    val actualAverage = averageMap[Pair(it.SUBJECT_NAME, quarter)] ?: 0f
+
                     PerformanceData.Lesson(
                         it.SUBJECT_NAME,
                         it.MARKS.map { mark ->
@@ -46,7 +59,7 @@ interface PerformanceCloudDataSource {
                                 false
                             )
                         },
-                        false, averageMap[Pair(it.SUBJECT_NAME, quarter)] ?: 0f
+                        false, actualAverage, ((actualAverage / averageAWeekAgo - 1) * 100).toInt()
                     )
                 }
             } else throw ServiceUnavailableException(data.message)
@@ -80,7 +93,7 @@ interface PerformanceCloudDataSource {
                                 )
                             }
                         },
-                        true, 0f
+                        true, 0f, 0
                     )
                 }
             } else throw ServiceUnavailableException(data.message)

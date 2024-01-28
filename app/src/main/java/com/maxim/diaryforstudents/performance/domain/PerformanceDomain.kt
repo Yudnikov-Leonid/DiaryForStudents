@@ -4,7 +4,7 @@ interface PerformanceDomain {
     fun message(): String = ""
 
     interface Mapper<T> {
-        fun map(name: String, marks: List<Mark>, isFinal: Boolean, average: Float): T
+        fun map(name: String, marks: List<Mark>, isFinal: Boolean, average: Float, progress: Int): T
         fun map(): T
         fun map(message: String): T
         fun map(mark: Int, date: String, isFinal: Boolean): T
@@ -16,9 +16,10 @@ interface PerformanceDomain {
         private val name: String,
         private val marks: List<Mark>,
         private val isFinal: Boolean,
-        private val average: Float
+        private val average: Float,
+        private val progress: Int
     ) : PerformanceDomain {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(name, marks, isFinal, average)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(name, marks, isFinal, average, progress)
     }
 
     object Empty : PerformanceDomain {

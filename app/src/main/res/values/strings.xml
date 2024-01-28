@@ -51,4 +51,7 @@
         <item>Third quarter</item>
         <item>Fourth quarter</item>
     </string-array>
+
+    <string name="better_progress">%s%% better than a week ago</string>
+    <string name="worse_progress">%s%% lower than a week ago</string>
 </resources>

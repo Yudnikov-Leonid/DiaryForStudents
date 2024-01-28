@@ -22,6 +22,7 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
             binding.marksRecyclerView.adapter = adapter
             item.showMarks(adapter)
             item.showAverage(binding.averageTitleTextView, binding.averageTextView)
+            item.showProgress(binding.statusImageView, binding.statusDescriptionTextView)
         }
     }
 

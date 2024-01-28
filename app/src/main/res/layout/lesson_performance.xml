@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/shape"
+    android:elevation="3dp"
     android:orientation="vertical"
     android:padding="5dp">
 
     <TextView
         android:id="@+id/lessonNameTextView"
         style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Math" />
 
@@ -19,7 +22,8 @@
         android:id="@+id/marksRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:paddingHorizontal="3dp"
+        android:clipToPadding="false"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -38,14 +42,30 @@
 
         <TextView
             android:id="@+id/averageTextView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:paddingHorizontal="4dp"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="5.0" />
 
+        <ImageView
+            android:id="@+id/statusImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/status_24" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/statusDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="#8F8F8F"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="33% better than the previous 28 days" />
 
 </LinearLayout>
