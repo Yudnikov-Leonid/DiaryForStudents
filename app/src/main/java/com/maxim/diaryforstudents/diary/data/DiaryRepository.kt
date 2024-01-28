@@ -71,6 +71,7 @@ interface DiaryRepository {
                         date,
                         lesson.MARKS?.map { PerformanceData.Mark(it.VALUE, formattedDate, false) }
                             ?: emptyList(),
+                        lesson.ABSENCE.map { it.SHORT_NAME },
                         lesson.NOTES
                     )
                 }.ifEmpty { listOf(DiaryData.Empty) }

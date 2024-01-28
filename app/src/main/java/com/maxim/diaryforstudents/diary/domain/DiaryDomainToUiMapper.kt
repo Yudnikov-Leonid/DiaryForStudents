@@ -11,12 +11,20 @@ class DiaryDomainToUiMapper(
         DiaryUi.Day(date, lessons.map { it.map(this) })
 
     override fun map(
-        name: String, teacherName: String, topic: String, homework: String,
-        previousHomework: String, startTime: String, endTime: String, date: Int,
-        marks: List<PerformanceDomain.Mark>, notes: List<String>
+        name: String,
+        teacherName: String,
+        topic: String,
+        homework: String,
+        previousHomework: String,
+        startTime: String,
+        endTime: String,
+        date: Int,
+        marks: List<PerformanceDomain.Mark>,
+        absence: List<String>,
+        notes: List<String>
     ): DiaryUi = DiaryUi.Lesson(
         name, teacherName, topic, homework, previousHomework, startTime, endTime, date,
-        marks.map { it.map(mapper) as PerformanceUi.Mark }, notes
+        marks.map { it.map(mapper) as PerformanceUi.Mark }, absence, notes
     )
 
     override fun map() = DiaryUi.Empty

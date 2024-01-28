@@ -20,10 +20,11 @@ class DiaryDataToDomainMapper(
         endTime: String,
         date: Int,
         marks: List<PerformanceData.Mark>,
+        absence: List<String>,
         notes: List<String>
     ): DiaryDomain = DiaryDomain.Lesson(
         name, teacherName, topic, homework, previousHomework, startTime, endTime, date,
-        marks.map { it.map(mapper) as PerformanceDomain.Mark }, notes
+        marks.map { it.map(mapper) as PerformanceDomain.Mark }, absence, notes
     )
 
     override fun map() = DiaryDomain.Empty
