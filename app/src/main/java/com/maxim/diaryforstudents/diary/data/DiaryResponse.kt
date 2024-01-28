@@ -16,7 +16,8 @@ data class DiaryLesson(
     val TOPIC: String?,
     val HOMEWORK: String?,
     val HOMEWORK_PREVIOUS: DiaryPreviousHomework?,
-    val MARKS: List<CloudMark>?
+    val MARKS: List<CloudMark>?,
+    val NOTES: List<String>
 )
 
 data class DiaryPreviousHomework(

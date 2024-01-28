@@ -29,7 +29,9 @@ class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDe
             binding.homeworkTitleTextView,
             binding.previousHomeworkTextView,
             binding.previousHomeworkTitleTextView,
-            binding.marksLayout
+            binding.marksLayout,
+            binding.noteTitleTextView,
+            binding.noteTextView
         )
     }
 }

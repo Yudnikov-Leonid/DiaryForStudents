@@ -18,7 +18,8 @@ interface DiaryDomain {
             startTime: String,
             endTime: String,
             date: Int,
-            marks: List<PerformanceDomain.Mark>
+            marks: List<PerformanceDomain.Mark>,
+            notes: List<String>
         ): T
         fun map(): T
     }
@@ -54,7 +55,8 @@ interface DiaryDomain {
         private val startTime: String,
         private val endTime: String,
         private val date: Int,
-        private val marks: List<PerformanceDomain.Mark>
+        private val marks: List<PerformanceDomain.Mark>,
+        private val notes: List<String>
     ) : DiaryDomain {
         override fun isDate(date: Int) = date == this.date
 
@@ -62,7 +64,7 @@ interface DiaryDomain {
         override fun previousHomeworks() = listOf(Pair(name, previousHomework))
 
         override fun <T> map(mapper: Mapper<T>) = mapper.map(
-            name, teacherName, topic, homework, previousHomework, startTime, endTime, date, marks
+            name, teacherName, topic, homework, previousHomework, startTime, endTime, date, marks, notes
         )
     }
 

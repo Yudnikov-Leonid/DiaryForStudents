@@ -24,7 +24,9 @@ class LessonDetailsViewModel(
         homeworkTitle: TextView,
         previousHomeworkTextView: TextView,
         previousHomeworkTitle: TextView,
-        marksLayout: LinearLayout
+        marksLayout: LinearLayout,
+        notesTitle: TextView,
+        notesTextView: TextView
     ) {
         val lesson = storage.lesson()
         lesson.showName(nameTextView)
@@ -33,6 +35,7 @@ class LessonDetailsViewModel(
         lesson.showHomework(homeworkTextView, homeworkTitle)
         lesson.showPreviousHomework(previousHomeworkTextView, previousHomeworkTitle)
         lesson.showMarks(marksLayout)
+        lesson.showNotes(notesTextView, notesTitle)
     }
 
     override fun goBack() {

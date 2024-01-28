@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 import java.io.Serializable
+import java.lang.StringBuilder
 
 interface DiaryUi : Serializable {
     fun same(item: DiaryUi): Boolean
@@ -20,6 +21,7 @@ interface DiaryUi : Serializable {
     fun showPreviousHomework(textView: TextView, title: TextView) {}
     fun showLessons(adapter: DiaryLessonsAdapter, homeworkFrom: Boolean) {}
     fun showMarks(linearLayout: LinearLayout) {}
+    fun showNotes(textView: TextView, title: TextView) {}
     fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
     fun map(mapper: Mapper<Boolean>): Boolean
 
@@ -66,7 +68,8 @@ interface DiaryUi : Serializable {
         private val startTime: String,
         private val endTime: String,
         private val date: Int,
-        private val marks: List<PerformanceUi.Mark>
+        private val marks: List<PerformanceUi.Mark>,
+        private val notes: List<String>
     ) : DiaryUi {
 
         override fun showTime(textView: TextView) {
@@ -116,6 +119,18 @@ interface DiaryUi : Serializable {
                 grade.showName(textView)
                 linearLayout.addView(textView)
             }
+        }
+
+        override fun showNotes(textView: TextView, title: TextView) {
+            val visibility = if (notes.isEmpty()) View.GONE else View.VISIBLE
+            title.visibility = visibility
+            textView.visibility = visibility
+
+            val sb = StringBuilder()
+            notes.forEach {
+                sb.append("$it\n")
+            }
+            textView.text = sb.trim()
         }
 
         override fun map(mapper: Mapper<Boolean>): Boolean =

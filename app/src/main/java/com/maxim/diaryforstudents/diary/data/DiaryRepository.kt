@@ -70,7 +70,8 @@ interface DiaryRepository {
                         lesson.LESSON_TIME_END,
                         date,
                         lesson.MARKS?.map { PerformanceData.Mark(it.VALUE, formattedDate, false) }
-                            ?: emptyList()
+                            ?: emptyList(),
+                        lesson.NOTES
                     )
                 }.ifEmpty { listOf(DiaryData.Empty) }
             ) else throw ServiceUnavailableException(data.message)
