@@ -3,11 +3,13 @@ package com.maxim.diaryforstudents.diary.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.domain.DayDomain
@@ -27,7 +29,7 @@ class DiaryViewModel(
     private val mapper: DiaryDomain.Mapper<DiaryUi>,
     private val dayMapper: DayDomain.Mapper<DayUi>,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<DiaryState>, Init, GoBack {
+) : BaseViewModel(runAsync), Communication.Observe<DiaryState>, Init, GoBack, SaveAndRestore {
     private var actualDay = 0
     private var nameFilter = ""
 
@@ -38,15 +40,17 @@ class DiaryViewModel(
         }
     }
 
-//    fun save(bundleWrapper: BundleWrapper.Save) {
-//        communication.save(COMMUNICATION_RESTORE_KEY, bundleWrapper)
-//        bundleWrapper.save(ACTUAL_DAY_RESTORE_KEY, actualDay)
-//    }
-//
-//    fun restore(bundleWrapper: BundleWrapper.Restore) {
-//        communication.restore(COMMUNICATION_RESTORE_KEY, bundleWrapper)
-//        setActualDay(bundleWrapper.restore(ACTUAL_DAY_RESTORE_KEY)!!)
-//    }
+    override fun save(bundleWrapper: BundleWrapper.Save) {
+        communication.save(COMMUNICATION_RESTORE_KEY, bundleWrapper)
+        bundleWrapper.save(ACTUAL_DAY_RESTORE_KEY, actualDay)
+        bundleWrapper.save(NAME_FILTER_RESTORE_KEY, nameFilter)
+    }
+
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
+        communication.restore(COMMUNICATION_RESTORE_KEY, bundleWrapper)
+        nameFilter = bundleWrapper.restore(NAME_FILTER_RESTORE_KEY) ?: ""
+        actualDay = bundleWrapper.restore(ACTUAL_DAY_RESTORE_KEY) ?: interactor.actualDate()
+    }
 
     fun nextDay() {
         actualDay++
@@ -137,8 +141,9 @@ class DiaryViewModel(
         communication.observe(owner, observer)
     }
 
-//    companion object {
-//        private const val COMMUNICATION_RESTORE_KEY = "diary_communication_restore"
-//        private const val ACTUAL_DAY_RESTORE_KEY = "diary_actual_day_restore"
-//    }
+    companion object {
+        private const val COMMUNICATION_RESTORE_KEY = "diary_communication_restore"
+        private const val ACTUAL_DAY_RESTORE_KEY = "diary_actual_day_restore"
+        private const val NAME_FILTER_RESTORE_KEY = "diary_name_filter_restore"
+    }
 }

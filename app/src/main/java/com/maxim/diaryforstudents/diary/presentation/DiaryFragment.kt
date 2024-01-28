@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
 
 class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
@@ -48,7 +49,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         binding.moveRightButton.setOnClickListener {
             viewModel.nextDay()
         }
-        binding.retryButton!!.setOnClickListener {
+        binding.retryButton.setOnClickListener {
             viewModel.reload(true)
         }
 
@@ -121,13 +122,13 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         viewModel.init(savedInstanceState == null)
     }
 
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        viewModel.save(BundleWrapper.Base(outState))
-//    }
-//
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//        savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
-//    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
+    }
 }
