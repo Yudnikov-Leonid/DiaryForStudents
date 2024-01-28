@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
+import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
@@ -58,14 +59,19 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 type = "text/plain"
             }
             AlertDialog.Builder(requireContext())
-                .setTitle("Share homework")
-                .setItems(arrayOf("Actual", "Previous")) { _, i ->
+                .setTitle(requireContext().resources.getString(R.string.share_homework))
+                .setItems(
+                    arrayOf(
+                        requireContext().resources.getString(R.string.send_actual),
+                        requireContext().resources.getString(R.string.send_previous)
+                    )
+                ) { _, i ->
                     if (i == 0) {
                         intent.putExtra(Intent.EXTRA_TEXT, viewModel.homeworkToShare())
-                        startActivity(Intent.createChooser(intent, "Send to"))
+                        startActivity(Intent.createChooser(intent, requireContext().getString(R.string.send_to)))
                     } else {
                         intent.putExtra(Intent.EXTRA_TEXT, viewModel.previousHomeworkToShare())
-                        startActivity(Intent.createChooser(intent, "Send to"))
+                        startActivity(Intent.createChooser(intent, requireContext().getString(R.string.send_to)))
                     }
                 }.create().show()
         }
@@ -73,7 +79,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
 
         binding.filtersButton.setOnClickListener {
             val editText = EditText(requireContext()).apply {
-                hint = "Name filter"
+                hint = requireContext().getString(R.string.name_filter_hint)
                 inputType = (InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                 maxLines = 1
             }
@@ -82,9 +88,13 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 viewModel.setNameFilter(editText.text.toString())
             }
             AlertDialog.Builder(requireContext())
-                .setTitle("Set filters")
+                .setTitle(requireContext().resources.getString(R.string.set_filters))
                 .setMultiChoiceItems(
-                    arrayOf("Have homework", "Have topic", "Have marks"),
+                    arrayOf(
+                        requireContext().resources.getString(R.string.have_homework),
+                        requireContext().resources.getString(R.string.have_topic),
+                        requireContext().resources.getString(R.string.have_marks)
+                    ),
                     viewModel.checks()
                 ) { _, i, isChecked ->
                     viewModel.setFilter(i, isChecked)
@@ -92,10 +102,14 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         }
 
         binding.homeworkTypeButton.setOnClickListener {
+            val title = requireContext().resources.getString(R.string.homework_type)
             AlertDialog.Builder(requireContext())
-                .setTitle("Homework type")
+                .setTitle(title.substring(0, title.length - 3))
                 .setSingleChoiceItems(
-                    arrayOf("Actual", "Previous"),
+                    arrayOf(
+                        requireContext().resources.getString(R.string.actual),
+                        requireContext().resources.getString(R.string.previous)
+                    ),
                     if (viewModel.homeworkFrom()) 0 else 1
                 ) { _, i ->
                     viewModel.setHomeworkType(i == 0)

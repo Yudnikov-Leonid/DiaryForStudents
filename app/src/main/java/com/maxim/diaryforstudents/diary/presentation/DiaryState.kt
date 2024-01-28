@@ -5,7 +5,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.maxim.diaryforstudents.R
 import java.io.Serializable
+import java.util.Locale
 
 interface DiaryState : Serializable {
     fun show(
@@ -45,10 +47,15 @@ interface DiaryState : Serializable {
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
-            val text =
-                "$filterCount ${if (filterCount > 1 || filterCount == 0) "filters" else "filter"}"
+            val resourceManager = shareHomework.resources
+
+            val text = resourceManager.getString(R.string.filters, filterCount.toString())
             filterTextView.text = text
-            val homeworkTypeText = "Homework: ${if (homeworkFrom) "actual" else "previous"}"
+            val homeworkTypeText = resourceManager.getString(
+                R.string.homework_type,
+                resourceManager.getString(if (homeworkFrom) R.string.actual else R.string.previous)
+                    .lowercase(Locale.getDefault())
+            )
             homeworkType.text = homeworkTypeText
             day.showLessons(lessonsAdapter, homeworkFrom)
             daysAdapter.update(days)

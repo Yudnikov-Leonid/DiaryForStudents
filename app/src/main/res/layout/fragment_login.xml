@@ -12,7 +12,7 @@
         android:id="@+id/loginInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Login">
+        android:hint="@string/login">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginInputEditText"
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="Password">
+        android:hint="@string/password">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordInputEditText"
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="@color/white" />
 
     <ProgressBar

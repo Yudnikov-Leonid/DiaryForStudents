@@ -28,6 +28,7 @@
     <string name="end_time">Время конца</string>
     <string name="topic">Тема</string>
     <string name="homework">Домашнее задание</string>
+    <string name="previous_homework">Предыдущее домашнее задание</string>
     <string name="save">Сохранить</string>
     <string name="empty_news">Нет новостей</string>
     <string name="retry">Ещё раз</string>
@@ -46,4 +47,18 @@
     <string name="no_data">Нет данных</string>
     <string name="you_have_created_lesson">На сегодня урок уже создан</string>
     <string name="marks">Оценки:</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="homework_type">Тип заданий: %s</string>
+    <string name="previous">Предыдущие</string>
+    <string name="send_previous">Предыдущим</string>
+    <string name="send_actual">Текущим</string>
+    <string name="filters">%s фильтров</string>
+    <string name="set_filters">Установить фильтры</string>
+    <string name="have_homework">Имеет домашнее задание</string>
+    <string name="have_topic">Имеет тему</string>
+    <string name="have_marks">Имеет оценки</string>
+    <string name="name_filter_hint">Фильтр по имени</string>
+    <string name="share_homework">Поделиться заданием</string>
+    <string name="send_to">Отправить</string>
 </resources>

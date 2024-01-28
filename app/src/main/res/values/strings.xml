@@ -28,6 +28,7 @@
     <string name="end_time">End time</string>
     <string name="topic">Topic</string>
     <string name="homework">Homework</string>
+    <string name="previous_homework">Previous homework</string>
     <string name="save">Save</string>
     <string name="empty_news">No news</string>
     <string name="retry">Retry</string>
@@ -50,4 +51,18 @@
     <string name="no_data">No data</string>
     <string name="you_have_created_lesson">You have already created a lesson today</string>
     <string name="marks">Marks:</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="homework_type">Homework: %s</string>
+    <string name="previous">Previous</string>
+    <string name="send_previous">Previous</string>
+    <string name="send_actual">Actual</string>
+    <string name="filters">%s filters</string>
+    <string name="set_filters">Set filters</string>
+    <string name="have_homework">Have homework</string>
+    <string name="have_topic">Have topic</string>
+    <string name="have_marks">Have marks</string>
+    <string name="name_filter_hint">Name filter</string>
+    <string name="share_homework">Share homework</string>
+    <string name="send_to">Send to</string>
 </resources>
