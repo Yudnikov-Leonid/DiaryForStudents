@@ -59,15 +59,6 @@ class DiaryInteractorTest {
     }
 
     @Test
-    fun test_cached_day() {
-        repository.cachedDayMustReturn(DiaryData.Day(123, emptyList()))
-        val actual = interactor.cachedDay(123)
-        repository.checkCachedDayCalledTimes(1)
-        repository.checkCachedDayCalledWith(123)
-        assertEquals(DiaryDomain.Day(123, emptyList()), actual)
-    }
-
-    @Test
     fun test_actual_date() {
         repository.actualDateMustReturn(4567)
         val actual = interactor.actualDate()
@@ -173,25 +164,6 @@ private class FakeDiaryRepository : DiaryRepository {
 
     fun checkDayCalledWith(expected: Int) {
         assertEquals(expected, dayList.last())
-    }
-
-    private lateinit var cachedDayValue: DiaryData.Day
-    private val cachedDayList = mutableListOf<Int>()
-    override fun cachedDay(date: Int): DiaryData.Day {
-        cachedDayList.add(date)
-        return cachedDayValue
-    }
-
-    fun cachedDayMustReturn(value: DiaryData.Day) {
-        cachedDayValue = value
-    }
-
-    fun checkCachedDayCalledTimes(expected: Int) {
-        assertEquals(expected, cachedDayList.size)
-    }
-
-    fun checkCachedDayCalledWith(expected: Int) {
-        assertEquals(expected, cachedDayList.last())
     }
 
     private var actualDateValue = 0

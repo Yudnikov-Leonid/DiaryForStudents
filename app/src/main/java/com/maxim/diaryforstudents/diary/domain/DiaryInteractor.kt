@@ -8,7 +8,6 @@ import com.maxim.diaryforstudents.performance.data.FailureHandler
 interface DiaryInteractor {
     fun dayList(today: Int): List<DayDomain>
     suspend fun day(date: Int): DiaryDomain
-    fun cachedDay(date: Int): DiaryDomain.Day
     fun actualDate(): Int
     fun homeworks(date: Int): String
     fun previousHomeworks(date: Int): String
@@ -34,10 +33,6 @@ interface DiaryInteractor {
             } catch (e: Exception) {
                 DiaryDomain.Error(failureHandler.handle(e).message())
             }
-        }
-
-        override fun cachedDay(date: Int): DiaryDomain.Day {
-            return repository.cachedDay(date).map(mapper) as DiaryDomain.Day
         }
 
         override fun actualDate() = repository.actualDate()
