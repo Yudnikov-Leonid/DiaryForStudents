@@ -4,7 +4,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.diary.domain.DayDomain
+import com.maxim.diaryforstudents.diary.domain.DayDomainToUiMapper
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
+import com.maxim.diaryforstudents.diary.domain.DiaryDomainToUiMapper
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.diary.presentation.DiaryCommunication
 import com.maxim.diaryforstudents.diary.presentation.DiaryState
@@ -19,6 +21,7 @@ import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.STORAGE
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
+import com.maxim.diaryforstudents.performance.domain.PerformanceDomainToUiMapper
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -43,6 +46,8 @@ class DiaryViewModelTest {
             storage,
             navigation,
             clearViewModel,
+            DiaryDomainToUiMapper(PerformanceDomainToUiMapper()),
+            DayDomainToUiMapper(),
             runAsync
         )
     }

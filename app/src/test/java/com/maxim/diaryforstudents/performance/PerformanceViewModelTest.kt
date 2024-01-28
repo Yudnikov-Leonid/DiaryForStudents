@@ -10,6 +10,7 @@ import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.domain.PerformanceDomainToUiMapper
 import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.presentation.MarksType
 import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
@@ -33,7 +34,13 @@ class PerformanceViewModelTest {
     fun setUp() {
         interactor = FakePerformanceInteractor()
         communication = FakePerformanceCommunication()
-        viewModel = PerformanceViewModel(interactor, communication, navigation, clearViewModel, runAsync)
+        viewModel = PerformanceViewModel(
+            interactor,
+            communication,
+            navigation,
+            clearViewModel,
+            PerformanceDomainToUiMapper(), runAsync
+        )
     }
 
     @Test
@@ -162,7 +169,7 @@ class PerformanceViewModelTest {
     }
 }
 
-private class FakePerformanceCommunication: PerformanceCommunication {
+private class FakePerformanceCommunication : PerformanceCommunication {
     private val list = mutableListOf<PerformanceState>()
 
     override fun update(value: PerformanceState) {
@@ -182,7 +189,7 @@ private class FakePerformanceCommunication: PerformanceCommunication {
     }
 }
 
-private class FakePerformanceInteractor: PerformanceInteractor {
+private class FakePerformanceInteractor : PerformanceInteractor {
 
     private var initCounter = 0
     private var initThrowError = false

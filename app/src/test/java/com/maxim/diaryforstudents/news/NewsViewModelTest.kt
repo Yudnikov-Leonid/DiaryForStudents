@@ -13,13 +13,14 @@ import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.OPEN_NEWS_DATA
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.news.data.NewsData
+import com.maxim.diaryforstudents.news.data.NewsDataToUiMapper
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.news.presentation.NewsCommunication
 import com.maxim.diaryforstudents.news.presentation.NewsState
 import com.maxim.diaryforstudents.news.presentation.NewsUi
 import com.maxim.diaryforstudents.news.presentation.NewsViewModel
-import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
+import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -41,7 +42,10 @@ class NewsViewModelTest {
         navigation = FakeNavigation(order)
         clear = FakeClearViewModel(order)
         openNewsData = FakeOpenNewsData(order)
-        viewModel = NewsViewModel(repository, communication, navigation, clear, openNewsData)
+        viewModel = NewsViewModel(
+            repository, communication, navigation,
+            clear, openNewsData, NewsDataToUiMapper()
+        )
     }
 
     @Test

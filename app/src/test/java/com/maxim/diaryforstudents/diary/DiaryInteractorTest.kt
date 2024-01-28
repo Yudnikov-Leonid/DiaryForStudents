@@ -1,13 +1,16 @@
 package com.maxim.diaryforstudents.diary
 
+import com.maxim.diaryforstudents.diary.data.DayData
+import com.maxim.diaryforstudents.diary.data.DayDataToDomainMapper
+import com.maxim.diaryforstudents.diary.data.DiaryData
+import com.maxim.diaryforstudents.diary.data.DiaryDataToDomainMapper
+import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.domain.DayDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
-import com.maxim.diaryforstudents.diary.data.DayData
-import com.maxim.diaryforstudents.diary.data.DiaryData
-import com.maxim.diaryforstudents.diary.data.DiaryRepository
-import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.data.FailureHandler
+import com.maxim.diaryforstudents.performance.data.PerformanceDataToDomainMapper
+import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -20,7 +23,12 @@ class DiaryInteractorTest {
     @Before
     fun setUp() {
         repository = FakeDiaryRepository()
-        interactor = DiaryInteractor.Base(repository, FailureHandler.Base())
+        interactor = DiaryInteractor.Base(
+            repository,
+            FailureHandler.Base(),
+            DiaryDataToDomainMapper(PerformanceDataToDomainMapper()),
+            DayDataToDomainMapper()
+        )
     }
 
     @Test
@@ -121,7 +129,7 @@ class DiaryInteractorTest {
     }
 }
 
-private class FakeDiaryRepository: DiaryRepository {
+private class FakeDiaryRepository : DiaryRepository {
     private val dayListValue = mutableListOf<DayData>()
     private val dayListList = mutableListOf<Int>()
     override fun dayList(today: Int): List<DayData> {

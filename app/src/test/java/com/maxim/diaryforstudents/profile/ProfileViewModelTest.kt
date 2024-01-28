@@ -4,7 +4,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.COMMUNICATION
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
@@ -14,11 +13,13 @@ import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.REPOSITORY
+import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.profile.data.ProfileData
+import com.maxim.diaryforstudents.profile.data.ProfileDataToUiMapper
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
-import com.maxim.diaryforstudents.profile.presentation.ProfileUi
 import com.maxim.diaryforstudents.profile.presentation.ProfileCommunication
 import com.maxim.diaryforstudents.profile.presentation.ProfileState
+import com.maxim.diaryforstudents.profile.presentation.ProfileUi
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
@@ -41,7 +42,13 @@ class ProfileViewModelTest {
         navigation = FakeNavigation(order)
         clear = FakeClearViewModel(order)
         runAsync = FakeRunAsync()
-        viewModel = ProfileViewModel(repository, communication, navigation, clear, runAsync)
+        viewModel = ProfileViewModel(
+            repository,
+            communication,
+            navigation,
+            clear,
+            ProfileDataToUiMapper(), runAsync
+        )
     }
 
     @Test
