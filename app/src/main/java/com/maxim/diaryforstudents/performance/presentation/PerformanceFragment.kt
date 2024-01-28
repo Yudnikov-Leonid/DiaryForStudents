@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentPerformanceBinding
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
@@ -38,7 +39,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
                 binding.finalMarksButton,
                 adapter,
                 binding.errorTextView,
-                binding.retryButton!!,
+                binding.retryButton,
                 binding.progressBar,
                 binding.searchEditText
             )
@@ -64,7 +65,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         binding.searchEditText.addTextChangedListener {
             viewModel.search(binding.searchEditText.text.toString())
         }
-        binding.retryButton!!.setOnClickListener {
+        binding.retryButton.setOnClickListener {
             viewModel.init(true)
         }
         KeyboardVisibilityEvent.setEventListener(requireActivity(), this) { isOpen ->
@@ -73,5 +74,17 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         }
 
         viewModel.init(savedInstanceState == null)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.let {
+            viewModel.restore(BundleWrapper.Base(it))
+        }
     }
 }

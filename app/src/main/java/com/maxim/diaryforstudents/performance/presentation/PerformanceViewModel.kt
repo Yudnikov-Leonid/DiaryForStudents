@@ -3,11 +3,13 @@ package com.maxim.diaryforstudents.performance.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
@@ -20,7 +22,7 @@ class PerformanceViewModel(
     private val clear: ClearViewModel,
     private val mapper: PerformanceDomain.Mapper<PerformanceUi>,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<PerformanceState>, Init, GoBack {
+) : BaseViewModel(runAsync), Communication.Observe<PerformanceState>, Init, GoBack, SaveAndRestore {
     private var type: MarksType = MarksType.Base
     private var search = ""
     private var quarter = 0
@@ -92,6 +94,22 @@ class PerformanceViewModel(
 
     override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
         communication.observe(owner, observer)
+    }
+
+    override fun save(bundleWrapper: BundleWrapper.Save) {
+        communication.save(RESTORE_KEY, bundleWrapper)
+        bundleWrapper.save(QUARTER_KEY, quarter)
+    }
+
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
+        communication.restore(RESTORE_KEY, bundleWrapper)
+        quarter = bundleWrapper.restore<Int>(QUARTER_KEY) ?: interactor.actualQuarter()
+        handle({ interactor.init() }) {}
+    }
+
+    companion object {
+        private const val RESTORE_KEY = "performance_communication_key"
+        private const val QUARTER_KEY = "performance_quarter_key"
     }
 }
 

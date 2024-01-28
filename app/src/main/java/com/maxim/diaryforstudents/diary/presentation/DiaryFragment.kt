@@ -52,8 +52,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             viewModel.reload(true)
         }
 
-        //todo !!
-        binding.shareHomeworkButton!!.setOnClickListener {
+        binding.shareHomeworkButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
             }
@@ -71,7 +70,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         }
 
 
-        binding.filtersButton!!.setOnClickListener {
+        binding.filtersButton.setOnClickListener {
             val editText = EditText(requireContext()).apply {
                 hint = "Name filter"
                 inputType = (InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
@@ -91,7 +90,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 }.setView(editText).create().show()
         }
 
-        binding.homeworkTypeButton!!.setOnClickListener {
+        binding.homeworkTypeButton.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Homework type")
                 .setSingleChoiceItems(
@@ -106,13 +105,13 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             it.show(
                 lessonsAdapter,
                 daysAdapter,
-                binding.shareHomeworkButton!!,
-                binding.filtersButton!!,
-                binding.homeworkTypeButton!!,
+                binding.shareHomeworkButton,
+                binding.filtersButton,
+                binding.homeworkTypeButton,
                 binding.monthTextView,
                 binding.progressBar,
                 binding.errorTextView,
-                binding.retryButton!!,
+                binding.retryButton,
                 binding.moveLeftButton,
                 binding.moveRightButton,
                 binding.daysRecyclerView,
