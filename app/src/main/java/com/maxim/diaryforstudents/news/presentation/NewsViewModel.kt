@@ -11,8 +11,9 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.news.data.NewsData
 import com.maxim.diaryforstudents.news.data.NewsRepository
-import com.maxim.diaryforstudents.openNews.OpenNewsData
+import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 
 class NewsViewModel(
@@ -20,7 +21,8 @@ class NewsViewModel(
     private val communication: NewsCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
-    private val openNewsData: OpenNewsData.Save
+    private val openNewsStorage: OpenNewsStorage.Save,
+    private val mapper: NewsData.Mapper<NewsUi>
 ) : BaseViewModel(), Reload, Communication.Observe<NewsState>, Init, GoBack {
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
@@ -38,7 +40,7 @@ class NewsViewModel(
     }
 
     override fun reload() {
-        communication.update(NewsState.Base(repository.data().map { it.toUi() }))
+        communication.update(NewsState.Base(repository.data().map { it.map(mapper) }))
     }
 
     override fun error(message: String) {
@@ -51,7 +53,7 @@ class NewsViewModel(
     }
 
     fun open(value: NewsUi) {
-        openNewsData.save(value)
+        openNewsStorage.save(value)
         navigation.update(OpenNewsScreen)
     }
 

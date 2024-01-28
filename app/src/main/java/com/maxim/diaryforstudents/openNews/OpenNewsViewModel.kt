@@ -13,7 +13,7 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsUi
 
 class OpenNewsViewModel(
-    private val data: OpenNewsData.Read,
+    private val data: OpenNewsStorage.Read,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel
 ) : BaseViewModel(), Init, GoBack {

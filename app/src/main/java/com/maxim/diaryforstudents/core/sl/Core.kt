@@ -7,7 +7,7 @@ import com.maxim.diaryforstudents.core.service.CoroutineHandler
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
-import com.maxim.diaryforstudents.openNews.OpenNewsData
+import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,7 +20,7 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
 
         private val manageResource by lazy { ManageResource.Base(context.resources) }
         private val navigation = Navigation.Base()
-        private val openNewsData by lazy { OpenNewsData.Base() }
+        private val openNewsStorage by lazy { OpenNewsStorage.Base() }
 
         val client: OkHttpClient.Builder
 
@@ -50,7 +50,7 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         override fun service() = service
 
         override fun navigation(): Navigation.Mutable = navigation
-        override fun openNewsData() = openNewsData
+        override fun openNewsData() = openNewsStorage
 
         override fun string(key: Int) = manageResource.string(key)
 
@@ -65,7 +65,7 @@ interface ProvideService {
 }
 
 interface ProvideOpenNewsData {
-    fun openNewsData(): OpenNewsData.Mutable
+    fun openNewsData(): OpenNewsStorage.Mutable
 }
 
 interface ProvideNavigation {

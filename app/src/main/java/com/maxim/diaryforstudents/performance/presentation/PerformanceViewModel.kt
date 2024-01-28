@@ -18,6 +18,7 @@ class PerformanceViewModel(
     private val communication: PerformanceCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
+    private val mapper: PerformanceDomain.Mapper<PerformanceUi>,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<PerformanceState>, Init, GoBack {
     private var type: MarksType = MarksType.Base
@@ -36,7 +37,7 @@ class PerformanceViewModel(
                     communication.update(
                         PerformanceState.Base(
                             quarter,
-                            list.map { it.toUi() },
+                            list.map { it.map(mapper) },
                             false
                         )
                     )
@@ -58,7 +59,7 @@ class PerformanceViewModel(
             communication.update(
                 PerformanceState.Base(
                     quarter,
-                    list.map { it.toUi() },
+                    list.map { it.map(mapper) },
                     type.isFinal()
                 )
             )
@@ -72,7 +73,7 @@ class PerformanceViewModel(
             communication.update(
                 PerformanceState.Base(
                     quarter,
-                    list.map { it.toUi() },
+                    list.map { it.map(mapper) },
                     false
                 )
             )

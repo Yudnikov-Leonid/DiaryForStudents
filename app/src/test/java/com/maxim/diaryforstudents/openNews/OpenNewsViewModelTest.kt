@@ -36,7 +36,7 @@ class OpenNewsViewModelTest {
     }
 }
 
-private class FakeOpenNewsData : OpenNewsData.Read {
+private class FakeOpenNewsData : OpenNewsStorage.Read {
     override fun read(): NewsUi {
         return NewsUi.Base("Test title", "Test content", 55, "")
     }

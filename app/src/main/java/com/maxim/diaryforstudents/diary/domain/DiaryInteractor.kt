@@ -1,5 +1,7 @@
 package com.maxim.diaryforstudents.diary.domain
 
+import com.maxim.diaryforstudents.diary.data.DayData
+import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.performance.data.FailureHandler
 
@@ -16,21 +18,26 @@ interface DiaryInteractor {
     fun saveHomeworkFrom(value: Boolean)
     fun homeworkFrom(): Boolean
 
-    class Base(private val repository: DiaryRepository, private val failureHandler: FailureHandler) : DiaryInteractor {
+    class Base(
+        private val repository: DiaryRepository,
+        private val failureHandler: FailureHandler,
+        private val mapper: DiaryData.Mapper<DiaryDomain>,
+        private val dayMapper: DayData.Mapper<DayDomain>
+    ) : DiaryInteractor {
         override fun dayList(today: Int): List<DayDomain> {
-            return repository.dayList(today).map { it.toDomain() }
+            return repository.dayList(today).map { it.map(dayMapper) }
         }
 
         override suspend fun day(date: Int): DiaryDomain {
             return try {
-                repository.day(date).toDomain()
+                repository.day(date).map(mapper)
             } catch (e: Exception) {
                 DiaryDomain.Error(failureHandler.handle(e).message())
             }
         }
 
         override fun cachedDay(date: Int): DiaryDomain.Day {
-            return repository.cachedDay(date).toDomain()
+            return repository.cachedDay(date).map(mapper) as DiaryDomain.Day
         }
 
         override fun actualDate() = repository.actualDate()

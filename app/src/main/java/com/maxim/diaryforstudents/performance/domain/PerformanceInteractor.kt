@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.performance.domain
 
 import com.maxim.diaryforstudents.performance.data.PerformanceRepository
 import com.maxim.diaryforstudents.performance.data.FailureHandler
+import com.maxim.diaryforstudents.performance.data.PerformanceData
 
 interface PerformanceInteractor {
     suspend fun init()
@@ -13,7 +14,8 @@ interface PerformanceInteractor {
 
     class Base(
         private val repository: PerformanceRepository,
-        private val failureHandler: FailureHandler
+        private val failureHandler: FailureHandler,
+        private val mapper: PerformanceData.Mapper<PerformanceDomain>
     ) : PerformanceInteractor {
         override suspend fun init() {
             repository.init()
@@ -21,7 +23,7 @@ interface PerformanceInteractor {
 
         override fun data(search: String): List<PerformanceDomain> {
             return try {
-                repository.cachedData(search).map { it.toDomain() }
+                repository.cachedData(search).map { it.map(mapper) }
             } catch (e: Exception) {
                 listOf(PerformanceDomain.Error(failureHandler.handle(e).message()))
             }
@@ -29,7 +31,7 @@ interface PerformanceInteractor {
 
         override fun finalData(search: String): List<PerformanceDomain> {
             return try {
-                repository.cachedFinalData(search).map { it.toDomain() }
+                repository.cachedFinalData(search).map { it.map(mapper) }
             } catch (e: Exception) {
                 listOf(PerformanceDomain.Error(failureHandler.handle(e).message()))
             }

@@ -4,6 +4,7 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.news.data.NewsCloudDataSource
+import com.maxim.diaryforstudents.news.data.NewsDataToUiMapper
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.news.presentation.NewsCommunication
 import com.maxim.diaryforstudents.news.presentation.NewsViewModel
@@ -15,6 +16,7 @@ class NewsModule(private val core: Core, private val clear: ClearViewModel) :
         NewsCommunication.Base(),
         core.navigation(),
         clear,
-        core.openNewsData()
+        core.openNewsData(),
+        NewsDataToUiMapper()
     )
 }

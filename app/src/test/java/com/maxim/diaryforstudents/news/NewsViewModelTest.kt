@@ -18,7 +18,7 @@ import com.maxim.diaryforstudents.news.presentation.NewsCommunication
 import com.maxim.diaryforstudents.news.presentation.NewsState
 import com.maxim.diaryforstudents.news.presentation.NewsUi
 import com.maxim.diaryforstudents.news.presentation.NewsViewModel
-import com.maxim.diaryforstudents.openNews.OpenNewsData
+import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
@@ -118,7 +118,7 @@ class NewsViewModelTest {
     }
 }
 
-private class FakeOpenNewsData(private val order: Order) : OpenNewsData.Save {
+private class FakeOpenNewsData(private val order: Order) : OpenNewsStorage.Save {
     private lateinit var value: NewsUi
     fun checkCalledWith(expected: NewsUi) {
         assertEquals(expected, value)

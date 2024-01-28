@@ -1,23 +1,27 @@
 package com.maxim.diaryforstudents.news.data
 
-import com.maxim.diaryforstudents.news.presentation.NewsUi
-
 interface NewsData {
-    fun toUi(): NewsUi
+    interface Mapper<T> {
+        fun map(title: String, content: String, date: Int, photoUrl: String): T
+        fun map(): T
+        fun map(message: String): T
+    }
+    fun <T> map(mapper: Mapper<T>): T
+
     data class Base(
         private val title: String,
         private val content: String,
         private val date: Int,
         private val photoUrl: String
     ) : NewsData {
-        override fun toUi() = NewsUi.Base(title, content, date, photoUrl)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(title, content, date, photoUrl)
     }
 
     object Empty : NewsData {
-        override fun toUi() = NewsUi.Empty
+        override fun <T> map(mapper: Mapper<T>) = mapper.map()
     }
 
     data class Failure(private val message: String) : NewsData {
-        override fun toUi() = NewsUi.Failure(message)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(message)
     }
 }

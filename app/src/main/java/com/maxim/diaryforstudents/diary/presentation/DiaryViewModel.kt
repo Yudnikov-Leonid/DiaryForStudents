@@ -10,6 +10,7 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.diary.domain.DayDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
@@ -23,6 +24,8 @@ class DiaryViewModel(
     private val storage: LessonDetailsStorage.Save,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
+    private val mapper: DiaryDomain.Mapper<DiaryUi>,
+    private val dayMapper: DayDomain.Mapper<DayUi>,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<DiaryState>, Init, GoBack {
     private var actualDay = 0
@@ -112,7 +115,7 @@ class DiaryViewModel(
             }
 
             val checks = checks()
-            var filteredDay = day.toUi()
+            var filteredDay = day.map(mapper)
             checks.forEachIndexed { i, b ->
                 if (b)
                     filteredDay = filteredDay.filter(filters[i])
@@ -122,7 +125,7 @@ class DiaryViewModel(
             communication.update(
                 DiaryState.Base(
                     filteredDay,
-                    interactor.dayList(actualDay).map { it.toUi() },
+                    interactor.dayList(actualDay).map { it.map(dayMapper) },
                     checks.filter { it }.size + if (nameFilter.isNotEmpty()) 1 else 0,
                     interactor.homeworkFrom()
                 ),
