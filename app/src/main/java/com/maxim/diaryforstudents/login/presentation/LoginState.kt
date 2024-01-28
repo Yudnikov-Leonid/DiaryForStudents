@@ -23,6 +23,10 @@ interface LoginState {
             progressBar: ProgressBar,
             errorTextView: TextView
         ) {
+            loginInputLayout.isErrorEnabled = false
+            loginInputLayout.error = ""
+            passwordInputLayout.isErrorEnabled = false
+            passwordInputLayout.error = ""
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
         }

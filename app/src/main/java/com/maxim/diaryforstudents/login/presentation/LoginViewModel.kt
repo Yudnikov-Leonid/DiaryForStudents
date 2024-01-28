@@ -45,6 +45,10 @@ class LoginViewModel(
         }
     }
 
+    fun hideError() {
+        communication.update(LoginState.Initial)
+    }
+
     override fun observe(owner: LifecycleOwner, observer: Observer<LoginState>) {
         communication.observe(owner, observer)
     }
