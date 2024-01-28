@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Background"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -11,7 +11,8 @@
 
     <TextView
         android:id="@+id/titleTextView"
-        style="@style/MenuText"
+        android:textStyle="bold"
+        android:textColor="@color/blue_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="27sp"
@@ -19,7 +20,7 @@
 
     <ImageView
         android:id="@+id/newsImage"
-        style="@style/LightBackground"
+        android:background="@color/light_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="200dp"

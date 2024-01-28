@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/LightBackground"
+    android:background="@color/light_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="3dp"
     android:orientation="vertical">
 
     <LinearLayout
-        style="@style/LessonTitle"
+        android:background="@color/back_blue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            style="@style/MenuText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -23,7 +22,6 @@
 
         <TextView
             android:id="@+id/timeTextView"
-            style="@style/MenuText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"

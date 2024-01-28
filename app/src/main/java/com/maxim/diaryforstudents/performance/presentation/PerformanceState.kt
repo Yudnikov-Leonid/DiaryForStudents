@@ -69,6 +69,14 @@ interface PerformanceState: Serializable {
             progressBar: ProgressBar,
             searchEditText: TextInputEditText
         ) {
+            val color = ContextCompat.getColor(quarterLayout.context, R.color.disable_button)
+            first.setBackgroundColor(color)
+            second.setBackgroundColor(color)
+            third.setBackgroundColor(color)
+            fourth.setBackgroundColor(color)
+            actualButton.setBackgroundColor(color)
+            finalButton.setBackgroundColor(color)
+
             first.isEnabled = false
             second.isEnabled = false
             third.isEnabled = false
@@ -103,14 +111,9 @@ interface PerformanceState: Serializable {
             progressBar: ProgressBar,
             searchEditText: TextInputEditText
         ) {
-            val isNight =
-                quarterLayout.context.resources.configuration.uiMode and
-                        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
             val enableColor = ContextCompat.getColor(quarterLayout.context, R.color.blue)
-            val disableColor = ContextCompat.getColor(
-                quarterLayout.context,
-                if (isNight) R.color.night_disable_button else R.color.disable_button
-            )
+            val disableColor = ContextCompat.getColor(quarterLayout.context, R.color.disable_button)
+
             listOf(first, second, third, fourth).forEachIndexed { i, b ->
                 b.setBackgroundColor(if (quarter == i + 1) enableColor else disableColor)
             }

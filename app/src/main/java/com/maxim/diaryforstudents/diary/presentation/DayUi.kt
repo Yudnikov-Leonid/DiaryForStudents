@@ -17,15 +17,9 @@ data class DayUi(
     }
 
     fun setSelectedColor(view: View) {
-        val isNight =
-            view.context.resources.configuration.uiMode and
-                    Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
         val color =
             view.context.getColor(
-                if (isSelected && isNight) R.color.night_selected_button
-                else if (isSelected) R.color.selected_button
-                else if (isNight) R.color.light_night_background
-                else R.color.white)
+                if (isSelected) R.color.selected_button else R.color.light_background)
         view.setBackgroundColor(color)
     }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -28,11 +28,11 @@
                 android:src="@drawable/baseline_diary_24" />
 
             <TextView
-                style="@style/MenuText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/diary"
+                android:textColor="@color/blue_text"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -52,11 +52,11 @@
                 android:src="@drawable/performance_24" />
 
             <TextView
-                style="@style/MenuText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/performance"
+                android:textColor="@color/blue_text"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -85,11 +85,11 @@
                 android:src="@drawable/profile_24" />
 
             <TextView
-                style="@style/MenuText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/profile"
+                android:textColor="@color/blue_text"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -110,11 +110,11 @@
                 android:src="@drawable/base_news_24" />
 
             <TextView
-                style="@style/MenuText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/news"
+                android:textColor="@color/blue_text"
                 android:textSize="20sp" />
 
         </LinearLayout>

@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -21,21 +21,23 @@
 
             <Button
                 android:id="@+id/actualMarksButton"
-                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:backgroundTint="@color/blue"
                 android:text="@string/actual"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/finalMarksButton"
-                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:backgroundTint="@color/blue"
                 android:text="@string/final_marks"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -50,41 +52,45 @@
 
             <Button
                 android:id="@+id/firstQuarterButton"
-                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:backgroundTint="@color/blue"
                 android:text="@string/first_quarter"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/secondQuarterButton"
-                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:backgroundTint="@color/blue"
                 android:text="@string/second_quarter"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/thirdQuarterButton"
-                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:backgroundTint="@color/blue"
                 android:text="@string/third_quarter"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/fourthQuarterButton"
-                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:backgroundTint="@color/blue"
                 android:text="@string/fourth_quarter"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -115,9 +121,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="5dp"
+            android:text="Retry"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:visibility="gone"
-            android:text="Retry" />
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progressBar"

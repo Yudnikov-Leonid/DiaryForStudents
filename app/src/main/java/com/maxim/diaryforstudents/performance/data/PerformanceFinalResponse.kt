@@ -3,20 +3,20 @@ package com.maxim.diaryforstudents.performance.data
 data class PerformanceFinalResponse(
     val success: Boolean,
     val message: String,
-    val data: List<EduPerformanceFinalLesson>
+    val data: List<PerformanceFinalLesson>
 )
 
-data class EduPerformanceFinalLesson(
+data class PerformanceFinalLesson(
     val NAME: String,
-    val PERIODS: List<EduPerformanceFinalPeriod>
+    val PERIODS: List<PerformanceFinalPeriod>
 )
 
-data class EduPerformanceFinalPeriod(
+data class PerformanceFinalPeriod(
     val GRADE_TYPE_GUID: String,
-    val MARK: EduPerformanceFinalMark?,
+    val MARK: PerformanceFinalMark?,
     val AVERAGE: Float
 )
 
-data class EduPerformanceFinalMark(
+data class PerformanceFinalMark(
     val VALUE: Int
 )
