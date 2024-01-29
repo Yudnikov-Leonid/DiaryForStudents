@@ -9,7 +9,7 @@ interface PerformanceCloudDataSource {
     suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData>
     suspend fun finalData(): List<PerformanceData>
 
-    class Base(private val service: DiaryService, private val eduUser: EduUser) :
+    class Base(private val service: PerformanceService, private val eduUser: EduUser) :
         PerformanceCloudDataSource {
         private val averageMap = mutableMapOf<Pair<String, Int>, Float>()
 
@@ -62,7 +62,8 @@ interface PerformanceCloudDataSource {
                         lesson.MARKS.map { mark ->
                             PerformanceData.Mark(
                                 mark.VALUE,
-                                mark.DATE.substring(0, mark.DATE.length - 5),
+                                mark.DATE,
+                                lesson.SUBJECT_NAME,
                                 false
                             )
                         },
@@ -107,6 +108,7 @@ interface PerformanceCloudDataSource {
                                 PerformanceData.Mark(
                                     mark.VALUE,
                                     period.GRADE_TYPE_GUID,
+                                    lesson.NAME,
                                     true
                                 )
                             }

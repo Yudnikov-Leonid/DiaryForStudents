@@ -4,8 +4,8 @@ import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
-import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
+import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import java.util.Calendar
 
 interface DiaryRepository {
@@ -14,6 +14,8 @@ interface DiaryRepository {
     fun actualDate(): Int
     fun homeworks(date: Int): String
     fun previousHomeworks(date: Int): String
+
+    suspend fun getLesson(lessonName: String, date: String): DiaryData.Lesson
 
     fun saveFilters(booleanArray: BooleanArray)
     fun filters(): BooleanArray
@@ -69,7 +71,14 @@ interface DiaryRepository {
                         lesson.LESSON_TIME_BEGIN,
                         lesson.LESSON_TIME_END,
                         date,
-                        lesson.MARKS?.map { PerformanceData.Mark(it.VALUE, formattedDate, false) }
+                        lesson.MARKS?.map {
+                            PerformanceData.Mark(
+                                it.VALUE,
+                                formattedDate,
+                                lesson.SUBJECT_NAME,
+                                false
+                            )
+                        }
                             ?: emptyList(),
                         lesson.ABSENCE.map { it.SHORT_NAME },
                         lesson.NOTES
@@ -102,6 +111,47 @@ interface DiaryRepository {
                 sb.append("${it.first}: ${it.second}\n\n")
             }
             return sb.trim().toString()
+        }
+
+        override suspend fun getLesson(lessonName: String, date: String): DiaryData.Lesson {
+            val calendar = Calendar.getInstance().apply {
+                val splitDate = date.split(".")
+                set(Calendar.DAY_OF_MONTH, splitDate[0].toInt())
+                set(Calendar.MONTH, splitDate[1].toInt() - 1)
+                set(Calendar.YEAR, splitDate[2].toInt())
+            }
+            val formattedDate =
+                formatter.format("dd.MM.yyyy", (calendar.timeInMillis / 86400000).toInt())
+            val data = service.getDay(
+                DiaryBody(
+                    formattedDate, BuildConfig.SHORT_API_KEY, eduUser.guid(), ""
+                )
+            )
+            if (data.success) {
+                return data.data.filter { it.SUBJECT_NAME == lessonName }.first().let { lesson ->
+                    DiaryData.Lesson(
+                        lesson.SUBJECT_NAME,
+                        lesson.TEACHER_NAME,
+                        lesson.TOPIC ?: "",
+                        lesson.HOMEWORK ?: "",
+                        lesson.HOMEWORK_PREVIOUS?.HOMEWORK ?: "",
+                        lesson.LESSON_TIME_BEGIN,
+                        lesson.LESSON_TIME_END,
+                        (calendar.timeInMillis / 86400000).toInt(),
+                        lesson.MARKS?.map {
+                            PerformanceData.Mark(
+                                it.VALUE,
+                                formattedDate,
+                                lesson.SUBJECT_NAME,
+                                false
+                            )
+                        }
+                            ?: emptyList(),
+                        lesson.ABSENCE.map { it.SHORT_NAME },
+                        lesson.NOTES
+                    )
+                }
+            } else throw ServiceUnavailableException(data.message)
         }
 
         override fun saveFilters(booleanArray: BooleanArray) {

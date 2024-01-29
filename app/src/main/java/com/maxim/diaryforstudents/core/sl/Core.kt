@@ -4,17 +4,21 @@ import android.content.Context
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.SaveActualSettingsCommunication
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.data.SimpleStorage
+import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.service.CoroutineHandler
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
+import com.maxim.diaryforstudents.diary.data.DiaryDataToDomainMapper
+import com.maxim.diaryforstudents.diary.data.DiaryRepository
+import com.maxim.diaryforstudents.diary.data.DiaryService
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
-import com.maxim.diaryforstudents.performance.common.data.DiaryService
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.data.PerformanceCloudDataSource
 import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
 import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
+import com.maxim.diaryforstudents.performance.common.data.PerformanceService
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -66,12 +70,22 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private val marksInteractor = PerformanceInteractor.Base(
             PerformanceRepository.Base(
                 PerformanceCloudDataSource.Base(
-                    retrofit().create(DiaryService::class.java),
+                    retrofit().create(PerformanceService::class.java),
                     eduUser()
                 )
             ),
-            simpleStorage(), FailureHandler.Base(), PerformanceDataToDomainMapper()
+            DiaryRepository.Base(
+                retrofit.create(DiaryService::class.java),
+                Formatter.Base,
+                eduUser(),
+                simpleStorage()
+            ),
+            simpleStorage(),
+            FailureHandler.Base(),
+            PerformanceDataToDomainMapper(),
+            DiaryDataToDomainMapper(PerformanceDataToDomainMapper())
         )
+
         override fun marksInteractor() = marksInteractor
 
         private val service = Service.Base(context, CoroutineHandler.Base())

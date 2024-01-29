@@ -18,7 +18,7 @@ interface PerformanceDomain {
 
         fun map(): T
         fun map(message: String): T
-        fun map(mark: Int, date: String, isFinal: Boolean): T
+        fun map(mark: Int, date: String, lessonName: String, isFinal: Boolean): T
     }
 
     fun <T> map(mapper: Mapper<T>): T
@@ -48,9 +48,10 @@ interface PerformanceDomain {
     data class Mark(
         private val mark: Int,
         private val date: String,
+        private val lessonName: String,
         private val isFinal: Boolean
     ) : PerformanceDomain {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, date, isFinal)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, date, lessonName, isFinal)
     }
 
     data class Error(private val message: String) : PerformanceDomain {

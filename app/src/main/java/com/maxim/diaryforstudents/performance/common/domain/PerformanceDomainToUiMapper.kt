@@ -29,6 +29,6 @@ class PerformanceDomainToUiMapper : PerformanceDomain.Mapper<PerformanceUi> {
 
     override fun map(message: String) = PerformanceUi.Error(message)
 
-    override fun map(mark: Int, date: String, isFinal: Boolean) =
-        PerformanceUi.Mark(mark, date, isFinal)
+    override fun map(mark: Int, date: String, lessonName: String, isFinal: Boolean) =
+        PerformanceUi.Mark(mark, date, lessonName, isFinal)
 }

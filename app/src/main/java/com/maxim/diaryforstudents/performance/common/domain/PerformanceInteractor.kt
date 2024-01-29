@@ -1,6 +1,9 @@
 package com.maxim.diaryforstudents.performance.common.domain
 
 import com.maxim.diaryforstudents.core.data.SimpleStorage
+import com.maxim.diaryforstudents.diary.data.DiaryData
+import com.maxim.diaryforstudents.diary.data.DiaryRepository
+import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
@@ -13,13 +16,17 @@ interface PerformanceInteractor {
     suspend fun changeQuarter(quarter: Int)
     fun progressType(): ProgressType
 
+    suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson
+
     fun actualQuarter(): Int
 
     class Base(
         private val repository: PerformanceRepository,
+        private val diaryRepository: DiaryRepository,
         private val simpleStorage: SimpleStorage,
         private val failureHandler: FailureHandler,
-        private val mapper: PerformanceData.Mapper<PerformanceDomain>
+        private val mapper: PerformanceData.Mapper<PerformanceDomain>,
+        private val diaryMapper: DiaryData.Mapper<DiaryDomain>
     ) : PerformanceInteractor {
         override suspend fun init() {
             repository.init()
@@ -31,7 +38,12 @@ interface PerformanceInteractor {
                     when (simpleStorage.read(SORT_BY_KEY, 0)) {
                         0 -> 0f
                         1 -> it.average()
-                        else -> progressType().selectProgress(it.progress()[0], it.progress()[1], it.progress()[2], it.progress()[3]).toFloat()
+                        else -> progressType().selectProgress(
+                            it.progress()[0],
+                            it.progress()[1],
+                            it.progress()[2],
+                            it.progress()[3]
+                        ).toFloat()
                     }
                 }.map { it.map(mapper) }
             } catch (e: Exception) {
@@ -59,6 +71,17 @@ interface PerformanceInteractor {
                 else -> ProgressType.PreviousQuarter
             }
         }
+
+        override suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson =
+            try {
+                diaryRepository.getLesson(lessonName, date).map(diaryMapper) as DiaryDomain.Lesson
+            } catch (e: Exception) {
+                DiaryDomain.Lesson(
+                    e.message ?: "error", "", "", "", "", "", "", 0, emptyList(), emptyList(),
+                    emptyList()
+                )
+            }
+
 
         override fun actualQuarter() = repository.actualQuarter()
 

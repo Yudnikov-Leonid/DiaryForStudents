@@ -24,7 +24,7 @@ class PerformanceDataToDomainMapper : PerformanceData.Mapper<PerformanceDomain> 
 
     override fun map() = PerformanceDomain.Empty
 
-    override fun map(mark: Int, date: String, isFinal: Boolean) =
-        PerformanceDomain.Mark(mark, date, isFinal)
+    override fun map(mark: Int, date: String, lessonName: String, isFinal: Boolean) =
+        PerformanceDomain.Mark(mark, date, lessonName, isFinal)
 
 }

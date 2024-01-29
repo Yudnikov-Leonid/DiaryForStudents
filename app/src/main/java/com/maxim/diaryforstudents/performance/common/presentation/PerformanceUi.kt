@@ -4,6 +4,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.diary.domain.DiaryDomain
+import com.maxim.diaryforstudents.diary.presentation.DiaryUi
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import java.io.Serializable
 import kotlin.math.absoluteValue
 
@@ -17,6 +20,11 @@ interface PerformanceUi : Serializable {
     fun showCalculateButton(view: View) {}
     fun calculate(listener: PerformanceLessonsAdapter.Listener) {}
     fun compare(value: Int): Boolean = false
+
+    suspend fun getLesson(
+        interactor: PerformanceInteractor,
+        mapper: DiaryDomain.Mapper<DiaryUi>
+    ): DiaryUi.Lesson = throw IllegalStateException()
 
     fun showProgress(imageView: ImageView, textView: TextView, progressType: ProgressType) {}
 
@@ -70,7 +78,12 @@ interface PerformanceUi : Serializable {
             progressType: ProgressType
         ) {
             val progress =
-                progressType.selectProgress(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
+                progressType.selectProgress(
+                    weekProgress,
+                    twoWeeksProgress,
+                    monthProgress,
+                    quarterProgress
+                )
 
             val visibility =
                 if (progress in -4..4 || !progressType.isVisible()) View.GONE else View.VISIBLE
@@ -108,6 +121,7 @@ interface PerformanceUi : Serializable {
     data class Mark(
         private val mark: Int,
         private val date: String,
+        private val lessonName: String,
         private val isFinal: Boolean
     ) : PerformanceUi {
         override fun showName(textView: TextView) {
@@ -131,9 +145,15 @@ interface PerformanceUi : Serializable {
                     4 -> "IV"
                     else -> "Year"
                 }
-            } else date
+            } else date.substring(0, date.length - 4)
             textView.text = dateUi
         }
+
+        override suspend fun getLesson(
+            interactor: PerformanceInteractor,
+            mapper: DiaryDomain.Mapper<DiaryUi>
+        ): DiaryUi.Lesson =
+            interactor.getLesson(lessonName, date).map(mapper) as DiaryUi.Lesson
 
         override fun compare(value: Int) = value == mark
 

@@ -24,7 +24,7 @@ interface PerformanceData : Serializable {
         ): T
 
         fun map(): T
-        fun map(mark: Int, date: String, isFinal: Boolean): T
+        fun map(mark: Int, date: String, lessonName: String, isFinal: Boolean): T
     }
 
     fun <T> map(mapper: Mapper<T>): T
@@ -60,8 +60,9 @@ interface PerformanceData : Serializable {
     data class Mark(
         private val mark: Int,
         private val date: String,
+        private val lessonName: String,
         private val isFinal: Boolean
     ) : PerformanceData {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, date, isFinal)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, date, lessonName, isFinal)
     }
 }

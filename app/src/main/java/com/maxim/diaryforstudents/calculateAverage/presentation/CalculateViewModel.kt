@@ -25,7 +25,7 @@ class CalculateViewModel(
     }
 
     fun add(value: Int) {
-        list.add(PerformanceUi.Mark(value, "", false))
+        list.add(PerformanceUi.Mark(value, "", "", false))
         sum += value
         reload()
     }
