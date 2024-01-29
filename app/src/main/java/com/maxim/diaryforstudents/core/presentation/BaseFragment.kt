@@ -11,7 +11,7 @@ import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 
 abstract class BaseFragment<B : ViewBinding, V : ViewModel> : Fragment() {
-    protected var _binding: B? = null
+    private var _binding: B? = null
     protected val binding get() = _binding!!
     protected var onBackPressedCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
@@ -23,10 +23,12 @@ abstract class BaseFragment<B : ViewBinding, V : ViewModel> : Fragment() {
     protected abstract fun bind(inflater: LayoutInflater, container: ViewGroup?): B
     protected lateinit var viewModel: V
     protected abstract val viewModelClass: Class<V>
+    protected open var setOnBackPressedCallback = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+        if (setOnBackPressedCallback)
+            requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
         viewModel = (activity as ProvideViewModel).viewModel(viewModelClass)
     }
 

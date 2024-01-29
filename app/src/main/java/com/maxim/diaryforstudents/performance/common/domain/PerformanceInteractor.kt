@@ -27,7 +27,13 @@ interface PerformanceInteractor {
 
         override fun data(search: String): List<PerformanceDomain> {
             return try {
-                repository.cachedData(search).map { it.map(mapper) }
+                repository.cachedData(search).sortedByDescending {
+                    when (simpleStorage.read(SORT_BY_KEY, 0)) {
+                        0 -> 0f
+                        1 -> it.average()
+                        else -> progressType().selectProgress(it.progress()[0], it.progress()[1], it.progress()[2], it.progress()[3]).toFloat()
+                    }
+                }.map { it.map(mapper) }
             } catch (e: Exception) {
                 listOf(PerformanceDomain.Error(failureHandler.handle(e).message()))
             }

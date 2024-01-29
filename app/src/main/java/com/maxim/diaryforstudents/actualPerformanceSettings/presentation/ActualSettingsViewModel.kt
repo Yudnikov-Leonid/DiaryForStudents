@@ -27,18 +27,20 @@ class ActualSettingsViewModel(
 
     fun setShowProgress(value: Boolean) {
         simpleStorage.save(SHOW_PROGRESS_KEY, value)
+        communication.reload()
     }
 
     fun setProgressCompared(value: Int) {
         simpleStorage.save(PROGRESS_COMPARED_KEY, value)
+        communication.reload()
     }
 
     fun setSortBy(value: Int) {
         simpleStorage.save(SORT_BY_KEY, value)
+        communication.reload()
     }
 
     fun close() {
-        communication.reload()
         clearViewModel.clearViewModel(ActualSettingsViewModel::class.java)
     }
 

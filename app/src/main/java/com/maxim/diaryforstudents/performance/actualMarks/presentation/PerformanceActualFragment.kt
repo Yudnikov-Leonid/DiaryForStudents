@@ -20,6 +20,7 @@ class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, 
         FragmentActualPerformanceBinding.inflate(inflater, container, false)
 
     private var spinnerLastPosition = -1
+    override var setOnBackPressedCallback = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

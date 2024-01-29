@@ -6,6 +6,10 @@ interface PerformanceData : Serializable {
 
     fun search(search: String): Boolean = true
 
+    //todo public to sort
+    fun average(): Float = 0f
+    fun progress(): List<Int> = emptyList()
+
     interface Mapper<T> {
         fun map(
             name: String,
@@ -37,6 +41,11 @@ interface PerformanceData : Serializable {
         private val quarterProgress: Int
     ) : PerformanceData {
         override fun search(search: String) = name.contains(search, true)
+
+        override fun average() = average
+
+        override fun progress() = listOf(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
+
         override fun <T> map(mapper: Mapper<T>) =
             mapper.map(
                 name, marks, marksSum, isFinal, average, weekProgress, twoWeeksProgress,
