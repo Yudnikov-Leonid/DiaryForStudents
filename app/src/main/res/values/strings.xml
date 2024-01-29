@@ -65,6 +65,10 @@
         <item>progress</item>
     </string-array>
 
+    <string name="show_progress">Show progress</string>
+    <string name="show_progress_compared_to">Show progress compared to</string>
+    <string name="sort_by">Sort by</string>
+
     <string name="better_week_progress">%s%% better than a week ago</string>
     <string name="worse_week_progress">%s%% lower than a week ago</string>
     <string name="better_two_weeks_progress">%s%% better than two weeks ago</string>

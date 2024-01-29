@@ -48,14 +48,31 @@
         <item>Четвёртая четверть</item>
     </string-array>
 
+    <string-array name="progress_compare">
+        <item>неделя назад</item>
+        <item>2 недели назад</item>
+        <item>месяц назад</item>
+        <item>прошлая четверть</item>
+    </string-array>
+
+    <string-array name="sort_actual_marks_by">
+        <item>по умолчанию</item>
+        <item>по рейтингу</item>
+        <item>по прогрессу</item>
+    </string-array>
+
+    <string name="show_progress">Показывать прогресс</string>
+    <string name="show_progress_compared_to">Прогресс отностилельно</string>
+    <string name="sort_by">Сортировать</string>
+
     <string name="better_week_progress">На %s%% лучше, чем неделю назад</string>
     <string name="worse_week_progress">На %s%% хуже, чем неделю назад</string>
     <string name="better_two_weeks_progress">На %s%% лучше, чем две недели назад</string>
     <string name="worse_two_weeks_progress">На %s%% хуже, чем две недели назад</string>
     <string name="better_month_progress">На %s%% лучше, чем месяц назад</string>
     <string name="worse_month_progress">На %s%% хуже, чем месяц назад</string>
-    <string name="better_quarter_progress">На %s%% лучше, чем в предыдщей четверти</string>
-    <string name="worse_quarter_progress">На %s%% хуже, чем в предыдщей четверти</string>
+    <string name="better_quarter_progress">На %s%% лучше, чем в предыдущей четверти</string>
+    <string name="worse_quarter_progress">На %s%% хуже, чем в предыдущей четверти</string>
 
     <string name="add">Добавить</string>
     <string name="remove">Убрать</string>

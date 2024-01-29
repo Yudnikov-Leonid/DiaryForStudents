@@ -51,8 +51,9 @@ interface PerformanceCloudDataSource {
                                 calendar.set(Calendar.YEAR, markDate[2].toInt())
                                 calendar.timeInMillis / 86400000 <= aWeekAgo
                             }
-                            val average = marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
-                            progresses[i] = ((actualAverage / average -1) * 100).toInt()
+                            val average =
+                                marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
+                            progresses[i] = ((actualAverage / average - 1) * 100).toInt()
                         }
                     }
 
@@ -64,9 +65,16 @@ interface PerformanceCloudDataSource {
                                 mark.DATE.substring(0, mark.DATE.length - 5),
                                 false
                             )
-                        }, lesson.MARKS.sumOf { it.VALUE },
-                        false, actualAverage,
-                        progresses[0], progresses[1], progresses[2], 0
+                        },
+                        lesson.MARKS.sumOf { it.VALUE },
+                        false,
+                        actualAverage,
+                        progresses[0],
+                        progresses[1],
+                        progresses[2],
+                        if (calculateProgress) (averageMap[Pair(lesson.SUBJECT_NAME, quarter - 1)]?.let {
+                            (actualAverage / it - 1) * 100
+                        } ?: 0 ).toInt() else 0
                     )
                 }
             } else throw ServiceUnavailableException(data.message)
