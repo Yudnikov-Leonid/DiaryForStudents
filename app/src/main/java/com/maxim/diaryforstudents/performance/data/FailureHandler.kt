@@ -14,7 +14,8 @@ interface FailureHandler {
         override fun handle(e: Exception): Failure {
             return when(e) {
                 is UnknownHostException -> NoInternetConnectionError()
-                is ServiceUnavailableException -> ServiceUnavailableError(e.message ?: "")
+                is ServiceUnavailableException -> ServiceUnavailableError(e.message ?: "Server error")
+                is retrofit2.HttpException -> ServiceUnavailableError(e.message ?: "Server error")
                 else -> UnknownError()
             }
         }

@@ -29,14 +29,6 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-    <Spinner
-        android:layout_marginTop="10dp"
-        android:id="@+id/quarterSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:entries="@array/quarter" />
-
     <TextView
         android:id="@+id/errorTextView"
         android:layout_width="match_parent"
@@ -66,11 +58,36 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="5dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lessonsRecyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:paddingTop="40dp"
+            android:clipToPadding="false"
+            android:id="@+id/lessonsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="6dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <LinearLayout
+            android:id="@+id/settingsBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
+
+            <Spinner
+                android:id="@+id/quarterSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:entries="@array/quarter" />
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

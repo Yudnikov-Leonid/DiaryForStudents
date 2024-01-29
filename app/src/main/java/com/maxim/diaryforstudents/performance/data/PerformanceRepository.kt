@@ -39,7 +39,9 @@ interface PerformanceRepository {
         }
 
         override fun cachedData(search: String) =
-            dataException?.let { throw it } ?: cache.filter { it.search(search) }
+            dataException?.let {
+                throw it
+            } ?: cache.filter { it.search(search) }
                 .ifEmpty { listOf(PerformanceData.Empty) }
 
         override fun cachedFinalData(search: String) =
