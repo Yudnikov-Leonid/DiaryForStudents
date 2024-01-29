@@ -11,8 +11,4 @@
     <color name="background">#151515</color>
     <color name="light_background">#1E1E1E</color>
     <color name="selected_button">#0048A0</color>
-
-    <color name="light_green">#4FFF91</color>
-    <color name="green">#1EB757</color>
-    <color name="yellow">#FFC107</color>
 </resources>

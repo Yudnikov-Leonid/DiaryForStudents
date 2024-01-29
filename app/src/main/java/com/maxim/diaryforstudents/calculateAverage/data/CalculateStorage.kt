@@ -25,6 +25,7 @@ interface CalculateStorage {
         }
 
         override fun marks() = list
+
         override fun sum() = sum
     }
 }

@@ -6,17 +6,48 @@ import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
 
 class CalculateViewModel(
     private val communication: CalculateCommunication,
     private val calculateStorage: CalculateStorage.Read,
     private val clearViewModel: ClearViewModel
 ) : ViewModel(), Communication.Observe<CalculateState> {
+    private val list = mutableListOf<PerformanceUi.Mark>()
+    private var sum = 0
+
     fun init() {
+        list.clear()
+        list.addAll(calculateStorage.marks())
+        sum = calculateStorage.sum()
+
+        reload()
+    }
+
+    fun add(value: Int) {
+        list.add(PerformanceUi.Mark(value, "", false))
+        sum += value
+        reload()
+    }
+
+    fun remove(value: Int) {
+        var index = -1
+        list.forEachIndexed { i, mark ->
+            if (mark.compare(value))
+                index = i
+        }
+        if (index != -1) {
+            list.removeAt(index)
+            sum -= value
+            reload()
+        }
+    }
+
+    fun reload() {
         communication.update(
             CalculateState.Base(
-                calculateStorage.marks(),
-                calculateStorage.sum().toFloat() / calculateStorage.marks().size
+                list,
+                sum.toFloat() / list.size
             )
         )
     }

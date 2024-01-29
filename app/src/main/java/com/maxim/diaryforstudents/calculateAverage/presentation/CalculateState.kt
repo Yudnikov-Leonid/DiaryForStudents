@@ -13,10 +13,14 @@ interface CalculateState {
             adapter.update(marks, false)
             val avr = average.toString()
             averageTextView.text = if (avr.length > 3) avr.substring(0, 4) else avr
-            val color =
-                if (average <= 2.5) R.color.red else if (average <= 3.5) R.color.yellow
-                else if (average <= 4.5) R.color.green else R.color.light_green
-            averageTextView.setTextColor(averageTextView.context.getColor(color))
+            val colorId = when(average) {
+                in 0f..2.49f -> R.color.red
+                in 2.5f..3.49f -> R.color.yellow
+                in 3.5f..4.49f -> R.color.green
+                in 4.5f..5f -> R.color.light_green
+                else -> R.color.black
+            }
+            averageTextView.setTextColor(averageTextView.context.getColor(colorId))
         }
     }
 }

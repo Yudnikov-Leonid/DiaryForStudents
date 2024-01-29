@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.calculateAverage.presentation
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.DialogFragmentCalculateAverageBinding
@@ -22,6 +23,19 @@ class CalculateDialogFragment: DialogFragment() {
 
         val adapter = PerformanceMarksAdapter()
         binding.marksRecyclerView.adapter = adapter
+        binding.marksRecyclerView.itemAnimator = null
+
+        binding.addMarkLinearLayout.children.forEachIndexed { i, view ->
+            view.setOnClickListener {
+                viewModel.add(5 - i)
+            }
+        }
+
+        binding.removeMarkLinearLayout.children.forEachIndexed { i, view ->
+            view.setOnClickListener {
+                viewModel.remove(5 - i)
+            }
+        }
 
         viewModel.observe(this) {
             it.show(adapter, binding.averageTextView)
