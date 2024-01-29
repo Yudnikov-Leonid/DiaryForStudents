@@ -1,6 +1,6 @@
-package com.maxim.diaryforstudents.performance.domain
+package com.maxim.diaryforstudents.performance.common.domain
 
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceDomainToUiMapper : PerformanceDomain.Mapper<PerformanceUi> {
     override fun map(

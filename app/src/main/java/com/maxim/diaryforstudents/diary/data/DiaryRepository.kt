@@ -4,8 +4,8 @@ import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
-import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
-import com.maxim.diaryforstudents.performance.data.PerformanceData
+import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
+import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import java.util.Calendar
 
 interface DiaryRepository {

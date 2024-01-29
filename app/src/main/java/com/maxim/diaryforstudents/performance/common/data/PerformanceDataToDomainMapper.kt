@@ -1,6 +1,6 @@
-package com.maxim.diaryforstudents.performance.data
+package com.maxim.diaryforstudents.performance.common.data
 
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 
 class PerformanceDataToDomainMapper : PerformanceData.Mapper<PerformanceDomain> {
     override fun map(

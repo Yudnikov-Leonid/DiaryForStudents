@@ -17,7 +17,7 @@ import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class DiaryViewModel(
     private val filters: MutableList<DiaryUi.Mapper<Boolean>>,

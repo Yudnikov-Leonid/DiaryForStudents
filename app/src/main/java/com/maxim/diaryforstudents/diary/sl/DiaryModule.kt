@@ -14,10 +14,10 @@ import com.maxim.diaryforstudents.diary.domain.DiaryDomainToUiMapper
 import com.maxim.diaryforstudents.diary.presentation.DiaryCommunication
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
-import com.maxim.diaryforstudents.performance.data.FailureHandler
-import com.maxim.diaryforstudents.performance.data.PerformanceDataToDomainMapper
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomainToUiMapper
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.data.FailureHandler
+import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomainToUiMapper
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class DiaryModule(private val core: Core, private val clear: ClearViewModel) :
     Module<DiaryViewModel> {

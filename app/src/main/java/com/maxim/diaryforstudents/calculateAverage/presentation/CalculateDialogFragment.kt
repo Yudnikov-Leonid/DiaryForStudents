@@ -7,7 +7,7 @@ import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.DialogFragmentCalculateAverageBinding
-import com.maxim.diaryforstudents.performance.presentation.PerformanceMarksAdapter
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
 
 class CalculateDialogFragment: DialogFragment() {
     private var _binding: DialogFragmentCalculateAverageBinding? = null

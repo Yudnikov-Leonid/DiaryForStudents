@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentFinalPerformanceBinding
-import com.maxim.diaryforstudents.performance.presentation.PerformanceLessonsAdapter
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceLessonsAdapter
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, PerformanceFinalViewModel>() {
     override val viewModelClass = PerformanceFinalViewModel::class.java

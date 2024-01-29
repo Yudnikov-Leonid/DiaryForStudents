@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.data
+package com.maxim.diaryforstudents.performance.common.data
 
 import java.util.Calendar
 

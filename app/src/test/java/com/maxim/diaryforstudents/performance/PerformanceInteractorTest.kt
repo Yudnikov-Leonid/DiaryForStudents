@@ -1,12 +1,12 @@
 package com.maxim.diaryforstudents.performance
 
-import com.maxim.diaryforstudents.performance.data.FailureHandler
-import com.maxim.diaryforstudents.performance.data.PerformanceData
-import com.maxim.diaryforstudents.performance.data.PerformanceDataToDomainMapper
-import com.maxim.diaryforstudents.performance.data.PerformanceRepository
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
-import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
-import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
+import com.maxim.diaryforstudents.performance.common.data.FailureHandler
+import com.maxim.diaryforstudents.performance.common.data.PerformanceData
+import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
+import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
+import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

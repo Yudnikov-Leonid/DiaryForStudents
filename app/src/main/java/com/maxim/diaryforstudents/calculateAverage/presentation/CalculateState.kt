@@ -2,8 +2,8 @@ package com.maxim.diaryforstudents.calculateAverage.presentation
 
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
-import com.maxim.diaryforstudents.performance.presentation.PerformanceMarksAdapter
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 interface CalculateState {
     fun show(adapter: PerformanceMarksAdapter, averageTextView: TextView)

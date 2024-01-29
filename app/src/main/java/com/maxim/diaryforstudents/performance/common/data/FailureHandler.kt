@@ -1,10 +1,10 @@
-package com.maxim.diaryforstudents.performance.data
+package com.maxim.diaryforstudents.performance.common.data
 
-import com.maxim.diaryforstudents.performance.domain.Failure
-import com.maxim.diaryforstudents.performance.domain.NoInternetConnectionError
-import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableError
-import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
-import com.maxim.diaryforstudents.performance.domain.UnknownError
+import com.maxim.diaryforstudents.performance.common.domain.Failure
+import com.maxim.diaryforstudents.performance.common.domain.NoInternetConnectionError
+import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableError
+import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
+import com.maxim.diaryforstudents.performance.common.domain.UnknownError
 import java.net.UnknownHostException
 
 interface FailureHandler {

@@ -3,7 +3,7 @@ package com.maxim.diaryforstudents.diary.domain
 import com.maxim.diaryforstudents.diary.data.DayData
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
-import com.maxim.diaryforstudents.performance.data.FailureHandler
+import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 
 interface DiaryInteractor {
     fun dayList(today: Int): List<DayDomain>

@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.diary.data
 
-import com.maxim.diaryforstudents.performance.data.PerformanceData
+import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 
 interface DiaryData {
     fun isDate(date: Int): Boolean

@@ -11,8 +11,8 @@ import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentActualPerformanceBinding
-import com.maxim.diaryforstudents.performance.presentation.PerformanceLessonsAdapter
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceLessonsAdapter
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, PerformanceActualViewModel>() {
     override val viewModelClass = PerformanceActualViewModel::class.java

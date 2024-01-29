@@ -10,7 +10,7 @@ import com.maxim.diaryforstudents.menu.presentation.MenuCommunication
 import com.maxim.diaryforstudents.menu.presentation.MenuState
 import com.maxim.diaryforstudents.menu.presentation.MenuViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsScreen
-import com.maxim.diaryforstudents.performance.presentation.PerformanceScreen
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceScreen
 import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
 import junit.framework.TestCase.assertEquals
 import org.junit.Before

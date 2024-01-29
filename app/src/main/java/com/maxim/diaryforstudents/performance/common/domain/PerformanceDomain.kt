@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.domain
+package com.maxim.diaryforstudents.performance.common.domain
 
 interface PerformanceDomain {
     fun message(): String = ""

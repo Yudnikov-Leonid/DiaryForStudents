@@ -23,7 +23,7 @@ import com.maxim.diaryforstudents.performance.actualMarks.presentation.Performan
 import com.maxim.diaryforstudents.performance.actualMarks.sl.PerformanceActualModule
 import com.maxim.diaryforstudents.performance.finalMarks.presentation.PerformanceFinalViewModel
 import com.maxim.diaryforstudents.performance.finalMarks.sl.PerformanceFinalModule
-import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceViewModel
 import com.maxim.diaryforstudents.performance.sl.PerformanceModule
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import com.maxim.diaryforstudents.profile.sl.ProfileModule

@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.diary.domain
 
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 
 interface DiaryDomain {
     fun isDate(date: Int): Boolean

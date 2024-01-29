@@ -10,13 +10,13 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
-import com.maxim.diaryforstudents.performance.common.PerformanceMarkViewModel
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
-import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
-import com.maxim.diaryforstudents.performance.presentation.MarksType
-import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
-import com.maxim.diaryforstudents.performance.presentation.PerformanceState
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarkViewModel
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
+import com.maxim.diaryforstudents.performance.common.presentation.MarksType
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceActualViewModel(
     private val interactor: PerformanceInteractor,

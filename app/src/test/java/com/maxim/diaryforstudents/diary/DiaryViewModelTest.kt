@@ -21,7 +21,7 @@ import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.STORAGE
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomainToUiMapper
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomainToUiMapper
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test

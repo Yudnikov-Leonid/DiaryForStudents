@@ -1,8 +1,8 @@
-package com.maxim.diaryforstudents.performance.data
+package com.maxim.diaryforstudents.performance.common.data
 
 import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.service.EduUser
-import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
+import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import java.util.Calendar
 
 interface PerformanceCloudDataSource {
@@ -72,9 +72,12 @@ interface PerformanceCloudDataSource {
                         progresses[0],
                         progresses[1],
                         progresses[2],
-                        if (calculateProgress) (averageMap[Pair(lesson.SUBJECT_NAME, quarter - 1)]?.let {
+                        if (calculateProgress) (averageMap[Pair(
+                            lesson.SUBJECT_NAME,
+                            quarter - 1
+                        )]?.let {
                             (actualAverage / it - 1) * 100
-                        } ?: 0 ).toInt() else 0
+                        } ?: 0).toInt() else 0
                     )
                 }
             } else throw ServiceUnavailableException(data.message)

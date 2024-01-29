@@ -8,9 +8,9 @@ import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.domain.DayDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
-import com.maxim.diaryforstudents.performance.data.FailureHandler
-import com.maxim.diaryforstudents.performance.data.PerformanceDataToDomainMapper
-import com.maxim.diaryforstudents.performance.domain.ServiceUnavailableException
+import com.maxim.diaryforstudents.performance.common.data.FailureHandler
+import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
+import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

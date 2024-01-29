@@ -1,8 +1,8 @@
 package com.maxim.diaryforstudents.diary.data
 
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
-import com.maxim.diaryforstudents.performance.data.PerformanceData
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.common.data.PerformanceData
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 
 class DiaryDataToDomainMapper(
     private val mapper: PerformanceData.Mapper<PerformanceDomain>

@@ -1,16 +1,12 @@
-package com.maxim.diaryforstudents.performance.common
+package com.maxim.diaryforstudents.performance.common.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Reload
-import com.maxim.diaryforstudents.performance.domain.PerformanceDomain
-import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
-import com.maxim.diaryforstudents.performance.presentation.MarksType
-import com.maxim.diaryforstudents.performance.presentation.PerformanceCommunication
-import com.maxim.diaryforstudents.performance.presentation.PerformanceState
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 
 abstract class PerformanceMarkViewModel(
     private val interactor: PerformanceInteractor,

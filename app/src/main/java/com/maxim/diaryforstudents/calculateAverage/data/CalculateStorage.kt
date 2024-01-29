@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.calculateAverage.data
 
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 interface CalculateStorage {
     interface Save {

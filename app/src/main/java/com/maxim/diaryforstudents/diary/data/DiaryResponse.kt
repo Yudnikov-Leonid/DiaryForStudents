@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.diary.data
 
-import com.maxim.diaryforstudents.performance.data.CloudMark
+import com.maxim.diaryforstudents.performance.common.data.CloudMark
 
 data class DiaryResponse(
     val success: Boolean,

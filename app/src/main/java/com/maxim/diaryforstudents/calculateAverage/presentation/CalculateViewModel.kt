@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.performance.presentation.PerformanceUi
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class CalculateViewModel(
     private val communication: CalculateCommunication,
