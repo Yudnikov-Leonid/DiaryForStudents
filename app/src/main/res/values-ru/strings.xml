@@ -59,6 +59,7 @@
         <item>по умолчанию</item>
         <item>по рейтингу</item>
         <item>по прогрессу</item>
+        <item>по кол-ву оценок</item>
     </string-array>
 
     <string name="show_progress">Показывать прогресс</string>

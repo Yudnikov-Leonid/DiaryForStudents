@@ -38,12 +38,13 @@ interface PerformanceInteractor {
                     when (simpleStorage.read(SORT_BY_KEY, 0)) {
                         0 -> 0f
                         1 -> it.average()
-                        else -> progressType().selectProgress(
+                        2 -> progressType().selectProgress(
                             it.progress()[0],
                             it.progress()[1],
                             it.progress()[2],
                             it.progress()[3]
                         ).toFloat()
+                        else -> it.marksCount().toFloat()
                     }
                 }.map { it.map(mapper) }
             } catch (e: Exception) {

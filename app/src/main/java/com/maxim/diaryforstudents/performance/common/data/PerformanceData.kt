@@ -9,6 +9,7 @@ interface PerformanceData : Serializable {
     //todo public to sort
     fun average(): Float = 0f
     fun progress(): List<Int> = emptyList()
+    fun marksCount(): Int = 0
 
     interface Mapper<T> {
         fun map(
@@ -45,6 +46,8 @@ interface PerformanceData : Serializable {
         override fun average() = average
 
         override fun progress() = listOf(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
+
+        override fun marksCount() = marks.size
 
         override fun <T> map(mapper: Mapper<T>) =
             mapper.map(

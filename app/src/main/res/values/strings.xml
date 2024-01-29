@@ -63,6 +63,7 @@
         <item>default</item>
         <item>average</item>
         <item>progress</item>
+        <item>marks count</item>
     </string-array>
 
     <string name="show_progress">Show progress</string>
