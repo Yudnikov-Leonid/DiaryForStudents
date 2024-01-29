@@ -15,6 +15,7 @@ interface PerformanceUi : Serializable {
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
     fun showProgress(imageView: ImageView, textView: TextView) {}
+    fun showCalculateButton(view: View) {}
     fun calculate(listener: PerformanceLessonsAdapter.Listener) {}
     fun compare(value: Int): Boolean = false
 
@@ -72,6 +73,10 @@ interface PerformanceUi : Serializable {
             val stringId = if (progress < 0) R.string.worse_progress else R.string.better_progress
             val text = textView.context.getString(stringId, progress.absoluteValue.toString())
             textView.text = text
+        }
+
+        override fun showCalculateButton(view: View) {
+            view.visibility = if (isFinal) View.GONE else View.VISIBLE
         }
 
         override fun calculate(listener: PerformanceLessonsAdapter.Listener) {

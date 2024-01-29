@@ -25,6 +25,7 @@ class PerformanceLessonsAdapter(
             item.showMarks(adapter)
             item.showAverage(binding.averageTitleTextView, binding.averageTextView)
             item.showProgress(binding.statusImageView, binding.statusDescriptionTextView)
+            item.showCalculateButton(binding.calculateButton)
             binding.calculateButton.setOnClickListener {
                 item.calculate(listener)
             }
