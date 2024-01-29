@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.core.sl
 
 import android.content.Context
+import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.service.CoroutineHandler
@@ -14,7 +15,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
-     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage {
+    ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
+    ProvideCalculateStorage {
 
     class Base(private val context: Context) : Core {
 
@@ -34,10 +36,12 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private val retrofit =
             Retrofit.Builder().baseUrl("https://mp.43edu.ru/journals/").client(client.build())
                 .addConverterFactory(GsonConverterFactory.create()).build()
+
         override fun retrofit() = retrofit
 
         private val simpleStorage =
             SimpleStorage.Base(context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE))
+
         override fun simpleStorage() = simpleStorage
 
         private val eduUser = EduUser.Base(simpleStorage)
@@ -45,6 +49,9 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
 
         private val lessonDetailsStorage = LessonDetailsStorage.Base()
         override fun lessonDetailsStorage() = lessonDetailsStorage
+
+        private val calculateStorage = CalculateStorage.Base()
+        override fun calculateStorage() = calculateStorage
 
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
@@ -86,4 +93,8 @@ interface ProvideEduUser {
 
 interface ProvideLessonDetailsStorage {
     fun lessonDetailsStorage(): LessonDetailsStorage.Mutable
+}
+
+interface ProvideCalculateStorage {
+    fun calculateStorage(): CalculateStorage.Mutable
 }

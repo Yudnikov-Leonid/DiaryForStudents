@@ -56,4 +56,6 @@
     <string name="worse_progress">%s%% lower than a week ago</string>
     <string name="add">Add</string>
     <string name="remove">Remove</string>
+    <string name="calculate_average">Calculate average</string>
+    <string name="actual_marks">Actual marks:</string>
 </resources>

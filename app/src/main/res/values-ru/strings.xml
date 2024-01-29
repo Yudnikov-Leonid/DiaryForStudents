@@ -52,5 +52,7 @@
     <string name="worse_progress">На %s%% ниже, чем неделю назад</string>
 
     <string name="add">Добавить</string>
-    <string name="remove">Удалить</string>
+    <string name="remove">Убрать</string>
+    <string name="calculate_average">Вычислить средний балл</string>
+    <string name="actual_marks">Текущие оценки:</string>
 </resources>

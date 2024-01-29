@@ -15,6 +15,7 @@ interface PerformanceUi : Serializable {
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
     fun showProgress(imageView: ImageView, textView: TextView) {}
+    fun calculate(listener: PerformanceLessonsAdapter.Listener) {}
 
     object Empty : PerformanceUi {
         override fun same(item: PerformanceUi) = item is Empty
@@ -23,6 +24,7 @@ interface PerformanceUi : Serializable {
     data class Lesson(
         private val name: String,
         private val marks: List<Mark>,
+        private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
         private val progress: Int
@@ -32,7 +34,7 @@ interface PerformanceUi : Serializable {
         }
 
         override fun showMarks(adapter: PerformanceMarksAdapter) {
-            adapter.update(marks)
+            adapter.update(marks, true)
         }
 
         override fun showAverage(titleTextView: TextView, textView: TextView) {
@@ -65,6 +67,10 @@ interface PerformanceUi : Serializable {
             val stringId = if (progress < 0) R.string.worse_progress else R.string.better_progress
             val text = textView.context.getString(stringId, progress.absoluteValue.toString())
             textView.text = text
+        }
+
+        override fun calculate(listener: PerformanceLessonsAdapter.Listener) {
+            listener.calculate(marks, marksSum)
         }
 
         override fun same(item: PerformanceUi) = item is Lesson && item.name == name

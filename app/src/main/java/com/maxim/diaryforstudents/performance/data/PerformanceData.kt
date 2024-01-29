@@ -7,7 +7,7 @@ interface PerformanceData: Serializable {
     fun search(search: String): Boolean = true
 
     interface Mapper<T> {
-        fun map(name: String, marks: List<Mark>, isFinal: Boolean, average: Float, progress: Int): T
+        fun map(name: String, marks: List<Mark>, marksSum: Int, isFinal: Boolean, average: Float, progress: Int): T
         fun map(): T
         fun map(mark: Int, date: String, isFinal: Boolean): T
     }
@@ -17,12 +17,13 @@ interface PerformanceData: Serializable {
     data class Lesson(
         private val name: String,
         private val marks: List<Mark>,
+        private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
         private val progress: Int
     ) : PerformanceData {
         override fun search(search: String) = name.contains(search, true)
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(name, marks, isFinal, average, progress)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(name, marks, marksSum, isFinal, average, progress)
     }
 
     object Empty : PerformanceData {

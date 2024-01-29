@@ -1,6 +1,8 @@
 package com.maxim.diaryforstudents.core.sl
 
 import androidx.lifecycle.ViewModel
+import com.maxim.diaryforstudents.calculateAverage.presentation.CalculateViewModel
+import com.maxim.diaryforstudents.calculateAverage.sl.CalculateModule
 import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
 import com.maxim.diaryforstudents.diary.sl.DiaryModule
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
@@ -43,6 +45,7 @@ interface DependencyContainer {
             PerformanceViewModel::class.java -> PerformanceModule(core, clear)
             DiaryViewModel::class.java -> DiaryModule(core, clear)
             LessonDetailsViewModel::class.java -> LessonDetailsModule(core, clear)
+            CalculateViewModel::class.java -> CalculateModule(core, clear)
             else -> dependencyContainer.module(clasz)
         } as Module<T>
     }

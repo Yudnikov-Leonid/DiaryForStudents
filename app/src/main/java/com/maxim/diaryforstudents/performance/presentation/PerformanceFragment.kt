@@ -29,7 +29,11 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         }
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = PerformanceLessonsAdapter()
+        val adapter = PerformanceLessonsAdapter(object : PerformanceLessonsAdapter.Listener {
+            override fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int) {
+                viewModel.calculateAverage(marks, marksSum)
+            }
+        })
         binding.lessonsRecyclerView.adapter = adapter
 
         val spinnerAdapter = object : OnItemSelectedListener {

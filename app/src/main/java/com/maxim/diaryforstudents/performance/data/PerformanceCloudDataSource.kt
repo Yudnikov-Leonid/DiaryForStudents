@@ -62,7 +62,7 @@ interface PerformanceCloudDataSource {
                                 mark.DATE.substring(0, mark.DATE.length - 5),
                                 false
                             )
-                        },
+                        }, it.MARKS.sumOf { it.VALUE },
                         false, actualAverage,
                         if (calculateProgress) ((actualAverage / averageAWeekAgo - 1) * 100).toInt() else 0
                     )
@@ -97,7 +97,7 @@ interface PerformanceCloudDataSource {
                                     true
                                 )
                             }
-                        },
+                        }, 0,
                         true, 0f, 0
                     )
                 }

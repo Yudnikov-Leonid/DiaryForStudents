@@ -8,14 +8,16 @@ import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.LessonPerformanceBinding
 import com.maxim.diaryforstudents.databinding.NoDataBinding
 
-class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
+class PerformanceLessonsAdapter(
+    private val listener: Listener
+) : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi>()
 
     abstract class ItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
         open fun bind(item: PerformanceUi) {}
     }
 
-    class BaseViewHolder(private val binding: LessonPerformanceBinding) : ItemViewHolder(binding) {
+    class BaseViewHolder(private val binding: LessonPerformanceBinding, private val listener: Listener) : ItemViewHolder(binding) {
         override fun bind(item: PerformanceUi) {
             item.showName(binding.lessonNameTextView)
             val adapter = PerformanceMarksAdapter()
@@ -23,6 +25,9 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
             item.showMarks(adapter)
             item.showAverage(binding.averageTitleTextView, binding.averageTextView)
             item.showProgress(binding.statusImageView, binding.statusDescriptionTextView)
+            binding.calculateButton.setOnClickListener {
+                item.calculate(listener)
+            }
         }
     }
 
@@ -34,7 +39,7 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return if (viewType == 1) BaseViewHolder(
-            LessonPerformanceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            LessonPerformanceBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener
         ) else EmptyViewHolder(
             NoDataBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -53,5 +58,9 @@ class PerformanceLessonsAdapter : RecyclerView.Adapter<PerformanceLessonsAdapter
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
+    }
+
+    interface Listener {
+        fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int)
     }
 }

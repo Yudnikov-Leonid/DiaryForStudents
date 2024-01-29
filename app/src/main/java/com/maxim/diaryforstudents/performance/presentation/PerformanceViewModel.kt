@@ -2,6 +2,8 @@ package com.maxim.diaryforstudents.performance.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
+import com.maxim.diaryforstudents.calculateAverage.presentation.CalculateScreen
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
@@ -18,6 +20,7 @@ import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
 class PerformanceViewModel(
     private val interactor: PerformanceInteractor,
     private val communication: PerformanceCommunication,
+    private val calculateStorage: CalculateStorage.Save,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     private val mapper: PerformanceDomain.Mapper<PerformanceUi>,
@@ -80,6 +83,11 @@ class PerformanceViewModel(
                 )
             )
         }
+    }
+
+    fun calculateAverage(marks: List<PerformanceUi.Mark>, marksSum: Int) {
+        calculateStorage.save(marks, marksSum)
+        navigation.update(CalculateScreen)
     }
 
     override fun goBack() {

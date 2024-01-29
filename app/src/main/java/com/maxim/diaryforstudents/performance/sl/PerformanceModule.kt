@@ -24,6 +24,7 @@ class PerformanceModule(private val core: Core, private val clear: ClearViewMode
             ), FailureHandler.Base(), PerformanceDataToDomainMapper()
         ),
         PerformanceCommunication.Base(),
+        core.calculateStorage(),
         core.navigation(),
         clear,
         PerformanceDomainToUiMapper()
