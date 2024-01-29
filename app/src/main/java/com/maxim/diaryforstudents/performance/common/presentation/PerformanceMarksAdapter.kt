@@ -7,22 +7,27 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.maxim.diaryforstudents.databinding.MarkBinding
 
-class PerformanceMarksAdapter : RecyclerView.Adapter<PerformanceMarksAdapter.ItemViewHolder>() {
+class PerformanceMarksAdapter(
+    private val listener: Listener
+) : RecyclerView.Adapter<PerformanceMarksAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi.Mark>()
     private var showDate = true
 
-    class ItemViewHolder(private val binding: MarkBinding) :
+    class ItemViewHolder(private val binding: MarkBinding, private val listener: Listener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PerformanceUi.Mark, showDate: Boolean) {
             binding.dateTextView.visibility = if (showDate) View.VISIBLE else View.GONE
             item.showName(binding.markTextView)
             item.showDate(binding.dateTextView)
+            itemView.setOnClickListener {
+                listener.details(item)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
-            MarkBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            MarkBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener
         )
     }
 
@@ -39,5 +44,9 @@ class PerformanceMarksAdapter : RecyclerView.Adapter<PerformanceMarksAdapter.Ite
         list.clear()
         list.addAll(newList)
         result.dispatchUpdatesTo(this)
+    }
+
+    interface Listener {
+        fun details(mark: PerformanceUi.Mark)
     }
 }

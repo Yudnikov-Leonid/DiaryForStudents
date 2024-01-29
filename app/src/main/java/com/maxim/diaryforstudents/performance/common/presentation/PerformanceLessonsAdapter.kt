@@ -10,7 +10,8 @@ import com.maxim.diaryforstudents.databinding.LessonPerformanceBinding
 import com.maxim.diaryforstudents.databinding.NoDataBinding
 
 class PerformanceLessonsAdapter(
-    private val listener: Listener
+    private val listener: Listener,
+    private val markListener: PerformanceMarksAdapter.Listener
 ) : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi>()
     private var progressType: ProgressType = ProgressType.AWeekAgo
@@ -19,14 +20,22 @@ class PerformanceLessonsAdapter(
         open fun bind(item: PerformanceUi, progressType: ProgressType) {}
     }
 
-    class BaseViewHolder(private val binding: LessonPerformanceBinding, private val listener: Listener) : ItemViewHolder(binding) {
+    class BaseViewHolder(
+        private val binding: LessonPerformanceBinding,
+        private val listener: Listener,
+        private val markListener: PerformanceMarksAdapter.Listener
+    ) : ItemViewHolder(binding) {
         override fun bind(item: PerformanceUi, progressType: ProgressType) {
             item.showName(binding.lessonNameTextView)
-            val adapter = PerformanceMarksAdapter()
+            val adapter = PerformanceMarksAdapter(markListener)
             binding.marksRecyclerView.adapter = adapter
             item.showMarks(adapter)
             item.showAverage(binding.averageTitleTextView, binding.averageTextView)
-            item.showProgress(binding.statusImageView, binding.statusDescriptionTextView, progressType)
+            item.showProgress(
+                binding.statusImageView,
+                binding.statusDescriptionTextView,
+                progressType
+            )
             item.showCalculateButton(binding.calculateButton)
             binding.calculateButton.setOnClickListener {
                 item.calculate(listener)
@@ -42,7 +51,8 @@ class PerformanceLessonsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return if (viewType == 1) BaseViewHolder(
-            LessonPerformanceBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener
+            LessonPerformanceBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener, markListener
         ) else EmptyViewHolder(
             NoDataBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)

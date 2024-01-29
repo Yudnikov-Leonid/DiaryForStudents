@@ -10,11 +10,14 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
-import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarkViewModel
+import com.maxim.diaryforstudents.diary.presentation.DiaryUi
+import com.maxim.diaryforstudents.lessonDetails.bottomFragment.LessonDetailsBottomFragmentScreen
+import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.MarksType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarkViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
@@ -23,6 +26,7 @@ class PerformanceActualViewModel(
     private val communication: PerformanceCommunication,
     private val reloadCommunication: SaveActualSettingsCommunication.Save,
     private val calculateStorage: CalculateStorage.Save,
+    private val detailsStorage: LessonDetailsStorage.Save,
     private val navigation: Navigation.Update,
     private val mapper: PerformanceDomain.Mapper<PerformanceUi>,
 ) : PerformanceMarkViewModel(interactor, communication, mapper), Init, SaveAndRestore {
@@ -49,6 +53,25 @@ class PerformanceActualViewModel(
                     )
             }
         }
+    }
+
+    fun openDetails(mark: PerformanceUi.Mark) {
+        detailsStorage.save(
+            DiaryUi.Lesson(
+                "Name",
+                "Teacher name",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0,
+                emptyList(),
+                emptyList(),
+                emptyList()
+            )
+        )
+        navigation.update(LessonDetailsBottomFragmentScreen)
     }
 
     fun changeQuarter(quarter: Int) {

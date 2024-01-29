@@ -12,6 +12,7 @@ class PerformanceActualModule(private val core: Core): Module<PerformanceActualV
         PerformanceCommunication.Base(),
         core.actualSettingsCommunication(),
         core.calculateStorage(),
+        core.lessonDetailsStorage(),
         core.navigation(),
         PerformanceDomainToUiMapper()
     )

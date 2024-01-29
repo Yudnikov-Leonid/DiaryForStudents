@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.DialogFragmentCalculateAverageBinding
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class CalculateDialogFragment: DialogFragment() {
     private var _binding: DialogFragmentCalculateAverageBinding? = null
@@ -21,7 +22,9 @@ class CalculateDialogFragment: DialogFragment() {
 
         viewModel = (requireActivity() as ProvideViewModel).viewModel(CalculateViewModel::class.java)
 
-        val adapter = PerformanceMarksAdapter()
+        val adapter = PerformanceMarksAdapter(object : PerformanceMarksAdapter.Listener {
+            override fun details(mark: PerformanceUi.Mark) = Unit
+        })
         binding.marksRecyclerView.adapter = adapter
         binding.marksRecyclerView.itemAnimator = null
 

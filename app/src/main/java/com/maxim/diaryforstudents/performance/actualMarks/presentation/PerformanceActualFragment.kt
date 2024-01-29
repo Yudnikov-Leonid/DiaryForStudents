@@ -12,6 +12,7 @@ import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentActualPerformanceBinding
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceLessonsAdapter
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, PerformanceActualViewModel>() {
@@ -27,6 +28,10 @@ class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, 
         val adapter = PerformanceLessonsAdapter(object : PerformanceLessonsAdapter.Listener {
             override fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int) {
                 viewModel.calculateAverage(marks, marksSum)
+            }
+        }, object : PerformanceMarksAdapter.Listener {
+            override fun details(mark: PerformanceUi.Mark) {
+                viewModel.openDetails(mark)
             }
         })
 

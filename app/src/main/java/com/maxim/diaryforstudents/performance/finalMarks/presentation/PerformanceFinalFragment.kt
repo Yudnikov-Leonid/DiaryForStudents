@@ -8,6 +8,7 @@ import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentFinalPerformanceBinding
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceLessonsAdapter
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, PerformanceFinalViewModel>() {
@@ -22,6 +23,8 @@ class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, Pe
 
         val adapter = PerformanceLessonsAdapter(object : PerformanceLessonsAdapter.Listener {
             override fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int) = Unit
+        }, object : PerformanceMarksAdapter.Listener {
+            override fun details(mark: PerformanceUi.Mark) = Unit
         })
         binding.lessonsRecyclerView.adapter = adapter
 
