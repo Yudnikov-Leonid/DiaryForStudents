@@ -50,4 +50,7 @@
 
     <string name="better_progress">На %s%% лучше, чем неделю назад</string>
     <string name="worse_progress">На %s%% ниже, чем неделю назад</string>
+
+    <string name="add">Добавить</string>
+    <string name="remove">Удалить</string>
 </resources>

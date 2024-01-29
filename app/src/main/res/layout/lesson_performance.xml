@@ -11,20 +11,37 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-    <TextView
-        android:id="@+id/lessonNameTextView"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Math" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lessonNameTextView"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="Math" />
+
+        <ImageButton
+            android:id="@+id/calculateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:background="@null"
+            android:src="@drawable/calculate_24" />
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/marksRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="3dp"
         android:clipToPadding="false"
         android:orientation="horizontal"
+        android:paddingHorizontal="3dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <LinearLayout
@@ -65,7 +82,7 @@
         android:layout_marginTop="5dp"
         android:textColor="#8F8F8F"
         android:visibility="gone"
-        tools:visibility="visible"
-        tools:text="33% better than the previous 28 days" />
+        tools:text="33% better than the previous 28 days"
+        tools:visibility="visible" />
 
 </LinearLayout>

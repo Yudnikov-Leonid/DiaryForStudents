@@ -54,4 +54,6 @@
 
     <string name="better_progress">%s%% better than a week ago</string>
     <string name="worse_progress">%s%% lower than a week ago</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
 </resources>
