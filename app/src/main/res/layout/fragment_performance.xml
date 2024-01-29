@@ -63,12 +63,12 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingTop="40dp"
-            android:clipToPadding="false"
             android:id="@+id/lessonsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="6dp"
+            android:clipToPadding="false"
+            android:paddingTop="50dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <LinearLayout
@@ -81,10 +81,19 @@
 
             <Spinner
                 android:id="@+id/quarterSpinner"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:entries="@array/quarter" />
+
+            <ImageButton
+                android:id="@+id/settingsImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@null"
+                android:src="@drawable/settings_24" />
 
         </LinearLayout>
 

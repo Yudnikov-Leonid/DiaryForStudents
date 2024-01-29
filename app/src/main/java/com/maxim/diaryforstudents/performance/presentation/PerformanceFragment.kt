@@ -1,7 +1,6 @@
 package com.maxim.diaryforstudents.performance.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,30 +40,28 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         binding.lessonsRecyclerView.adapter = adapter
         binding.lessonsRecyclerView.itemAnimator = null
         var scrolledUp = true
+        var scrollDy = 0
         binding.lessonsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy < 0 && !scrolledUp) {
-                    //scroll up
+                if (scrollDy < 300 && !scrolledUp) {
                     binding.settingsBar.startAnimation(
                         AnimationUtils.loadAnimation(
                             requireContext(),
                             R.anim.trans_downwards
                         )
                     )
-                    Log.d("MyLog", "up")
                     scrolledUp = true
-                } else if (dy > 0 && scrolledUp) {
-                    //scroll down
+                } else if (scrollDy > 300 && scrolledUp) {
                     binding.settingsBar.startAnimation(
                         AnimationUtils.loadAnimation(
                             requireContext(),
                             R.anim.trans_upwards
                         )
                     )
-                    Log.d("MyLog", "down")
                     scrolledUp = false
                 }
+                scrollDy += dy
             }
         })
 
@@ -89,6 +86,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
             binding.quarterSpinner.onItemSelectedListener = null
             it.show(
                 binding.quarterSpinner,
+                binding.settingsBar,
                 adapter,
                 binding.errorTextView,
                 binding.retryButton,
