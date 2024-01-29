@@ -79,4 +79,5 @@
     <string name="calculate_average">Вычислить средний балл</string>
     <string name="actual_marks">Текущие оценки:</string>
     <string name="close">Закрыть</string>
+    <string name="progress_info">Прогресс не будет отображаться, если разница состовляет менее 5%</string>
 </resources>

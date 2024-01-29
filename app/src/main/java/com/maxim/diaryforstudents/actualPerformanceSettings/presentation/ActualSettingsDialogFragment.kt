@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.FragmentActualPerformanceSettingsBinding
 
-class ActualSettingsDialogFragment: DialogFragment() {
+class ActualSettingsDialogFragment : DialogFragment() {
     private var _binding: FragmentActualPerformanceSettingsBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ActualSettingsViewModel
@@ -19,12 +19,19 @@ class ActualSettingsDialogFragment: DialogFragment() {
         _binding = FragmentActualPerformanceSettingsBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext()).setView(binding.root)
 
-        viewModel = (requireActivity() as ProvideViewModel).viewModel(ActualSettingsViewModel::class.java)
+        viewModel =
+            (requireActivity() as ProvideViewModel).viewModel(ActualSettingsViewModel::class.java)
 
-        viewModel.init(binding.showProgressSwitch, binding.progressCompareSpinner, binding.sortBySpinner)
+        viewModel.init(
+            binding.showProgressSwitch,
+            binding.progressInfoLayout,
+            binding.progressCompareSpinner,
+            binding.sortBySpinner
+        )
 
         binding.showProgressSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setShowProgress(isChecked)
+            binding.progressInfoLayout.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
         binding.progressCompareSpinner.onItemSelectedListener = object : OnItemSelectedListener {

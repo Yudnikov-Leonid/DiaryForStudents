@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/showProgressSwitch"
@@ -11,6 +12,27 @@
         android:layout_height="wrap_content"
         android:text="@string/show_progress"
         android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/progressInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/info_24"
+            app:tint="@color/dark_gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/progress_info"
+            android:textColor="@color/dark_gray" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

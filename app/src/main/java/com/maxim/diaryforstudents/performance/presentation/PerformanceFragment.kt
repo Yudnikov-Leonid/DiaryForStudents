@@ -44,6 +44,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         binding.lessonsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                scrollDy += dy
                 if (scrollDy < 300 && !scrolledUp) {
                     binding.settingsBar.startAnimation(
                         AnimationUtils.loadAnimation(
@@ -52,7 +53,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
                         )
                     )
                     scrolledUp = true
-                } else if (scrollDy > 300 && scrolledUp) {
+                } else if (scrollDy  > 300 && scrolledUp) {
                     binding.settingsBar.startAnimation(
                         AnimationUtils.loadAnimation(
                             requireContext(),
@@ -61,7 +62,6 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
                     )
                     scrolledUp = false
                 }
-                scrollDy += dy
             }
         })
 

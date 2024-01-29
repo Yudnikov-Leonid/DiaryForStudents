@@ -1,8 +1,9 @@
 package com.maxim.diaryforstudents.performance.presentation
 
 import com.maxim.diaryforstudents.R
+import java.io.Serializable
 
-interface ProgressType {
+interface ProgressType: Serializable {
     fun isVisible(): Boolean
     fun selectProgress(week: Int, twoWeeks: Int, month: Int, quarter: Int): Int
     fun betterStringId(): Int

@@ -1,7 +1,6 @@
 package com.maxim.diaryforstudents.performance.presentation
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -58,8 +57,6 @@ class PerformanceLessonsAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun update(newList: List<PerformanceUi.Lesson>, progressType: ProgressType) {
-        Log.d("MyLog", "progress type = $progressType")
-
         if (this.progressType != progressType) {
             this.progressType = progressType
             list.clear()

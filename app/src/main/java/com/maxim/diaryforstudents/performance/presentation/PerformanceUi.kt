@@ -73,7 +73,7 @@ interface PerformanceUi : Serializable {
                 progressType.selectProgress(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
 
             val visibility =
-                if (progress in -5..5 || !progressType.isVisible()) View.GONE else View.VISIBLE
+                if (progress in -4..4 || !progressType.isVisible()) View.GONE else View.VISIBLE
             imageView.visibility = visibility
             textView.visibility = visibility
 

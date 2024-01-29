@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.actualPerformanceSettings.presentation
 
+import android.view.View
 import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModel
@@ -14,10 +15,12 @@ class ActualSettingsViewModel(
 
     fun init(
         showProgressSwitch: SwitchCompat,
+        progressInfo: View,
         progressComparedSpinner: Spinner,
         sortBySpinner: Spinner
     ) {
         showProgressSwitch.isChecked = simpleStorage.read(SHOW_PROGRESS_KEY, true)
+        progressInfo.visibility = if (showProgressSwitch.isChecked) View.VISIBLE else View.GONE
         progressComparedSpinner.setSelection(simpleStorage.read(PROGRESS_COMPARED_KEY, 0))
         sortBySpinner.setSelection(simpleStorage.read(SORT_BY_KEY, 0))
     }

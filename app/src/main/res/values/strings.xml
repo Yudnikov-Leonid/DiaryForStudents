@@ -84,4 +84,5 @@
     <string name="calculate_average">Calculate average</string>
     <string name="actual_marks">Actual marks:</string>
     <string name="close">Close</string>
+    <string name="progress_info">Progress is not shown if changes are less than 5%</string>
 </resources>
