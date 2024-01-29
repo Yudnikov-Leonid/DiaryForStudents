@@ -26,7 +26,8 @@ class ActualSettingsDialogFragment : DialogFragment() {
             binding.showProgressSwitch,
             binding.progressInfoLayout,
             binding.progressCompareSpinner,
-            binding.sortBySpinner
+            binding.sortBySpinner,
+            binding.sortingOrderSpinner
         )
 
         binding.showProgressSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -55,6 +56,19 @@ class ActualSettingsDialogFragment : DialogFragment() {
                 id: Long
             ) {
                 viewModel.setSortBy(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+        }
+
+        binding.sortingOrderSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setSortingOrder(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit

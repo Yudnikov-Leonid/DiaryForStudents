@@ -60,10 +60,15 @@
     </string-array>
 
     <string-array name="sort_actual_marks_by">
-        <item>default</item>
+        <item>name</item>
         <item>average</item>
         <item>progress</item>
         <item>marks count</item>
+    </string-array>
+
+    <string-array name="sorting_order">
+        <item>ASC</item>
+        <item>DESC</item>
     </string-array>
 
     <string name="show_progress">Show progress</string>
@@ -86,4 +91,5 @@
     <string name="actual_marks">Actual marks:</string>
     <string name="close">Close</string>
     <string name="progress_info">Progress is not shown if changes are less than 5%</string>
+    <string name="sorting_order">Sorting order</string>
 </resources>

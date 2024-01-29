@@ -1,5 +1,9 @@
 package com.maxim.diaryforstudents.performance.common.domain
 
+import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.PROGRESS_COMPARED_KEY
+import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SHOW_PROGRESS_KEY
+import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SORTING_ORDER_KEY
+import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SORT_BY_KEY
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
@@ -33,9 +37,11 @@ interface PerformanceInteractor {
         }
 
         override fun data(search: String): List<PerformanceDomain> {
+            val sortBy = simpleStorage.read(SORT_BY_KEY, 0)
+            val sortingOrder = simpleStorage.read(SORTING_ORDER_KEY, 0)
             return try {
-                repository.cachedData(search).sortedByDescending {
-                    when (simpleStorage.read(SORT_BY_KEY, 0)) {
+                val data = repository.cachedData(search).sortedBy {
+                    when (sortBy) {
                         0 -> 0f
                         1 -> it.average()
                         2 -> progressType().selectProgress(
@@ -44,9 +50,11 @@ interface PerformanceInteractor {
                             it.progress()[2],
                             it.progress()[3]
                         ).toFloat()
+
                         else -> it.marksCount().toFloat()
                     }
                 }.map { it.map(mapper) }
+                if (sortingOrder == 0) data else data.reversed()
             } catch (e: Exception) {
                 listOf(PerformanceDomain.Error(failureHandler.handle(e).message()))
             }
@@ -85,11 +93,5 @@ interface PerformanceInteractor {
 
 
         override fun actualQuarter() = repository.actualQuarter()
-
-        companion object {
-            private const val SHOW_PROGRESS_KEY = "actual_show_progress"
-            private const val PROGRESS_COMPARED_KEY = "actual_progress_compared"
-            private const val SORT_BY_KEY = "actual_sort_by"
-        }
     }
 }

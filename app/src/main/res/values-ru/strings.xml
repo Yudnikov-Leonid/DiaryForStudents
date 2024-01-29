@@ -56,15 +56,21 @@
     </string-array>
 
     <string-array name="sort_actual_marks_by">
-        <item>по умолчанию</item>
+        <item>по названию</item>
         <item>по рейтингу</item>
         <item>по прогрессу</item>
         <item>по кол-ву оценок</item>
     </string-array>
 
+    <string-array name="sorting_order">
+        <item>По возрастанию</item>
+        <item>По убыванию</item>
+    </string-array>
+
     <string name="show_progress">Показывать прогресс</string>
     <string name="show_progress_compared_to">Прогресс отностилельно</string>
     <string name="sort_by">Сортировать</string>
+    <string name="sorting_order">Порядок сортировки</string>
 
     <string name="better_week_progress">На %s%% лучше, чем неделю назад</string>
     <string name="worse_week_progress">На %s%% хуже, чем неделю назад</string>
