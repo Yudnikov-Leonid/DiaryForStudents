@@ -16,7 +16,11 @@ interface PerformanceState: Serializable {
         errorTextView: TextView,
         retryButton: Button,
         progressBar: ProgressBar,
-    )
+    ) {
+        show(adapter, errorTextView, retryButton, progressBar)
+    }
+
+    fun show(adapter: PerformanceLessonsAdapter, errorTextView: TextView, retryButton: Button, progressBar: ProgressBar)
 
     object Loading : PerformanceState {
         override fun show(
@@ -27,7 +31,16 @@ interface PerformanceState: Serializable {
             retryButton: Button,
             progressBar: ProgressBar
         ) {
+            super.show(quarterSpinner, settingsBar, adapter, errorTextView, retryButton, progressBar)
             settingsBar.visibility = View.GONE
+        }
+
+        override fun show(
+            adapter: PerformanceLessonsAdapter,
+            errorTextView: TextView,
+            retryButton: Button,
+            progressBar: ProgressBar
+        ) {
             progressBar.visibility = View.VISIBLE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
@@ -43,8 +56,17 @@ interface PerformanceState: Serializable {
             retryButton: Button,
             progressBar: ProgressBar
         ) {
-            adapter.update(emptyList(), ProgressType.Hide)
+            super.show(quarterSpinner, settingsBar, adapter, errorTextView, retryButton, progressBar)
             settingsBar.visibility = View.GONE
+        }
+
+        override fun show(
+            adapter: PerformanceLessonsAdapter,
+            errorTextView: TextView,
+            retryButton: Button,
+            progressBar: ProgressBar
+        ) {
+            adapter.update(emptyList(), ProgressType.Hide)
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE
             retryButton.visibility = View.VISIBLE
@@ -67,12 +89,21 @@ interface PerformanceState: Serializable {
             retryButton: Button,
             progressBar: ProgressBar
         ) {
-            adapter.update(lessons as List<PerformanceUi.Lesson>, progressType)
+            super.show(quarterSpinner, settingsBar, adapter, errorTextView, retryButton, progressBar)
             settingsBar.visibility = if (isFinal) View.GONE else View.VISIBLE
+            quarterSpinner.setSelection(quarter - 1)
+        }
+
+        override fun show(
+            adapter: PerformanceLessonsAdapter,
+            errorTextView: TextView,
+            retryButton: Button,
+            progressBar: ProgressBar
+        ) {
+            adapter.update(lessons as List<PerformanceUi.Lesson>, progressType)
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
-            quarterSpinner.setSelection(quarter - 1)
         }
     }
 }

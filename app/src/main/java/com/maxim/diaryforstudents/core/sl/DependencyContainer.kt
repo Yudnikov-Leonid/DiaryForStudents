@@ -19,6 +19,10 @@ import com.maxim.diaryforstudents.news.presentation.NewsViewModel
 import com.maxim.diaryforstudents.news.sl.NewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsViewModel
+import com.maxim.diaryforstudents.performance.actualMarks.presentation.PerformanceActualViewModel
+import com.maxim.diaryforstudents.performance.actualMarks.sl.PerformanceActualModule
+import com.maxim.diaryforstudents.performance.finalMarks.presentation.PerformanceFinalViewModel
+import com.maxim.diaryforstudents.performance.finalMarks.sl.PerformanceFinalModule
 import com.maxim.diaryforstudents.performance.presentation.PerformanceViewModel
 import com.maxim.diaryforstudents.performance.sl.PerformanceModule
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
@@ -49,6 +53,8 @@ interface DependencyContainer {
             LessonDetailsViewModel::class.java -> LessonDetailsModule(core, clear)
             CalculateViewModel::class.java -> CalculateModule(core, clear)
             ActualSettingsViewModel::class.java -> ActualSettingsModule(core, clear)
+            PerformanceActualViewModel::class.java -> PerformanceActualModule(core)
+            PerformanceFinalViewModel::class.java -> PerformanceFinalModule(core)
             else -> dependencyContainer.module(clasz)
         } as Module<T>
     }

@@ -10,6 +10,12 @@ import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
+import com.maxim.diaryforstudents.performance.data.DiaryService
+import com.maxim.diaryforstudents.performance.data.FailureHandler
+import com.maxim.diaryforstudents.performance.data.PerformanceCloudDataSource
+import com.maxim.diaryforstudents.performance.data.PerformanceDataToDomainMapper
+import com.maxim.diaryforstudents.performance.data.PerformanceRepository
+import com.maxim.diaryforstudents.performance.domain.PerformanceInteractor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
-    ProvideCalculateStorage, ProvideActualSettingsCommunication {
+    ProvideCalculateStorage, ProvideActualSettingsCommunication, ProvideMarksInteractor {
 
     class Base(private val context: Context) : Core {
 
@@ -56,6 +62,17 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
 
         private val actualSettingsCommunication = SaveActualSettingsCommunication.Base()
         override fun actualSettingsCommunication() = actualSettingsCommunication
+
+        private val marksInteractor = PerformanceInteractor.Base(
+            PerformanceRepository.Base(
+                PerformanceCloudDataSource.Base(
+                    retrofit().create(DiaryService::class.java),
+                    eduUser()
+                )
+            ),
+            simpleStorage(), FailureHandler.Base(), PerformanceDataToDomainMapper()
+        )
+        override fun marksInteractor() = marksInteractor
 
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
@@ -105,4 +122,9 @@ interface ProvideCalculateStorage {
 
 interface ProvideActualSettingsCommunication {
     fun actualSettingsCommunication(): SaveActualSettingsCommunication.Mutable
+}
+
+//todo
+interface ProvideMarksInteractor {
+    fun marksInteractor(): PerformanceInteractor
 }
