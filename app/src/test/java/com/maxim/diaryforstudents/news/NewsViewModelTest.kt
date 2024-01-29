@@ -3,7 +3,7 @@ package com.maxim.diaryforstudents.news
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
-import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.presentation.ReloadWithError
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
@@ -189,7 +189,7 @@ private class FakeNewsCommunication : NewsCommunication {
 
 private class FakeNewsRepository : NewsRepository {
     private var counter = 0
-    private lateinit var reload: Reload
+    private lateinit var reload: ReloadWithError
     private val data = mutableListOf<NewsData>()
     override fun data() = data
 
@@ -201,11 +201,11 @@ private class FakeNewsRepository : NewsRepository {
         assertEquals(expected, counter)
     }
 
-    fun checkCalledWith(expected: Reload) {
+    fun checkCalledWith(expected: ReloadWithError) {
         assertEquals(expected, reload)
     }
 
-    override fun init(reload: Reload) {
+    override fun init(reload: ReloadWithError) {
         counter++
         this.reload = reload
     }

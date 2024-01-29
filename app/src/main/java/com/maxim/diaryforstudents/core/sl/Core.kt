@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.core.sl
 
 import android.content.Context
+import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.SaveActualSettingsCommunication
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Navigation
@@ -16,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
-    ProvideCalculateStorage {
+    ProvideCalculateStorage, ProvideActualSettingsCommunication {
 
     class Base(private val context: Context) : Core {
 
@@ -52,6 +53,9 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
 
         private val calculateStorage = CalculateStorage.Base()
         override fun calculateStorage() = calculateStorage
+
+        private val actualSettingsCommunication = SaveActualSettingsCommunication.Base()
+        override fun actualSettingsCommunication() = actualSettingsCommunication
 
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
@@ -97,4 +101,8 @@ interface ProvideLessonDetailsStorage {
 
 interface ProvideCalculateStorage {
     fun calculateStorage(): CalculateStorage.Mutable
+}
+
+interface ProvideActualSettingsCommunication {
+    fun actualSettingsCommunication(): SaveActualSettingsCommunication.Mutable
 }

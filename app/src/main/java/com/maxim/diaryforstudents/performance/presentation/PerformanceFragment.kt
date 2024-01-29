@@ -118,6 +118,10 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
             override fun onTabReselected(tab: TabLayout.Tab?) = Unit
         })
 
+        binding.settingsImageButton.setOnClickListener {
+            viewModel.settings()
+        }
+
         viewModel.init(savedInstanceState == null)
     }
 

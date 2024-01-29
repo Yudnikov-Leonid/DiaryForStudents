@@ -9,14 +9,17 @@ class PerformanceDataToDomainMapper : PerformanceData.Mapper<PerformanceDomain> 
         marksSum: Int,
         isFinal: Boolean,
         average: Float,
-        progress: Int
+        weekProgress: Int,
+        twoWeeksProgress: Int,
+        monthProgress: Int,
+        quarterProgress: Int,
     ) = PerformanceDomain.Lesson(
         name,
         marks.map { it.map(this) as PerformanceDomain.Mark },
         marksSum,
         isFinal,
         average,
-        progress
+        weekProgress, twoWeeksProgress, monthProgress, quarterProgress
     )
 
     override fun map() = PerformanceDomain.Empty

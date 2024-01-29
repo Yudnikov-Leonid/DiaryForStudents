@@ -43,7 +43,7 @@ interface PerformanceState: Serializable {
             retryButton: Button,
             progressBar: ProgressBar
         ) {
-            adapter.update(emptyList())
+            adapter.update(emptyList(), ProgressType.Hide)
             settingsBar.visibility = View.GONE
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE
@@ -56,7 +56,8 @@ interface PerformanceState: Serializable {
     data class Base(
         private val quarter: Int,
         private val lessons: List<PerformanceUi>,
-        private val isFinal: Boolean
+        private val isFinal: Boolean,
+        private val progressType: ProgressType
     ) : PerformanceState {
         override fun show(
             quarterSpinner: Spinner,
@@ -66,7 +67,7 @@ interface PerformanceState: Serializable {
             retryButton: Button,
             progressBar: ProgressBar
         ) {
-            adapter.update(lessons as List<PerformanceUi.Lesson>)
+            adapter.update(lessons as List<PerformanceUi.Lesson>, progressType)
             settingsBar.visibility = if (isFinal) View.GONE else View.VISIBLE
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE

@@ -9,9 +9,20 @@ class PerformanceDomainToUiMapper : PerformanceDomain.Mapper<PerformanceUi> {
         marksSum: Int,
         isFinal: Boolean,
         average: Float,
-        progress: Int
+        weekProgress: Int,
+        twoWeeksProgress: Int,
+        monthProgress: Int,
+        quarterProgress: Int,
     ): PerformanceUi = PerformanceUi.Lesson(
-        name, marks.map { it.map(this) as PerformanceUi.Mark }, marksSum, isFinal, average, progress
+        name,
+        marks.map { it.map(this) as PerformanceUi.Mark },
+        marksSum,
+        isFinal,
+        average,
+        weekProgress,
+        twoWeeksProgress,
+        monthProgress,
+        quarterProgress
     )
 
     override fun map() = PerformanceUi.Empty

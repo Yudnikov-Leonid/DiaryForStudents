@@ -14,10 +14,11 @@ interface PerformanceUi : Serializable {
     fun showAverage(titleTextView: TextView, textView: TextView) {}
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
-    fun showProgress(imageView: ImageView, textView: TextView) {}
     fun showCalculateButton(view: View) {}
     fun calculate(listener: PerformanceLessonsAdapter.Listener) {}
     fun compare(value: Int): Boolean = false
+
+    fun showProgress(imageView: ImageView, textView: TextView, progressType: ProgressType) {}
 
     object Empty : PerformanceUi {
         override fun same(item: PerformanceUi) = item is Empty
@@ -29,7 +30,10 @@ interface PerformanceUi : Serializable {
         private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
-        private val progress: Int
+        private val weekProgress: Int,
+        private val twoWeeksProgress: Int,
+        private val monthProgress: Int,
+        private val quarterProgress: Int
     ) : PerformanceUi {
         override fun showName(textView: TextView) {
             textView.text = name
@@ -50,7 +54,7 @@ interface PerformanceUi : Serializable {
             }
             val avr = average.toString()
             textView.text = if (avr.length > 3) avr.substring(0, 4) else avr
-            val colorId = when(average) {
+            val colorId = when (average) {
                 in 0f..2.49f -> R.color.red
                 in 2.5f..3.49f -> R.color.yellow
                 in 3.5f..4.49f -> R.color.green
@@ -60,17 +64,29 @@ interface PerformanceUi : Serializable {
             textView.setTextColor(textView.context.getColor(colorId))
         }
 
-        override fun showProgress(imageView: ImageView, textView: TextView) {
-            val visibility = if (progress in -5..5) View.GONE else View.VISIBLE
+        override fun showProgress(
+            imageView: ImageView,
+            textView: TextView,
+            progressType: ProgressType
+        ) {
+            val progress =
+                progressType.selectProgress(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
+
+            val visibility =
+                if (progress in -5..5 || !progressType.isVisible()) View.GONE else View.VISIBLE
             imageView.visibility = visibility
             textView.visibility = visibility
+
+            if (!progressType.isVisible())
+                return
 
             val color =
                 imageView.context.getColor(if (progress < 0) R.color.dark_gray else R.color.green)
             imageView.setColorFilter(color)
             imageView.rotation = if (progress < 0) 180f else 0f
 
-            val stringId = if (progress < 0) R.string.worse_progress else R.string.better_progress
+            val stringId =
+                if (progress < 0) progressType.lowerStringId() else progressType.betterStringId()
             val text = textView.context.getString(stringId, progress.absoluteValue.toString())
             textView.text = text
         }

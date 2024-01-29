@@ -1,10 +1,10 @@
 package com.maxim.diaryforstudents.news.data
 
-import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.presentation.ReloadWithError
 
 interface NewsRepository {
     fun data(): List<NewsData>
-    fun init(reload: Reload)
+    fun init(reload: ReloadWithError)
 
     class Base(private val dataSource: NewsCloudDataSource) : NewsRepository {
         override fun data() = try {
@@ -14,6 +14,6 @@ interface NewsRepository {
             listOf(NewsData.Failure(e.message ?: "error"))
         }
 
-        override fun init(reload: Reload) = dataSource.init(reload)
+        override fun init(reload: ReloadWithError) = dataSource.init(reload)
     }
 }

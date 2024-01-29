@@ -2,12 +2,23 @@ package com.maxim.diaryforstudents.performance.data
 
 import java.io.Serializable
 
-interface PerformanceData: Serializable {
+interface PerformanceData : Serializable {
 
     fun search(search: String): Boolean = true
 
     interface Mapper<T> {
-        fun map(name: String, marks: List<Mark>, marksSum: Int, isFinal: Boolean, average: Float, progress: Int): T
+        fun map(
+            name: String,
+            marks: List<Mark>,
+            marksSum: Int,
+            isFinal: Boolean,
+            average: Float,
+            weekProgress: Int,
+            twoWeeksProgress: Int,
+            monthProgress: Int,
+            quarterProgress: Int,
+        ): T
+
         fun map(): T
         fun map(mark: Int, date: String, isFinal: Boolean): T
     }
@@ -20,10 +31,17 @@ interface PerformanceData: Serializable {
         private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
-        private val progress: Int
+        private val weekProgress: Int,
+        private val twoWeeksProgress: Int,
+        private val monthProgress: Int,
+        private val quarterProgress: Int
     ) : PerformanceData {
         override fun search(search: String) = name.contains(search, true)
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(name, marks, marksSum, isFinal, average, progress)
+        override fun <T> map(mapper: Mapper<T>) =
+            mapper.map(
+                name, marks, marksSum, isFinal, average, weekProgress, twoWeeksProgress,
+                monthProgress, quarterProgress
+            )
     }
 
     object Empty : PerformanceData {

@@ -21,10 +21,11 @@ class PerformanceModule(private val core: Core, private val clear: ClearViewMode
                 PerformanceCloudDataSource.Base(
                     core.retrofit().create(DiaryService::class.java), core.eduUser()
                 )
-            ), FailureHandler.Base(), PerformanceDataToDomainMapper()
+            ), core.simpleStorage(), FailureHandler.Base(), PerformanceDataToDomainMapper()
         ),
         PerformanceCommunication.Base(),
         core.calculateStorage(),
+        core.actualSettingsCommunication(),
         core.navigation(),
         clear,
         PerformanceDomainToUiMapper()

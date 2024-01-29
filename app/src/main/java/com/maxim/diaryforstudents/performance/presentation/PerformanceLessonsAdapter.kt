@@ -1,5 +1,7 @@
 package com.maxim.diaryforstudents.performance.presentation
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,19 +14,20 @@ class PerformanceLessonsAdapter(
     private val listener: Listener
 ) : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi>()
+    private var progressType: ProgressType = ProgressType.AWeekAgo
 
     abstract class ItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        open fun bind(item: PerformanceUi) {}
+        open fun bind(item: PerformanceUi, progressType: ProgressType) {}
     }
 
     class BaseViewHolder(private val binding: LessonPerformanceBinding, private val listener: Listener) : ItemViewHolder(binding) {
-        override fun bind(item: PerformanceUi) {
+        override fun bind(item: PerformanceUi, progressType: ProgressType) {
             item.showName(binding.lessonNameTextView)
             val adapter = PerformanceMarksAdapter()
             binding.marksRecyclerView.adapter = adapter
             item.showMarks(adapter)
             item.showAverage(binding.averageTitleTextView, binding.averageTextView)
-            item.showProgress(binding.statusImageView, binding.statusDescriptionTextView)
+            item.showProgress(binding.statusImageView, binding.statusDescriptionTextView, progressType)
             item.showCalculateButton(binding.calculateButton)
             binding.calculateButton.setOnClickListener {
                 item.calculate(listener)
@@ -50,15 +53,26 @@ class PerformanceLessonsAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], progressType)
     }
 
-    fun update(newList: List<PerformanceUi.Lesson>) {
-        val diff = PerformanceDiffUtil(list, newList)
-        val result = DiffUtil.calculateDiff(diff)
-        list.clear()
-        list.addAll(newList)
-        result.dispatchUpdatesTo(this)
+    @SuppressLint("NotifyDataSetChanged")
+    fun update(newList: List<PerformanceUi.Lesson>, progressType: ProgressType) {
+        Log.d("MyLog", "progress type = $progressType")
+
+        if (this.progressType != progressType) {
+            this.progressType = progressType
+            list.clear()
+            list.addAll(newList)
+            notifyDataSetChanged()
+        } else {
+            this.progressType = progressType
+            val diff = PerformanceDiffUtil(list, newList)
+            val result = DiffUtil.calculateDiff(diff)
+            list.clear()
+            list.addAll(newList)
+            result.dispatchUpdatesTo(this)
+        }
     }
 
     interface Listener {

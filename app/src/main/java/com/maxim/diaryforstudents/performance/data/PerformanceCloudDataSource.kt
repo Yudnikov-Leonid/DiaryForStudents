@@ -37,34 +37,36 @@ interface PerformanceCloudDataSource {
                 )
 
             return if (data.success) {
-                data.data.filter { it.MARKS.isNotEmpty() }.map {
-                    var averageAWeekAgo = 0f
+                data.data.filter { it.MARKS.isNotEmpty() }.map { lesson ->
+                    val progresses = IntArray(3)
+                    val actualAverage = averageMap[Pair(lesson.SUBJECT_NAME, quarter)] ?: 0f
                     if (calculateProgress) {
-                        val aWeekAgo = System.currentTimeMillis() / 86400000 - 7
-                        val calendar = Calendar.getInstance()
-                        val marksAWeekAgo = it.MARKS.filter { mark ->
-                            val markDate = mark.DATE.split('.')
-                            calendar.set(Calendar.DAY_OF_MONTH, markDate[0].toInt())
-                            calendar.set(Calendar.MONTH, markDate[1].toInt() - 1)
-                            calendar.set(Calendar.YEAR, markDate[2].toInt())
-                            calendar.timeInMillis / 86400000 <= aWeekAgo
+                        listOf(7, 14, 28).forEachIndexed { i, n ->
+                            val aWeekAgo = System.currentTimeMillis() / 86400000 - n
+                            val calendar = Calendar.getInstance()
+                            val marksAWeekAgo = lesson.MARKS.filter { mark ->
+                                val markDate = mark.DATE.split('.')
+                                calendar.set(Calendar.DAY_OF_MONTH, markDate[0].toInt())
+                                calendar.set(Calendar.MONTH, markDate[1].toInt() - 1)
+                                calendar.set(Calendar.YEAR, markDate[2].toInt())
+                                calendar.timeInMillis / 86400000 <= aWeekAgo
+                            }
+                            val average = marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
+                            progresses[i] = ((actualAverage / average -1) * 100).toInt()
                         }
-                        averageAWeekAgo =
-                            marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
                     }
-                    val actualAverage = averageMap[Pair(it.SUBJECT_NAME, quarter)] ?: 0f
 
                     PerformanceData.Lesson(
-                        it.SUBJECT_NAME,
-                        it.MARKS.map { mark ->
+                        lesson.SUBJECT_NAME,
+                        lesson.MARKS.map { mark ->
                             PerformanceData.Mark(
                                 mark.VALUE,
                                 mark.DATE.substring(0, mark.DATE.length - 5),
                                 false
                             )
-                        }, it.MARKS.sumOf { it.VALUE },
+                        }, lesson.MARKS.sumOf { it.VALUE },
                         false, actualAverage,
-                        if (calculateProgress) ((actualAverage / averageAWeekAgo - 1) * 100).toInt() else 0
+                        progresses[0], progresses[1], progresses[2], 0
                     )
                 }
             } else throw ServiceUnavailableException(data.message)
@@ -98,7 +100,7 @@ interface PerformanceCloudDataSource {
                                 )
                             }
                         }, 0,
-                        true, 0f, 0
+                        true, 0f, 0, 0, 0, 0
                     )
                 }
             } else throw ServiceUnavailableException(data.message)

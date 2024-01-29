@@ -1,19 +1,19 @@
 package com.maxim.diaryforstudents.news.data
 
-import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.presentation.ReloadWithError
 import com.maxim.diaryforstudents.core.service.CloudNews
 import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.core.service.ServiceValueEventListener
 
 interface NewsCloudDataSource {
-    fun init(reload: Reload)
+    fun init(reload: ReloadWithError)
     fun data(): List<NewsData>
 
     class Base(
         private val service: Service
     ) : NewsCloudDataSource {
         private val news = mutableListOf<NewsData>()
-        override fun init(reload: Reload) {
+        override fun init(reload: ReloadWithError) {
             service.listen(
                 "news",
                 CloudNews::class.java,

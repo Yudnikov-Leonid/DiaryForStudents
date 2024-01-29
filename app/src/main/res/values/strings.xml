@@ -53,8 +53,9 @@
     </string-array>
 
     <string-array name="progress_compare">
-        <item>previous week</item>
-        <item>previous month</item>
+        <item>a week ago</item>
+        <item>2 weeks ago</item>
+        <item>month ago</item>
         <item>previous quarter</item>
     </string-array>
 
@@ -64,10 +65,19 @@
         <item>progress</item>
     </string-array>
 
-    <string name="better_progress">%s%% better than a week ago</string>
-    <string name="worse_progress">%s%% lower than a week ago</string>
+    <string name="better_week_progress">%s%% better than a week ago</string>
+    <string name="worse_week_progress">%s%% lower than a week ago</string>
+    <string name="better_two_weeks_progress">%s%% better than two weeks ago</string>
+    <string name="worse_two_weeks_progress">%s%% lower than two weeks ago</string>
+    <string name="better_month_progress">%s%% better than a month ago</string>
+    <string name="worse_month_progress">%s%% lower than a month ago</string>
+    <string name="better_quarter_progress">%s%% better than the previous quarter</string>
+    <string name="worse_quarter_progress">%s%% lower than the previous quarter</string>
+
+
     <string name="add">Add</string>
     <string name="remove">Remove</string>
     <string name="calculate_average">Calculate average</string>
     <string name="actual_marks">Actual marks:</string>
+    <string name="close">Close</string>
 </resources>
