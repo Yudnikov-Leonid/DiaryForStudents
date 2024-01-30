@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.domain
 
+import android.util.Log
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.PROGRESS_COMPARED_KEY
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SHOW_PROGRESS_KEY
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SORTING_ORDER_KEY
@@ -21,6 +22,8 @@ interface PerformanceInteractor {
     suspend fun changeQuarter(quarter: Int)
     fun progressType(): ProgressType
 
+    fun finalDataIsEmpty(): Boolean
+
     suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson
 
     fun actualQuarter(): Int
@@ -34,10 +37,12 @@ interface PerformanceInteractor {
         private val diaryMapper: DiaryData.Mapper<DiaryDomain>
     ) : PerformanceInteractor {
         override suspend fun initActual() {
+            Log.d("MyLog", "initActual")
             repository.initActual()
         }
 
         override suspend fun initFinal() {
+            Log.d("MyLog", "initFinal")
             repository.initFinal()
         }
 
@@ -85,6 +90,10 @@ interface PerformanceInteractor {
                 else -> ProgressType.PreviousQuarter
             }
         }
+
+        override fun finalDataIsEmpty() =
+            if (finalData("").isEmpty()) true
+            else finalData("").first() is PerformanceDomain.Error || finalData("").first() is PerformanceDomain.Empty
 
         override suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson =
             try {

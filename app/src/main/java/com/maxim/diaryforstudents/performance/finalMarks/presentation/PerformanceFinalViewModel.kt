@@ -2,24 +2,27 @@ package com.maxim.diaryforstudents.performance.finalMarks.presentation
 
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
-import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarkViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.MarksType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarkViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceFinalViewModel(
     private val interactor: PerformanceInteractor,
     private val communication: PerformanceCommunication,
     mapper: PerformanceDomain.Mapper<PerformanceUi>
-): PerformanceMarkViewModel(interactor, communication, mapper), SaveAndRestore {
+) : PerformanceMarkViewModel(interactor, communication, mapper), SaveAndRestore {
     override val type = MarksType.Final
 
     override fun reload() {
-        handle({interactor.initFinal()}) {
+        if (interactor.finalDataIsEmpty()) {
+            handle({ interactor.initFinal() }) {
+                super.reload()
+            }
+        } else
             super.reload()
-        }
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {

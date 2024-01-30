@@ -41,7 +41,8 @@ class PerformanceActualViewModel(
             quarter = interactor.actualQuarter()
             communication.update(PerformanceState.Loading)
             handle({
-                interactor.initFinal()
+                if (interactor.finalDataIsEmpty())
+                    interactor.initFinal()
                 interactor.initActual()
             }) {
                 reload()
