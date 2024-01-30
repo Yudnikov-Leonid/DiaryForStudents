@@ -50,12 +50,4 @@ interface AnalyticsUi {
             lineChart.data = null
         }
     }
-
-    object Loading : AnalyticsUi {
-        override fun showData(lineChart: LineChart) {
-            lineChart.setNoDataText("Loading...")
-            lineChart.setNoDataTextColor(ContextCompat.getColor(lineChart.context, R.color.black))
-            lineChart.data = null
-        }
-    }
 }

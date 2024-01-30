@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.performance.analytics.presentation
 
 import android.graphics.Typeface
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -17,21 +18,36 @@ class AnalyticsAdapter(
 ) : RecyclerView.Adapter<AnalyticsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<AnalyticsUi>()
 
-    class ItemViewHolder(private val binding: LineChartLayoutBinding, private val listener: Listener) : ViewHolder(binding.root) {
+    class ItemViewHolder(
+        private val binding: LineChartLayoutBinding,
+        private val listener: Listener
+    ) : ViewHolder(binding.root) {
         fun bind(item: AnalyticsUi) {
             item.showData(binding.chart)
-            binding.quarterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            var byUser = false
+            val listener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
+
+                override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                    byUser = true
+                    return false
+                }
+
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
                     id: Long
                 ) {
-                    listener.changeQuarter(position + 1)
+                    if (byUser)
+                        listener.changeQuarter(position + 1)
+                    byUser = false
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             }
+            binding.quarterSpinner.onItemSelectedListener = listener
+            binding.quarterSpinner.setOnTouchListener(listener)
+
 
             binding.chart.apply {
                 setDrawBorders(false)

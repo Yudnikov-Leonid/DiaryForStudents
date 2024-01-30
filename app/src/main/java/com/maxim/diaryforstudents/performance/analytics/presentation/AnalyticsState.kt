@@ -20,7 +20,7 @@ interface AnalyticsState {
             errorTextView: TextView,
             retryButton: Button
         ) {
-            adapter.update(listOf(AnalyticsUi.Loading))
+            adapter.update(emptyList())
             progressBar.visibility = View.VISIBLE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE

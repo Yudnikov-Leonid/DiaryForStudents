@@ -12,11 +12,11 @@ class PerformanceAnalyticsViewModel(
     private val interactor: PerformanceInteractor,
     private val communication: AnalyticsCommunication
 ) : BaseViewModel(), Communication.Observe<AnalyticsState>, Init, Reload {
-    private var quarter = 0
+    private var quarter = 1
 
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
-            quarter = interactor.actualQuarter()
+            //quarter = interactor.actualQuarter()
             reload()
         }
     }
