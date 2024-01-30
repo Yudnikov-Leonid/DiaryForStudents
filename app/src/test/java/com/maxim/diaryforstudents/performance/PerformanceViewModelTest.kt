@@ -193,7 +193,7 @@ private class FakePerformanceInteractor : PerformanceInteractor {
 
     private var initCounter = 0
     private var initThrowError = false
-    override suspend fun init() {
+    override suspend fun initActual() {
         initCounter++
     }
 

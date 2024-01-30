@@ -10,11 +10,17 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCom
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceFinalViewModel(
-    interactor: PerformanceInteractor,
+    private val interactor: PerformanceInteractor,
     private val communication: PerformanceCommunication,
     mapper: PerformanceDomain.Mapper<PerformanceUi>
 ): PerformanceMarkViewModel(interactor, communication, mapper), SaveAndRestore {
     override val type = MarksType.Final
+
+    override fun reload() {
+        handle({interactor.initFinal()}) {
+            super.reload()
+        }
+    }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
         communication.save(RESTORE_KEY, bundleWrapper)

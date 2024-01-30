@@ -145,7 +145,7 @@ interface PerformanceUi : Serializable {
                     4 -> "IV"
                     else -> "Year"
                 }
-            } else date.substring(0, date.length - 4)
+            } else date.substring(0, date.length - 5)
             textView.text = dateUi
         }
 

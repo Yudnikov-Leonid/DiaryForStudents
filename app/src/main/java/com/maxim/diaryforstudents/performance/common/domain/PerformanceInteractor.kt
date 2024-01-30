@@ -14,7 +14,8 @@ import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
 import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
 
 interface PerformanceInteractor {
-    suspend fun init()
+    suspend fun initActual()
+    suspend fun initFinal()
     fun data(search: String): List<PerformanceDomain>
     fun finalData(search: String): List<PerformanceDomain>
     suspend fun changeQuarter(quarter: Int)
@@ -32,8 +33,12 @@ interface PerformanceInteractor {
         private val mapper: PerformanceData.Mapper<PerformanceDomain>,
         private val diaryMapper: DiaryData.Mapper<DiaryDomain>
     ) : PerformanceInteractor {
-        override suspend fun init() {
-            repository.init()
+        override suspend fun initActual() {
+            repository.initActual()
+        }
+
+        override suspend fun initFinal() {
+            repository.initFinal()
         }
 
         override fun data(search: String): List<PerformanceDomain> {

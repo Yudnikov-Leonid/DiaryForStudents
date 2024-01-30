@@ -29,7 +29,7 @@ class PerformanceActualViewModel(
     private val calculateStorage: CalculateStorage.Save,
     private val detailsStorage: LessonDetailsStorage.Save,
     private val navigation: Navigation.Update,
-    private val mapper: PerformanceDomain.Mapper<PerformanceUi>,
+    mapper: PerformanceDomain.Mapper<PerformanceUi>,
     private val diaryMapper: DiaryDomain.Mapper<DiaryUi>
 ) : PerformanceMarkViewModel(interactor, communication, mapper), Init, SaveAndRestore {
 
@@ -40,19 +40,11 @@ class PerformanceActualViewModel(
             reloadCommunication.setCallback(this)
             quarter = interactor.actualQuarter()
             communication.update(PerformanceState.Loading)
-            handle({ interactor.init() }) {
-                val list = interactor.data("")
-                if (list.first() is PerformanceDomain.Error)
-                    communication.update(PerformanceState.Error(list.first().message()))
-                else
-                    communication.update(
-                        PerformanceState.Base(
-                            quarter,
-                            list.map { it.map(mapper) },
-                            false,
-                            interactor.progressType()
-                        )
-                    )
+            handle({
+                interactor.initFinal()
+                interactor.initActual()
+            }) {
+                reload()
             }
         }
     }
@@ -69,15 +61,7 @@ class PerformanceActualViewModel(
         this.quarter = quarter
         communication.update(PerformanceState.Loading)
         handle({ interactor.changeQuarter(quarter) }) {
-            val list = interactor.data("")
-            communication.update(
-                PerformanceState.Base(
-                    quarter,
-                    list.map { it.map(mapper) },
-                    false,
-                    interactor.progressType()
-                )
-            )
+            reload()
         }
     }
 
@@ -98,7 +82,7 @@ class PerformanceActualViewModel(
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         communication.restore(RESTORE_KEY, bundleWrapper)
         quarter = bundleWrapper.restore<Int>(QUARTER_KEY) ?: interactor.actualQuarter()
-        handle({ interactor.init() }) {}
+        handle({ interactor.initActual() }) {}
     }
 
     companion object {

@@ -28,7 +28,7 @@ class PerformanceInteractorTest {
 
     @Test
     fun test_init() = runBlocking {
-        interactor.init()
+        interactor.initActual()
         repository.checkInitCalledTimes(1)
     }
 
@@ -79,7 +79,7 @@ class PerformanceInteractorTest {
 
 private class FakePerformanceRepository : PerformanceRepository {
     private var initCounter = 0
-    override suspend fun init() {
+    override suspend fun initActual() {
         initCounter++
     }
 

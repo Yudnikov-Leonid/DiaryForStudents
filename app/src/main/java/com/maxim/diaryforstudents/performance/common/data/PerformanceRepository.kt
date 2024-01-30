@@ -3,7 +3,8 @@ package com.maxim.diaryforstudents.performance.common.data
 import java.util.Calendar
 
 interface PerformanceRepository {
-    suspend fun init()
+    suspend fun initActual()
+    suspend fun initFinal()
     fun cachedData(search: String): List<PerformanceData>
     fun cachedFinalData(search: String): List<PerformanceData>
     suspend fun changeQuarter(quarter: Int)
@@ -18,21 +19,23 @@ interface PerformanceRepository {
         private val cache = mutableListOf<PerformanceData>()
         private val finalCache = mutableListOf<PerformanceData>()
 
-        override suspend fun init() {
+        override suspend fun initActual() {
             dataException = null
-            finalDataException = null
             cache.clear()
+
+            try {
+                cache.addAll(cloudDataSource.data(actualQuarter(), true))
+            } catch (e: Exception) {
+                dataException = e
+            }
+        }
+
+        override suspend fun initFinal() {
+            finalDataException = null
             finalCache.clear()
 
             try {
                 finalCache.addAll(cloudDataSource.finalData())
-            } catch (e: Exception) {
-                dataException = e
-            }
-
-
-            try {
-                cache.addAll(cloudDataSource.data(actualQuarter(), true))
             } catch (e: Exception) {
                 finalDataException = e
             }
