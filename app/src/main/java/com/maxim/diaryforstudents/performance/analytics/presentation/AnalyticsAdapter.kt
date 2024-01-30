@@ -31,6 +31,7 @@ class AnalyticsAdapter(
         override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
             item.showData(binding.chart)
             item.showTitle(binding.titleTextView)
+            item.showQuarter(binding.quarterSpinner)
             binding.quarterSpinner.visibility = if (showSpinner) View.VISIBLE else View.GONE
             var byUser = false
             val listener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {

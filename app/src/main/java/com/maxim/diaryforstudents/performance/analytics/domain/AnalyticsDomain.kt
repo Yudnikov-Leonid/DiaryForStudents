@@ -8,9 +8,10 @@ interface AnalyticsDomain {
 
     class LineCommon(
         private val data: List<Float>,
-        private val labels: List<String>
+        private val labels: List<String>,
+        private val quarter: Int
     ) : AnalyticsDomain {
-        override fun toUi() = AnalyticsUi.LineCommon(data, labels)
+        override fun toUi() = AnalyticsUi.LineCommon(data, labels, quarter)
         override fun message() = ""
     }
 

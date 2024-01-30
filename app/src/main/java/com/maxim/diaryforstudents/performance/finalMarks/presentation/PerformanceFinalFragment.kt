@@ -23,6 +23,7 @@ class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, Pe
 
         val adapter = PerformanceLessonsAdapter(object : PerformanceLessonsAdapter.Listener {
             override fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int) = Unit
+            override fun analytics(lessonName: String) = Unit
         }, object : PerformanceMarksAdapter.Listener {
             override fun details(mark: PerformanceUi.Mark) = Unit
         })

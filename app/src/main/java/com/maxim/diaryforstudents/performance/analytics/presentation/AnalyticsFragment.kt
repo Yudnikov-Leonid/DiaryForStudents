@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
-import com.maxim.diaryforstudents.databinding.FragmentFinalPerformanceBinding
+import com.maxim.diaryforstudents.databinding.FragmentAnalyticsBinding
 
-class AnalyticsFragment : BaseFragment<FragmentFinalPerformanceBinding, AnalyticsViewModel>() {
+class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>() {
     override val viewModelClass = AnalyticsViewModel::class.java
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentFinalPerformanceBinding.inflate(inflater, container, false)
+        FragmentAnalyticsBinding.inflate(inflater, container, false)
 
     private val isDependent = arguments?.getBoolean(INDEPENDENT_KEY) ?: true
 
@@ -38,7 +38,13 @@ class AnalyticsFragment : BaseFragment<FragmentFinalPerformanceBinding, Analytic
         }
 
         viewModel.observe(this) {
-            it.show(adapter, binding.progressBar, binding.errorTextView, binding.retryButton)
+            it.show(
+                binding.titleTextView,
+                adapter,
+                binding.progressBar,
+                binding.errorTextView,
+                binding.retryButton
+            )
         }
 
         viewModel.init(savedInstanceState == null, isDependent)

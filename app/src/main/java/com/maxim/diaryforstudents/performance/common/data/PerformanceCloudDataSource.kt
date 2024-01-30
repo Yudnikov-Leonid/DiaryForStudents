@@ -8,7 +8,7 @@ import java.util.Calendar
 
 interface PerformanceCloudDataSource {
     suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData>
-    suspend fun analytics(quarter: Int): List<AnalyticsData>
+    suspend fun analytics(quarter: Int, lessonName: String): List<AnalyticsData>
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: PerformanceService, private val eduUser: EduUser) :
@@ -85,7 +85,7 @@ interface PerformanceCloudDataSource {
             } else throw ServiceUnavailableException(data.message)
         }
 
-        override suspend fun analytics(quarter: Int): List<AnalyticsData> {
+        override suspend fun analytics(quarter: Int, lessonName: String): List<AnalyticsData> {
             val dates = dates(quarter)
             val data = actualCacheMap[quarter] ?: service.getMarks(
                 PerformanceBody(
@@ -99,7 +99,11 @@ interface PerformanceCloudDataSource {
             if (data.success) {
                 val marks = mutableListOf<CloudMark>()
                 data.data.forEach { lesson ->
-                    marks.addAll(lesson.MARKS)
+                    if (lessonName.isNotEmpty()) {
+                        if (lesson.SUBJECT_NAME == lessonName)
+                            marks.addAll(lesson.MARKS)
+                    } else
+                        marks.addAll(lesson.MARKS)
                 }
 
                 val fiveCount = marks.filter { it.VALUE == 5 }.size
@@ -139,7 +143,10 @@ interface PerformanceCloudDataSource {
                     val sum = marks.sumOf { it.VALUE }
                     result.add(0, sum.toFloat() / marks.size)
                     listOf(5, 4, 3, 2).forEachIndexed { index, value ->
-                        separateMarksResult[index].add(0, marks.filter { it.VALUE == value }.size.toFloat())
+                        separateMarksResult[index].add(
+                            0,
+                            marks.filter { it.VALUE == value }.size.toFloat()
+                        )
                     }
                     labels.add("$i week")
                     marks.retainAll {
@@ -154,7 +161,7 @@ interface PerformanceCloudDataSource {
                     lastDate -= 7
                 }
                 return listOf(
-                    AnalyticsData.LineCommon(result, labels),
+                    AnalyticsData.LineCommon(result, labels, quarter),
                     AnalyticsData.PieMarks(fiveCount, fourCount, threeCount, twoCount),
                     AnalyticsData.LineMarks(
                         separateMarksResult[0],

@@ -7,9 +7,10 @@ interface AnalyticsData {
 
     data class LineCommon(
         private val data: List<Float>,
-        private val labels: List<String>
+        private val labels: List<String>,
+        private val quarter: Int
     ) : AnalyticsData {
-        override fun toDomain() = AnalyticsDomain.LineCommon(data, labels)
+        override fun toDomain() = AnalyticsDomain.LineCommon(data, labels, quarter)
     }
 
     class LineMarks(

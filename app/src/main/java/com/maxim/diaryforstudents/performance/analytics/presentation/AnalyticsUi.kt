@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.analytics.presentation
 
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
@@ -19,11 +20,17 @@ interface AnalyticsUi {
     fun showData(lineChart: LineChart) {}
     fun showData(pieChart: PieChart) {}
     fun showTitle(textView: TextView)
+    fun showQuarter(spinner: Spinner) {}
 
     class LineCommon(
         private val data: List<Float>,
-        private val labels: List<String>
+        private val labels: List<String>,
+        private val quarter: Int
     ) : AnalyticsUi {
+
+        override fun showQuarter(spinner: Spinner) {
+            spinner.setSelection(quarter - 1)
+        }
 
         override fun showData(lineChart: LineChart) {
             val entries = arrayListOf<Entry>()
@@ -134,8 +141,10 @@ interface AnalyticsUi {
                 "4" to fourCount,
                 "3" to threeCount,
                 "2" to twoCount
-            ).map {
-                PieEntry(it.value.toFloat(), it.key)
+            ).mapNotNull {
+                if (it.value == 0) null
+                else
+                    PieEntry(it.value.toFloat(), it.key)
             }
             val colors =
                 arrayListOf(R.color.light_green, R.color.green, R.color.yellow, R.color.red).map {
@@ -148,7 +157,7 @@ interface AnalyticsUi {
                 "3 (${(threeCount.toFloat() / sum * 100).toInt()}%)",
                 "2 (${(twoCount.toFloat() / sum * 100).toInt()}%)"
             ).mapIndexed { i, value ->
-                LegendEntry(value, Legend.LegendForm.DEFAULT,10f,2f,null, colors[i])
+                LegendEntry(value, Legend.LegendForm.DEFAULT, 10f, 2f, null, colors[i])
             })
 
             val dataSet = PieDataSet(entries, "").apply {
