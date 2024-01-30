@@ -39,7 +39,7 @@ class AnalyticsViewModel(
 
     override fun reload() {
         communication.update(AnalyticsState.Loading)
-        handle({ interactor.analytics(quarter, lessonName) }) {
+        handle({ interactor.analytics(quarter, lessonName, 1) }) {
             if (it.first().message().isNotEmpty())
                 communication.update(AnalyticsState.Error(it.first().message()))
             else

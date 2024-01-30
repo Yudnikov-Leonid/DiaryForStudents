@@ -10,7 +10,7 @@ interface PerformanceRepository {
     fun cachedFinalData(search: String): List<PerformanceData>
     suspend fun changeQuarter(quarter: Int)
 
-    suspend fun analytics(quarter: Int, lessonName: String): List<AnalyticsData>
+    suspend fun analytics(quarter: Int, lessonName: String, offset: Int): List<AnalyticsData>
 
     fun actualQuarter(): Int
 
@@ -64,8 +64,12 @@ interface PerformanceRepository {
             }
         }
 
-        override suspend fun analytics(quarter: Int, lessonName: String): List<AnalyticsData> =
-            cloudDataSource.analytics(quarter, lessonName)
+        override suspend fun analytics(
+            quarter: Int,
+            lessonName: String,
+            offset: Int
+        ): List<AnalyticsData> =
+            cloudDataSource.analytics(quarter, lessonName, offset)
 
         override fun actualQuarter() = when (Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
             in 0..91 -> 3

@@ -61,8 +61,8 @@ class AnalyticsAdapter(
             binding.chart.apply {
                 setDrawBorders(false)
                 isDoubleTapToZoomEnabled = false
-                setScaleEnabled(false)
-                setTouchEnabled(false)
+                setScaleEnabled(true)
+                setTouchEnabled(true)
                 isAutoScaleMinMaxEnabled = true
                 description.isEnabled = false
             }
@@ -136,6 +136,7 @@ class AnalyticsAdapter(
     fun update(newList: List<AnalyticsUi>) {
         list.clear()
         list.addAll(newList)
+        //todo
         notifyDataSetChanged()
     }
 

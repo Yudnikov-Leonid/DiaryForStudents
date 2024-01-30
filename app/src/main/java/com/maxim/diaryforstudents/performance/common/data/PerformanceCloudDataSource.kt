@@ -8,7 +8,7 @@ import java.util.Calendar
 
 interface PerformanceCloudDataSource {
     suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData>
-    suspend fun analytics(quarter: Int, lessonName: String): List<AnalyticsData>
+    suspend fun analytics(quarter: Int, lessonName: String, offset: Int): List<AnalyticsData>
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: PerformanceService, private val eduUser: EduUser) :
@@ -85,7 +85,11 @@ interface PerformanceCloudDataSource {
             } else throw ServiceUnavailableException(data.message)
         }
 
-        override suspend fun analytics(quarter: Int, lessonName: String): List<AnalyticsData> {
+        override suspend fun analytics(
+            quarter: Int,
+            lessonName: String,
+            offset: Int
+        ): List<AnalyticsData> {
             val dates = dates(quarter)
             val data = actualCacheMap[quarter] ?: service.getMarks(
                 PerformanceBody(
@@ -128,7 +132,7 @@ interface PerformanceCloudDataSource {
                     lastDate = (timeInMillis / 86400000).toInt()
 
                 }
-                val weeksCount = (lastDate - firstDate) / 7
+                val weeksCount = (lastDate - firstDate) / offset
 
                 val result = mutableListOf<Float>()
                 val separateMarksResult = listOf<java.util.ArrayList<Float>>(
@@ -140,15 +144,19 @@ interface PerformanceCloudDataSource {
                 val labels = mutableListOf<String>()
 
                 for (i in 1..weeksCount) {
-                    val sum = marks.sumOf { it.VALUE }
-                    result.add(0, sum.toFloat() / marks.size)
-                    listOf(5, 4, 3, 2).forEachIndexed { index, value ->
-                        separateMarksResult[index].add(
+                    if (marks.size > 0) {
+                        result.add(
                             0,
-                            marks.filter { it.VALUE == value }.size.toFloat()
+                            marks.sumOf { it.VALUE }.toFloat() / marks.size
                         )
+                        listOf(5, 4, 3, 2).forEachIndexed { index, value ->
+                            separateMarksResult[index].add(
+                                0,
+                                marks.filter { it.VALUE == value }.size.toFloat()
+                            )
+                        }
+                        labels.add("$i week")
                     }
-                    labels.add("$i week")
                     marks.retainAll {
                         val split = it.DATE.split('.')
                         calendar.apply {
@@ -158,7 +166,7 @@ interface PerformanceCloudDataSource {
                         }
                         (calendar.timeInMillis / 86400000).toInt() < lastDate
                     }
-                    lastDate -= 7
+                    lastDate -= offset
                 }
                 return listOf(
                     AnalyticsData.LineCommon(result, labels, quarter),
