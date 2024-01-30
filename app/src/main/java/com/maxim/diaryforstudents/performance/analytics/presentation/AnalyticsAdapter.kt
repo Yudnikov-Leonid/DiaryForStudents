@@ -63,7 +63,6 @@ class AnalyticsAdapter(
                 setScaleEnabled(false)
                 setTouchEnabled(false)
                 isAutoScaleMinMaxEnabled = true
-                legend.isEnabled = false
                 description.isEnabled = false
             }
 
