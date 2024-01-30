@@ -21,15 +21,17 @@ class AnalyticsAdapter(
     private val list = mutableListOf<AnalyticsUi>()
 
     abstract class ItemViewHolder(binding: ViewBinding) : ViewHolder(binding.root) {
-        abstract fun bind(item: AnalyticsUi)
+        abstract fun bind(item: AnalyticsUi, showSpinner: Boolean)
     }
 
     class LineViewHolder(
         private val binding: LineChartLayoutBinding,
         private val listener: Listener
     ) : ItemViewHolder(binding) {
-        override fun bind(item: AnalyticsUi) {
+        override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
             item.showData(binding.chart)
+            item.showTitle(binding.titleTextView)
+            binding.quarterSpinner.visibility = if (showSpinner) View.VISIBLE else View.GONE
             var byUser = false
             val listener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
 
@@ -93,17 +95,18 @@ class AnalyticsAdapter(
     }
 
     class PieViewHolder(private val binding: PieChartLayoutBinding): ItemViewHolder(binding) {
-        override fun bind(item: AnalyticsUi) {
+        override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
             binding.chart.apply {
                 description.isEnabled = false
                 setDrawSliceText(false)
             }
             item.showData(binding.chart)
+            item.showTitle(binding.titleTextView)
         }
     }
 
     override fun getItemViewType(position: Int) =
-        if (list[position] is AnalyticsUi.Line) 0 else 1
+        if (list[position] is AnalyticsUi.PieMarks) 1 else 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return when(viewType) {
@@ -127,7 +130,7 @@ class AnalyticsAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], position == 0)
     }
 
     fun update(newList: List<AnalyticsUi>) {

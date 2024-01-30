@@ -95,4 +95,8 @@
     <string name="actual_marks">Текущие оценки:</string>
     <string name="close">Закрыть</string>
     <string name="progress_info">Прогресс не будет отображаться, если разница состовляет менее 5%</string>
+
+    <string name="common_chart">Изменение среднего балла</string>
+    <string name="marks_pie">Количество оценок (диаграмма)</string>
+    <string name="marks_line">Количество оценок (график)</string>
 </resources>

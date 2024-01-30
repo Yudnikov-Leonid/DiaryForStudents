@@ -6,21 +6,33 @@ interface AnalyticsDomain {
     fun toUi(): AnalyticsUi
     fun message(): String
 
-    class Line(
+    class LineCommon(
         private val data: List<Float>,
         private val labels: List<String>
     ) : AnalyticsDomain {
-        override fun toUi() = AnalyticsUi.Line(data, labels)
+        override fun toUi() = AnalyticsUi.LineCommon(data, labels)
         override fun message() = ""
     }
 
-    class Pie(
+    class LineMarks(
+        private val fiveData: List<Float>,
+        private val fourData: List<Float>,
+        private val threeData: List<Float>,
+        private val twoData: List<Float>,
+        private val labels: List<String>
+    ) : AnalyticsDomain {
+        override fun toUi() = AnalyticsUi.LineMarks(fiveData, fourData, threeData, twoData, labels)
+
+        override fun message() = ""
+    }
+
+    class PieMarks(
         private val fiveCount: Int,
         private val fourCount: Int,
         private val threeCount: Int,
         private val twoCount: Int,
-    ): AnalyticsDomain {
-        override fun toUi() = AnalyticsUi.Pie(fiveCount, fourCount, threeCount, twoCount)
+    ) : AnalyticsDomain {
+        override fun toUi() = AnalyticsUi.PieMarks(fiveCount, fourCount, threeCount, twoCount)
 
         override fun message() = ""
     }

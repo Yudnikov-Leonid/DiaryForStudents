@@ -100,4 +100,8 @@
     <string name="close">Close</string>
     <string name="progress_info">Progress is not shown if changes are less than 5%</string>
     <string name="sorting_order">Sorting order</string>
+
+    <string name="common_chart">Common chart</string>
+    <string name="marks_pie">Number of marks (pie)</string>
+    <string name="marks_line">Number of marks (line)</string>
 </resources>

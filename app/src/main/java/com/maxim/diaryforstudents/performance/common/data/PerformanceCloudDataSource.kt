@@ -127,11 +127,20 @@ interface PerformanceCloudDataSource {
                 val weeksCount = (lastDate - firstDate) / 7
 
                 val result = mutableListOf<Float>()
+                val separateMarksResult = listOf<java.util.ArrayList<Float>>(
+                    ArrayList(),
+                    ArrayList(),
+                    ArrayList(),
+                    ArrayList()
+                )
                 val labels = mutableListOf<String>()
 
                 for (i in 1..weeksCount) {
                     val sum = marks.sumOf { it.VALUE }
-                    result.add(sum.toFloat() / marks.size)
+                    result.add(0, sum.toFloat() / marks.size)
+                    listOf(5, 4, 3, 2).forEachIndexed { index, value ->
+                        separateMarksResult[index].add(0, marks.filter { it.VALUE == value }.size.toFloat())
+                    }
                     labels.add("$i week")
                     marks.retainAll {
                         val split = it.DATE.split('.')
@@ -145,8 +154,15 @@ interface PerformanceCloudDataSource {
                     lastDate -= 7
                 }
                 return listOf(
-                    AnalyticsData.Line(result.reversed(), labels),
-                    AnalyticsData.Pie(fiveCount, fourCount, threeCount, twoCount)
+                    AnalyticsData.LineCommon(result, labels),
+                    AnalyticsData.PieMarks(fiveCount, fourCount, threeCount, twoCount),
+                    AnalyticsData.LineMarks(
+                        separateMarksResult[0],
+                        separateMarksResult[1],
+                        separateMarksResult[2],
+                        separateMarksResult[3],
+                        labels
+                    )
                 )
             } else throw ServiceUnavailableException(data.message)
         }
