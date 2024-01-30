@@ -14,6 +14,8 @@ import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.lessonDetails.bottomFragment.LessonDetailsBottomFragmentScreen
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
+import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsStorage
+import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsScreen
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.MarksType
@@ -28,6 +30,7 @@ class PerformanceActualViewModel(
     private val reloadCommunication: SaveActualSettingsCommunication.Save,
     private val calculateStorage: CalculateStorage.Save,
     private val detailsStorage: LessonDetailsStorage.Save,
+    private val analyticsStorage: AnalyticsStorage.Save,
     private val navigation: Navigation.Update,
     mapper: PerformanceDomain.Mapper<PerformanceUi>,
     private val diaryMapper: DiaryDomain.Mapper<DiaryUi>
@@ -70,6 +73,11 @@ class PerformanceActualViewModel(
     fun calculateAverage(marks: List<PerformanceUi.Mark>, marksSum: Int) {
         calculateStorage.save(marks, marksSum)
         navigation.update(CalculateScreen)
+    }
+
+    fun analytics(lessonName: String) {
+        analyticsStorage.save(lessonName)
+        navigation.update(AnalyticsScreen)
     }
 
     fun settings() {

@@ -29,6 +29,10 @@ class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, 
             override fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int) {
                 viewModel.calculateAverage(marks, marksSum)
             }
+
+            override fun analytics(lessonName: String) {
+                viewModel.analytics(lessonName)
+            }
         }, object : PerformanceMarksAdapter.Listener {
             override fun details(mark: PerformanceUi.Mark) {
                 viewModel.openDetails(mark)

@@ -4,19 +4,30 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.Communication
-import com.maxim.diaryforstudents.core.presentation.Init
+import com.maxim.diaryforstudents.core.presentation.GoBack
+import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.presentation.Screen
+import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 
-class PerformanceAnalyticsViewModel(
+class AnalyticsViewModel(
     private val interactor: PerformanceInteractor,
-    private val communication: AnalyticsCommunication
-) : BaseViewModel(), Communication.Observe<AnalyticsState>, Init, Reload {
+    private val analyticsStorage: AnalyticsStorage.Read,
+    private val communication: AnalyticsCommunication,
+    private val navigation: Navigation.Update,
+    private val clearViewModel: ClearViewModel
+) : BaseViewModel(), Communication.Observe<AnalyticsState>, Reload, GoBack {
     private var quarter = 1
+    private var lessonName = ""
 
-    override fun init(isFirstRun: Boolean) {
+    fun init(isFirstRun: Boolean, isDependent: Boolean) {
+        if (isFirstRun && isDependent) {
+            lessonName = analyticsStorage.read()
+        }
         if (isFirstRun) {
-            //quarter = interactor.actualQuarter()
+            quarter = interactor.actualQuarter()
             reload()
         }
     }
@@ -34,7 +45,8 @@ class PerformanceAnalyticsViewModel(
             else
                 communication.update(
                     AnalyticsState.Base(
-                        it.map { it.toUi() }
+                        it.map { it.toUi() },
+                        quarter
                     )
                 )
         }
@@ -42,5 +54,10 @@ class PerformanceAnalyticsViewModel(
 
     override fun observe(owner: LifecycleOwner, observer: Observer<AnalyticsState>) {
         communication.observe(owner, observer)
+    }
+
+    override fun goBack() {
+        navigation.update(Screen.Pop)
+        clearViewModel.clearViewModel(AnalyticsViewModel::class.java)
     }
 }

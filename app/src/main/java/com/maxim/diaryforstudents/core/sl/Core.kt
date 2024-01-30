@@ -10,6 +10,7 @@ import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
+import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,7 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
-    ProvideCalculateStorage, ProvideActualSettingsCommunication, ProvideMarksModule {
+    ProvideCalculateStorage, ProvideActualSettingsCommunication, ProvideMarksModule,
+    ProvideAnalyticsStorage{
 
     class Base(private val context: Context) : Core {
 
@@ -60,6 +62,9 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
 
         private val marksModule = MarksModule.Base(this)
         override fun marksModule() = marksModule
+
+        private val analyticsStorage = AnalyticsStorage.Base()
+        override fun analyticsStorage() = analyticsStorage
 
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
@@ -113,4 +118,8 @@ interface ProvideActualSettingsCommunication {
 
 interface ProvideMarksModule {
     fun marksModule(): MarksModule.Mutable
+}
+
+interface ProvideAnalyticsStorage {
+    fun analyticsStorage(): AnalyticsStorage.Mutable
 }

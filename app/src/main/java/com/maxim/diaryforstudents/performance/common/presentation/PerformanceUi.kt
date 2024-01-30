@@ -19,6 +19,7 @@ interface PerformanceUi : Serializable {
     fun sameContent(item: PerformanceUi): Boolean = false
     fun showCalculateButton(view: View) {}
     fun calculate(listener: PerformanceLessonsAdapter.Listener) {}
+    fun analitycs(listener: PerformanceLessonsAdapter.Listener) {}
     fun compare(value: Int): Boolean = false
 
     suspend fun getLesson(
@@ -110,6 +111,10 @@ interface PerformanceUi : Serializable {
 
         override fun calculate(listener: PerformanceLessonsAdapter.Listener) {
             listener.calculate(marks, marksSum)
+        }
+
+        override fun analitycs(listener: PerformanceLessonsAdapter.Listener) {
+            listener.analytics(name)
         }
 
         override fun same(item: PerformanceUi) = item is Lesson && item.name == name

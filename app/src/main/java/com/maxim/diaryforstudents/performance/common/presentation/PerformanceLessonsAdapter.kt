@@ -40,6 +40,9 @@ class PerformanceLessonsAdapter(
             binding.calculateButton.setOnClickListener {
                 item.calculate(listener)
             }
+            itemView.setOnClickListener {
+                item.analitycs(listener)
+            }
         }
     }
 
@@ -84,5 +87,6 @@ class PerformanceLessonsAdapter(
 
     interface Listener {
         fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int)
+        fun analytics(lessonName: String)
     }
 }
