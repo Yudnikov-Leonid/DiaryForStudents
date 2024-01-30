@@ -45,7 +45,6 @@ interface MarksModule {
                     DiaryDataToDomainMapper(PerformanceDataToDomainMapper())
                 )
             }
-
             return marksInteractor!!
         }
 

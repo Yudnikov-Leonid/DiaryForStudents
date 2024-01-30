@@ -30,6 +30,8 @@ interface AnalyticsUi {
                 }
             }
 
+            lineChart.setNoDataText(lineChart.context.getString(R.string.no_data))
+            lineChart.setNoDataTextColor(ContextCompat.getColor(lineChart.context, R.color.black))
             val dataSet = LineDataSet(entries, "").apply {
                 color = ContextCompat.getColor(lineChart.context, R.color.light_green)
                 lineWidth = 4f
@@ -39,6 +41,21 @@ interface AnalyticsUi {
             }
             val lineData = LineData(dataSet)
             lineChart.data = lineData
+        }
+    }
+
+    object Error: AnalyticsUi {
+        override fun showData(lineChart: LineChart) {
+            lineChart.setNoDataText("Fail")
+            lineChart.data = null
+        }
+    }
+
+    object Loading : AnalyticsUi {
+        override fun showData(lineChart: LineChart) {
+            lineChart.setNoDataText("Loading...")
+            lineChart.setNoDataTextColor(ContextCompat.getColor(lineChart.context, R.color.black))
+            lineChart.data = null
         }
     }
 }

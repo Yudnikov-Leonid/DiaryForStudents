@@ -12,6 +12,8 @@ class PerformanceAnalyticsFragment: BaseFragment<FragmentFinalPerformanceBinding
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentFinalPerformanceBinding.inflate(inflater, container, false)
 
+    override var setOnBackPressedCallback = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -22,8 +24,12 @@ class PerformanceAnalyticsFragment: BaseFragment<FragmentFinalPerformanceBinding
         })
         binding.lessonsRecyclerView.adapter = adapter
 
+        binding.retryButton.setOnClickListener {
+            viewModel.reload()
+        }
+
         viewModel.observe(this) {
-            it.show(adapter, binding.progressBar)
+            it.show(adapter, binding.progressBar, binding.errorTextView, binding.retryButton)
         }
 
         viewModel.init(savedInstanceState == null)

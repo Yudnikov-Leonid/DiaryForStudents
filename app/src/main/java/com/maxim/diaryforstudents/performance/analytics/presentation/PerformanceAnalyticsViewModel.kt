@@ -27,12 +27,16 @@ class PerformanceAnalyticsViewModel(
     }
 
     override fun reload() {
+        communication.update(AnalyticsState.Loading)
         handle({ interactor.analytics(quarter) }) {
-            communication.update(
-                AnalyticsState.Base(
-                    listOf(it.toUi())
+            if (it.message().isNotEmpty())
+                communication.update(AnalyticsState.Error(it.message()))
+            else
+                communication.update(
+                    AnalyticsState.Base(
+                        listOf(it.toUi())
+                    )
                 )
-            )
         }
     }
 

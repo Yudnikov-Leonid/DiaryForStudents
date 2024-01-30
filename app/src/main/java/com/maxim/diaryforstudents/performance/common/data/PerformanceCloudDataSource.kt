@@ -14,6 +14,7 @@ interface PerformanceCloudDataSource {
     class Base(private val service: PerformanceService, private val eduUser: EduUser) :
         PerformanceCloudDataSource {
         private val averageMap = mutableMapOf<Pair<String, Int>, Float>()
+        private val actualCacheMap = mutableMapOf<Int, PerformanceResponse>()
 
         //todo
         private fun dates(quarter: Int): Pair<String, String> =
@@ -26,15 +27,16 @@ interface PerformanceCloudDataSource {
 
         override suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData> {
             val dates = dates(quarter)
-            val data =
-                service.getMarks(
-                    PerformanceBody(
-                        BuildConfig.SHORT_API_KEY, eduUser.guid(),
-                        dates.first, dates.second, ""
-                    )
+            val data = service.getMarks(
+                PerformanceBody(
+                    BuildConfig.SHORT_API_KEY, eduUser.guid(),
+                    dates.first, dates.second, ""
                 )
+            )
+            actualCacheMap[quarter] = data
 
             return if (data.success) {
+                actualCacheMap.clear()
                 data.data.filter { it.MARKS.isNotEmpty() }.map { lesson ->
                     val progresses = IntArray(3)
                     val actualAverage = averageMap[Pair(lesson.SUBJECT_NAME, quarter)] ?: 0f
@@ -84,12 +86,15 @@ interface PerformanceCloudDataSource {
 
         override suspend fun analytics(quarter: Int): AnalyticsData {
             val dates = dates(quarter)
-            val data = service.getMarks(
+            val data = actualCacheMap[quarter] ?: service.getMarks(
                 PerformanceBody(
                     BuildConfig.SHORT_API_KEY, eduUser.guid(),
                     dates.first, dates.second, ""
                 )
             )
+            if (actualCacheMap[quarter] == null)
+                actualCacheMap[quarter] = data
+
             if (data.success) {
                 val marks = mutableListOf<CloudMark>()
                 data.data.forEach { lesson ->
@@ -118,7 +123,7 @@ interface PerformanceCloudDataSource {
                 val result = mutableListOf<Float>()
                 val labels = mutableListOf<String>()
 
-                for (i in 1 .. weeksCount) {
+                for (i in 1..weeksCount) {
                     val sum = marks.sumOf { it.VALUE }
                     result.add(sum.toFloat() / marks.size)
                     labels.add("$i week")

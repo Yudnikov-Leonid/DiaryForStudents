@@ -95,8 +95,12 @@ interface PerformanceInteractor {
             if (finalData("").isEmpty()) true
             else finalData("").first() is PerformanceDomain.Error || finalData("").first() is PerformanceDomain.Empty
 
-        override suspend fun analytics(quarter: Int) =
+        override suspend fun analytics(quarter: Int) = try {
             repository.analytics(quarter).toDomain()
+        } catch (e: Exception) {
+            AnalyticsDomain.Error(failureHandler.handle(e).message())
+        }
+
 
         override suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson =
             try {
