@@ -52,6 +52,14 @@
         <item>Fourth quarter</item>
     </string-array>
 
+    <string-array name="period">
+        <item>First quarter</item>
+        <item>Second quarter</item>
+        <item>Third quarter</item>
+        <item>Fourth quarter</item>
+        <item>Year</item>
+    </string-array>
+
     <string-array name="progress_compare">
         <item>a week ago</item>
         <item>2 weeks ago</item>

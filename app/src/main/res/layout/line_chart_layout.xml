@@ -25,7 +25,7 @@
             android:id="@+id/quarterSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/quarter" />
+            android:entries="@array/period" />
 
     </LinearLayout>
 

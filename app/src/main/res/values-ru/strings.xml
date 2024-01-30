@@ -48,6 +48,14 @@
         <item>Четвёртая четверть</item>
     </string-array>
 
+    <string-array name="period">
+        <item>Первая четверть</item>
+        <item>Вторая четверть</item>
+        <item>Третья четверть</item>
+        <item>Четвёртая четверть</item>
+        <item>Год</item>
+    </string-array>
+
     <string-array name="progress_compare">
         <item>неделя назад</item>
         <item>2 недели назад</item>

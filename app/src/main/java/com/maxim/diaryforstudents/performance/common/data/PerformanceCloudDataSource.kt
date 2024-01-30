@@ -22,7 +22,8 @@ interface PerformanceCloudDataSource {
                 1 -> Pair("01.09.2023", "27.10.2023")
                 2 -> Pair("06.11.2023", "29.12.2023")
                 3 -> Pair("09.01.2024", "22.03.2024")
-                else -> Pair("01.04.2024", "26.05.2024")
+                4 -> Pair("01.04.2024", "26.05.2024")
+                else -> Pair("01.09.2023", "26.05.2024")
             }
 
         override suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData> {

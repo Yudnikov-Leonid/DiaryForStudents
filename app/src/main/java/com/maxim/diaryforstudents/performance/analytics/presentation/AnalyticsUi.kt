@@ -39,6 +39,7 @@ interface AnalyticsUi {
                 setDrawValues(false)
                 highLightColor = ContextCompat.getColor(lineChart.context, R.color.green)
             }
+            dataSet.setDrawCircles(false)
             val lineData = LineData(dataSet)
             lineChart.data = lineData
         }
