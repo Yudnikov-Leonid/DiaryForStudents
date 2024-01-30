@@ -15,11 +15,17 @@ import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteracto
 interface MarksModule {
     fun marksInteractor(): PerformanceInteractor
 
-    class Base(private val core: Core): MarksModule {
+    interface Clear {
+        fun clear()
+    }
+
+    interface Mutable: MarksModule, Clear
+
+    class Base(private val core: Core): Mutable {
         private var marksInteractor: PerformanceInteractor? = null
 
         override fun marksInteractor(): PerformanceInteractor {
-            return marksInteractor.let {
+            if (marksInteractor == null) {
                 marksInteractor = PerformanceInteractor.Base(
                     PerformanceRepository.Base(
                         PerformanceCloudDataSource.Base(
@@ -38,8 +44,13 @@ interface MarksModule {
                     PerformanceDataToDomainMapper(),
                     DiaryDataToDomainMapper(PerformanceDataToDomainMapper())
                 )
-                marksInteractor!!
             }
+
+            return marksInteractor!!
+        }
+
+        override fun clear() {
+            marksInteractor = null
         }
     }
 }

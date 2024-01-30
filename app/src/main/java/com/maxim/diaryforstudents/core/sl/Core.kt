@@ -112,5 +112,5 @@ interface ProvideActualSettingsCommunication {
 }
 
 interface ProvideMarksModule {
-    fun marksModule(): MarksModule
+    fun marksModule(): MarksModule.Mutable
 }
