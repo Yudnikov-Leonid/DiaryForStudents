@@ -9,7 +9,7 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCom
 
 class PerformanceActualModule(private val core: Core): Module<PerformanceActualViewModel> {
     override fun viewModel() = PerformanceActualViewModel(
-        core.marksInteractor(),
+        core.marksModule().marksInteractor(),
         PerformanceCommunication.Base(),
         core.actualSettingsCommunication(),
         core.calculateStorage(),

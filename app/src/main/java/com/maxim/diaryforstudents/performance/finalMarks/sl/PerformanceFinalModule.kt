@@ -8,7 +8,7 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCom
 
 class PerformanceFinalModule(private val core: Core): Module<PerformanceFinalViewModel> {
     override fun viewModel() = PerformanceFinalViewModel(
-        core.marksInteractor(),
+        core.marksModule().marksInteractor(),
         PerformanceCommunication.Base(),
         PerformanceDomainToUiMapper()
     )

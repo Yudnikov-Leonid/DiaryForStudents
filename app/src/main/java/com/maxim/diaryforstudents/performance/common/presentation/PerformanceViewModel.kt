@@ -17,8 +17,8 @@ class PerformanceViewModel(
 
     override fun goBack() {
         navigation.update(Screen.Pop)
-        clear.clearViewModel(PerformanceViewModel::class.java)
         clear.clearViewModel(PerformanceFinalViewModel::class.java)
         clear.clearViewModel(PerformanceActualViewModel::class.java)
+        clear.clearViewModel(PerformanceViewModel::class.java)
     }
 }
