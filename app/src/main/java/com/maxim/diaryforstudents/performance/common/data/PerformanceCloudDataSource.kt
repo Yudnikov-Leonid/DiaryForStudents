@@ -2,37 +2,35 @@ package com.maxim.diaryforstudents.performance.common.data
 
 import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.service.EduUser
+import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import java.util.Calendar
 
 interface PerformanceCloudDataSource {
     suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData>
+    suspend fun analytics(quarter: Int): AnalyticsData
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: PerformanceService, private val eduUser: EduUser) :
         PerformanceCloudDataSource {
         private val averageMap = mutableMapOf<Pair<String, Int>, Float>()
 
-        override suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData> {
-            //todo hardcode
-            val from = when (quarter) {
-                1 -> "01.09.2023"
-                2 -> "06.11.2023"
-                3 -> "09.01.2024"
-                else -> "01.04.2024"
-            }
-            val to = when (quarter) {
-                1 -> "27.10.2023"
-                2 -> "29.12.2023"
-                3 -> "22.03.2024"
-                else -> "26.05.2024"
+        //todo
+        private fun dates(quarter: Int): Pair<String, String> =
+            when (quarter) {
+                1 -> Pair("01.09.2023", "27.10.2023")
+                2 -> Pair("06.11.2023", "29.12.2023")
+                3 -> Pair("09.01.2024", "22.03.2024")
+                else -> Pair("01.04.2024", "26.05.2024")
             }
 
+        override suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData> {
+            val dates = dates(quarter)
             val data =
                 service.getMarks(
                     PerformanceBody(
                         BuildConfig.SHORT_API_KEY, eduUser.guid(),
-                        from, to, ""
+                        dates.first, dates.second, ""
                     )
                 )
 
@@ -81,6 +79,61 @@ interface PerformanceCloudDataSource {
                         } ?: 0).toInt() else 0
                     )
                 }
+            } else throw ServiceUnavailableException(data.message)
+        }
+
+        override suspend fun analytics(quarter: Int): AnalyticsData {
+            val dates = dates(quarter)
+            val data = service.getMarks(
+                PerformanceBody(
+                    BuildConfig.SHORT_API_KEY, eduUser.guid(),
+                    dates.first, dates.second, ""
+                )
+            )
+            if (data.success) {
+                val marks = mutableListOf<CloudMark>()
+                data.data.forEach { lesson ->
+                    marks.addAll(lesson.MARKS)
+                }
+
+                //calculate weeks count
+                var firstDate: Int
+                var lastDate: Int
+                val calendar = Calendar.getInstance()
+                calendar.apply {
+                    var split = dates.first.split('.')
+                    set(Calendar.DAY_OF_MONTH, split[0].toInt())
+                    set(Calendar.MONTH, split[1].toInt())
+                    set(Calendar.YEAR, split[2].toInt())
+                    firstDate = (timeInMillis / 86400000).toInt()
+                    split = dates.second.split('.')
+                    set(Calendar.DAY_OF_MONTH, split[0].toInt())
+                    set(Calendar.MONTH, split[1].toInt())
+                    set(Calendar.YEAR, split[2].toInt())
+                    lastDate = (timeInMillis / 86400000).toInt()
+
+                }
+                val weeksCount = (lastDate - firstDate) / 7
+
+                val result = mutableListOf<Float>()
+                val labels = mutableListOf<String>()
+
+                for (i in 1 .. weeksCount) {
+                    val sum = marks.sumOf { it.VALUE }
+                    result.add(sum.toFloat() / marks.size)
+                    labels.add("$i week")
+                    marks.retainAll {
+                        val split = it.DATE.split('.')
+                        calendar.apply {
+                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
+                            set(Calendar.MONTH, split[1].toInt())
+                            set(Calendar.YEAR, split[2].toInt())
+                        }
+                        (calendar.timeInMillis / 86400000).toInt() < lastDate
+                    }
+                    lastDate -= 7
+                }
+                return AnalyticsData.Base(result.reversed(), labels)
             } else throw ServiceUnavailableException(data.message)
         }
 

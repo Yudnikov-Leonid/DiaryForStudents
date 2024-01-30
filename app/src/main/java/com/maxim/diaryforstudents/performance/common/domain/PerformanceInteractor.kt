@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.performance.common.domain
 
-import android.util.Log
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.PROGRESS_COMPARED_KEY
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SHOW_PROGRESS_KEY
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SORTING_ORDER_KEY
@@ -9,6 +8,7 @@ import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
+import com.maxim.diaryforstudents.performance.analytics.domain.AnalyticsDomain
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
@@ -24,6 +24,8 @@ interface PerformanceInteractor {
 
     fun finalDataIsEmpty(): Boolean
 
+    suspend fun analytics(quarter: Int): AnalyticsDomain
+
     suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson
 
     fun actualQuarter(): Int
@@ -37,12 +39,10 @@ interface PerformanceInteractor {
         private val diaryMapper: DiaryData.Mapper<DiaryDomain>
     ) : PerformanceInteractor {
         override suspend fun initActual() {
-            Log.d("MyLog", "initActual")
             repository.initActual()
         }
 
         override suspend fun initFinal() {
-            Log.d("MyLog", "initFinal")
             repository.initFinal()
         }
 
@@ -94,6 +94,9 @@ interface PerformanceInteractor {
         override fun finalDataIsEmpty() =
             if (finalData("").isEmpty()) true
             else finalData("").first() is PerformanceDomain.Error || finalData("").first() is PerformanceDomain.Empty
+
+        override suspend fun analytics(quarter: Int) =
+            repository.analytics(quarter).toDomain()
 
         override suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson =
             try {

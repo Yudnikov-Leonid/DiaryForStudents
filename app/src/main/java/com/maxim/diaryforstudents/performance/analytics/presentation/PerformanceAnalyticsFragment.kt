@@ -15,7 +15,11 @@ class PerformanceAnalyticsFragment: BaseFragment<FragmentFinalPerformanceBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = AnalyticsAdapter()
+        val adapter = AnalyticsAdapter(object : AnalyticsAdapter.Listener {
+            override fun changeQuarter(value: Int) {
+                viewModel.changeQuarter(value)
+            }
+        })
         binding.lessonsRecyclerView.adapter = adapter
 
         viewModel.observe(this) {

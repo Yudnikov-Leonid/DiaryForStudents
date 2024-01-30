@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.data
 
+import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsData
 import java.util.Calendar
 
 interface PerformanceRepository {
@@ -8,6 +9,8 @@ interface PerformanceRepository {
     fun cachedData(search: String): List<PerformanceData>
     fun cachedFinalData(search: String): List<PerformanceData>
     suspend fun changeQuarter(quarter: Int)
+
+    suspend fun analytics(quarter: Int): AnalyticsData
 
     fun actualQuarter(): Int
 
@@ -60,6 +63,9 @@ interface PerformanceRepository {
                 dataException = e
             }
         }
+
+        override suspend fun analytics(quarter: Int): AnalyticsData =
+            cloudDataSource.analytics(quarter)
 
         override fun actualQuarter() = when (Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
             in 0..91 -> 3

@@ -1,17 +1,72 @@
 package com.maxim.diaryforstudents.performance.analytics.presentation
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.github.mikephil.charting.components.XAxis
+import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.databinding.LineChartLayoutBinding
 
-class AnalyticsAdapter : RecyclerView.Adapter<AnalyticsAdapter.ItemViewHolder>() {
+class AnalyticsAdapter(
+    private val listener: Listener
+) : RecyclerView.Adapter<AnalyticsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<AnalyticsUi>()
 
-    class ItemViewHolder(private val binding: LineChartLayoutBinding) : ViewHolder(binding.root) {
+    class ItemViewHolder(private val binding: LineChartLayoutBinding, private val listener: Listener) : ViewHolder(binding.root) {
         fun bind(item: AnalyticsUi) {
             item.showData(binding.chart)
+            binding.quarterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    listener.changeQuarter(position + 1)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+            }
+
+            binding.chart.apply {
+                setDrawBorders(false)
+                isDoubleTapToZoomEnabled = false
+                setScaleEnabled(false)
+                setTouchEnabled(false)
+                isAutoScaleMinMaxEnabled = true
+                legend.isEnabled = false
+                description.isEnabled = false
+            }
+
+            binding.chart.axisLeft.apply {
+                axisLineWidth = 4f
+                axisLineColor = ContextCompat.getColor(binding.chart.context, R.color.back_blue)
+                labelCount = 4
+                setDrawGridLines(false)
+                textSize = 14f
+                textColor = ContextCompat.getColor(binding.chart.context, R.color.green)
+                typeface = Typeface.DEFAULT_BOLD
+            }
+
+            binding.chart.axisRight.apply {
+                setDrawGridLines(false)
+                setDrawLabels(false)
+                setDrawAxisLine(false)
+            }
+
+            binding.chart.xAxis.apply {
+                position = XAxis.XAxisPosition.BOTTOM
+                axisLineColor = ContextCompat.getColor(binding.chart.context, R.color.back_blue)
+                axisLineWidth = 4f
+                setDrawGridLines(false)
+                textColor = ContextCompat.getColor(binding.chart.context, R.color.dark_gray)
+                typeface = Typeface.DEFAULT_BOLD
+            }
         }
     }
 
@@ -21,7 +76,7 @@ class AnalyticsAdapter : RecyclerView.Adapter<AnalyticsAdapter.ItemViewHolder>()
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), listener
         )
     }
 
@@ -35,5 +90,9 @@ class AnalyticsAdapter : RecyclerView.Adapter<AnalyticsAdapter.ItemViewHolder>()
         list.clear()
         list.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    interface Listener {
+        fun changeQuarter(value: Int)
     }
 }
