@@ -40,13 +40,14 @@ class LessonDetailsBottomFragment: BottomSheetDialogFragment() {
             binding.previousHomeworkTitleTextView,
             binding.marksLayout,
             binding.noteTitleTextView,
-            binding.noteTextView
+            binding.noteTextView,
+            binding.progressBar
         )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        //viewModel.clear()
+        viewModel.clear()
     }
 }

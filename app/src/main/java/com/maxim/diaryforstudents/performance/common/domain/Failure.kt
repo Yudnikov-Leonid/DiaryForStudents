@@ -12,6 +12,10 @@ class ServiceUnavailableError(private val message: String): Failure {
     override fun message() = message
 }
 
+class TimeOutError: Failure {
+    override fun message() = "Timeout"
+}
+
 class UnknownError: Failure {
     override fun message() = "Unknown error"
 }

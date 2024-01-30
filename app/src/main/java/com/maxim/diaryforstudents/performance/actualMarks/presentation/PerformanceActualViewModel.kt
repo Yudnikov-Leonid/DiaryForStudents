@@ -51,10 +51,11 @@ class PerformanceActualViewModel(
     }
 
     fun openDetails(mark: PerformanceUi.Mark) {
+        navigation.update(LessonDetailsBottomFragmentScreen)
         handle({
-            detailsStorage.save(mark.getLesson(interactor, diaryMapper))
+            mark.getLesson(interactor, diaryMapper)
         }) {
-            navigation.update(LessonDetailsBottomFragmentScreen)
+            detailsStorage.save(it)
         }
     }
 

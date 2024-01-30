@@ -35,7 +35,8 @@ class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDe
             binding.previousHomeworkTitleTextView,
             binding.marksLayout,
             binding.noteTitleTextView,
-            binding.noteTextView
+            binding.noteTextView,
+            binding.progressBar
         )
     }
 

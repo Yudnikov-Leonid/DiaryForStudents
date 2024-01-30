@@ -100,7 +100,16 @@ interface PerformanceInteractor {
                 diaryRepository.getLesson(lessonName, date).map(diaryMapper) as DiaryDomain.Lesson
             } catch (e: Exception) {
                 DiaryDomain.Lesson(
-                    e.message ?: "error", "", "", "", "", "", "", 0, emptyList(), emptyList(),
+                    failureHandler.handle(e).message(),
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    0,
+                    emptyList(),
+                    emptyList(),
                     emptyList()
                 )
             }
