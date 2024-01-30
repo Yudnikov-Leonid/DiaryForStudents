@@ -9,20 +9,26 @@ import android.widget.AdapterView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.viewbinding.ViewBinding
 import com.github.mikephil.charting.components.XAxis
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.databinding.LineChartLayoutBinding
+import com.maxim.diaryforstudents.databinding.PieChartLayoutBinding
 
 class AnalyticsAdapter(
     private val listener: Listener
 ) : RecyclerView.Adapter<AnalyticsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<AnalyticsUi>()
 
-    class ItemViewHolder(
+    abstract class ItemViewHolder(binding: ViewBinding) : ViewHolder(binding.root) {
+        abstract fun bind(item: AnalyticsUi)
+    }
+
+    class LineViewHolder(
         private val binding: LineChartLayoutBinding,
         private val listener: Listener
-    ) : ViewHolder(binding.root) {
-        fun bind(item: AnalyticsUi) {
+    ) : ItemViewHolder(binding) {
+        override fun bind(item: AnalyticsUi) {
             item.showData(binding.chart)
             var byUser = false
             val listener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
@@ -86,14 +92,36 @@ class AnalyticsAdapter(
         }
     }
 
+    class PieViewHolder(private val binding: PieChartLayoutBinding): ItemViewHolder(binding) {
+        override fun bind(item: AnalyticsUi) {
+            binding.chart.apply {
+                description.isEnabled = false
+                setDrawSliceText(false)
+            }
+            item.showData(binding.chart)
+        }
+    }
+
+    override fun getItemViewType(position: Int) =
+        if (list[position] is AnalyticsUi.Line) 0 else 1
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(
-            LineChartLayoutBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ), listener
-        )
+        return when(viewType) {
+            0 -> LineViewHolder(
+                LineChartLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ), listener
+            )
+            else -> PieViewHolder(
+                PieChartLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+        }
     }
 
     override fun getItemCount() = list.size

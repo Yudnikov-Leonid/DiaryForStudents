@@ -8,7 +8,7 @@ import java.util.Calendar
 
 interface PerformanceCloudDataSource {
     suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData>
-    suspend fun analytics(quarter: Int): AnalyticsData
+    suspend fun analytics(quarter: Int): List<AnalyticsData>
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: PerformanceService, private val eduUser: EduUser) :
@@ -85,7 +85,7 @@ interface PerformanceCloudDataSource {
             } else throw ServiceUnavailableException(data.message)
         }
 
-        override suspend fun analytics(quarter: Int): AnalyticsData {
+        override suspend fun analytics(quarter: Int): List<AnalyticsData> {
             val dates = dates(quarter)
             val data = actualCacheMap[quarter] ?: service.getMarks(
                 PerformanceBody(
@@ -101,6 +101,11 @@ interface PerformanceCloudDataSource {
                 data.data.forEach { lesson ->
                     marks.addAll(lesson.MARKS)
                 }
+
+                val fiveCount = marks.filter { it.VALUE == 5 }.size
+                val fourCount = marks.filter { it.VALUE == 4 }.size
+                val threeCount = marks.filter { it.VALUE == 3 }.size
+                val twoCount = marks.filter { it.VALUE == 2 }.size
 
                 //calculate weeks count
                 var firstDate: Int
@@ -139,7 +144,10 @@ interface PerformanceCloudDataSource {
                     }
                     lastDate -= 7
                 }
-                return AnalyticsData.Base(result.reversed(), labels)
+                return listOf(
+                    AnalyticsData.Line(result.reversed(), labels),
+                    AnalyticsData.Pie(fiveCount, fourCount, threeCount, twoCount)
+                )
             } else throw ServiceUnavailableException(data.message)
         }
 
