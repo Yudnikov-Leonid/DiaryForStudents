@@ -28,8 +28,8 @@ class AnalyticsViewModel(
         }
         if (isFirstRun) {
             quarter = interactor.actualQuarter()
-            reload()
         }
+        reload()
     }
 
     fun changeQuarter(value: Int) {
@@ -57,6 +57,7 @@ class AnalyticsViewModel(
     }
 
     override fun goBack() {
+        analyticsStorage.clear()
         navigation.update(Screen.Pop)
         clearViewModel.clearViewModel(AnalyticsViewModel::class.java)
     }

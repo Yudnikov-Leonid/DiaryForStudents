@@ -11,7 +11,7 @@ import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsVi
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
 import com.maxim.diaryforstudents.performance.finalMarks.presentation.PerformanceFinalViewModel
 
-class PerformanceViewModel(
+class PerformanceCommonViewModel(
     private val marksModule: MarksModule.Clear,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
@@ -24,6 +24,6 @@ class PerformanceViewModel(
         clear.clearViewModel(PerformanceActualViewModel::class.java)
         clear.clearViewModel(AnalyticsViewModel::class.java)
         marksModule.clear()
-        clear.clearViewModel(PerformanceViewModel::class.java)
+        clear.clearViewModel(PerformanceCommonViewModel::class.java)
     }
 }

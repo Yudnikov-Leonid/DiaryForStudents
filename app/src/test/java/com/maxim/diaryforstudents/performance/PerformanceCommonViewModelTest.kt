@@ -16,13 +16,13 @@ import com.maxim.diaryforstudents.performance.common.presentation.MarksType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
-import com.maxim.diaryforstudents.performance.common.presentation.PerformanceViewModel
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class PerformanceViewModelTest {
-    private lateinit var viewModel: PerformanceViewModel
+class PerformanceCommonViewModelTest {
+    private lateinit var viewModel: PerformanceCommonViewModel
     private lateinit var interactor: FakePerformanceInteractor
     private lateinit var communication: FakePerformanceCommunication
     private val order = Order()
@@ -34,7 +34,7 @@ class PerformanceViewModelTest {
     fun setUp() {
         interactor = FakePerformanceInteractor()
         communication = FakePerformanceCommunication()
-        viewModel = PerformanceViewModel(
+        viewModel = PerformanceCommonViewModel(
             interactor,
             communication,
             navigation,
@@ -131,7 +131,7 @@ class PerformanceViewModelTest {
     fun test_go_back_empty_search() {
         viewModel.goBack()
         navigation.checkCalledWith(Screen.Pop)
-        clearViewModel.checkCalledWith(PerformanceViewModel::class.java)
+        clearViewModel.checkCalledWith(PerformanceCommonViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))
     }
 

@@ -10,12 +10,14 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
+import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.lessonDetails.bottomFragment.LessonDetailsBottomFragmentScreen
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsScreen
+import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.MarksType
@@ -32,6 +34,7 @@ class PerformanceActualViewModel(
     private val detailsStorage: LessonDetailsStorage.Save,
     private val analyticsStorage: AnalyticsStorage.Save,
     private val navigation: Navigation.Update,
+    private val clearViewModel: ClearViewModel,
     mapper: PerformanceDomain.Mapper<PerformanceUi>,
     private val diaryMapper: DiaryDomain.Mapper<DiaryUi>
 ) : PerformanceMarkViewModel(interactor, communication, mapper), Init, SaveAndRestore {
@@ -77,6 +80,7 @@ class PerformanceActualViewModel(
 
     fun analytics(lessonName: String) {
         analyticsStorage.save(lessonName)
+        clearViewModel.clearViewModel(AnalyticsViewModel::class.java)
         navigation.update(AnalyticsScreen)
     }
 

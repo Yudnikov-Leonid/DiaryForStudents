@@ -9,7 +9,7 @@ import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsVi
 class AnalyticsModule(private val core: Core, private val clearViewModel: ClearViewModel) : Module<AnalyticsViewModel> {
     override fun viewModel() =
         AnalyticsViewModel(
-            core.marksModule().marksInteractor(),
+           core.marksModule().marksInteractor(),
             core.analyticsStorage(),
             AnalyticsCommunication.Base(),
             core.navigation(),

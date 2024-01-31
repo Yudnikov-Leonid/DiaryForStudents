@@ -25,7 +25,7 @@ import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsVi
 import com.maxim.diaryforstudents.performance.analytics.sl.AnalyticsModule
 import com.maxim.diaryforstudents.performance.finalMarks.presentation.PerformanceFinalViewModel
 import com.maxim.diaryforstudents.performance.finalMarks.sl.PerformanceFinalModule
-import com.maxim.diaryforstudents.performance.common.presentation.PerformanceViewModel
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
 import com.maxim.diaryforstudents.performance.common.sl.PerformanceModule
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import com.maxim.diaryforstudents.profile.sl.ProfileModule
@@ -50,12 +50,12 @@ interface DependencyContainer {
             ProfileViewModel::class.java -> ProfileModule(core, clear)
             NewsViewModel::class.java -> NewsModule(core, clear)
             OpenNewsViewModel::class.java -> OpenNewsModule(core, clear)
-            PerformanceViewModel::class.java -> PerformanceModule(core, clear)
+            PerformanceCommonViewModel::class.java -> PerformanceModule(core, clear)
             DiaryViewModel::class.java -> DiaryModule(core, clear)
             LessonDetailsViewModel::class.java -> LessonDetailsModule(core, clear)
             CalculateViewModel::class.java -> CalculateModule(core, clear)
             ActualSettingsViewModel::class.java -> ActualSettingsModule(core, clear)
-            PerformanceActualViewModel::class.java -> PerformanceActualModule(core)
+            PerformanceActualViewModel::class.java -> PerformanceActualModule(core, clear)
             PerformanceFinalViewModel::class.java -> PerformanceFinalModule(core)
             AnalyticsViewModel::class.java -> AnalyticsModule(core, clear)
             else -> dependencyContainer.module(clasz)

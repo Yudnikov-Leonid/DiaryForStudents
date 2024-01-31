@@ -10,8 +10,8 @@ import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentPerformanceBinding
 
-class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, PerformanceViewModel>() {
-    override val viewModelClass = PerformanceViewModel::class.java
+class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, PerformanceCommonViewModel>() {
+    override val viewModelClass = PerformanceCommonViewModel::class.java
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentPerformanceBinding.inflate(inflater, container, false)

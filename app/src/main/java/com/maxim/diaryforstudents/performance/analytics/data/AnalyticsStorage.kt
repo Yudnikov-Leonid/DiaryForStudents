@@ -7,6 +7,7 @@ interface AnalyticsStorage {
 
     interface Read {
         fun read(): String
+        fun clear()
     }
 
     interface Mutable: Save, Read
@@ -19,5 +20,8 @@ interface AnalyticsStorage {
         }
 
         override fun read() = cache
+        override fun clear() {
+            cache = ""
+        }
     }
 }

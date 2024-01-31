@@ -3,11 +3,11 @@ package com.maxim.diaryforstudents.performance.common.sl
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module
-import com.maxim.diaryforstudents.performance.common.presentation.PerformanceViewModel
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
 
 class PerformanceModule(private val core: Core, private val clear: ClearViewModel) :
-    Module<PerformanceViewModel> {
-    override fun viewModel() = PerformanceViewModel(
+    Module<PerformanceCommonViewModel> {
+    override fun viewModel() = PerformanceCommonViewModel(
         core.marksModule(),
         core.navigation(),
         clear,
