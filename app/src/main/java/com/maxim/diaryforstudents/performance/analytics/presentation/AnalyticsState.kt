@@ -4,8 +4,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import java.io.Serializable
 
-interface AnalyticsState {
+interface AnalyticsState: Serializable {
     fun show(
         titleTextView: TextView,
         adapter: AnalyticsAdapter,

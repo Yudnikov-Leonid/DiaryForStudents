@@ -7,10 +7,10 @@ import com.maxim.diaryforstudents.calculateAverage.presentation.CalculateViewMod
 import com.maxim.diaryforstudents.calculateAverage.sl.CalculateModule
 import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
 import com.maxim.diaryforstudents.diary.sl.DiaryModule
-import com.maxim.diaryforstudents.login.presentation.LoginViewModel
-import com.maxim.diaryforstudents.login.sl.EduLoginModule
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsViewModel
 import com.maxim.diaryforstudents.lessonDetails.sl.LessonDetailsModule
+import com.maxim.diaryforstudents.login.presentation.LoginViewModel
+import com.maxim.diaryforstudents.login.sl.EduLoginModule
 import com.maxim.diaryforstudents.main.MainModule
 import com.maxim.diaryforstudents.main.MainViewModel
 import com.maxim.diaryforstudents.menu.presentation.MenuViewModel
@@ -21,12 +21,13 @@ import com.maxim.diaryforstudents.openNews.OpenNewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsViewModel
 import com.maxim.diaryforstudents.performance.actualMarks.presentation.PerformanceActualViewModel
 import com.maxim.diaryforstudents.performance.actualMarks.sl.PerformanceActualModule
-import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsViewModel
+import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsInnerViewModel
+import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsNotInnerViewModel
 import com.maxim.diaryforstudents.performance.analytics.sl.AnalyticsModule
-import com.maxim.diaryforstudents.performance.finalMarks.presentation.PerformanceFinalViewModel
-import com.maxim.diaryforstudents.performance.finalMarks.sl.PerformanceFinalModule
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
 import com.maxim.diaryforstudents.performance.common.sl.PerformanceModule
+import com.maxim.diaryforstudents.performance.finalMarks.presentation.PerformanceFinalViewModel
+import com.maxim.diaryforstudents.performance.finalMarks.sl.PerformanceFinalModule
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import com.maxim.diaryforstudents.profile.sl.ProfileModule
 
@@ -57,7 +58,8 @@ interface DependencyContainer {
             ActualSettingsViewModel::class.java -> ActualSettingsModule(core, clear)
             PerformanceActualViewModel::class.java -> PerformanceActualModule(core, clear)
             PerformanceFinalViewModel::class.java -> PerformanceFinalModule(core)
-            AnalyticsViewModel::class.java -> AnalyticsModule(core, clear)
+            AnalyticsInnerViewModel::class.java -> AnalyticsModule(core, clear)
+            AnalyticsNotInnerViewModel::class.java -> AnalyticsModule(core, clear)
             else -> dependencyContainer.module(clasz)
         } as Module<T>
     }

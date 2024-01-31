@@ -15,8 +15,9 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxim.diaryforstudents.R
+import java.io.Serializable
 
-interface AnalyticsUi {
+interface AnalyticsUi: Serializable {
     fun same(item: AnalyticsUi): Boolean
     fun showData(lineChart: LineChart) {}
     fun showData(pieChart: PieChart) {}

@@ -34,7 +34,7 @@ interface ProvideViewModel {
 
     class Base(private val dependencyContainer: DependencyContainer) : ProvideViewModel {
         override fun <T : ViewModel> viewModel(clasz: Class<T>): T =
-            dependencyContainer.module(clasz).viewModel() as T
+            dependencyContainer.module(clasz).viewModel()
     }
 }
 

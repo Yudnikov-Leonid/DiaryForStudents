@@ -6,14 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentAnalyticsBinding
 
 class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>() {
-    override val viewModelClass = AnalyticsViewModel::class.java
+    private var isDependent = arguments?.getBoolean(INDEPENDENT_KEY) ?: true
+
+    override lateinit var viewModelClass: Class<out AnalyticsViewModel>
+
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentAnalyticsBinding.inflate(inflater, container, false)
 
-    private val isDependent = arguments?.getBoolean(INDEPENDENT_KEY) ?: true
 
     override var setOnBackPressedCallback = isDependent
 
@@ -23,8 +26,14 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
                 viewModel.goBack()
             }
         }
-
+        isDependent = arguments?.getBoolean(INDEPENDENT_KEY) ?: true
+        viewModelClass = if (isDependent) AnalyticsNotInnerViewModel::class.java else
+            AnalyticsInnerViewModel::class.java
         super.onViewCreated(view, savedInstanceState)
+
+        savedInstanceState?.let {
+            viewModel.restore(BundleWrapper.Base(it))
+        }
 
         val adapter = AnalyticsAdapter(object : AnalyticsAdapter.Listener {
             override fun changeQuarter(value: Int) {
@@ -53,6 +62,11 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         }
 
         viewModel.init(savedInstanceState == null, isDependent)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
     }
 
     companion object {

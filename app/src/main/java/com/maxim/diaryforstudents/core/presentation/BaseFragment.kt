@@ -22,7 +22,7 @@ abstract class BaseFragment<B : ViewBinding, V : ViewModel> : Fragment() {
 
     protected abstract fun bind(inflater: LayoutInflater, container: ViewGroup?): B
     protected lateinit var viewModel: V
-    protected abstract val viewModelClass: Class<V>
+    protected abstract val viewModelClass: Class<out V>
     protected open var setOnBackPressedCallback = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

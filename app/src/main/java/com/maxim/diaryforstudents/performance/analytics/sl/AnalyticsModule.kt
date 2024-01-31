@@ -4,11 +4,11 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsCommunication
-import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsViewModel
+import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsInnerViewModel
 
-class AnalyticsModule(private val core: Core, private val clearViewModel: ClearViewModel) : Module<AnalyticsViewModel> {
+class AnalyticsModule(private val core: Core, private val clearViewModel: ClearViewModel) : Module<AnalyticsInnerViewModel> {
     override fun viewModel() =
-        AnalyticsViewModel(
+        AnalyticsInnerViewModel(
            core.marksModule().marksInteractor(),
             core.analyticsStorage(),
             AnalyticsCommunication.Base(),
