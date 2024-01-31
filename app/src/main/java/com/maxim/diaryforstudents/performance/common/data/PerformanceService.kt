@@ -9,4 +9,7 @@ interface PerformanceService {
 
     @POST("periodmarks")
     suspend fun getFinalMarks(@Body body: PerformanceFinalBody): PerformanceFinalResponse
+
+    @POST("allperiods")
+    suspend fun getPeriods(@Body body: PerformanceFinalBody): PeriodsResponse
 }

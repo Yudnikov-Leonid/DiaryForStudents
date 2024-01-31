@@ -12,6 +12,8 @@ interface PerformanceCloudDataSource {
 
     suspend fun finalData(): List<PerformanceFinalLesson>
 
+    suspend fun periods(): List<PerformancePeriod>
+
     class Base(private val service: PerformanceService, private val eduUser: EduUser) :
         PerformanceCloudDataSource {
         override suspend fun data(
@@ -34,6 +36,20 @@ interface PerformanceCloudDataSource {
 
         override suspend fun finalData(): List<PerformanceFinalLesson> {
             val data = service.getFinalMarks(
+                PerformanceFinalBody(
+                    BuildConfig.SHORT_API_KEY,
+                    eduUser.guid(),
+                    ""
+                )
+            )
+
+            return if (data.success)
+                data.data
+            else throw ServiceUnavailableException(data.message)
+        }
+
+        override suspend fun periods(): List<PerformancePeriod> {
+            val data = service.getPeriods(
                 PerformanceFinalBody(
                     BuildConfig.SHORT_API_KEY,
                     eduUser.guid(),

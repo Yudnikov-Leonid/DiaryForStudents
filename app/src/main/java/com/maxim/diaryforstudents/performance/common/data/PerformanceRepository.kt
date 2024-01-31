@@ -31,12 +31,41 @@ interface PerformanceRepository {
         private val finalCache = mutableListOf<PerformanceData>()
         private val finalResponseCache = mutableListOf<PerformanceFinalLesson>()
 
+        private val periods = mutableListOf<Pair<String, String>>()
+        private var actualQuarter = 1
+
         override suspend fun initActual() {
             dataException = null
             cache.clear()
 
             try {
-                val dates = dates(actualQuarter())
+                if (periods.isEmpty()) {
+                    periods.addAll(
+                        cloudDataSource.periods().map { Pair(it.DATE_BEGIN, it.DATE_END) })
+                    val calendar = Calendar.getInstance()
+                    for (i in periods.indices) {
+                        var split = periods[i].first.split('.')
+                        calendar.apply {
+                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
+                            set(Calendar.MONTH, split[1].toInt() - 1)
+                            set(Calendar.YEAR, split[2].toInt())
+                        }
+                        if (calendar.timeInMillis / 86400000 > System.currentTimeMillis() / 86400000)
+                            continue
+                        split = periods[i].second.split('.')
+                        calendar.apply {
+                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
+                            set(Calendar.MONTH, split[1].toInt() - 1)
+                            set(Calendar.YEAR, split[2].toInt())
+                        }
+                        if (calendar.timeInMillis / 86400000 < System.currentTimeMillis() / 86400000)
+                            continue
+                        actualQuarter = i + 1
+                        break
+                    }
+                    periods.add(Pair(periods.first().first, periods.last().second))
+                }
+                val dates = periods[actualQuarter() - 1]
                 responseCache[actualQuarter()] = cloudDataSource.data(dates.first, dates.second)
                 cache.addAll(
                     handleResponse.marks(responseCache[actualQuarter()]!!, true, actualQuarter())
@@ -74,7 +103,7 @@ interface PerformanceRepository {
             dataException = null
             cache.clear()
             try {
-                val dates = dates(quarter)
+                val dates = periods[quarter - 1]
                 cache.addAll(
                     handleResponse.marks(
                         cloudDataSource.data(dates.first, dates.second),
@@ -92,36 +121,28 @@ interface PerformanceRepository {
             interval: Int,
             showFinal: Boolean
         ): List<AnalyticsData> {
-            val dates = dates(quarter)
-            val list = ArrayList(handleResponse.analytics(
-                responseCache[quarter] ?: cloudDataSource.data(dates.first, dates.second),
-                quarter,
-                lessonName,
-                dates.first,
-                dates.second,
-                interval
-            ))
+            val dates = periods[quarter - 1]
+            val list = ArrayList(
+                handleResponse.analytics(
+                    responseCache[quarter] ?: cloudDataSource.data(dates.first, dates.second),
+                    quarter,
+                    lessonName,
+                    dates.first,
+                    dates.second,
+                    interval
+                )
+            )
             if (showFinal)
-                list.add(handleResponse.finalAnalytics(finalResponseCache, quarter, actualQuarter()))
+                list.add(
+                    handleResponse.finalAnalytics(
+                        finalResponseCache,
+                        quarter,
+                        actualQuarter()
+                    )
+                )
             return list
         }
 
-        //todo refactor
-        override fun actualQuarter() = when (Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
-            in 0..91 -> 3
-            in 92..242 -> 4
-            in 243..305 -> 1
-            else -> 2
-        }
-
-        //todo
-        private fun dates(quarter: Int): Pair<String, String> =
-            when (quarter) {
-                1 -> Pair("01.09.2023", "27.10.2023")
-                2 -> Pair("06.11.2023", "29.12.2023")
-                3 -> Pair("09.01.2024", "22.03.2024")
-                4 -> Pair("01.04.2024", "26.05.2024")
-                else -> Pair("01.09.2023", "26.05.2024")
-            }
+        override fun actualQuarter() = actualQuarter
     }
 }
