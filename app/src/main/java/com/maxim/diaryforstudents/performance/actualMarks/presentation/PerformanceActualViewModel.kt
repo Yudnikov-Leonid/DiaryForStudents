@@ -38,8 +38,8 @@ class PerformanceActualViewModel(
     mapper: PerformanceDomain.Mapper<PerformanceUi>,
     private val diaryMapper: DiaryDomain.Mapper<DiaryUi>
 ) : PerformanceMarkViewModel(interactor, communication, mapper), Init, SaveAndRestore {
-
     override val type = MarksType.Base
+    private var lastOpenDetailsTime = 0L
 
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
@@ -53,15 +53,19 @@ class PerformanceActualViewModel(
             }) {
                 reload()
             }
-        }
+        } else
+            reload()
     }
 
     fun openDetails(mark: PerformanceUi.Mark) {
-        navigation.update(LessonDetailsBottomFragmentScreen)
-        handle({
-            mark.getLesson(interactor, diaryMapper)
-        }) {
-            detailsStorage.save(it)
+        if (System.currentTimeMillis() - 500 > lastOpenDetailsTime) {
+            lastOpenDetailsTime = System.currentTimeMillis()
+            navigation.update(LessonDetailsBottomFragmentScreen)
+            handle({
+                mark.getLesson(interactor, diaryMapper)
+            }) {
+                detailsStorage.save(it)
+            }
         }
     }
 
@@ -96,7 +100,8 @@ class PerformanceActualViewModel(
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         communication.restore(RESTORE_KEY, bundleWrapper)
         quarter = bundleWrapper.restore<Int>(QUARTER_KEY) ?: interactor.actualQuarter()
-        handle({ interactor.initActual() }) {}
+        if (interactor.finalDataIsEmpty())
+            handle({ interactor.initFinal() }) {}
     }
 
     companion object {
