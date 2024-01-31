@@ -103,6 +103,7 @@
 
     <string name="common_chart">Common chart</string>
     <string name="marks_pie">Number of marks (pie)</string>
-    <string name="marks_line">Number of marks (line)</string>э
+    <string name="marks_line">Number of marks (line)</string>
+    <string name="in_total">%s in total</string>
     <string name="error">Error</string>
 </resources>

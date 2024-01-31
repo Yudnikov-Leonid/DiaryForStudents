@@ -99,5 +99,6 @@
     <string name="common_chart">Изменение среднего балла</string>
     <string name="marks_pie">Количество оценок (диаграмма)</string>
     <string name="marks_line">Количество оценок (график)</string>
+    <string name="in_total">%s всего</string>
     <string name="error">Ошибка</string>
 </resources>
