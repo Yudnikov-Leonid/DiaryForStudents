@@ -32,30 +32,61 @@ class AnalyticsAdapter(
             item.showData(binding.chart)
             item.showTitle(binding.titleTextView)
             item.showQuarter(binding.quarterSpinner)
-            binding.quarterSpinner.visibility = if (showSpinner) View.VISIBLE else View.GONE
-            var byUser = false
-            val listener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
+            val visibility = if (showSpinner) View.VISIBLE else View.GONE
+            binding.quarterSpinner.visibility = visibility
+            binding.intervalLayout.visibility = visibility
+            if (showSpinner) {
+                var byUser = false
+                val periodListener =
+                    object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
+                        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                            byUser = true
+                            return false
+                        }
 
-                override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                    byUser = true
-                    return false
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            if (byUser)
+                                listener.changeQuarter(position + 1)
+                            byUser = false
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            byUser = false
+                        }
+                    }
+                binding.quarterSpinner.onItemSelectedListener = periodListener
+                binding.quarterSpinner.setOnTouchListener(periodListener)
+
+                val intervalListener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
+                    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                        byUser = true
+                        return false
+                    }
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        if (byUser)
+                            listener.changeInterval(position)
+                        byUser = false
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        byUser = false
+                    }
                 }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if (byUser)
-                        listener.changeQuarter(position + 1)
-                    byUser = false
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+                binding.intervalSpinner.onItemSelectedListener = intervalListener
+                binding.intervalSpinner.setOnTouchListener(intervalListener)
             }
-            binding.quarterSpinner.onItemSelectedListener = listener
-            binding.quarterSpinner.setOnTouchListener(listener)
+
 
 
             binding.chart.apply {
@@ -142,5 +173,6 @@ class AnalyticsAdapter(
 
     interface Listener {
         fun changeQuarter(value: Int)
+        fun changeInterval(value: Int)
     }
 }

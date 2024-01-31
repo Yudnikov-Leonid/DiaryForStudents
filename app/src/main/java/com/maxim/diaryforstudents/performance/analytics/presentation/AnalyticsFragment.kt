@@ -30,6 +30,10 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
             override fun changeQuarter(value: Int) {
                 viewModel.changeQuarter(value)
             }
+
+            override fun changeInterval(value: Int) {
+                viewModel.changeInterval(value)
+            }
         })
         binding.lessonsRecyclerView.adapter = adapter
 

@@ -32,9 +32,30 @@
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.LineChart
+        android:layout_marginTop="5dp"
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
+    <LinearLayout
+        android:id="@+id/intervalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/interval"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/intervalSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/intervals" />
+
+    </LinearLayout>
 
 </LinearLayout>

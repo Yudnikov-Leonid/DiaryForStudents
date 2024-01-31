@@ -101,4 +101,5 @@
     <string name="marks_line">Количество оценок (график)</string>
     <string name="in_total">%s всего</string>
     <string name="error">Ошибка</string>
+    <string name="interval">Интервал</string>
 </resources>

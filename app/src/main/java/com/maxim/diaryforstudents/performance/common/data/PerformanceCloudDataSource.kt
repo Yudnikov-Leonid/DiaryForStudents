@@ -8,7 +8,7 @@ import java.util.Calendar
 
 interface PerformanceCloudDataSource {
     suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData>
-    suspend fun analytics(quarter: Int, lessonName: String, offset: Int): List<AnalyticsData>
+    suspend fun analytics(quarter: Int, lessonName: String, interval: Int): List<AnalyticsData>
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: PerformanceService, private val eduUser: EduUser) :
@@ -88,7 +88,7 @@ interface PerformanceCloudDataSource {
         override suspend fun analytics(
             quarter: Int,
             lessonName: String,
-            offset: Int
+            interval: Int
         ): List<AnalyticsData> {
             val dates = dates(quarter)
             val data = actualCacheMap[quarter] ?: service.getMarks(
@@ -132,7 +132,7 @@ interface PerformanceCloudDataSource {
                     lastDate = (timeInMillis / 86400000).toInt()
 
                 }
-                val weeksCount = (lastDate - firstDate) / offset
+                val weeksCount = (lastDate - firstDate) / interval
 
                 val result = mutableListOf<Float>()
                 val separateMarksResult = listOf<java.util.ArrayList<Float>>(
@@ -142,6 +142,11 @@ interface PerformanceCloudDataSource {
                     ArrayList()
                 )
                 val labels = mutableListOf<String>()
+                val labelText = when (interval) {
+                    in 1..6 -> "day"
+                    7 -> "week"
+                    else -> "month"
+                }
 
                 for (i in 1..weeksCount) {
                     if (marks.size > 0) {
@@ -155,7 +160,7 @@ interface PerformanceCloudDataSource {
                                 marks.filter { it.VALUE == value }.size.toFloat()
                             )
                         }
-                        labels.add("$i week")
+                        labels.add("$i $labelText")
                     }
                     marks.retainAll {
                         val split = it.DATE.split('.')
@@ -166,7 +171,7 @@ interface PerformanceCloudDataSource {
                         }
                         (calendar.timeInMillis / 86400000).toInt() < lastDate
                     }
-                    lastDate -= offset
+                    lastDate -= interval
                 }
                 return listOf(
                     AnalyticsData.LineCommon(result, labels, quarter),

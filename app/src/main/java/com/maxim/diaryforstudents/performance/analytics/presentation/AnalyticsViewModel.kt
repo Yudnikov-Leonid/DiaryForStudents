@@ -21,6 +21,7 @@ class AnalyticsViewModel(
 ) : BaseViewModel(), Communication.Observe<AnalyticsState>, Reload, GoBack {
     private var quarter = 1
     private var lessonName = ""
+    private var interval = 1
 
     fun init(isFirstRun: Boolean, isDependent: Boolean) {
         if (isFirstRun && isDependent) {
@@ -37,9 +38,20 @@ class AnalyticsViewModel(
         reload()
     }
 
+    fun changeInterval(value: Int) {
+        interval = when (value) {
+            0 -> 1
+            1 -> 2
+            2 -> 3
+            3 -> 7
+            else -> 28
+        }
+        reload()
+    }
+
     override fun reload() {
         communication.update(AnalyticsState.Loading)
-        handle({ interactor.analytics(quarter, lessonName, 1) }) {
+        handle({ interactor.analytics(quarter, lessonName, interval) }) {
             if (it.first().message().isNotEmpty())
                 communication.update(AnalyticsState.Error(it.first().message()))
             else
