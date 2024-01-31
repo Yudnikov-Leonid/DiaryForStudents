@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewbinding.ViewBinding
@@ -32,6 +33,7 @@ class AnalyticsAdapter(
             item.showData(binding.chart)
             item.showTitle(binding.titleTextView)
             item.showQuarter(binding.quarterSpinner)
+            item.showInterval(binding.intervalSpinner)
             val visibility = if (showSpinner) View.VISIBLE else View.GONE
             binding.quarterSpinner.visibility = visibility
             binding.intervalLayout.visibility = visibility
@@ -129,7 +131,7 @@ class AnalyticsAdapter(
         override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
             binding.chart.apply {
                 description.isEnabled = false
-                setDrawSliceText(false)
+                setDrawEntryLabels(false)
             }
             item.showData(binding.chart)
             item.showTitle(binding.titleTextView)
@@ -165,14 +167,30 @@ class AnalyticsAdapter(
     }
 
     fun update(newList: List<AnalyticsUi>) {
+        val diff = AnalyticsDiff(list, newList)
+        val result = DiffUtil.calculateDiff(diff)
         list.clear()
         list.addAll(newList)
-        //todo
-        notifyDataSetChanged()
+        result.dispatchUpdatesTo(this)
     }
 
     interface Listener {
         fun changeQuarter(value: Int)
         fun changeInterval(value: Int)
     }
+}
+
+class AnalyticsDiff(
+    private val oldList: List<AnalyticsUi>,
+    private val newList: List<AnalyticsUi>,
+): DiffUtil.Callback() {
+    override fun getOldListSize() = oldList.size
+
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+        oldList[oldItemPosition].same(newList[newItemPosition])
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+        oldList[oldItemPosition] == newList[newItemPosition]
 }

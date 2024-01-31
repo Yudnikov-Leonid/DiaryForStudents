@@ -174,7 +174,7 @@ interface PerformanceCloudDataSource {
                     lastDate -= interval
                 }
                 return listOf(
-                    AnalyticsData.LineCommon(result, labels, quarter),
+                    AnalyticsData.LineCommon(result, labels, quarter, interval),
                     AnalyticsData.PieMarks(fiveCount, fourCount, threeCount, twoCount),
                     AnalyticsData.LineMarks(
                         separateMarksResult[0],

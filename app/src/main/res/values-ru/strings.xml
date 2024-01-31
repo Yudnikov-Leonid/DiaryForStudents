@@ -56,6 +56,14 @@
         <item>Год</item>
     </string-array>
 
+    <string-array name="intervals">
+        <item>1 день</item>
+        <item>2 дня</item>
+        <item>3 дня</item>
+        <item>1 неделя</item>
+        <item>1 месяц</item>
+    </string-array>
+
     <string-array name="progress_compare">
         <item>неделя назад</item>
         <item>2 недели назад</item>

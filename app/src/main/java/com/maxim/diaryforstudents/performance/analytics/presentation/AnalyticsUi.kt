@@ -17,20 +17,35 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxim.diaryforstudents.R
 
 interface AnalyticsUi {
+    fun same(item: AnalyticsUi): Boolean
     fun showData(lineChart: LineChart) {}
     fun showData(pieChart: PieChart) {}
     fun showTitle(textView: TextView)
     fun showQuarter(spinner: Spinner) {}
+    fun showInterval(spinner: Spinner) {}
 
     class LineCommon(
         private val data: List<Float>,
         private val labels: List<String>,
-        private val quarter: Int
+        private val quarter: Int,
+        private val interval: Int
     ) : AnalyticsUi {
 
         override fun showQuarter(spinner: Spinner) {
             spinner.setSelection(quarter - 1)
         }
+
+        override fun showInterval(spinner: Spinner) {
+            spinner.setSelection(when(interval) {
+                1 -> 0
+                2 -> 1
+                3 -> 2
+                7 -> 3
+                else -> 4
+            })
+        }
+
+        override fun same(item: AnalyticsUi) = item is LineCommon
 
         override fun showData(lineChart: LineChart) {
             val entries = arrayListOf<Entry>()
@@ -122,6 +137,8 @@ interface AnalyticsUi {
             lineChart.data = lineData
         }
 
+        override fun same(item: AnalyticsUi) = item is LineMarks
+
         override fun showTitle(textView: TextView) {
             val text = textView.resources.getString(R.string.marks_line)
             textView.text = text
@@ -134,6 +151,8 @@ interface AnalyticsUi {
         private val threeCount: Int,
         private val twoCount: Int,
     ) : AnalyticsUi {
+        override fun same(item: AnalyticsUi) = item is PieMarks
+
         override fun showData(pieChart: PieChart) {
             val sum = fiveCount + fourCount + threeCount + twoCount
             val entries = hashMapOf(
@@ -197,6 +216,8 @@ interface AnalyticsUi {
     }
 
     object Error : AnalyticsUi {
+        override fun same(item: AnalyticsUi) = item is java.lang.Error
+
         override fun showData(lineChart: LineChart) {
             lineChart.setNoDataText("Fail")
             lineChart.data = null
