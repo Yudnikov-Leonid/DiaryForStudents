@@ -1,16 +1,18 @@
 package com.maxim.diaryforstudents.performance.common.data
 
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsData
+import java.io.Serializable
 import java.util.Calendar
 
 interface HandleResponse {
-    fun marks(
+    fun lessons(
         lessons: List<CloudLesson>,
         calculateProgress: Boolean,
         quarter: Int
     ): List<PerformanceData.Lesson>
 
-    fun finalMarks(lessons: List<PerformanceFinalLesson>): List<PerformanceData.Lesson>
+    fun finalMarksLessons(lessons: List<PerformanceFinalLesson>): List<PerformanceData.Lesson>
     fun analytics(
         lessons: List<CloudLesson>,
         quarter: Int,
@@ -26,10 +28,13 @@ interface HandleResponse {
         actualQuarter: Int
     ): AnalyticsData
 
+    fun save(bundleWrapper: BundleWrapper.Save)
+    fun restore(bundleWrapper: BundleWrapper.Restore)
+
     class Base : HandleResponse {
         private val averageMap = mutableMapOf<Pair<String, Int>, Float>()
 
-        override fun marks(
+        override fun lessons(
             lessons: List<CloudLesson>,
             calculateProgress: Boolean,
             quarter: Int
@@ -80,7 +85,7 @@ interface HandleResponse {
             }
         }
 
-        override fun finalMarks(lessons: List<PerformanceFinalLesson>): List<PerformanceData.Lesson> {
+        override fun finalMarksLessons(lessons: List<PerformanceFinalLesson>): List<PerformanceData.Lesson> {
             lessons.forEach { lesson ->
                 lesson.PERIODS.forEachIndexed { i, period ->
                     averageMap[Pair(lesson.NAME, i + 1)] = period.AVERAGE
@@ -236,5 +241,22 @@ interface HandleResponse {
                 resultMap[2] ?: 0
             )
         }
+
+        override fun save(bundleWrapper: BundleWrapper.Save) {
+            bundleWrapper.save(RESTORE_KEY, SerializableMap(averageMap))
+        }
+
+        override fun restore(bundleWrapper: BundleWrapper.Restore) {
+            val map = bundleWrapper.restore<SerializableMap>(RESTORE_KEY)?.map ?: mutableMapOf()
+            map.forEach {
+                averageMap[it.key] = it.value
+            }
+        }
+
+        companion object {
+            private const val RESTORE_KEY = "handle_response_restore_key"
+        }
     }
 }
+
+data class SerializableMap(val map: MutableMap<Pair<String, Int>, Float>): Serializable

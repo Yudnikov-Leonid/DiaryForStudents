@@ -2,7 +2,7 @@ package com.maxim.diaryforstudents.performance.common.presentation
 
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
@@ -11,28 +11,15 @@ import java.io.Serializable
 interface PerformanceState: Serializable {
     fun show(
         quarterSpinner: Spinner,
-        settingsBar: LinearLayout,
-        adapter: PerformanceLessonsAdapter,
-        errorTextView: TextView,
-        retryButton: Button,
-        progressBar: ProgressBar,
-    ) {
-        show(adapter, errorTextView, retryButton, progressBar)
-    }
+        settingsImageButton: ImageButton,
+    ) {}
 
     fun show(adapter: PerformanceLessonsAdapter, errorTextView: TextView, retryButton: Button, progressBar: ProgressBar)
 
     object Loading : PerformanceState {
-        override fun show(
-            quarterSpinner: Spinner,
-            settingsBar: LinearLayout,
-            adapter: PerformanceLessonsAdapter,
-            errorTextView: TextView,
-            retryButton: Button,
-            progressBar: ProgressBar
-        ) {
-            super.show(quarterSpinner, settingsBar, adapter, errorTextView, retryButton, progressBar)
-            settingsBar.visibility = View.GONE
+        override fun show(quarterSpinner: Spinner, settingsImageButton: ImageButton) {
+            settingsImageButton.visibility = View.GONE
+            quarterSpinner.visibility = View.GONE
         }
 
         override fun show(
@@ -48,16 +35,9 @@ interface PerformanceState: Serializable {
     }
 
     data class Error(private val message: String) : PerformanceState {
-        override fun show(
-            quarterSpinner: Spinner,
-            settingsBar: LinearLayout,
-            adapter: PerformanceLessonsAdapter,
-            errorTextView: TextView,
-            retryButton: Button,
-            progressBar: ProgressBar
-        ) {
-            super.show(quarterSpinner, settingsBar, adapter, errorTextView, retryButton, progressBar)
-            settingsBar.visibility = View.GONE
+        override fun show(quarterSpinner: Spinner, settingsImageButton: ImageButton) {
+            settingsImageButton.visibility = View.GONE
+            quarterSpinner.visibility = View.GONE
         }
 
         override fun show(
@@ -81,16 +61,9 @@ interface PerformanceState: Serializable {
         private val isFinal: Boolean,
         private val progressType: ProgressType
     ) : PerformanceState {
-        override fun show(
-            quarterSpinner: Spinner,
-            settingsBar: LinearLayout,
-            adapter: PerformanceLessonsAdapter,
-            errorTextView: TextView,
-            retryButton: Button,
-            progressBar: ProgressBar
-        ) {
-            super.show(quarterSpinner, settingsBar, adapter, errorTextView, retryButton, progressBar)
-            settingsBar.visibility = if (isFinal) View.GONE else View.VISIBLE
+        override fun show(quarterSpinner: Spinner, settingsImageButton: ImageButton) {
+            quarterSpinner.visibility = View.VISIBLE
+            settingsImageButton.visibility = if (isFinal) View.GONE else View.VISIBLE
             quarterSpinner.setSelection(quarter - 1)
         }
 

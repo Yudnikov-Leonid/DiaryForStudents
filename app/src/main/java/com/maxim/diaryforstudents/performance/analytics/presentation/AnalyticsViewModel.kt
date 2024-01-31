@@ -92,9 +92,7 @@ abstract class AnalyticsViewModel(
         interval = bundleWrapper.restore(INTERVAL_RESTORE_KEY) ?: 1
     }
 
-    companion object {
-        private const val RESTORE_KEY = "analytics_communication_restore"
-        private const val QUARTER_RESTORE_KEY = "analytics_quarter_restore"
-        private const val INTERVAL_RESTORE_KEY = "analytics_interval_restore"
-    }
+    protected abstract val RESTORE_KEY: String
+    protected abstract val QUARTER_RESTORE_KEY: String
+    protected abstract val INTERVAL_RESTORE_KEY: String
 }

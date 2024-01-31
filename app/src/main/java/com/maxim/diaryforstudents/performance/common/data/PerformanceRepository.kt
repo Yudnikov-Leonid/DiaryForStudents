@@ -1,9 +1,12 @@
 package com.maxim.diaryforstudents.performance.common.data
 
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsData
+import java.io.Serializable
 import java.util.Calendar
 
-interface PerformanceRepository {
+interface PerformanceRepository : Communication.Save, Communication.Restore {
     suspend fun initActual()
     suspend fun initFinal()
     fun cachedData(search: String): List<PerformanceData>
@@ -68,7 +71,7 @@ interface PerformanceRepository {
                 val dates = periods[actualQuarter() - 1]
                 responseCache[actualQuarter()] = cloudDataSource.data(dates.first, dates.second)
                 cache.addAll(
-                    handleResponse.marks(responseCache[actualQuarter()]!!, true, actualQuarter())
+                    handleResponse.lessons(responseCache[actualQuarter()]!!, true, actualQuarter())
                 )
 
             } catch (e: Exception) {
@@ -83,7 +86,7 @@ interface PerformanceRepository {
             try {
                 finalResponseCache.clear()
                 finalResponseCache.addAll(cloudDataSource.finalData())
-                finalCache.addAll(handleResponse.finalMarks(finalResponseCache))
+                finalCache.addAll(handleResponse.finalMarksLessons(finalResponseCache))
             } catch (e: Exception) {
                 finalDataException = e
             }
@@ -105,7 +108,7 @@ interface PerformanceRepository {
             try {
                 val dates = periods[quarter - 1]
                 cache.addAll(
-                    handleResponse.marks(
+                    handleResponse.lessons(
                         cloudDataSource.data(dates.first, dates.second),
                         quarter == actualQuarter(), quarter
                     )
@@ -144,5 +147,30 @@ interface PerformanceRepository {
         }
 
         override fun actualQuarter() = actualQuarter
+
+        override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
+            bundleWrapper.save(PERIODS_RESTORE_KEY, SerializableList(periods))
+            bundleWrapper.save(ACTUAL_QUARTER_RESTORE_KEY, actualQuarter)
+            handleResponse.save(bundleWrapper)
+        }
+
+        override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
+            //todo надо ли так много сейвить?
+            val data = bundleWrapper.restore<SerializableList>(PERIODS_RESTORE_KEY)
+            periods.addAll(
+                data?.list ?: emptyList()
+            )
+            actualQuarter = bundleWrapper.restore(ACTUAL_QUARTER_RESTORE_KEY) ?: 1
+            handleResponse.restore(bundleWrapper)
+        }
+
+        companion object {
+            private const val PERIODS_RESTORE_KEY = "performance_repository_periods_restore"
+            private const val ACTUAL_QUARTER_RESTORE_KEY = "performance_repository_quarter_restore"
+        }
     }
 }
+
+data class SerializableList(
+    val list: List<Pair<String, String>>,
+) : Serializable

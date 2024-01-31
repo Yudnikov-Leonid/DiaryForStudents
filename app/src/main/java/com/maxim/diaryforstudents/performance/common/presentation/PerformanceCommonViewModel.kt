@@ -7,7 +7,7 @@ import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.actualMarks.presentation.PerformanceActualViewModel
-import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsViewModel
+import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsInnerViewModel
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
 import com.maxim.diaryforstudents.performance.finalMarks.presentation.PerformanceFinalViewModel
 
@@ -22,7 +22,7 @@ class PerformanceCommonViewModel(
         navigation.update(Screen.Pop)
         clear.clearViewModel(PerformanceFinalViewModel::class.java)
         clear.clearViewModel(PerformanceActualViewModel::class.java)
-        clear.clearViewModel(AnalyticsViewModel::class.java)
+        clear.clearViewModel(AnalyticsInnerViewModel::class.java)
         marksModule.clear()
         clear.clearViewModel(PerformanceCommonViewModel::class.java)
     }

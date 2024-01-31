@@ -5,6 +5,7 @@ import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualS
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SORTING_ORDER_KEY
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel.Companion.SORT_BY_KEY
 import com.maxim.diaryforstudents.core.data.SimpleStorage
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
@@ -29,6 +30,9 @@ interface PerformanceInteractor {
     suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson
 
     fun actualQuarter(): Int
+
+    fun save(bundleWrapper: BundleWrapper.Save)
+    fun restore(bundleWrapper: BundleWrapper.Restore)
 
     class Base(
         private val repository: PerformanceRepository,
@@ -128,5 +132,12 @@ interface PerformanceInteractor {
 
 
         override fun actualQuarter() = repository.actualQuarter()
+        override fun save(bundleWrapper: BundleWrapper.Save) {
+            repository.save("", bundleWrapper)
+        }
+
+        override fun restore(bundleWrapper: BundleWrapper.Restore) {
+            repository.restore("", bundleWrapper)
+        }
     }
 }

@@ -19,7 +19,8 @@ interface FailureHandler {
                 is SocketTimeoutException -> TimeOutError()
                 is ServiceUnavailableException -> ServiceUnavailableError(e.message ?: "Server error")
                 is retrofit2.HttpException -> ServiceUnavailableError(e.message ?: "Server error")
-                else -> UnknownError()
+                //todo remove unknown message in release
+                else -> UnknownError(e.message ?: "Unknown error")
             }
         }
     }

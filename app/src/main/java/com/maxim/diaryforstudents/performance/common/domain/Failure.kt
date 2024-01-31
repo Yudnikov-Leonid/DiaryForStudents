@@ -16,6 +16,6 @@ class TimeOutError: Failure {
     override fun message() = "Timeout"
 }
 
-class UnknownError: Failure {
-    override fun message() = "Unknown error"
+class UnknownError(private val message: String): Failure {
+    override fun message() = message
 }

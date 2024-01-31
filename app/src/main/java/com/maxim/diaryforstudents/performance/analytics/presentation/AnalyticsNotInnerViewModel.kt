@@ -15,4 +15,8 @@ class AnalyticsNotInnerViewModel(
     interactor, analyticsStorage, communication, navigation, clearViewModel
 ) {
     override val showFinal = false
+
+    override val RESTORE_KEY = "not_inner_analytics_restore"
+    override val QUARTER_RESTORE_KEY = "not_inner_quarter_analytics_restore"
+    override val INTERVAL_RESTORE_KEY = "not_inner_interval_analytics_restore"
 }

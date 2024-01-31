@@ -99,13 +99,14 @@ class PerformanceActualFragment :
         viewModel.observe(this) {
             it.show(
                 binding.quarterSpinner,
-                binding.settingsBar,
+                binding.settingsImageButton,
+            )
+            it.show(
                 adapter,
                 binding.errorTextView,
                 binding.retryButton,
                 binding.progressBar,
             )
-
         }
 
         binding.settingsImageButton.setOnClickListener {

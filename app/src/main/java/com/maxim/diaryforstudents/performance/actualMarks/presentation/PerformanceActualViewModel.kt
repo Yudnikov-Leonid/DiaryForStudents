@@ -95,18 +95,18 @@ class PerformanceActualViewModel(
     override fun save(bundleWrapper: BundleWrapper.Save) {
         communication.save(RESTORE_KEY, bundleWrapper)
         bundleWrapper.save(QUARTER_KEY, quarter)
+        interactor.save(bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         communication.restore(RESTORE_KEY, bundleWrapper)
         quarter = bundleWrapper.restore<Int>(QUARTER_KEY) ?: interactor.actualQuarter()
-        if (interactor.finalDataIsEmpty())
-            handle({ interactor.initFinal() }) {}
+        interactor.restore(bundleWrapper)
     }
 
     companion object {
-        private const val RESTORE_KEY = "performance_communication_key"
-        private const val QUARTER_KEY = "performance_quarter_key"
+        private const val RESTORE_KEY = "performance_actual_communication_key"
+        private const val QUARTER_KEY = "performance_actual_quarter_key"
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
