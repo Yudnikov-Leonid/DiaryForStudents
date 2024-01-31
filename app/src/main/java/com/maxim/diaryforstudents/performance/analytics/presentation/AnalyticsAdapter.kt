@@ -139,7 +139,7 @@ class AnalyticsAdapter(
     }
 
     override fun getItemViewType(position: Int) =
-        if (list[position] is AnalyticsUi.PieMarks) 1 else 0
+        if (list[position].isLine()) 0 else 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return when(viewType) {

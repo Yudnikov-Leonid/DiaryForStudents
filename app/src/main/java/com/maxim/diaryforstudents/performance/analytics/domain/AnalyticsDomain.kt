@@ -39,6 +39,17 @@ interface AnalyticsDomain {
         override fun message() = ""
     }
 
+    class PieFinalMarks(
+        private val fiveCount: Int,
+        private val fourCount: Int,
+        private val threeCount: Int,
+        private val twoCount: Int,
+    ) : AnalyticsDomain {
+        override fun toUi() = AnalyticsUi.PieFinalMarks(fiveCount, fourCount, threeCount, twoCount)
+
+        override fun message() = ""
+    }
+
     class Error(
         private val message: String
     ) : AnalyticsDomain {

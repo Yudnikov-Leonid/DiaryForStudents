@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.performance.analytics.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         viewModelClass = if (isDependent) AnalyticsNotInnerViewModel::class.java else
             AnalyticsInnerViewModel::class.java
         super.onViewCreated(view, savedInstanceState)
+        Log.d("MyLog", "viewModel: $viewModel")
 
         savedInstanceState?.let {
             viewModel.restore(BundleWrapper.Base(it))

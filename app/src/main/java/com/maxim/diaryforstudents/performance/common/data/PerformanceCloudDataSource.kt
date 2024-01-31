@@ -9,12 +9,14 @@ import java.util.Calendar
 interface PerformanceCloudDataSource {
     suspend fun data(quarter: Int, calculateProgress: Boolean): List<PerformanceData>
     suspend fun analytics(quarter: Int, lessonName: String, interval: Int): List<AnalyticsData>
+    suspend fun finalAnalytics(quarter: Int): AnalyticsData
     suspend fun finalData(): List<PerformanceData>
 
     class Base(private val service: PerformanceService, private val eduUser: EduUser) :
         PerformanceCloudDataSource {
         private val averageMap = mutableMapOf<Pair<String, Int>, Float>()
         private val actualCacheMap = mutableMapOf<Int, PerformanceResponse>()
+        private var finalCache: PerformanceFinalResponse? = null
 
         //todo
         private fun dates(quarter: Int): Pair<String, String> =
@@ -187,6 +189,39 @@ interface PerformanceCloudDataSource {
             } else throw ServiceUnavailableException(data.message)
         }
 
+        override suspend fun finalAnalytics(quarter: Int): AnalyticsData {
+            val data = finalCache ?: service.getFinalMarks(
+                PerformanceFinalBody(
+                    BuildConfig.SHORT_API_KEY,
+                    eduUser.guid(),
+                    ""
+                )
+            )
+
+            return if (data.success) {
+                val resultMap = mutableMapOf<Int, Int>()
+                data.data.forEach { lesson ->
+                    if (quarter != 5) {
+                        lesson.PERIODS[quarter - 1].MARK?.VALUE?.let {
+                            resultMap[it] = resultMap[it]?.plus(1) ?: 1
+                        }
+                    } else {
+                        lesson.PERIODS.forEach { period ->
+                            period.MARK?.VALUE?.let {
+                                resultMap[it] = resultMap[it]?.plus(1) ?: 1
+                            }
+                        }
+                    }
+                }
+                AnalyticsData.PieFinalMarks(
+                    resultMap[5] ?: 0,
+                    resultMap[4] ?: 0,
+                    resultMap[3] ?: 0,
+                    resultMap[2] ?: 0
+                )
+            } else throw ServiceUnavailableException(data.message)
+        }
+
         override suspend fun finalData(): List<PerformanceData> {
             val data = service.getFinalMarks(
                 PerformanceFinalBody(
@@ -195,6 +230,7 @@ interface PerformanceCloudDataSource {
                     ""
                 )
             )
+            finalCache = data
 
             data.data.forEach { lesson ->
                 lesson.PERIODS.forEachIndexed { i, period ->

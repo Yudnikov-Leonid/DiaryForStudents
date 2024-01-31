@@ -25,6 +25,8 @@ interface AnalyticsUi: Serializable {
     fun showQuarter(spinner: Spinner) {}
     fun showInterval(spinner: Spinner) {}
 
+    fun isLine(): Boolean
+
     class LineCommon(
         private val data: List<Float>,
         private val labels: List<String>,
@@ -45,6 +47,8 @@ interface AnalyticsUi: Serializable {
                 else -> 4
             })
         }
+
+        override fun isLine() = true
 
         override fun same(item: AnalyticsUi) = item is LineCommon
 
@@ -144,6 +148,8 @@ interface AnalyticsUi: Serializable {
             val text = textView.resources.getString(R.string.marks_line)
             textView.text = text
         }
+
+        override fun isLine() = true
     }
 
     class PieMarks(
@@ -214,6 +220,80 @@ interface AnalyticsUi: Serializable {
             val text = textView.resources.getString(R.string.marks_pie)
             textView.text = text
         }
+
+        override fun isLine() = false
+    }
+
+    class PieFinalMarks(
+        private val fiveCount: Int,
+        private val fourCount: Int,
+        private val threeCount: Int,
+        private val twoCount: Int,
+    ) : AnalyticsUi {
+        override fun same(item: AnalyticsUi) = item is PieFinalMarks
+
+        override fun showData(pieChart: PieChart) {
+            val sum = fiveCount + fourCount + threeCount + twoCount
+            val entries = hashMapOf(
+                "5" to fiveCount,
+                "4" to fourCount,
+                "3" to threeCount,
+                "2" to twoCount
+            ).mapNotNull {
+                if (it.value == 0) null
+                else
+                    PieEntry(it.value.toFloat(), it.key)
+            }
+            val colorIds = arrayListOf<Int>()
+            val legend = mutableListOf<String>()
+            if (fiveCount > 0) {
+                colorIds.add(R.color.light_green)
+                legend.add("5 (${(fiveCount.toFloat() / sum * 100).toInt()}%)")
+            }
+            if (fourCount > 0) {
+                colorIds.add(R.color.green)
+                legend.add("4 (${(fourCount.toFloat() / sum * 100).toInt()}%)")
+            }
+            if (threeCount > 0) {
+                colorIds.add(R.color.yellow)
+                legend.add("3 (${(threeCount.toFloat() / sum * 100).toInt()}%)")
+            }
+            if (twoCount > 0) {
+                colorIds.add(R.color.red)
+                legend.add("2 (${(twoCount.toFloat() / sum * 100).toInt()}%)")
+            }
+            val colors = colorIds.map { ContextCompat.getColor(pieChart.context, it) }
+
+            pieChart.legend.setCustom(legend.mapIndexed { i, value ->
+                LegendEntry(value, Legend.LegendForm.DEFAULT, 10f, 2f, null, colors[i])
+            })
+            pieChart.centerText = pieChart.resources.getString(
+                R.string.in_total,
+                (fiveCount + fourCount + threeCount + twoCount).toString()
+            )
+            pieChart.setCenterTextSize(14f)
+
+            val dataSet = PieDataSet(entries, "").apply {
+                valueTextSize = 16f
+                setColors(colors.reversed())
+                valueTextColor = ContextCompat.getColor(pieChart.context, R.color.black)
+            }
+            val pieData = PieData(dataSet).apply {
+                setValueFormatter(object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        return "${value.toInt()}"
+                    }
+                })
+            }
+            pieChart.data = pieData
+        }
+
+        override fun showTitle(textView: TextView) {
+            val text = textView.resources.getString(R.string.final_marks_pie)
+            textView.text = text
+        }
+
+        override fun isLine() = false
     }
 
     object Error : AnalyticsUi {
@@ -227,5 +307,7 @@ interface AnalyticsUi: Serializable {
         override fun showTitle(textView: TextView) {
             textView.text = textView.resources.getString(R.string.error)
         }
+
+        override fun isLine() = true
     }
 }

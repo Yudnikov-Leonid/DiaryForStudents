@@ -32,4 +32,13 @@ interface AnalyticsData {
     ): AnalyticsData {
         override fun toDomain() = AnalyticsDomain.PieMarks(fiveCount, fourCount, threeCount, twoCount)
     }
+
+    data class PieFinalMarks(
+        private val fiveCount: Int,
+        private val fourCount: Int,
+        private val threeCount: Int,
+        private val twoCount: Int,
+    ): AnalyticsData {
+        override fun toDomain() = AnalyticsDomain.PieFinalMarks(fiveCount, fourCount, threeCount, twoCount)
+    }
 }

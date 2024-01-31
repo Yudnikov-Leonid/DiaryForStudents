@@ -25,6 +25,8 @@ abstract class AnalyticsViewModel(
     private var lessonName = ""
     private var interval = 1
 
+    protected abstract val showFinal: Boolean
+
     fun init(isFirstRun: Boolean, isDependent: Boolean) {
         if (isDependent) {
             lessonName = analyticsStorage.read()
@@ -53,7 +55,7 @@ abstract class AnalyticsViewModel(
 
     override fun reload() {
         communication.update(AnalyticsState.Loading)
-        handle({ interactor.analytics(quarter, lessonName, interval) }) {
+        handle({ interactor.analytics(quarter, lessonName, interval, showFinal) }) {
             if (it.first().message().isNotEmpty())
                 communication.update(AnalyticsState.Error(it.first().message()))
             else

@@ -13,4 +13,6 @@ class AnalyticsNotInnerViewModel(
     clearViewModel: ClearViewModel
 ) : AnalyticsViewModel(
     interactor, analyticsStorage, communication, navigation, clearViewModel
-)
+) {
+    override val showFinal = false
+}

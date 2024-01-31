@@ -105,8 +105,9 @@
     <string name="progress_info">Прогресс не будет отображаться, если разница состовляет менее 5%</string>
 
     <string name="common_chart">Изменение среднего балла</string>
-    <string name="marks_pie">Количество оценок (диаграмма)</string>
-    <string name="marks_line">Количество оценок (график)</string>
+    <string name="marks_pie">Количество оценок</string>
+    <string name="final_marks_pie">Количество итоговых оценок</string>
+    <string name="marks_line">График появления оценок</string>
     <string name="in_total">%s всего</string>
     <string name="error">Ошибка</string>
     <string name="interval">Интервал</string>

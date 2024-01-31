@@ -24,7 +24,7 @@ interface PerformanceInteractor {
 
     fun finalDataIsEmpty(): Boolean
 
-    suspend fun analytics(quarter: Int, lessonName: String, interval: Int): List<AnalyticsDomain>
+    suspend fun analytics(quarter: Int, lessonName: String, interval: Int, showFinal: Boolean): List<AnalyticsDomain>
 
     suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson
 
@@ -98,9 +98,10 @@ interface PerformanceInteractor {
         override suspend fun analytics(
             quarter: Int,
             lessonName: String,
-            interval: Int
+            interval: Int,
+            showFinal: Boolean
         ): List<AnalyticsDomain> = try {
-            repository.analytics(quarter, lessonName, interval).map { it.toDomain() }
+            repository.analytics(quarter, lessonName, interval, showFinal).map { it.toDomain() }
         } catch (e: Exception) {
             listOf(AnalyticsDomain.Error(failureHandler.handle(e).message()))
         }
