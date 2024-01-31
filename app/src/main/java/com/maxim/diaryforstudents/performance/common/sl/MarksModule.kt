@@ -6,6 +6,7 @@ import com.maxim.diaryforstudents.diary.data.DiaryDataToDomainMapper
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.data.DiaryService
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
+import com.maxim.diaryforstudents.performance.common.data.HandleResponse
 import com.maxim.diaryforstudents.performance.common.data.PerformanceCloudDataSource
 import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
 import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
@@ -19,9 +20,9 @@ interface MarksModule {
         fun clear()
     }
 
-    interface Mutable: MarksModule, Clear
+    interface Mutable : MarksModule, Clear
 
-    class Base(private val core: Core): Mutable {
+    class Base(private val core: Core) : Mutable {
         private var marksInteractor: PerformanceInteractor? = null
 
         override fun marksInteractor(): PerformanceInteractor {
@@ -30,8 +31,9 @@ interface MarksModule {
                     PerformanceRepository.Base(
                         PerformanceCloudDataSource.Base(
                             core.retrofit().create(PerformanceService::class.java),
-                            core.eduUser()
-                        )
+                            core.eduUser(),
+                        ),
+                        HandleResponse.Base()
                     ),
                     DiaryRepository.Base(
                         core.retrofit().create(DiaryService::class.java),

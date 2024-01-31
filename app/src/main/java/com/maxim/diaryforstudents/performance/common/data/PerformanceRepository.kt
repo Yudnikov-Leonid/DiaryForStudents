@@ -19,20 +19,29 @@ interface PerformanceRepository {
 
     fun actualQuarter(): Int
 
-    class Base(private val cloudDataSource: PerformanceCloudDataSource) :
-        PerformanceRepository {
+    class Base(
+        private val cloudDataSource: PerformanceCloudDataSource,
+        private val handleResponse: HandleResponse
+    ) : PerformanceRepository {
         private var dataException: Exception? = null
         private var finalDataException: Exception? = null
 
+        private val responseCache = mutableMapOf<Int, List<CloudLesson>>()
         private val cache = mutableListOf<PerformanceData>()
         private val finalCache = mutableListOf<PerformanceData>()
+        private val finalResponseCache = mutableListOf<PerformanceFinalLesson>()
 
         override suspend fun initActual() {
             dataException = null
             cache.clear()
 
             try {
-                cache.addAll(cloudDataSource.data(actualQuarter(), true))
+                val dates = dates(actualQuarter())
+                responseCache[actualQuarter()] = cloudDataSource.data(dates.first, dates.second)
+                cache.addAll(
+                    handleResponse.marks(responseCache[actualQuarter()]!!, true, actualQuarter())
+                )
+
             } catch (e: Exception) {
                 dataException = e
             }
@@ -43,7 +52,9 @@ interface PerformanceRepository {
             finalCache.clear()
 
             try {
-                finalCache.addAll(cloudDataSource.finalData())
+                finalResponseCache.clear()
+                finalResponseCache.addAll(cloudDataSource.finalData())
+                finalCache.addAll(handleResponse.finalMarks(finalResponseCache))
             } catch (e: Exception) {
                 finalDataException = e
             }
@@ -63,7 +74,13 @@ interface PerformanceRepository {
             dataException = null
             cache.clear()
             try {
-                cache.addAll(cloudDataSource.data(quarter, quarter == actualQuarter()))
+                val dates = dates(quarter)
+                cache.addAll(
+                    handleResponse.marks(
+                        cloudDataSource.data(dates.first, dates.second),
+                        quarter == actualQuarter(), quarter
+                    )
+                )
             } catch (e: Exception) {
                 dataException = e
             }
@@ -75,9 +92,17 @@ interface PerformanceRepository {
             interval: Int,
             showFinal: Boolean
         ): List<AnalyticsData> {
-            val list = ArrayList(cloudDataSource.analytics(quarter, lessonName, interval))
+            val dates = dates(quarter)
+            val list = ArrayList(handleResponse.analytics(
+                responseCache[quarter] ?: cloudDataSource.data(dates.first, dates.second),
+                quarter,
+                lessonName,
+                dates.first,
+                dates.second,
+                interval
+            ))
             if (showFinal)
-                list.add(cloudDataSource.finalAnalytics(quarter))
+                list.add(handleResponse.finalAnalytics(finalResponseCache, quarter, actualQuarter()))
             return list
         }
 
@@ -88,5 +113,15 @@ interface PerformanceRepository {
             in 243..305 -> 1
             else -> 2
         }
+
+        //todo
+        private fun dates(quarter: Int): Pair<String, String> =
+            when (quarter) {
+                1 -> Pair("01.09.2023", "27.10.2023")
+                2 -> Pair("06.11.2023", "29.12.2023")
+                3 -> Pair("09.01.2024", "22.03.2024")
+                4 -> Pair("01.04.2024", "26.05.2024")
+                else -> Pair("01.09.2023", "26.05.2024")
+            }
     }
 }
