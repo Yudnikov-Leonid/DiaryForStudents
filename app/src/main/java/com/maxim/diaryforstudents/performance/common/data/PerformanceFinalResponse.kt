@@ -10,6 +10,7 @@ data class PerformanceFinalResponse(
 
 data class PerformanceFinalLesson(
     val NAME: String,
+    val SYS_GUID: String,
     val PERIODS: List<PerformanceFinalPeriod>
 ): Serializable
 

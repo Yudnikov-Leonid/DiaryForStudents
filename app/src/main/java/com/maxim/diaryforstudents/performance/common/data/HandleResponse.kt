@@ -41,7 +41,8 @@ interface HandleResponse {
         ): List<PerformanceData.Lesson> {
             return lessons.filter { it.MARKS.isNotEmpty() }.map { lesson ->
                 val progresses = IntArray(3)
-                val actualAverage = averageMap[Pair(lesson.SUBJECT_NAME, quarter)] ?: 0f
+                val actualAverage = averageMap[Pair(lesson.SUBJECT_SYS_GUID, quarter)]
+                    ?: (lesson.MARKS.sumOf { it.VALUE }.toFloat() / lesson.MARKS.size)
                 if (calculateProgress) {
                     listOf(7, 14, 28).forEachIndexed { i, n ->
                         val aWeekAgo = System.currentTimeMillis() / 86400000 - n
@@ -76,7 +77,7 @@ interface HandleResponse {
                     progresses[1],
                     progresses[2],
                     if (calculateProgress) (averageMap[Pair(
-                        lesson.SUBJECT_NAME,
+                        lesson.SUBJECT_SYS_GUID,
                         quarter - 1
                     )]?.let {
                         (actualAverage / it - 1) * 100
@@ -88,7 +89,7 @@ interface HandleResponse {
         override fun finalMarksLessons(lessons: List<PerformanceFinalLesson>): List<PerformanceData.Lesson> {
             lessons.forEach { lesson ->
                 lesson.PERIODS.forEachIndexed { i, period ->
-                    averageMap[Pair(lesson.NAME, i + 1)] = period.AVERAGE
+                    averageMap[Pair(lesson.SYS_GUID, i + 1)] = period.AVERAGE
                 }
             }
 
@@ -259,4 +260,4 @@ interface HandleResponse {
     }
 }
 
-data class SerializableMap(val map: MutableMap<Pair<String, Int>, Float>): Serializable
+data class SerializableMap(val map: MutableMap<Pair<String, Int>, Float>) : Serializable

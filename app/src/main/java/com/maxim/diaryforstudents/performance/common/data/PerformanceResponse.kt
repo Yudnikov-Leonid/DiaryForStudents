@@ -8,6 +8,7 @@ data class PerformanceResponse(
 
 data class CloudLesson(
     val SUBJECT_NAME: String,
+    val SUBJECT_SYS_GUID: String,
     val MARKS: List<CloudMark>
 )
 
