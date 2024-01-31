@@ -7,11 +7,13 @@
     <color name="red">#FF0000</color>
     <color name="blue">#286ED0</color>
     <color name="blue_text">#286ED0</color>
+    <color name="text">#0B0B0B</color>
     <color name="disable_button">#8FA6EA</color>
     <color name="back_blue">#e1effa</color>
     <color name="background">#F9F9F9</color>
     <color name="light_background">#FFFFFF</color>
     <color name="selected_button">#03B4F4</color>
+    <color name="icon">#000</color>
 
     <color name="light_green">#00EA58</color>
     <color name="green">#16B552</color>

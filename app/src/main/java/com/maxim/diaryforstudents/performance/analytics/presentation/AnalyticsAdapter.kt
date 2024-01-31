@@ -132,6 +132,7 @@ class AnalyticsAdapter(
             binding.chart.apply {
                 description.isEnabled = false
                 setDrawEntryLabels(false)
+                setHoleColor(ContextCompat.getColor(binding.chart.context, R.color.background))
             }
             item.showData(binding.chart)
             item.showTitle(binding.titleTextView)

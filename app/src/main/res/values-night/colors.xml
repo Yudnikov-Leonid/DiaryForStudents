@@ -6,9 +6,11 @@
     <color name="red">#FF0000</color>
     <color name="blue">#1D4998</color>
     <color name="blue_text">#FFFFFF</color>
+    <color name="text">#EDEDED</color>
     <color name="disable_button">#072254</color>
     <color name="back_blue">#4265A6</color>
     <color name="background">#151515</color>
     <color name="light_background">#1E1E1E</color>
     <color name="selected_button">#0048A0</color>
+    <color name="icon">#CDCDCD</color>
 </resources>

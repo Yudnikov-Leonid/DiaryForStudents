@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.performance.actualMarks.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -15,12 +16,12 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceLes
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
-class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, PerformanceActualViewModel>() {
+class PerformanceActualFragment :
+    BaseFragment<FragmentActualPerformanceBinding, PerformanceActualViewModel>() {
     override val viewModelClass = PerformanceActualViewModel::class.java
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentActualPerformanceBinding.inflate(inflater, container, false)
 
-    private var spinnerLastPosition = -1
     override var setOnBackPressedCallback = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +60,7 @@ class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, 
                         )
                     )
                     scrolledUp = true
-                } else if (scrollDy  > 300 && scrolledUp) {
+                } else if (scrollDy > 300 && scrolledUp) {
                     binding.settingsBar.startAnimation(
                         AnimationUtils.loadAnimation(
                             requireContext(),
@@ -71,25 +72,31 @@ class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, 
             }
         })
 
-        val spinnerAdapter = object : AdapterView.OnItemSelectedListener {
+        var byUser = false
+        val spinnerListener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                if (position != spinnerLastPosition && spinnerLastPosition != -1) {
+                if (byUser)
                     viewModel.changeQuarter(position + 1)
-                }
-
-                spinnerLastPosition = position
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                byUser = false
+            }
+
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                byUser = true
+                return false
+            }
         }
+        binding.quarterSpinner.onItemSelectedListener = spinnerListener
+        binding.quarterSpinner.setOnTouchListener(spinnerListener)
 
         viewModel.observe(this) {
-            binding.quarterSpinner.onItemSelectedListener = null
             it.show(
                 binding.quarterSpinner,
                 binding.settingsBar,
@@ -98,7 +105,6 @@ class PerformanceActualFragment: BaseFragment<FragmentActualPerformanceBinding, 
                 binding.retryButton,
                 binding.progressBar,
             )
-            binding.quarterSpinner.onItemSelectedListener = spinnerAdapter
 
         }
 

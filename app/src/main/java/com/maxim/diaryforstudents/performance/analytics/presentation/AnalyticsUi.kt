@@ -200,6 +200,8 @@ interface AnalyticsUi: Serializable {
                 (fiveCount + fourCount + threeCount + twoCount).toString()
             )
             pieChart.setCenterTextSize(14f)
+            pieChart.setCenterTextColor(ContextCompat.getColor(pieChart.context, R.color.text))
+            pieChart.legend.textColor = ContextCompat.getColor(pieChart.context, R.color.text)
 
             val dataSet = PieDataSet(entries, "").apply {
                 valueTextSize = 16f
@@ -272,6 +274,8 @@ interface AnalyticsUi: Serializable {
                 (fiveCount + fourCount + threeCount + twoCount).toString()
             )
             pieChart.setCenterTextSize(14f)
+            pieChart.setCenterTextColor(ContextCompat.getColor(pieChart.context, R.color.text))
+            pieChart.legend.textColor = ContextCompat.getColor(pieChart.context, R.color.text)
 
             val dataSet = PieDataSet(entries, "").apply {
                 valueTextSize = 16f
