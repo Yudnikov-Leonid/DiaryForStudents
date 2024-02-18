@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.performance.common.domain
 
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel
 import com.maxim.diaryforstudents.core.data.SimpleStorage
+import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
@@ -9,6 +10,8 @@ import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
 import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 interface PerformanceInteractor {
     suspend fun loadActualData()
@@ -22,6 +25,8 @@ interface PerformanceInteractor {
     suspend fun getLessonByMark(lessonName: String, date: String): DiaryDomain.Lesson
     suspend fun changeQuarter(quarter: Int)
 
+    fun finalDataIsEmpty(reload: Reload): Boolean
+
     class Base(
         private val repository: PerformanceRepository,
         private val simpleStorage: SimpleStorage,
@@ -30,12 +35,20 @@ interface PerformanceInteractor {
         private val diaryRepository: DiaryRepository,
         private val diaryMapper: DiaryData.Mapper<DiaryDomain>
     ) : PerformanceInteractor {
+        private var finalLoadCallback: Reload? = null
+
         override suspend fun loadActualData() {
             repository.loadActualData()
         }
 
         override suspend fun loadFinalData() {
             repository.initFinalData()
+            finalLoadCallback?.let {
+                withContext(Dispatchers.Main) {
+                    it.reload()
+                }
+                finalLoadCallback = null
+            }
         }
 
         override fun actualData(): List<PerformanceDomain> {
@@ -105,6 +118,15 @@ interface PerformanceInteractor {
 
         override suspend fun changeQuarter(quarter: Int) {
             repository.changeQuarter(quarter)
+        }
+
+        override fun finalDataIsEmpty(reload: Reload): Boolean {
+            val isEmpty =
+                if (finalData().isEmpty()) true
+                else finalData().first() is PerformanceDomain.Error || finalData().first() is PerformanceDomain.Empty
+            if (isEmpty)
+                finalLoadCallback = reload
+            return isEmpty
         }
     }
 }

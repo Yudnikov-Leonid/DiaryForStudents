@@ -42,11 +42,11 @@ class PerformanceActualViewModel(
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(PerformanceState.Loading)
-            quarter = interactor.currentQuarter()
             handle({
                 interactor.loadFinalData()
                 interactor.loadActualData()
             }) {
+                quarter = interactor.currentQuarter()
                 reload()
             }
         } else

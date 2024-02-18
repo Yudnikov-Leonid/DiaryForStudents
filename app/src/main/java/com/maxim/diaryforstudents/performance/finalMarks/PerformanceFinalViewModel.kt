@@ -18,14 +18,10 @@ class PerformanceFinalViewModel(
 ) : PerformanceMarkViewModel(interactor, communication, mapper, runAsync), SaveAndRestore {
     override val type = MarksType.Final
 
-//    override fun reload() {
-//        if (interactor.finalDataIsEmpty()) {
-//            handle({ interactor.initFinal() }) {
-//                super.reload()
-//            }
-//        } else
-//            super.reload()
-//    }
+    override fun reload() {
+        if (!interactor.finalDataIsEmpty(this))
+            super.reload()
+    }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
         communication.save(RESTORE_KEY, bundleWrapper)
