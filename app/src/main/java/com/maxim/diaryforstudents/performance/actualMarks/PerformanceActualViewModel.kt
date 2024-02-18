@@ -88,7 +88,11 @@ class PerformanceActualViewModel(
 
     //not tested
     fun settings() {
-        navigation.update(ActualSettingsScreen({ reload() } as SerializableLambda))
+        navigation.update(ActualSettingsScreen(object : SerializableLambda {
+            override fun invoke() {
+                reload()
+            }
+        }))
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
