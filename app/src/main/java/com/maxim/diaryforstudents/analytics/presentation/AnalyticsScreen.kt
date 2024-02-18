@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.analytics.presentation
+package com.maxim.diaryforstudents.analytics.presentation
 
 import com.maxim.diaryforstudents.core.presentation.Screen
 

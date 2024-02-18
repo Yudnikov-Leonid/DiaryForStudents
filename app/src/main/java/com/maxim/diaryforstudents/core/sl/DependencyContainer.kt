@@ -19,16 +19,16 @@ import com.maxim.diaryforstudents.news.presentation.NewsViewModel
 import com.maxim.diaryforstudents.news.sl.NewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsViewModel
-import com.maxim.diaryforstudents.performance.actualMarks.presentation.PerformanceActualViewModel
-import com.maxim.diaryforstudents.performance.actualMarks.sl.PerformanceActualModule
-import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsInnerViewModel
-import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsNotInnerViewModel
-import com.maxim.diaryforstudents.performance.analytics.sl.AnalyticsInnerModule
-import com.maxim.diaryforstudents.performance.analytics.sl.AnalyticsNotInnerModule
+import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewModel
+import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualModule
+import com.maxim.diaryforstudents.analytics.presentation.AnalyticsInnerViewModel
+import com.maxim.diaryforstudents.analytics.presentation.AnalyticsNotInnerViewModel
+import com.maxim.diaryforstudents.analytics.sl.AnalyticsInnerModule
+import com.maxim.diaryforstudents.analytics.sl.AnalyticsNotInnerModule
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
 import com.maxim.diaryforstudents.performance.common.sl.PerformanceModule
-import com.maxim.diaryforstudents.performance.finalMarks.presentation.PerformanceFinalViewModel
-import com.maxim.diaryforstudents.performance.finalMarks.sl.PerformanceFinalModule
+import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalViewModel
+import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalModule
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import com.maxim.diaryforstudents.profile.sl.ProfileModule
 

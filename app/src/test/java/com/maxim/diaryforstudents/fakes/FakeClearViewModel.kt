@@ -11,11 +11,11 @@ class FakeClearViewModel(private val order: Order): ClearViewModel {
         viewModelList.add(clazz)
     }
 
-    fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, viewModelList.size)
-    }
-
     fun checkCalledWith(expected: Class<out ViewModel>) {
         assertEquals(expected, viewModelList.last())
+    }
+
+    fun checkCalledWith(expected: List<Class<out ViewModel>>) {
+        assertEquals(expected, viewModelList)
     }
 }

@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.finalMarks.presentation
+package com.maxim.diaryforstudents.performance.finalMarks
 
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore

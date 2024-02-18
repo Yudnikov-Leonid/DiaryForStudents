@@ -1,6 +1,6 @@
-package com.maxim.diaryforstudents.performance.analytics.data
+package com.maxim.diaryforstudents.analytics.data
 
-import com.maxim.diaryforstudents.performance.analytics.domain.AnalyticsDomain
+import com.maxim.diaryforstudents.analytics.domain.AnalyticsDomain
 
 interface AnalyticsData {
     fun toDomain(): AnalyticsDomain

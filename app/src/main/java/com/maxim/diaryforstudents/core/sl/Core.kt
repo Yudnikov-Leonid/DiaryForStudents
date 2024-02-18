@@ -10,7 +10,7 @@ import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
-import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsStorage
+import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

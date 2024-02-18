@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.analytics.presentation
+package com.maxim.diaryforstudents.analytics.presentation
 
 import android.view.View
 import android.widget.Button

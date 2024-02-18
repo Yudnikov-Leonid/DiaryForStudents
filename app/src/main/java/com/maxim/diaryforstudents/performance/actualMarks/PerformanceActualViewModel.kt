@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.actualMarks.presentation
+package com.maxim.diaryforstudents.performance.actualMarks
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -15,9 +15,9 @@ import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.lessonDetails.bottomFragment.LessonDetailsBottomFragmentScreen
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
-import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsStorage
-import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsScreen
-import com.maxim.diaryforstudents.performance.analytics.presentation.AnalyticsViewModel
+import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
+import com.maxim.diaryforstudents.analytics.presentation.AnalyticsScreen
+import com.maxim.diaryforstudents.analytics.presentation.AnalyticsViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.MarksType

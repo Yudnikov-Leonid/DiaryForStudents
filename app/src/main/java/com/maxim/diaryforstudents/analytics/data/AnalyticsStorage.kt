@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.analytics.data
+package com.maxim.diaryforstudents.analytics.data
 
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 

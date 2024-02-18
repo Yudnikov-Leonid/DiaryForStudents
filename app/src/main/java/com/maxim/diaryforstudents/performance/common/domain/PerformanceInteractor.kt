@@ -9,7 +9,7 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
-import com.maxim.diaryforstudents.performance.analytics.domain.AnalyticsDomain
+import com.maxim.diaryforstudents.analytics.domain.AnalyticsDomain
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository

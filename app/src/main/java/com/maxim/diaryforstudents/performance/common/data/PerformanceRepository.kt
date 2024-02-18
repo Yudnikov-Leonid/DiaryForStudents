@@ -2,7 +2,7 @@ package com.maxim.diaryforstudents.performance.common.data
 
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
-import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsData
+import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import java.io.Serializable
 import java.util.Calendar
 

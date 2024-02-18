@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.actualMarks.presentation
+package com.maxim.diaryforstudents.performance.actualMarks
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.performance.analytics.presentation
+package com.maxim.diaryforstudents.analytics.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -11,7 +11,7 @@ import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.performance.analytics.data.AnalyticsStorage
+import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 
 abstract class AnalyticsViewModel(

@@ -1,10 +1,9 @@
-package com.maxim.diaryforstudents.performance.actualMarks.sl
+package com.maxim.diaryforstudents.performance.actualMarks
 
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.diary.domain.DiaryDomainToUiMapper
-import com.maxim.diaryforstudents.performance.actualMarks.presentation.PerformanceActualViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomainToUiMapper
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
 
