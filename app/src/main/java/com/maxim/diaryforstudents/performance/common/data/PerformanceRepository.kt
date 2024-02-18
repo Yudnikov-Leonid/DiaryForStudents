@@ -7,10 +7,10 @@ import java.io.Serializable
 import java.util.Calendar
 
 interface PerformanceRepository : Communication.Save, Communication.Restore {
-    suspend fun initActual()
-    suspend fun initFinal()
-    fun cachedData(search: String): List<PerformanceData>
-    fun cachedFinalData(search: String): List<PerformanceData>
+    suspend fun loadActualData()
+    suspend fun initFinalData()
+    fun cachedData(): List<PerformanceData>
+    fun cachedFinalData(): List<PerformanceData>
     suspend fun changeQuarter(quarter: Int)
 
     suspend fun analytics(
@@ -20,7 +20,7 @@ interface PerformanceRepository : Communication.Save, Communication.Restore {
         showFinal: Boolean
     ): List<AnalyticsData>
 
-    fun actualQuarter(): Int
+    fun currentQuarter(): Int
 
     class Base(
         private val cloudDataSource: PerformanceCloudDataSource,
@@ -37,7 +37,7 @@ interface PerformanceRepository : Communication.Save, Communication.Restore {
         private val periods = mutableListOf<Pair<String, String>>()
         private var actualQuarter = 1
 
-        override suspend fun initActual() {
+        override suspend fun loadActualData() {
             dataException = null
             cache.clear()
 
@@ -68,10 +68,10 @@ interface PerformanceRepository : Communication.Save, Communication.Restore {
                     }
                     periods.add(Pair(periods.first().first, periods.last().second))
                 }
-                val dates = periods[actualQuarter() - 1]
-                responseCache[actualQuarter()] = cloudDataSource.data(dates.first, dates.second)
+                val dates = periods[currentQuarter() - 1]
+                responseCache[currentQuarter()] = cloudDataSource.data(dates.first, dates.second)
                 cache.addAll(
-                    handleResponse.lessons(responseCache[actualQuarter()]!!, true, actualQuarter())
+                    handleResponse.lessons(responseCache[currentQuarter()]!!, true, currentQuarter())
                 )
 
             } catch (e: Exception) {
@@ -79,7 +79,7 @@ interface PerformanceRepository : Communication.Save, Communication.Restore {
             }
         }
 
-        override suspend fun initFinal() {
+        override suspend fun initFinalData() {
             finalDataException = null
             finalCache.clear()
 
@@ -92,15 +92,13 @@ interface PerformanceRepository : Communication.Save, Communication.Restore {
             }
         }
 
-        override fun cachedData(search: String) =
+        override fun cachedData() =
             dataException?.let {
                 throw it
-            } ?: cache.filter { it.search(search) }
-                .ifEmpty { listOf(PerformanceData.Empty) }
+            } ?: cache.ifEmpty { listOf(PerformanceData.Empty) }
 
-        override fun cachedFinalData(search: String) =
-            finalDataException?.let { throw it } ?: finalCache.filter { it.search(search) }
-                .ifEmpty { listOf(PerformanceData.Empty) }
+        override fun cachedFinalData() =
+            finalDataException?.let { throw it } ?: finalCache.ifEmpty { listOf(PerformanceData.Empty) }
 
         override suspend fun changeQuarter(quarter: Int) {
             dataException = null
@@ -110,7 +108,7 @@ interface PerformanceRepository : Communication.Save, Communication.Restore {
                 cache.addAll(
                     handleResponse.lessons(
                         cloudDataSource.data(dates.first, dates.second),
-                        quarter == actualQuarter(), quarter
+                        quarter == currentQuarter(), quarter
                     )
                 )
             } catch (e: Exception) {
@@ -140,13 +138,13 @@ interface PerformanceRepository : Communication.Save, Communication.Restore {
                     handleResponse.finalAnalytics(
                         finalResponseCache,
                         quarter,
-                        actualQuarter()
+                        currentQuarter()
                     )
                 )
             return list
         }
 
-        override fun actualQuarter() = actualQuarter
+        override fun currentQuarter() = actualQuarter
 
         override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
             bundleWrapper.save(PERIODS_RESTORE_KEY, SerializableList(periods))

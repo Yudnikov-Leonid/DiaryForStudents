@@ -57,7 +57,7 @@ interface DependencyContainer {
             LessonDetailsViewModel::class.java -> LessonDetailsModule(core, clear)
             CalculateViewModel::class.java -> CalculateModule(core, clear)
             ActualSettingsViewModel::class.java -> ActualSettingsModule(core, clear)
-            PerformanceActualViewModel::class.java -> PerformanceActualModule(core, clear)
+            PerformanceActualViewModel::class.java -> PerformanceActualModule(core)
             PerformanceFinalViewModel::class.java -> PerformanceFinalModule(core)
             AnalyticsInnerViewModel::class.java -> AnalyticsInnerModule(core, clear)
             AnalyticsNotInnerViewModel::class.java -> AnalyticsNotInnerModule(core, clear)

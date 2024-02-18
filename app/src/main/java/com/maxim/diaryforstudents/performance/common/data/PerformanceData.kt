@@ -4,8 +4,6 @@ import java.io.Serializable
 
 interface PerformanceData : Serializable {
 
-    fun search(search: String): Boolean = true
-
     //todo public to sort
     fun average(): Float = 0f
     fun progress(): List<Int> = emptyList()
@@ -41,8 +39,6 @@ interface PerformanceData : Serializable {
         private val monthProgress: Int,
         private val quarterProgress: Int
     ) : PerformanceData {
-        override fun search(search: String) = name.contains(search, true)
-
         override fun average() = average
 
         override fun progress() = listOf(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)

@@ -233,7 +233,7 @@ private class FakePerformanceInteractor : PerformanceInteractor {
         return currentQuarter
     }
 
-    override fun getLessonByMark(lessonName: String, date: String): DiaryDomain.Lesson {
+    override suspend fun getLessonByMark(lessonName: String, date: String): DiaryDomain.Lesson {
         TODO("Not yet implemented")
     }
 
@@ -246,7 +246,7 @@ private class FakePerformanceInteractor : PerformanceInteractor {
         assertEquals(expected, changeQuarterList.last())
     }
 
-    override fun changeQuarter(quarter: Int) {
+    override suspend fun changeQuarter(quarter: Int) {
         changeQuarterList.add(quarter)
         currentQuarter = quarter
     }

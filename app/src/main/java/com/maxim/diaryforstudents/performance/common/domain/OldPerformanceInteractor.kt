@@ -39,18 +39,18 @@ interface OldPerformanceInteractor {
         private val diaryMapper: DiaryData.Mapper<DiaryDomain>
     ) : OldPerformanceInteractor {
         override suspend fun initActual() {
-            repository.initActual()
+            repository.loadActualData()
         }
 
         override suspend fun initFinal() {
-            repository.initFinal()
+            repository.initFinalData()
         }
 
         override fun data(search: String): List<PerformanceDomain> {
             val sortBy = simpleStorage.read(SORT_BY_KEY, 0)
             val sortingOrder = simpleStorage.read(SORTING_ORDER_KEY, 0)
             return try {
-                val data = repository.cachedData(search).sortedBy {
+                val data = repository.cachedData().sortedBy {
                     when (sortBy) {
                         0 -> 0f
                         1 -> it.average()
@@ -72,7 +72,7 @@ interface OldPerformanceInteractor {
 
         override fun finalData(search: String): List<PerformanceDomain> {
             return try {
-                repository.cachedFinalData(search).map { it.map(mapper) }
+                repository.cachedFinalData().map { it.map(mapper) }
             } catch (e: Exception) {
                 listOf(PerformanceDomain.Error(failureHandler.handle(e).message()))
             }
@@ -127,6 +127,6 @@ interface OldPerformanceInteractor {
             }
 
 
-        override fun actualQuarter() = repository.actualQuarter()
+        override fun actualQuarter() = repository.currentQuarter()
     }
 }
