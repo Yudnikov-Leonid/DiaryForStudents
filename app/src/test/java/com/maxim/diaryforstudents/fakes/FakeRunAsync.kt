@@ -19,5 +19,4 @@ class FakeRunAsync : RunAsync {
         cachedArgument = backgroundBlock.invoke()
         cached = uiBlock as (Any) -> Unit
     }
-
 }

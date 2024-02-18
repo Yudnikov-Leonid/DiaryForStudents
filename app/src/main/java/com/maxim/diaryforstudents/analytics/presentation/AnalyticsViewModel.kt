@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.analytics.presentation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Communication
@@ -11,7 +12,6 @@ import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 
 abstract class AnalyticsViewModel(
@@ -32,7 +32,7 @@ abstract class AnalyticsViewModel(
             lessonName = analyticsStorage.read()
         }
         if (isFirstRun) {
-            quarter = interactor.actualQuarter()
+            quarter = interactor.currentQuarter()
         }
         reload()
     }
@@ -54,18 +54,18 @@ abstract class AnalyticsViewModel(
     }
 
     override fun reload() {
-        communication.update(AnalyticsState.Loading)
-        handle({ interactor.analytics(quarter, lessonName, interval, showFinal) }) {
-            if (it.first().message().isNotEmpty())
-                communication.update(AnalyticsState.Error(it.first().message()))
-            else
-                communication.update(
-                    AnalyticsState.Base(
-                        it.map { it.toUi() },
-                        lessonName
-                    )
-                )
-        }
+//        communication.update(AnalyticsState.Loading)
+//        handle({ interactor.analytics(quarter, lessonName, interval, showFinal) }) {
+//            if (it.first().message().isNotEmpty())
+//                communication.update(AnalyticsState.Error(it.first().message()))
+//            else
+//                communication.update(
+//                    AnalyticsState.Base(
+//                        it.map { it.toUi() },
+//                        lessonName
+//                    )
+//                )
+//        }
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<AnalyticsState>) {

@@ -3,21 +3,20 @@ package com.maxim.diaryforstudents.performance.actualMarks
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsScreen
-import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.SaveActualSettingsCommunication
+import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
+import com.maxim.diaryforstudents.analytics.presentation.AnalyticsScreen
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.calculateAverage.presentation.CalculateScreen
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
+import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.core.presentation.SerializableLambda
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.lessonDetails.bottomFragment.LessonDetailsBottomFragmentScreen
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
-import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
-import com.maxim.diaryforstudents.analytics.presentation.AnalyticsScreen
-import com.maxim.diaryforstudents.analytics.presentation.AnalyticsViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.MarksType
@@ -29,34 +28,40 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 class PerformanceActualViewModel(
     private val interactor: PerformanceInteractor,
     private val communication: PerformanceCommunication,
-    private val reloadCommunication: SaveActualSettingsCommunication.Save,
     private val calculateStorage: CalculateStorage.Save,
     private val detailsStorage: LessonDetailsStorage.Save,
     private val analyticsStorage: AnalyticsStorage.Save,
     private val navigation: Navigation.Update,
-    private val clearViewModel: ClearViewModel,
     mapper: PerformanceDomain.Mapper<PerformanceUi>,
-    private val diaryMapper: DiaryDomain.Mapper<DiaryUi>
-) : PerformanceMarkViewModel(interactor, communication, mapper), Init, SaveAndRestore {
+    private val diaryMapper: DiaryDomain.Mapper<DiaryUi>,
+    runAsync: RunAsync = RunAsync.Base()
+) : PerformanceMarkViewModel(interactor, communication, mapper, runAsync), Init, SaveAndRestore {
     override val type = MarksType.Base
     private var lastOpenDetailsTime = 0L
 
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
-            reloadCommunication.setCallback(this)
             communication.update(PerformanceState.Loading)
+            quarter = interactor.currentQuarter()
             handle({
-                if (interactor.finalDataIsEmpty())
-                    interactor.initFinal()
-                interactor.initActual()
+                interactor.loadFinalData()
+                interactor.loadActualData()
             }) {
-                quarter = interactor.actualQuarter()
                 reload()
             }
         } else
             reload()
     }
 
+    fun changeQuarter(quarter: Int) {
+        this.quarter = quarter
+        communication.update(PerformanceState.Loading)
+        handle({ interactor.changeQuarter(quarter) }) {
+            reload()
+        }
+    }
+
+    //not tested
     fun openDetails(mark: PerformanceUi.Mark) {
         if (System.currentTimeMillis() - 500 > lastOpenDetailsTime) {
             lastOpenDetailsTime = System.currentTimeMillis()
@@ -69,39 +74,31 @@ class PerformanceActualViewModel(
         }
     }
 
-    fun changeQuarter(quarter: Int) {
-        this.quarter = quarter
-        communication.update(PerformanceState.Loading)
-        handle({ interactor.changeQuarter(quarter) }) {
-            reload()
-        }
-    }
-
+    //not tested
     fun calculateAverage(marks: List<PerformanceUi.Mark>, marksSum: Int) {
         calculateStorage.save(marks, marksSum)
         navigation.update(CalculateScreen)
     }
 
+    //not tested
     fun analytics(lessonName: String) {
         analyticsStorage.save(lessonName)
-        clearViewModel.clearViewModel(AnalyticsViewModel::class.java)
         navigation.update(AnalyticsScreen)
     }
 
+    //not tested
     fun settings() {
-        navigation.update(ActualSettingsScreen)
+        navigation.update(ActualSettingsScreen({ reload() } as SerializableLambda))
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
         communication.save(RESTORE_KEY, bundleWrapper)
         bundleWrapper.save(QUARTER_KEY, quarter)
-        interactor.save(bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         communication.restore(RESTORE_KEY, bundleWrapper)
-        quarter = bundleWrapper.restore<Int>(QUARTER_KEY) ?: interactor.actualQuarter()
-        interactor.restore(bundleWrapper)
+        quarter = bundleWrapper.restore<Int>(QUARTER_KEY) ?: interactor.currentQuarter()
     }
 
     companion object {

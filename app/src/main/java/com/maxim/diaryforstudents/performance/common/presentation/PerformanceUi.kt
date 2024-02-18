@@ -158,7 +158,7 @@ interface PerformanceUi : Serializable {
             interactor: PerformanceInteractor,
             mapper: DiaryDomain.Mapper<DiaryUi>
         ): DiaryUi.Lesson =
-            interactor.getLesson(lessonName, date).map(mapper) as DiaryUi.Lesson
+            interactor.getLessonByMark(lessonName, date).map(mapper) as DiaryUi.Lesson
 
         override fun compare(value: Int) = value == mark
 

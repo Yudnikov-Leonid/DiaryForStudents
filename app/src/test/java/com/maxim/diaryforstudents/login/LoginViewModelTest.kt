@@ -72,10 +72,11 @@ class LoginViewModelTest {
         communication.checkCalledTimes(1)
         communication.checkCalledWith(LoginState.Loading)
         repository.checkCalledTimes(1)
+        repository.checkCalledWith("123@gmail.com", "321")
 
         runAsync.returnResult()
 
-        repository.checkCalledWith("123@gmail.com", "321")
+        clearViewModel.checkCalledWith(LoginViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))
     }
 

@@ -8,7 +8,6 @@ import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 
 class ActualSettingsViewModel(
-    private val communication: SaveActualSettingsCommunication.Write,
     private val simpleStorage: SimpleStorage,
     private val clearViewModel: ClearViewModel
 ) : ViewModel() {
@@ -27,24 +26,24 @@ class ActualSettingsViewModel(
         sortingOrderSpinner.setSelection(simpleStorage.read(SORTING_ORDER_KEY, 0))
     }
 
-    fun setShowProgress(value: Boolean) {
+    fun setShowProgress(value: Boolean, reload: () -> Unit) {
         simpleStorage.save(SHOW_PROGRESS_KEY, value)
-        communication.reload()
+        reload.invoke()
     }
 
-    fun setProgressCompared(value: Int) {
+    fun setProgressCompared(value: Int, reload: () -> Unit) {
         simpleStorage.save(PROGRESS_COMPARED_KEY, value)
-        communication.reload()
+        reload.invoke()
     }
 
-    fun setSortBy(value: Int) {
+    fun setSortBy(value: Int, reload: () -> Unit) {
         simpleStorage.save(SORT_BY_KEY, value)
-        communication.reload()
+        reload.invoke()
     }
 
-    fun setSortingOrder(value: Int) {
+    fun setSortingOrder(value: Int, reload: () -> Unit) {
         simpleStorage.save(SORTING_ORDER_KEY, value)
-        communication.reload()
+        reload.invoke()
     }
 
     fun close() {

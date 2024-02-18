@@ -1,8 +1,8 @@
 package com.maxim.diaryforstudents.analytics.presentation
 
+import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 
 class AnalyticsInnerViewModel(

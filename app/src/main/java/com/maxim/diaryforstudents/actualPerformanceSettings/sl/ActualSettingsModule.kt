@@ -8,7 +8,6 @@ import com.maxim.diaryforstudents.core.sl.Module
 class ActualSettingsModule(private val core: Core, private val clearViewModel: ClearViewModel) :
     Module<ActualSettingsViewModel> {
     override fun viewModel() = ActualSettingsViewModel(
-        core.actualSettingsCommunication(),
         core.simpleStorage(),
         clearViewModel
     )

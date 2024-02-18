@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.fragment.app.DialogFragment
+import com.maxim.diaryforstudents.core.presentation.SerializableLambda
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.FragmentActualPerformanceSettingsBinding
 
@@ -22,6 +23,8 @@ class ActualSettingsDialogFragment : DialogFragment() {
         viewModel =
             (requireActivity() as ProvideViewModel).viewModel(ActualSettingsViewModel::class.java)
 
+        val reload = requireArguments().getSerializable(KEY) as SerializableLambda
+
         viewModel.init(
             binding.showProgressSwitch,
             binding.progressInfoLayout,
@@ -31,7 +34,7 @@ class ActualSettingsDialogFragment : DialogFragment() {
         )
 
         binding.showProgressSwitch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.setShowProgress(isChecked)
+            viewModel.setShowProgress(isChecked, reload)
             binding.progressInfoLayout.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
@@ -42,7 +45,7 @@ class ActualSettingsDialogFragment : DialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                viewModel.setProgressCompared(position)
+                viewModel.setProgressCompared(position, reload)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -55,7 +58,7 @@ class ActualSettingsDialogFragment : DialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                viewModel.setSortBy(position)
+                viewModel.setSortBy(position, reload)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -68,7 +71,7 @@ class ActualSettingsDialogFragment : DialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                viewModel.setSortingOrder(position)
+                viewModel.setSortingOrder(position, reload)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
@@ -85,5 +88,17 @@ class ActualSettingsDialogFragment : DialogFragment() {
         super.onDestroyView()
         _binding = null
         viewModel.close()
+    }
+
+    companion object {
+        private const val KEY = "actual_settings_reload_key"
+
+        fun newInstance(reload: SerializableLambda): ActualSettingsDialogFragment {
+            return ActualSettingsDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(KEY, reload)
+                }
+            }
+        }
     }
 }
