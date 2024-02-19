@@ -7,6 +7,7 @@ import com.maxim.diaryforstudents.menu.presentation.MenuViewModel
 
 class MenuModule(private val core: Core) : Module<MenuViewModel> {
     override fun viewModel() = MenuViewModel(
+        core.marksModule().marksInteractor(),
         MenuCommunication.Base(),
         core.navigation()
     )

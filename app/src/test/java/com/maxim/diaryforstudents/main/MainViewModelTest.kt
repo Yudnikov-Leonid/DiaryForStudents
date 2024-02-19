@@ -14,16 +14,14 @@ class MainViewModelTest {
     private lateinit var viewModel: MainViewModel
     private lateinit var navigation: FakeNavigation
     private lateinit var interactor: FakeMainInteractor
-    private lateinit var performanceInteractor: FakePerformanceInteractor
     private lateinit var runAsync: FakeRunAsync
 
     @Before
     fun init() {
         navigation = FakeNavigation(Order())
         interactor = FakeMainInteractor()
-        performanceInteractor = FakePerformanceInteractor()
         runAsync = FakeRunAsync()
-        viewModel = MainViewModel(interactor, performanceInteractor, navigation, runAsync)
+        viewModel = MainViewModel(interactor, navigation, runAsync)
     }
 
     @Test
@@ -31,12 +29,10 @@ class MainViewModelTest {
         interactor.mustReturn(true)
 
         viewModel.init(true)
-        performanceInteractor.checkLoadDataCalledTimes(1)
         navigation.checkCalledWith(MenuScreen)
         navigation.checkCalledTimes(1)
 
         viewModel.init(false)
-        performanceInteractor.checkLoadDataCalledTimes(1)
         navigation.checkCalledTimes(1)
     }
 
@@ -50,15 +46,6 @@ class MainViewModelTest {
 
         viewModel.init(false)
         navigation.checkCalledTimes(1)
-    }
-
-    @Test
-    fun test_save_and_restore() {
-        val bundleWrapper = FakeBundleWrapper()
-        viewModel.save(bundleWrapper)
-        performanceInteractor.checkSaveCalledTimes(1)
-        viewModel.restore(bundleWrapper)
-        performanceInteractor.checkRestoreCalledTimes(1)
     }
 }
 

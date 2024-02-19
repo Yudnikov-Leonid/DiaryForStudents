@@ -15,28 +15,17 @@ import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteracto
 
 class MainViewModel(
     private val interactor: MainInteractor,
-    private val performanceInteractor: PerformanceInteractor,
     private val navigation: Navigation.Mutable,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<Screen>, Init, SaveAndRestore {
+) : BaseViewModel(runAsync), Communication.Observe<Screen>, Init {
     override fun init(isFirstRun: Boolean) {
-        if (isFirstRun && interactor.isLogged()) {
-            handle { performanceInteractor.loadData() }
+        if (isFirstRun && interactor.isLogged())
             navigation.update(MenuScreen)
-        }
         else if (isFirstRun)
             navigation.update(LoginScreen)
     }
 
     override fun observe(owner: LifecycleOwner, observer: androidx.lifecycle.Observer<Screen>) {
         navigation.observe(owner, observer)
-    }
-
-    override fun save(bundleWrapper: BundleWrapper.Save) {
-        performanceInteractor.save(bundleWrapper)
-    }
-
-    override fun restore(bundleWrapper: BundleWrapper.Restore) {
-        performanceInteractor.restore(bundleWrapper)
     }
 }
