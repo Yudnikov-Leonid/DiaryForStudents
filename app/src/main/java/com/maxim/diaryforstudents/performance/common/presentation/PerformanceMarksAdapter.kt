@@ -20,7 +20,7 @@ class PerformanceMarksAdapter(
             item.showName(binding.markTextView)
             item.showDate(binding.dateTextView)
             itemView.setOnClickListener {
-                listener.details(item)
+                item.openDetails(listener)
             }
         }
     }

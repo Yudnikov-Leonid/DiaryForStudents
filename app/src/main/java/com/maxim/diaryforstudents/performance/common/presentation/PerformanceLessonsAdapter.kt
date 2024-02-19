@@ -41,7 +41,7 @@ class PerformanceLessonsAdapter(
                 item.calculate(listener)
             }
             itemView.setOnClickListener {
-                item.analitycs(listener)
+                item.analytics(listener)
             }
         }
     }

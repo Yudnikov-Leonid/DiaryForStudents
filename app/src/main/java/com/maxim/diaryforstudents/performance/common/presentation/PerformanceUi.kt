@@ -22,8 +22,9 @@ interface PerformanceUi : Serializable {
     fun sameContent(item: PerformanceUi): Boolean = false
     fun showCalculateButton(view: View) {}
     fun calculate(listener: PerformanceLessonsAdapter.Listener) {}
-    fun analitycs(listener: PerformanceLessonsAdapter.Listener) {}
+    fun analytics(listener: PerformanceLessonsAdapter.Listener) {}
     fun compare(value: Int): Boolean = false
+    fun openDetails(listener: PerformanceMarksAdapter.Listener) {}
 
     suspend fun getLesson(
         interactor: PerformanceInteractor,
@@ -116,7 +117,7 @@ interface PerformanceUi : Serializable {
             listener.calculate(marks, marksSum)
         }
 
-        override fun analitycs(listener: PerformanceLessonsAdapter.Listener) {
+        override fun analytics(listener: PerformanceLessonsAdapter.Listener) {
             listener.analytics(name)
         }
 
@@ -142,6 +143,11 @@ interface PerformanceUi : Serializable {
                 else -> R.color.black
             }
             textView.setTextColor(textView.context.getColor(color))
+        }
+
+        override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
+            if (!isFinal)
+                listener.details(this)
         }
 
         override fun showDate(textView: TextView) {
@@ -178,6 +184,10 @@ interface PerformanceUi : Serializable {
         override fun same(item: PerformanceUi) = item is SeveralMarks && item.date == date
 
         override fun sameContent(item: PerformanceUi) = item is SeveralMarks && item.marks == marks
+
+        override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
+            listener.details(this)
+        }
 
         override fun showName(textView: TextView) {
             var markText = SpannableString(marks.first().toString())
