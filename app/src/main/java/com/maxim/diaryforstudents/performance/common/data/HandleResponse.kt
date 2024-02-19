@@ -2,10 +2,11 @@ package com.maxim.diaryforstudents.performance.common.data
 
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import java.io.Serializable
 import java.util.Calendar
 
-interface HandleResponse {
+interface HandleResponse: SaveAndRestore {
     fun lessons(
         lessons: List<CloudLesson>,
         calculateProgress: Boolean,
@@ -27,9 +28,6 @@ interface HandleResponse {
         quarter: Int,
         actualQuarter: Int
     ): AnalyticsData
-
-    fun save(bundleWrapper: BundleWrapper.Save)
-    fun restore(bundleWrapper: BundleWrapper.Restore)
 
     class Base : HandleResponse {
         private val averageMap = mutableMapOf<Pair<String, Int>, Float>()

@@ -1,12 +1,12 @@
 package com.maxim.diaryforstudents.performance.common.data
 
-import com.maxim.diaryforstudents.core.presentation.BundleWrapper
-import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import java.io.Serializable
 import java.util.Calendar
 
-interface PerformanceRepository : Communication.Save, Communication.Restore {
+interface PerformanceRepository: SaveAndRestore {
     suspend fun loadActualData()
     suspend fun initFinalData()
     fun cachedData(): List<PerformanceData>
@@ -146,14 +146,13 @@ interface PerformanceRepository : Communication.Save, Communication.Restore {
 
         override fun currentQuarter() = actualQuarter
 
-        override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
+        override fun save(bundleWrapper: BundleWrapper.Save) {
             bundleWrapper.save(PERIODS_RESTORE_KEY, SerializableList(periods))
             bundleWrapper.save(ACTUAL_QUARTER_RESTORE_KEY, actualQuarter)
             handleResponse.save(bundleWrapper)
         }
 
-        override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
-            //todo надо ли так много сейвить?
+        override fun restore(bundleWrapper: BundleWrapper.Restore) {
             val data = bundleWrapper.restore<SerializableList>(PERIODS_RESTORE_KEY)
             periods.addAll(
                 data?.list ?: emptyList()

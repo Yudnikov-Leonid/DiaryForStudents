@@ -25,6 +25,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewPager.adapter = PerformanceViewPagerAdapter(requireActivity())
+        binding.viewPager.offscreenPageLimit = 2
         TabLayoutMediator(binding.screenTabLayout, binding.viewPager) { tab, pos ->
             tab.text = when (pos) {
                 0 -> resources.getString(R.string.actual)

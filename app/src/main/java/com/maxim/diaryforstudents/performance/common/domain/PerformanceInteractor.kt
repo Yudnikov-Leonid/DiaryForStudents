@@ -2,7 +2,9 @@ package com.maxim.diaryforstudents.performance.common.domain
 
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel
 import com.maxim.diaryforstudents.core.data.SimpleStorage
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Reload
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
@@ -13,7 +15,7 @@ import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-interface PerformanceInteractor {
+interface PerformanceInteractor: SaveAndRestore {
     suspend fun loadActualData()
     suspend fun loadFinalData()
 
@@ -127,6 +129,14 @@ interface PerformanceInteractor {
             if (isEmpty)
                 finalLoadCallback = reload
             return isEmpty
+        }
+
+        override fun save(bundleWrapper: BundleWrapper.Save) {
+            repository.save(bundleWrapper)
+        }
+
+        override fun restore(bundleWrapper: BundleWrapper.Restore) {
+            repository.restore(bundleWrapper)
         }
     }
 }

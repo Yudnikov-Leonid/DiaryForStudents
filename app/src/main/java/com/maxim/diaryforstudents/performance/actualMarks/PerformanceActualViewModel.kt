@@ -98,11 +98,13 @@ class PerformanceActualViewModel(
     override fun save(bundleWrapper: BundleWrapper.Save) {
         communication.save(RESTORE_KEY, bundleWrapper)
         bundleWrapper.save(QUARTER_KEY, quarter)
+        interactor.save(bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         communication.restore(RESTORE_KEY, bundleWrapper)
         quarter = bundleWrapper.restore<Int>(QUARTER_KEY) ?: interactor.currentQuarter()
+        interactor.restore(bundleWrapper)
     }
 
     companion object {

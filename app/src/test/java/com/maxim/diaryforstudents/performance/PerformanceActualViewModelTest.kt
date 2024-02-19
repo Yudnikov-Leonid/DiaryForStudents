@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryDomainToUiMapper
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
@@ -93,11 +94,11 @@ class PerformanceActualViewModelTest {
         viewModel.init(true)
         communication.checkCalledTimes(1)
         communication.checkCalledWith(PerformanceState.Loading)
-        interactor.checkCurrentQuarterCalledTimes(1)
 
         interactor.checkLoadOrder(listOf(FINAL, ACTUAL))
         runAsync.returnResult()
 
+        interactor.checkCurrentQuarterCalledTimes(1)
         communication.checkCalledTimes(2)
         communication.checkCalledWith(
             PerformanceState.Base(
@@ -148,7 +149,11 @@ class PerformanceActualViewModelTest {
     fun test_save_and_restore() {
         val bundleWrapper = FakeBundleWrapper()
         viewModel.save(bundleWrapper)
+        communication.checkSaveCalledTimes(1)
+        interactor.checkSaveCalledTimes(1)
         viewModel.restore(bundleWrapper)
+        communication.checkRestoreCalledTimes(1)
+        interactor.checkRestoreCalledTimes(1)
     }
 }
 
@@ -173,15 +178,27 @@ private class FakePerformanceCommunication : PerformanceCommunication {
 
     private var key = ""
     private var bundleWrapper: BundleWrapper.Mutable? = null
+    private var saveCounter = 0
+    private var restoreCounter = 0
 
     override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
         this.key = key
         this.bundleWrapper = bundleWrapper as BundleWrapper.Mutable
+        saveCounter++
     }
 
     override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
         assertEquals(this.key, key)
         assertEquals(this.bundleWrapper, bundleWrapper)
+        restoreCounter++
+    }
+
+    fun checkSaveCalledTimes(expected: Int) {
+        assertEquals(expected, saveCounter)
+    }
+
+    fun checkRestoreCalledTimes(expected: Int) {
+        assertEquals(expected, restoreCounter)
     }
 }
 
@@ -249,6 +266,32 @@ private class FakePerformanceInteractor : PerformanceInteractor {
     override suspend fun changeQuarter(quarter: Int) {
         changeQuarterList.add(quarter)
         currentQuarter = quarter
+    }
+
+    override fun finalDataIsEmpty(reload: Reload): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    private var bundleWrapper: BundleWrapper.Mutable? = null
+    private var saveCounter = 0
+    private var restoreCounter = 0
+
+    override fun save(bundleWrapper: BundleWrapper.Save) {
+        this.bundleWrapper = bundleWrapper as BundleWrapper.Mutable
+        saveCounter++
+    }
+
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
+        assertEquals(this.bundleWrapper, bundleWrapper)
+        restoreCounter++
+    }
+
+    fun checkSaveCalledTimes(expected: Int) {
+        assertEquals(expected, saveCounter)
+    }
+
+    fun checkRestoreCalledTimes(expected: Int) {
+        assertEquals(expected, restoreCounter)
     }
 }
 
