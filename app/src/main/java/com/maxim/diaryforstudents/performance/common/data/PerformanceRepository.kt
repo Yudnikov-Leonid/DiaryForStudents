@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.data
 
+import android.util.Log
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
@@ -38,61 +39,6 @@ interface PerformanceRepository : SaveAndRestore {
         private val periods = mutableListOf<Pair<String, String>>()
         private var currentQuarter = 1
 
-//        override suspend fun loadActualData() {
-//            dataException = null
-//            cache.clear()
-//
-//            try {
-//                if (periods.isEmpty()) {
-//                    periods.addAll(
-//                        cloudDataSource.periods().map { Pair(it.DATE_BEGIN, it.DATE_END) })
-//                    val calendar = Calendar.getInstance()
-//                    for (i in periods.indices) {
-//                        var split = periods[i].first.split('.')
-//                        calendar.apply {
-//                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
-//                            set(Calendar.MONTH, split[1].toInt() - 1)
-//                            set(Calendar.YEAR, split[2].toInt())
-//                        }
-//                        if (calendar.timeInMillis / 86400000 > System.currentTimeMillis() / 86400000)
-//                            continue
-//                        split = periods[i].second.split('.')
-//                        calendar.apply {
-//                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
-//                            set(Calendar.MONTH, split[1].toInt() - 1)
-//                            set(Calendar.YEAR, split[2].toInt())
-//                        }
-//                        if (calendar.timeInMillis / 86400000 < System.currentTimeMillis() / 86400000)
-//                            continue
-//                        currentQuarter = i + 1
-//                        break
-//                    }
-//                    periods.add(Pair(periods.first().first, periods.last().second))
-//                }
-//                val dates = periods[currentQuarter - 1]
-//                responseCache[currentQuarter()] = cloudDataSource.data(dates.first, dates.second)
-//                cache.addAll(
-//                    handleResponse.lessons(responseCache[currentQuarter]!!, true, currentQuarter)
-//                )
-//
-//            } catch (e: Exception) {
-//                dataException = e
-//            }
-//        }
-//
-//        override suspend fun initFinalData() {
-//            finalDataException = null
-//            finalCache.clear()
-//
-//            try {
-//                finalResponseCache.clear()
-//                finalResponseCache.addAll(cloudDataSource.finalData())
-//                finalCache.addAll(handleResponse.finalMarksLessons(finalResponseCache))
-//            } catch (e: Exception) {
-//                finalDataException = e
-//            }
-//        }
-
         override suspend fun loadData() {
             responseCache.clear()
             finalResponseCache.clear()
@@ -107,7 +53,8 @@ interface PerformanceRepository : SaveAndRestore {
                 coroutineScope {
                     listOf(
                         async {
-                            responseCache[currentQuarter] = cloudDataSource.data(dates.first, dates.second)
+                            responseCache[currentQuarter] =
+                                cloudDataSource.data(dates.first, dates.second)
                         },
                         async {
                             finalResponseCache.addAll(cloudDataSource.finalData())
@@ -207,27 +154,57 @@ interface PerformanceRepository : SaveAndRestore {
         override fun currentQuarter() = currentQuarter
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
-            bundleWrapper.save(PERIODS_RESTORE_KEY, SerializableList(periods))
+            Log.d("MyLog", "save")
+            bundleWrapper.save(
+                RESTORE_KEY,
+                PerformanceRepositorySave(
+                    periods,
+                    responseCache,
+                    cache,
+                    finalCache,
+                    finalResponseCache
+                )
+            )
             bundleWrapper.save(ACTUAL_QUARTER_RESTORE_KEY, currentQuarter)
             handleResponse.save(bundleWrapper)
         }
 
         override fun restore(bundleWrapper: BundleWrapper.Restore) {
-            val data = bundleWrapper.restore<SerializableList>(PERIODS_RESTORE_KEY)
+            val data = bundleWrapper.restore<PerformanceRepositorySave>(RESTORE_KEY)
             periods.addAll(
-                data?.list ?: emptyList()
+                data?.periods ?: emptyList()
             )
             currentQuarter = bundleWrapper.restore(ACTUAL_QUARTER_RESTORE_KEY) ?: 1
+            data?.responseCache?.forEach {
+                if (responseCache.isEmpty())
+                    responseCache[it.key] = it.value
+            }
+            data?.cache?.let {
+                if (cache.isEmpty())
+                    cache.addAll(it)
+            }
+            data?.finalCache?.let {
+                if (finalCache.isEmpty())
+                    finalCache.addAll(it)
+            }
+            data?.finalResponseCache?.let {
+                if (finalResponseCache.isEmpty())
+                    finalResponseCache.addAll(it)
+            }
             handleResponse.restore(bundleWrapper)
         }
 
         companion object {
-            private const val PERIODS_RESTORE_KEY = "performance_repository_periods_restore"
+            private const val RESTORE_KEY = "performance_repository_restore"
             private const val ACTUAL_QUARTER_RESTORE_KEY = "performance_repository_quarter_restore"
         }
     }
 }
 
-data class SerializableList(
-    val list: List<Pair<String, String>>,
+data class PerformanceRepositorySave(
+    val periods: List<Pair<String, String>>,
+    val responseCache: Map<Int, List<CloudLesson>>,
+    val cache: List<PerformanceData>,
+    val finalCache: List<PerformanceData>,
+    val finalResponseCache: List<PerformanceFinalLesson>
 ) : Serializable

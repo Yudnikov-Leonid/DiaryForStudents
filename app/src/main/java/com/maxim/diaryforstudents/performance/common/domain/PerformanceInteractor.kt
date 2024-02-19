@@ -36,22 +36,10 @@ interface PerformanceInteractor: SaveAndRestore {
         private val diaryMapper: DiaryData.Mapper<DiaryDomain>
     ) : PerformanceInteractor {
         private var finalLoadCallbackList: MutableList<(() -> Unit)> = ArrayList()
-
-//        override suspend fun loadActualData() {
-//            repository.loadActualData()
-//        }
-//
-//        override suspend fun loadFinalData() {
-//            repository.initFinalData()
-//            finalLoadCallback?.let {
-//                withContext(Dispatchers.Main) {
-//                    it.reload()
-//                }
-//                finalLoadCallback = null
-//            }
-//        }
+        private var dataIsLoading = false
 
         override suspend fun loadData() {
+            dataIsLoading = true
             repository.loadData()
             if (finalLoadCallbackList.isNotEmpty()) {
                 withContext(Dispatchers.Main) {
@@ -61,6 +49,7 @@ interface PerformanceInteractor: SaveAndRestore {
                 }
                 finalLoadCallbackList.clear()
             }
+            dataIsLoading = false
         }
 
         override fun actualData(): List<PerformanceDomain> {

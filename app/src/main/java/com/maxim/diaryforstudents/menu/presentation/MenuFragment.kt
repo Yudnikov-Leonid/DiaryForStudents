@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentMenuBinding
 
 class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
@@ -39,5 +40,17 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         }
 
         viewModel.init(savedInstanceState == null)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.let {
+            viewModel.restore(BundleWrapper.Base(it))
+        }
     }
 }
