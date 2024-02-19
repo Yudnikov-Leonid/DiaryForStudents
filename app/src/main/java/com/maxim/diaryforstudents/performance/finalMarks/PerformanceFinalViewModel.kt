@@ -25,6 +25,12 @@ class PerformanceFinalViewModel(
             super.reload()
     }
 
+    //not tested
+    fun retry() {
+        handle { interactor.loadData() }
+        reload()
+    }
+
     override fun save(bundleWrapper: BundleWrapper.Save) {
         communication.save(RESTORE_KEY, bundleWrapper)
     }

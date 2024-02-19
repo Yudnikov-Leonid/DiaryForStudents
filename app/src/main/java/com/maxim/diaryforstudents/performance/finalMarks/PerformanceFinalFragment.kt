@@ -30,7 +30,7 @@ class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, Pe
         binding.lessonsRecyclerView.adapter = adapter
 
         binding.retryButton.setOnClickListener {
-            viewModel.reload()
+            viewModel.retry()
         }
 
         viewModel.observe(this) {

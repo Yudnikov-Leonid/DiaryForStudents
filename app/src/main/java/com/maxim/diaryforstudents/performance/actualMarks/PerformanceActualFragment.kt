@@ -41,7 +41,7 @@ class PerformanceActualFragment :
         })
 
         binding.retryButton.setOnClickListener {
-            viewModel.init(true)
+            viewModel.retry()
         }
 
         binding.lessonsRecyclerView.adapter = adapter

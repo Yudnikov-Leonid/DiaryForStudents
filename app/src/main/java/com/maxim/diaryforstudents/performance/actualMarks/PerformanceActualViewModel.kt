@@ -53,6 +53,12 @@ class PerformanceActualViewModel(
             reload()
     }
 
+    //not tested
+    fun retry() {
+        handle { interactor.loadData() }
+        init(true)
+    }
+
     fun changeQuarter(quarter: Int) {
         this.quarter = quarter
         communication.update(PerformanceState.Loading)
