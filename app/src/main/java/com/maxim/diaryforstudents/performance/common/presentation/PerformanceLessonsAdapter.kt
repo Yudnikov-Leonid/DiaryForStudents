@@ -86,7 +86,7 @@ class PerformanceLessonsAdapter(
     }
 
     interface Listener {
-        fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int)
+        fun calculate(marks: List<PerformanceUi>, marksSum: Int)
         fun analytics(lessonName: String)
     }
 }

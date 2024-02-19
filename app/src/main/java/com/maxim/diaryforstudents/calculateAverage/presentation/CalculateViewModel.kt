@@ -13,7 +13,7 @@ class CalculateViewModel(
     private val calculateStorage: CalculateStorage.Read,
     private val clearViewModel: ClearViewModel
 ) : ViewModel(), Communication.Observe<CalculateState> {
-    private val list = mutableListOf<PerformanceUi.Mark>()
+    private val list = mutableListOf<PerformanceUi>()
     private var sum = 0
 
     fun init() {

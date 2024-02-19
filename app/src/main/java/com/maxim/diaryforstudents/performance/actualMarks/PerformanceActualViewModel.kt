@@ -68,7 +68,7 @@ class PerformanceActualViewModel(
     }
 
     //not tested
-    fun openDetails(mark: PerformanceUi.Mark) {
+    fun openDetails(mark: PerformanceUi) {
         if (System.currentTimeMillis() - 500 > lastOpenDetailsTime) {
             lastOpenDetailsTime = System.currentTimeMillis()
             navigation.update(LessonDetailsBottomFragmentScreen)
@@ -81,7 +81,7 @@ class PerformanceActualViewModel(
     }
 
     //not tested
-    fun calculateAverage(marks: List<PerformanceUi.Mark>, marksSum: Int) {
+    fun calculateAverage(marks: List<PerformanceUi>, marksSum: Int) {
         calculateStorage.save(marks, marksSum)
         navigation.update(CalculateScreen)
     }

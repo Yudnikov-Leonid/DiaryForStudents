@@ -1,5 +1,8 @@
 package com.maxim.diaryforstudents.performance.common.presentation
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -35,7 +38,7 @@ interface PerformanceUi : Serializable {
 
     data class Lesson(
         private val name: String,
-        private val marks: List<Mark>,
+        private val marks: List<PerformanceUi>,
         private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
@@ -165,6 +168,68 @@ interface PerformanceUi : Serializable {
         override fun same(item: PerformanceUi) = item is Mark && item.date == date
 
         override fun sameContent(item: PerformanceUi) = item is Mark && item.mark == mark
+    }
+
+    data class SeveralMarks(
+        private val marks: List<Int>,
+        private val date: String,
+        private val lessonName: String,
+    ) : PerformanceUi {
+        override fun same(item: PerformanceUi) = item is SeveralMarks && item.date == date
+
+        override fun sameContent(item: PerformanceUi) = item is SeveralMarks && item.marks == marks
+
+        override fun showName(textView: TextView) {
+            var markText = SpannableString(marks.first().toString())
+            markText.setSpan(
+                ForegroundColorSpan(textView.context.getColor(getColor(marks.first()))),
+                0,
+                1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            textView.text = markText
+
+            val slash = SpannableString("/")
+            slash.setSpan(
+                ForegroundColorSpan(textView.context.getColor(R.color.slash)),
+                0,
+                1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            for (i in 1..marks.lastIndex) {
+                textView.append(slash)
+                markText = SpannableString(marks[i].toString())
+                markText.setSpan(
+                    ForegroundColorSpan(textView.context.getColor(getColor(marks[i]))),
+                    0,
+                    1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                textView.append(markText)
+            }
+        }
+
+        override suspend fun getLesson(
+            interactor: PerformanceInteractor,
+            mapper: DiaryDomain.Mapper<DiaryUi>
+        ): DiaryUi.Lesson =
+            interactor.getLessonByMark(lessonName, date).map(mapper) as DiaryUi.Lesson
+
+        //todo
+        private fun getColor(mark: Int): Int {
+            return when (mark) {
+                1, 2 -> R.color.red
+                3 -> R.color.yellow
+                4 -> R.color.green
+                5 -> R.color.light_green
+                else -> R.color.black
+            }
+        }
+
+        override fun showDate(textView: TextView) {
+            val dateUi = date.substring(0, date.length - 5)
+            textView.text = dateUi
+        }
     }
 
     data class Error(private val message: String) : PerformanceUi {

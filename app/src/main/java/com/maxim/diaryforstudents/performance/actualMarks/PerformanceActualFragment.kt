@@ -27,7 +27,7 @@ class PerformanceActualFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = PerformanceLessonsAdapter(object : PerformanceLessonsAdapter.Listener {
-            override fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int) {
+            override fun calculate(marks: List<PerformanceUi>, marksSum: Int) {
                 viewModel.calculateAverage(marks, marksSum)
             }
 
@@ -35,7 +35,7 @@ class PerformanceActualFragment :
                 viewModel.analytics(lessonName)
             }
         }, object : PerformanceMarksAdapter.Listener {
-            override fun details(mark: PerformanceUi.Mark) {
+            override fun details(mark: PerformanceUi) {
                 viewModel.openDetails(mark)
             }
         })

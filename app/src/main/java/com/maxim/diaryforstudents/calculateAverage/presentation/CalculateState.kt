@@ -8,7 +8,7 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 interface CalculateState {
     fun show(adapter: PerformanceMarksAdapter, averageTextView: TextView)
 
-    class Base(private val marks: List<PerformanceUi.Mark>, private val average: Float): CalculateState {
+    class Base(private val marks: List<PerformanceUi>, private val average: Float): CalculateState {
         override fun show(adapter: PerformanceMarksAdapter, averageTextView: TextView) {
             adapter.update(marks, false)
             val avr = average.toString()

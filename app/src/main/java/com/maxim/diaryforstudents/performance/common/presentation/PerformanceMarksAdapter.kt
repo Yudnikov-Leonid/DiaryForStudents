@@ -10,12 +10,12 @@ import com.maxim.diaryforstudents.databinding.MarkBinding
 class PerformanceMarksAdapter(
     private val listener: Listener
 ) : RecyclerView.Adapter<PerformanceMarksAdapter.ItemViewHolder>() {
-    private val list = mutableListOf<PerformanceUi.Mark>()
+    private val list = mutableListOf<PerformanceUi>()
     private var showDate = true
 
     class ItemViewHolder(private val binding: MarkBinding, private val listener: Listener) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: PerformanceUi.Mark, showDate: Boolean) {
+        fun bind(item: PerformanceUi, showDate: Boolean) {
             binding.dateTextView.visibility = if (showDate) View.VISIBLE else View.GONE
             item.showName(binding.markTextView)
             item.showDate(binding.dateTextView)
@@ -37,7 +37,7 @@ class PerformanceMarksAdapter(
         holder.bind(list[position], showDate)
     }
 
-    fun update(newList: List<PerformanceUi.Mark>, showDate: Boolean) {
+    fun update(newList: List<PerformanceUi>, showDate: Boolean) {
         this.showDate = showDate
         val diff = PerformanceDiffUtil(list, newList)
         val result = DiffUtil.calculateDiff(diff)
@@ -47,6 +47,6 @@ class PerformanceMarksAdapter(
     }
 
     interface Listener {
-        fun details(mark: PerformanceUi.Mark)
+        fun details(mark: PerformanceUi)
     }
 }

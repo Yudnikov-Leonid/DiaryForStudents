@@ -6,7 +6,7 @@ interface PerformanceDomain {
     interface Mapper<T> {
         fun map(
             name: String,
-            marks: List<Mark>,
+            marks: List<PerformanceDomain>,
             marksSum: Int,
             isFinal: Boolean,
             average: Float,
@@ -19,13 +19,14 @@ interface PerformanceDomain {
         fun map(): T
         fun map(message: String): T
         fun map(mark: Int, date: String, lessonName: String, isFinal: Boolean): T
+        fun map(marks: List<Int>, date: String, lessonName: String): T
     }
 
     fun <T> map(mapper: Mapper<T>): T
 
     data class Lesson(
         private val name: String,
-        private val marks: List<Mark>,
+        private val marks: List<PerformanceDomain>,
         private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
@@ -52,6 +53,14 @@ interface PerformanceDomain {
         private val isFinal: Boolean
     ) : PerformanceDomain {
         override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, date, lessonName, isFinal)
+    }
+
+    data class SeveralMarks(
+        private val marks: List<Int>,
+        private val date: String,
+        private val lessonName: String,
+    ) : PerformanceDomain {
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(marks, date, lessonName)
     }
 
     data class Error(private val message: String) : PerformanceDomain {

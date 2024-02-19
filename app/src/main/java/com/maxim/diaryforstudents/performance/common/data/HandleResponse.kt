@@ -1,12 +1,12 @@
 package com.maxim.diaryforstudents.performance.common.data
 
-import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import java.io.Serializable
 import java.util.Calendar
 
-interface HandleResponse: SaveAndRestore {
+interface HandleResponse : SaveAndRestore {
     fun lessons(
         lessons: List<CloudLesson>,
         calculateProgress: Boolean,
@@ -43,31 +43,50 @@ interface HandleResponse: SaveAndRestore {
                     ?: (lesson.MARKS.sumOf { it.VALUE }.toFloat() / lesson.MARKS.size)
                 if (calculateProgress) {
                     listOf(7, 14, 28).forEachIndexed { i, n ->
-                        val aWeekAgo = System.currentTimeMillis() / 86400000 - n
+                        val ago = System.currentTimeMillis() / 86400000 - n
                         val calendar = Calendar.getInstance()
-                        val marksAWeekAgo = lesson.MARKS.filter { mark ->
+                        val marksAgo = lesson.MARKS.filter { mark ->
                             val markDate = mark.DATE.split('.')
                             calendar.set(Calendar.DAY_OF_MONTH, markDate[0].toInt())
                             calendar.set(Calendar.MONTH, markDate[1].toInt() - 1)
                             calendar.set(Calendar.YEAR, markDate[2].toInt())
-                            calendar.timeInMillis / 86400000 <= aWeekAgo
+                            calendar.timeInMillis / 86400000 <= ago
                         }
                         val average =
-                            marksAWeekAgo.sumOf { it.VALUE }.toFloat() / marksAWeekAgo.size
+                            marksAgo.sumOf { it.VALUE }.toFloat() / marksAgo.size
                         progresses[i] = ((actualAverage / average - 1) * 100).toInt()
                     }
                 }
 
+                var lastDate = ""
+                val marks = mutableListOf<PerformanceData>()
+                for (i in lesson.MARKS.indices) {
+                    if (lastDate == lesson.MARKS[i].DATE) {
+                        marks.removeLast()
+                        marks.add(
+                            PerformanceData.SeveralMarks(
+                                listOf(
+                                    lesson.MARKS[i - 1].VALUE,
+                                    lesson.MARKS[i].VALUE
+                                ), lesson.MARKS[i].DATE, lesson.SUBJECT_NAME
+                            )
+                        )
+                    } else {
+                        marks.add(
+                            PerformanceData.Mark(
+                                lesson.MARKS[i].VALUE,
+                                lesson.MARKS[i].DATE,
+                                lesson.SUBJECT_NAME,
+                                false
+                            )
+                        )
+                    }
+                    lastDate = lesson.MARKS[i].DATE
+                }
+
                 PerformanceData.Lesson(
                     lesson.SUBJECT_NAME,
-                    lesson.MARKS.map { mark ->
-                        PerformanceData.Mark(
-                            mark.VALUE,
-                            mark.DATE,
-                            lesson.SUBJECT_NAME,
-                            false
-                        )
-                    },
+                    marks,
                     lesson.MARKS.sumOf { it.VALUE },
                     false,
                     actualAverage,
