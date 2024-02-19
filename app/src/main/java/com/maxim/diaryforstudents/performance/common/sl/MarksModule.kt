@@ -16,13 +16,7 @@ import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteracto
 interface MarksModule {
     fun marksInteractor(): PerformanceInteractor
 
-    interface Clear {
-        fun clear()
-    }
-
-    interface Mutable : MarksModule, Clear
-
-    class Base(private val core: Core) : Mutable {
+    class Base(private val core: Core) : MarksModule {
         private var marksInteractor: PerformanceInteractor? = null
 
         override fun marksInteractor(): PerformanceInteractor {
@@ -48,10 +42,6 @@ interface MarksModule {
                 )
             }
             return marksInteractor!!
-        }
-
-        override fun clear() {
-            marksInteractor = null
         }
     }
 }

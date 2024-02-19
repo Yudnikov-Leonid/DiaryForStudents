@@ -108,7 +108,7 @@ interface ProvideCalculateStorage {
 }
 
 interface ProvideMarksModule {
-    fun marksModule(): MarksModule.Mutable
+    fun marksModule(): MarksModule
 }
 
 interface ProvideAnalyticsStorage {

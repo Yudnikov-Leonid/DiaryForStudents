@@ -12,4 +12,8 @@ abstract class BaseViewModel(
     protected fun <T : Any> handle(backgroundBlock: suspend () -> T, uiBlock: (T) -> Unit) {
         runAsync.handleAsync(viewModelScope, backgroundBlock, uiBlock)
     }
+
+    protected fun <T : Any> handle(backgroundBlock: suspend () -> T) {
+        runAsync.handleAsync(viewModelScope, backgroundBlock) {}
+    }
 }

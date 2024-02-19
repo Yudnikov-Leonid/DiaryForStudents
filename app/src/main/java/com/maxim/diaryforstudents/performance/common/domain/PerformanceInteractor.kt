@@ -3,7 +3,6 @@ package com.maxim.diaryforstudents.performance.common.domain
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
-import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
@@ -26,7 +25,7 @@ interface PerformanceInteractor: SaveAndRestore {
     suspend fun getLessonByMark(lessonName: String, date: String): DiaryDomain.Lesson
     suspend fun changeQuarter(quarter: Int)
 
-    fun finalDataIsEmpty(reload: Reload): Boolean
+    fun dataIsEmpty(callback: () -> Unit): Boolean
 
     class Base(
         private val repository: PerformanceRepository,
@@ -36,7 +35,7 @@ interface PerformanceInteractor: SaveAndRestore {
         private val diaryRepository: DiaryRepository,
         private val diaryMapper: DiaryData.Mapper<DiaryDomain>
     ) : PerformanceInteractor {
-        private var finalLoadCallback: Reload? = null
+        private var finalLoadCallbackList: MutableList<(() -> Unit)> = ArrayList()
 
 //        override suspend fun loadActualData() {
 //            repository.loadActualData()
@@ -54,11 +53,13 @@ interface PerformanceInteractor: SaveAndRestore {
 
         override suspend fun loadData() {
             repository.loadData()
-            finalLoadCallback?.let {
+            if (finalLoadCallbackList.isNotEmpty()) {
                 withContext(Dispatchers.Main) {
-                    it.reload()
+                    finalLoadCallbackList.forEach {
+                        it.invoke()
+                    }
                 }
-                finalLoadCallback = null
+                finalLoadCallbackList.clear()
             }
         }
 
@@ -76,7 +77,6 @@ interface PerformanceInteractor: SaveAndRestore {
                             it.progress()[2],
                             it.progress()[3]
                         ).toFloat()
-
                         else -> it.marksCount().toFloat()
                     }
                 }.map { it.map(mapper) }
@@ -131,12 +131,13 @@ interface PerformanceInteractor: SaveAndRestore {
             repository.changeQuarter(quarter)
         }
 
-        override fun finalDataIsEmpty(reload: Reload): Boolean {
+        override fun dataIsEmpty(callback: () -> Unit): Boolean {
+            val data = actualData()
             val isEmpty =
-                if (finalData().isEmpty()) true
-                else finalData().first() is PerformanceDomain.Error || finalData().first() is PerformanceDomain.Empty
+                if (data.isEmpty()) true
+                else data.first() is PerformanceDomain.Error || data.first() is PerformanceDomain.Empty
             if (isEmpty)
-                finalLoadCallback = reload
+                finalLoadCallbackList.add(callback)
             return isEmpty
         }
 

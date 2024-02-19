@@ -8,7 +8,6 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCom
 class PerformanceModule(private val core: Core, private val clear: ClearViewModel) :
     Module<PerformanceCommonViewModel> {
     override fun viewModel() = PerformanceCommonViewModel(
-        core.marksModule(),
         core.navigation(),
         clear,
     )

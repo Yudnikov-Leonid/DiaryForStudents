@@ -19,7 +19,7 @@ class PerformanceFinalViewModel(
     override val type = MarksType.Final
 
     override fun reload() {
-        if (!interactor.finalDataIsEmpty(this))
+        if (!interactor.dataIsEmpty { reload() })
             super.reload()
     }
 
