@@ -16,8 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 interface PerformanceInteractor: SaveAndRestore {
-    suspend fun loadActualData()
-    suspend fun loadFinalData()
+    suspend fun loadData()
 
     fun actualData(): List<PerformanceDomain>
     fun finalData(): List<PerformanceDomain>
@@ -39,12 +38,22 @@ interface PerformanceInteractor: SaveAndRestore {
     ) : PerformanceInteractor {
         private var finalLoadCallback: Reload? = null
 
-        override suspend fun loadActualData() {
-            repository.loadActualData()
-        }
+//        override suspend fun loadActualData() {
+//            repository.loadActualData()
+//        }
+//
+//        override suspend fun loadFinalData() {
+//            repository.initFinalData()
+//            finalLoadCallback?.let {
+//                withContext(Dispatchers.Main) {
+//                    it.reload()
+//                }
+//                finalLoadCallback = null
+//            }
+//        }
 
-        override suspend fun loadFinalData() {
-            repository.initFinalData()
+        override suspend fun loadData() {
+            repository.loadData()
             finalLoadCallback?.let {
                 withContext(Dispatchers.Main) {
                     it.reload()

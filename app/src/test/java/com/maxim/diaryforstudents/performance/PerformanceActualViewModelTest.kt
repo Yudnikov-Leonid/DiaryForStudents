@@ -95,7 +95,7 @@ class PerformanceActualViewModelTest {
         communication.checkCalledTimes(1)
         communication.checkCalledWith(PerformanceState.Loading)
 
-        interactor.checkLoadOrder(listOf(FINAL, ACTUAL))
+        interactor.checkLoadDataCalledTimes(1)
         runAsync.returnResult()
 
         interactor.checkCurrentQuarterCalledTimes(1)
@@ -204,18 +204,13 @@ private class FakePerformanceCommunication : PerformanceCommunication {
 
 private class FakePerformanceInteractor : PerformanceInteractor {
     private var currentQuarter = 0
-    private val loadList = mutableListOf<String>()
+    private var loadCounter = 0
 
-    override suspend fun loadActualData() {
-        loadList.add(ACTUAL)
+    override suspend fun loadData() {
+        loadCounter++
     }
-
-    override suspend fun loadFinalData() {
-        loadList.add(FINAL)
-    }
-
-    fun checkLoadOrder(expected: List<String>) {
-        assertEquals(expected, loadList)
+    fun checkLoadDataCalledTimes(expected: Int) {
+        assertEquals(expected, loadCounter)
     }
 
     private var actualDataErrorMessage = ""
@@ -294,6 +289,3 @@ private class FakePerformanceInteractor : PerformanceInteractor {
         assertEquals(expected, restoreCounter)
     }
 }
-
-private const val ACTUAL = "ACTUAL"
-private const val FINAL = "ACTUAL"

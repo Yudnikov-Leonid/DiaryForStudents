@@ -3,12 +3,14 @@ package com.maxim.diaryforstudents.performance.common.data
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import java.io.Serializable
 import java.util.Calendar
 
-interface PerformanceRepository: SaveAndRestore {
-    suspend fun loadActualData()
-    suspend fun initFinalData()
+interface PerformanceRepository : SaveAndRestore {
+    suspend fun loadData()
     fun cachedData(): List<PerformanceData>
     fun cachedFinalData(): List<PerformanceData>
     suspend fun changeQuarter(quarter: Int)
@@ -26,8 +28,7 @@ interface PerformanceRepository: SaveAndRestore {
         private val cloudDataSource: PerformanceCloudDataSource,
         private val handleResponse: HandleResponse
     ) : PerformanceRepository {
-        private var dataException: Exception? = null
-        private var finalDataException: Exception? = null
+        private var loadException: Exception? = null
 
         private val responseCache = mutableMapOf<Int, List<CloudLesson>>()
         private val cache = mutableListOf<PerformanceData>()
@@ -35,73 +36,132 @@ interface PerformanceRepository: SaveAndRestore {
         private val finalResponseCache = mutableListOf<PerformanceFinalLesson>()
 
         private val periods = mutableListOf<Pair<String, String>>()
-        private var actualQuarter = 1
+        private var currentQuarter = 1
 
-        override suspend fun loadActualData() {
-            dataException = null
-            cache.clear()
+//        override suspend fun loadActualData() {
+//            dataException = null
+//            cache.clear()
+//
+//            try {
+//                if (periods.isEmpty()) {
+//                    periods.addAll(
+//                        cloudDataSource.periods().map { Pair(it.DATE_BEGIN, it.DATE_END) })
+//                    val calendar = Calendar.getInstance()
+//                    for (i in periods.indices) {
+//                        var split = periods[i].first.split('.')
+//                        calendar.apply {
+//                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
+//                            set(Calendar.MONTH, split[1].toInt() - 1)
+//                            set(Calendar.YEAR, split[2].toInt())
+//                        }
+//                        if (calendar.timeInMillis / 86400000 > System.currentTimeMillis() / 86400000)
+//                            continue
+//                        split = periods[i].second.split('.')
+//                        calendar.apply {
+//                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
+//                            set(Calendar.MONTH, split[1].toInt() - 1)
+//                            set(Calendar.YEAR, split[2].toInt())
+//                        }
+//                        if (calendar.timeInMillis / 86400000 < System.currentTimeMillis() / 86400000)
+//                            continue
+//                        currentQuarter = i + 1
+//                        break
+//                    }
+//                    periods.add(Pair(periods.first().first, periods.last().second))
+//                }
+//                val dates = periods[currentQuarter - 1]
+//                responseCache[currentQuarter()] = cloudDataSource.data(dates.first, dates.second)
+//                cache.addAll(
+//                    handleResponse.lessons(responseCache[currentQuarter]!!, true, currentQuarter)
+//                )
+//
+//            } catch (e: Exception) {
+//                dataException = e
+//            }
+//        }
+//
+//        override suspend fun initFinalData() {
+//            finalDataException = null
+//            finalCache.clear()
+//
+//            try {
+//                finalResponseCache.clear()
+//                finalResponseCache.addAll(cloudDataSource.finalData())
+//                finalCache.addAll(handleResponse.finalMarksLessons(finalResponseCache))
+//            } catch (e: Exception) {
+//                finalDataException = e
+//            }
+//        }
+
+        override suspend fun loadData() {
+            responseCache.clear()
+            finalResponseCache.clear()
+            finalCache.clear()
+            loadException = null
 
             try {
                 if (periods.isEmpty()) {
-                    periods.addAll(
-                        cloudDataSource.periods().map { Pair(it.DATE_BEGIN, it.DATE_END) })
-                    val calendar = Calendar.getInstance()
-                    for (i in periods.indices) {
-                        var split = periods[i].first.split('.')
-                        calendar.apply {
-                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
-                            set(Calendar.MONTH, split[1].toInt() - 1)
-                            set(Calendar.YEAR, split[2].toInt())
-                        }
-                        if (calendar.timeInMillis / 86400000 > System.currentTimeMillis() / 86400000)
-                            continue
-                        split = periods[i].second.split('.')
-                        calendar.apply {
-                            set(Calendar.DAY_OF_MONTH, split[0].toInt())
-                            set(Calendar.MONTH, split[1].toInt() - 1)
-                            set(Calendar.YEAR, split[2].toInt())
-                        }
-                        if (calendar.timeInMillis / 86400000 < System.currentTimeMillis() / 86400000)
-                            continue
-                        actualQuarter = i + 1
-                        break
-                    }
-                    periods.add(Pair(periods.first().first, periods.last().second))
+                    loadPeriods()
                 }
-                val dates = periods[currentQuarter() - 1]
-                responseCache[currentQuarter()] = cloudDataSource.data(dates.first, dates.second)
-                cache.addAll(
-                    handleResponse.lessons(responseCache[currentQuarter()]!!, true, currentQuarter())
-                )
+                val dates = periods[currentQuarter - 1]
+                coroutineScope {
+                    listOf(
+                        async {
+                            responseCache[currentQuarter] = cloudDataSource.data(dates.first, dates.second)
+                        },
+                        async {
+                            finalResponseCache.addAll(cloudDataSource.finalData())
+                        }
+                    ).awaitAll()
+                }
 
+                finalCache.addAll(handleResponse.finalMarksLessons(finalResponseCache))
+                cache.addAll(
+                    handleResponse.lessons(responseCache[currentQuarter]!!, true, currentQuarter)
+                )
             } catch (e: Exception) {
-                dataException = e
+                loadException = e
             }
         }
 
-        override suspend fun initFinalData() {
-            finalDataException = null
-            finalCache.clear()
-
-            try {
-                finalResponseCache.clear()
-                finalResponseCache.addAll(cloudDataSource.finalData())
-                finalCache.addAll(handleResponse.finalMarksLessons(finalResponseCache))
-            } catch (e: Exception) {
-                finalDataException = e
+        private suspend fun loadPeriods() {
+            periods.addAll(
+                cloudDataSource.periods().map { Pair(it.DATE_BEGIN, it.DATE_END) })
+            val calendar = Calendar.getInstance()
+            for (i in periods.indices) {
+                var split = periods[i].first.split('.')
+                calendar.apply {
+                    set(Calendar.DAY_OF_MONTH, split[0].toInt())
+                    set(Calendar.MONTH, split[1].toInt() - 1)
+                    set(Calendar.YEAR, split[2].toInt())
+                }
+                if (calendar.timeInMillis / 86400000 > System.currentTimeMillis() / 86400000)
+                    continue
+                split = periods[i].second.split('.')
+                calendar.apply {
+                    set(Calendar.DAY_OF_MONTH, split[0].toInt())
+                    set(Calendar.MONTH, split[1].toInt() - 1)
+                    set(Calendar.YEAR, split[2].toInt())
+                }
+                if (calendar.timeInMillis / 86400000 < System.currentTimeMillis() / 86400000)
+                    continue
+                currentQuarter = i + 1
+                break
             }
+            periods.add(Pair(periods.first().first, periods.last().second))
         }
 
         override fun cachedData() =
-            dataException?.let {
+            loadException?.let {
                 throw it
             } ?: cache.ifEmpty { listOf(PerformanceData.Empty) }
 
         override fun cachedFinalData() =
-            finalDataException?.let { throw it } ?: finalCache.ifEmpty { listOf(PerformanceData.Empty) }
+            loadException?.let { throw it }
+                ?: finalCache.ifEmpty { listOf(PerformanceData.Empty) }
 
         override suspend fun changeQuarter(quarter: Int) {
-            dataException = null
+            loadException = null
             cache.clear()
             try {
                 val dates = periods[quarter - 1]
@@ -112,7 +172,7 @@ interface PerformanceRepository: SaveAndRestore {
                     )
                 )
             } catch (e: Exception) {
-                dataException = e
+                loadException = e
             }
         }
 
@@ -144,11 +204,11 @@ interface PerformanceRepository: SaveAndRestore {
             return list
         }
 
-        override fun currentQuarter() = actualQuarter
+        override fun currentQuarter() = currentQuarter
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
             bundleWrapper.save(PERIODS_RESTORE_KEY, SerializableList(periods))
-            bundleWrapper.save(ACTUAL_QUARTER_RESTORE_KEY, actualQuarter)
+            bundleWrapper.save(ACTUAL_QUARTER_RESTORE_KEY, currentQuarter)
             handleResponse.save(bundleWrapper)
         }
 
@@ -157,7 +217,7 @@ interface PerformanceRepository: SaveAndRestore {
             periods.addAll(
                 data?.list ?: emptyList()
             )
-            actualQuarter = bundleWrapper.restore(ACTUAL_QUARTER_RESTORE_KEY) ?: 1
+            currentQuarter = bundleWrapper.restore(ACTUAL_QUARTER_RESTORE_KEY) ?: 1
             handleResponse.restore(bundleWrapper)
         }
 
