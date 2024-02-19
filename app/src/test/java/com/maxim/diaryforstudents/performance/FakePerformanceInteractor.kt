@@ -1,4 +1,4 @@
-package com.maxim.diaryforstudents.fakes
+package com.maxim.diaryforstudents.performance
 
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
@@ -29,8 +29,15 @@ class FakePerformanceInteractor : PerformanceInteractor {
         else listOf(PerformanceDomain.Mark(5, "12.34.5678", "lesson name", false))
     }
 
+    private var finalDataErrorMessage = ""
+    fun finalDataMustReturnFail(message: String) {
+        finalDataErrorMessage = message
+    }
+
     override fun finalData(): List<PerformanceDomain> {
-        TODO("Not yet implemented")
+        return if (finalDataErrorMessage.isNotEmpty())
+            listOf(PerformanceDomain.Error(finalDataErrorMessage))
+        else listOf(PerformanceDomain.Mark(4, "12.34.5678", "lesson name", true))
     }
 
     private var progressTypeValue: ProgressType = ProgressType.Hide

@@ -3,7 +3,7 @@ package com.maxim.diaryforstudents.main
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.fakes.FakeNavigation
-import com.maxim.diaryforstudents.fakes.FakePerformanceInteractor
+import com.maxim.diaryforstudents.performance.FakePerformanceInteractor
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen

@@ -8,6 +8,7 @@ import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteracto
 import com.maxim.diaryforstudents.performance.common.presentation.MarksType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarkViewModel
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceFinalViewModel(
@@ -19,7 +20,8 @@ class PerformanceFinalViewModel(
     override val type = MarksType.Final
 
     override fun reload() {
-        if (!interactor.dataIsEmpty { reload() })
+        communication.update(PerformanceState.Loading)
+        if (!interactor.dataIsEmpty { super.reload() })
             super.reload()
     }
 

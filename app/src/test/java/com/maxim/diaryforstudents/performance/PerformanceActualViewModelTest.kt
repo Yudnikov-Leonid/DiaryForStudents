@@ -1,25 +1,19 @@
 package com.maxim.diaryforstudents.performance
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
-import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.domain.DiaryDomainToUiMapper
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
-import com.maxim.diaryforstudents.fakes.FakePerformanceInteractor
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomainToUiMapper
-import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
-import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -167,54 +161,5 @@ class PerformanceActualViewModelTest {
         communication.checkSaveCalledTimes(1)
         viewModel.restore(bundleWrapper)
         communication.checkRestoreCalledTimes(1)
-    }
-}
-
-private class FakePerformanceCommunication : PerformanceCommunication {
-    private val list = mutableListOf<PerformanceState>()
-
-    fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, list.size)
-    }
-
-    fun checkCalledWith(expected: PerformanceState) {
-        assertEquals(expected, list.last())
-    }
-
-    fun checkCalledWith(expected: List<PerformanceState>) {
-        assertEquals(expected, list)
-    }
-
-    override fun update(value: PerformanceState) {
-        list.add(value)
-    }
-
-    override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
-        throw IllegalStateException("not used in tests")
-    }
-
-    private var key = ""
-    private var bundleWrapper: BundleWrapper.Mutable? = null
-    private var saveCounter = 0
-    private var restoreCounter = 0
-
-    override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
-        this.key = key
-        this.bundleWrapper = bundleWrapper as BundleWrapper.Mutable
-        saveCounter++
-    }
-
-    override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
-        assertEquals(this.key, key)
-        assertEquals(this.bundleWrapper, bundleWrapper)
-        restoreCounter++
-    }
-
-    fun checkSaveCalledTimes(expected: Int) {
-        assertEquals(expected, saveCounter)
-    }
-
-    fun checkRestoreCalledTimes(expected: Int) {
-        assertEquals(expected, restoreCounter)
     }
 }
