@@ -5,19 +5,16 @@ import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
-import com.maxim.diaryforstudents.core.presentation.Reload
-import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryDomainToUiMapper
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
+import com.maxim.diaryforstudents.fakes.FakePerformanceInteractor
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewModel
-import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomainToUiMapper
-import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
@@ -90,13 +87,31 @@ class PerformanceActualViewModelTest {
     }
 
     @Test
-    fun test_init_first_run() {
+    fun test_init_first_run_data_is_not_empty() {
+        interactor.dataIsEmptyMustReturn(false)
+        viewModel.init(true)
+        communication.checkCalledTimes(2)
+        interactor.checkCurrentQuarterCalledTimes(1)
+        communication.checkCalledWith(
+            listOf(
+                PerformanceState.Loading, PerformanceState.Base(
+                    0,
+                    listOf(PerformanceUi.Mark(5, "12.34.5678", "lesson name", false)),
+                    false,
+                    ProgressType.Hide
+                )
+            )
+        )
+    }
+
+    @Test
+    fun test_init_first_run_data_is_empty() {
+        interactor.dataIsEmptyMustReturn(true)
         viewModel.init(true)
         communication.checkCalledTimes(1)
         communication.checkCalledWith(PerformanceState.Loading)
 
-        interactor.checkLoadDataCalledTimes(1)
-        runAsync.returnResult()
+        interactor.dataIsEmptyRunCallback()
 
         interactor.checkCurrentQuarterCalledTimes(1)
         communication.checkCalledTimes(2)
@@ -150,10 +165,8 @@ class PerformanceActualViewModelTest {
         val bundleWrapper = FakeBundleWrapper()
         viewModel.save(bundleWrapper)
         communication.checkSaveCalledTimes(1)
-        interactor.checkSaveCalledTimes(1)
         viewModel.restore(bundleWrapper)
         communication.checkRestoreCalledTimes(1)
-        interactor.checkRestoreCalledTimes(1)
     }
 }
 
@@ -166,6 +179,10 @@ private class FakePerformanceCommunication : PerformanceCommunication {
 
     fun checkCalledWith(expected: PerformanceState) {
         assertEquals(expected, list.last())
+    }
+
+    fun checkCalledWith(expected: List<PerformanceState>) {
+        assertEquals(expected, list)
     }
 
     override fun update(value: PerformanceState) {
@@ -189,94 +206,6 @@ private class FakePerformanceCommunication : PerformanceCommunication {
 
     override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
         assertEquals(this.key, key)
-        assertEquals(this.bundleWrapper, bundleWrapper)
-        restoreCounter++
-    }
-
-    fun checkSaveCalledTimes(expected: Int) {
-        assertEquals(expected, saveCounter)
-    }
-
-    fun checkRestoreCalledTimes(expected: Int) {
-        assertEquals(expected, restoreCounter)
-    }
-}
-
-private class FakePerformanceInteractor : PerformanceInteractor {
-    private var currentQuarter = 0
-    private var loadCounter = 0
-
-    override suspend fun loadData() {
-        loadCounter++
-    }
-    fun checkLoadDataCalledTimes(expected: Int) {
-        assertEquals(expected, loadCounter)
-    }
-
-    private var actualDataErrorMessage = ""
-    fun actualDataMustReturnFail(message: String) {
-        actualDataErrorMessage = message
-    }
-
-    override fun actualData(): List<PerformanceDomain> {
-        return if (actualDataErrorMessage.isNotEmpty())
-            listOf(PerformanceDomain.Error(actualDataErrorMessage))
-        else listOf(PerformanceDomain.Mark(5, "12.34.5678", "lesson name", false))
-    }
-
-    override fun finalData(): List<PerformanceDomain> {
-        TODO("Not yet implemented")
-    }
-
-    private var progressTypeValue: ProgressType = ProgressType.Hide
-    fun progressTypeMustReturn(value: ProgressType) {
-        progressTypeValue = value
-    }
-
-    override fun currentProgressType() = progressTypeValue
-
-    private var currentQuarterCounter = 0
-    fun checkCurrentQuarterCalledTimes(expected: Int) {
-        assertEquals(expected, currentQuarterCounter)
-    }
-
-    override fun currentQuarter(): Int {
-        currentQuarterCounter++
-        return currentQuarter
-    }
-
-    override suspend fun getLessonByMark(lessonName: String, date: String): DiaryDomain.Lesson {
-        TODO("Not yet implemented")
-    }
-
-    private val changeQuarterList = mutableListOf<Int>()
-    fun checkChangeQuarterCalledTimes(expected: Int) {
-        assertEquals(expected, changeQuarterList.size)
-    }
-
-    fun checkChangeQuarterCalledWith(expected: Int) {
-        assertEquals(expected, changeQuarterList.last())
-    }
-
-    override suspend fun changeQuarter(quarter: Int) {
-        changeQuarterList.add(quarter)
-        currentQuarter = quarter
-    }
-
-    override fun finalDataIsEmpty(reload: Reload): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    private var bundleWrapper: BundleWrapper.Mutable? = null
-    private var saveCounter = 0
-    private var restoreCounter = 0
-
-    override fun save(bundleWrapper: BundleWrapper.Save) {
-        this.bundleWrapper = bundleWrapper as BundleWrapper.Mutable
-        saveCounter++
-    }
-
-    override fun restore(bundleWrapper: BundleWrapper.Restore) {
         assertEquals(this.bundleWrapper, bundleWrapper)
         restoreCounter++
     }

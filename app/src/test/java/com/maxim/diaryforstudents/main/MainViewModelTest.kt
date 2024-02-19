@@ -1,7 +1,10 @@
 package com.maxim.diaryforstudents.main
 
+import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.fakes.FakeNavigation
+import com.maxim.diaryforstudents.fakes.FakePerformanceInteractor
+import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 import org.junit.Before
@@ -11,12 +14,16 @@ class MainViewModelTest {
     private lateinit var viewModel: MainViewModel
     private lateinit var navigation: FakeNavigation
     private lateinit var interactor: FakeMainInteractor
+    private lateinit var performanceInteractor: FakePerformanceInteractor
+    private lateinit var runAsync: FakeRunAsync
 
     @Before
     fun init() {
         navigation = FakeNavigation(Order())
         interactor = FakeMainInteractor()
-        viewModel = MainViewModel(interactor, navigation)
+        performanceInteractor = FakePerformanceInteractor()
+        runAsync = FakeRunAsync()
+        viewModel = MainViewModel(interactor, performanceInteractor, navigation, runAsync)
     }
 
     @Test
@@ -24,10 +31,12 @@ class MainViewModelTest {
         interactor.mustReturn(true)
 
         viewModel.init(true)
+        performanceInteractor.checkLoadDataCalledTimes(1)
         navigation.checkCalledWith(MenuScreen)
         navigation.checkCalledTimes(1)
 
         viewModel.init(false)
+        performanceInteractor.checkLoadDataCalledTimes(1)
         navigation.checkCalledTimes(1)
     }
 
@@ -41,6 +50,15 @@ class MainViewModelTest {
 
         viewModel.init(false)
         navigation.checkCalledTimes(1)
+    }
+
+    @Test
+    fun test_save_and_restore() {
+        val bundleWrapper = FakeBundleWrapper()
+        viewModel.save(bundleWrapper)
+        performanceInteractor.checkSaveCalledTimes(1)
+        viewModel.restore(bundleWrapper)
+        performanceInteractor.checkRestoreCalledTimes(1)
     }
 }
 

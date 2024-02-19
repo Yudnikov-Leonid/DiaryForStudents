@@ -20,11 +20,10 @@ class MainViewModel(
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<Screen>, Init, SaveAndRestore {
     override fun init(isFirstRun: Boolean) {
-        if (isFirstRun) {
+        if (isFirstRun && interactor.isLogged()) {
             handle { performanceInteractor.loadData() }
-        }
-        if (isFirstRun && interactor.isLogged())
             navigation.update(MenuScreen)
+        }
         else if (isFirstRun)
             navigation.update(LoginScreen)
     }
