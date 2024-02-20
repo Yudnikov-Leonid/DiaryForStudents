@@ -1,15 +1,18 @@
 package com.maxim.diaryforstudents.profile.presentation
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentProfileBinding
 
-class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(), ShowEmail,
+    ShowGradeInfo, ShowSchoolInfo {
     override val viewModelClass: Class<ProfileViewModel>
         get() = ProfileViewModel::class.java
 
@@ -23,6 +26,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
             }
         }
         super.onViewCreated(view, savedInstanceState)
+        binding.showEmailButton.setOnClickListener {
+            viewModel.email(this)
+        }
+        binding.showSchoolInfoButton.setOnClickListener {
+            viewModel.school(this)
+        }
+        binding.showGradeButton.setOnClickListener {
+            viewModel.grade(this)
+        }
         binding.signOutButton.setOnClickListener {
             viewModel.signOut()
         }
@@ -45,16 +57,34 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
     }
+
+    override fun showEmail(email: String) {
+        AlertDialog.Builder(requireContext()).setTitle(resources.getString(R.string.your_email))
+            .setMessage(email)
+            .setPositiveButton(resources.getString(R.string.close)) { _, _ -> }.show()
+    }
+
+    override fun showSchool(schoolName: String) {
+        AlertDialog.Builder(requireContext()).setTitle(resources.getString(R.string.your_school))
+            .setMessage(schoolName)
+            .setPositiveButton(resources.getString(R.string.close)) { _, _ -> }.show()
+    }
+
+    override fun showGrade(grade: String, gradeHeadName: String) {
+        AlertDialog.Builder(requireContext()).setTitle(resources.getString(R.string.your_grade))
+            .setMessage("${resources.getString(R.string.grade_name)} $grade\n${resources.getString(R.string.grade_head)} $gradeHeadName")
+            .setPositiveButton(resources.getString(R.string.close)) { _, _ -> }.show()
+    }
 }
 
 interface ShowEmail {
-    fun show(email: String)
+    fun showEmail(email: String)
 }
 
 interface ShowSchoolInfo {
-    fun show(schoolName: String)
+    fun showSchool(schoolName: String)
 }
 
 interface ShowGradeInfo {
-    fun show(grade: String, gradeHeadName: String)
+    fun showGrade(grade: String, gradeHeadName: String)
 }

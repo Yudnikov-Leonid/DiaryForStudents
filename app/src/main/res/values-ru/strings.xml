@@ -117,4 +117,9 @@
     <string name="show_email">Показать почту</string>
     <string name="show_school_info">Показать информацию о школе</string>
     <string name="show_grade_info">Показать инфорамцию о классе</string>
+    <string name="your_email">Ваша почта</string>
+    <string name="your_school">Ваша школа</string>
+    <string name="your_grade">Ваш класс</string>
+    <string name="grade_name">Имя класса:</string>
+    <string name="grade_head">Классный руководитель:</string>
 </resources>

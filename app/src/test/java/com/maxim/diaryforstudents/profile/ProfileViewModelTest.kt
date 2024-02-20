@@ -72,7 +72,7 @@ class ProfileViewModelTest {
         var counter = 0
         var argument = ""
         viewModel.email(object : ShowEmail {
-            override fun show(email: String) {
+            override fun showEmail(email: String) {
                 counter++
                 argument = email
             }
@@ -87,7 +87,7 @@ class ProfileViewModelTest {
         var counter = 0
         var argument = ""
         viewModel.school(object : ShowSchoolInfo {
-            override fun show(schoolName: String) {
+            override fun showSchool(schoolName: String) {
                 counter++
                 argument = schoolName
             }
@@ -102,7 +102,7 @@ class ProfileViewModelTest {
         var counter = 0
         var argument = Pair("", "")
         viewModel.grade(object : ShowGradeInfo {
-            override fun show(grade: String, gradeHeadName: String) {
+            override fun showGrade(grade: String, gradeHeadName: String) {
                 counter++
                 argument = Pair(grade, gradeHeadName)
             }

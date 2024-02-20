@@ -14,11 +14,14 @@ interface LoginRepository {
                 if (data.success) {
                     val user = data.data.SCHOOLS.first()
                     val guid = user.PARTICIPANT.SYS_GUID
+                    val email = data.data.EMAIL
                     val fullName =
                         "${user.PARTICIPANT.SURNAME} ${user.PARTICIPANT.NAME} ${user.PARTICIPANT.SECONDNAME}"
                     val grade = user.PARTICIPANT.GRADE.NAME
                     val school = user.PARTICIPANT.GRADE.SCHOOL.SHORT_NAME
-                    eduUser.login(guid, fullName, school, grade)
+                    val gradeHead = user.PARTICIPANT.GRADE.GRADE_HEAD
+                    val gradeHeadName = "${gradeHead.SURNAME} ${gradeHead.NAME} ${user.PARTICIPANT.SECONDNAME}"
+                    eduUser.login(guid, email, fullName, school, grade, gradeHeadName)
                     LoginResult.Success
                 } else {
                     LoginResult.Failure(data.message)

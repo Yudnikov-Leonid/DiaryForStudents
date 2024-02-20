@@ -12,17 +12,11 @@ interface ProfileRepository {
     class Base(private val eduUser: EduUser): ProfileRepository {
         override fun name() = eduUser.name()
 
-        override fun email(): String {
-            TODO("Not yet implemented")
-        }
+        override fun email() = eduUser.email()
 
-        override fun school(): String {
-            TODO("Not yet implemented")
-        }
+        override fun school() = eduUser.school()
 
-        override fun grade(): Pair<String, String> {
-            TODO("Not yet implemented")
-        }
+        override fun grade() = eduUser.grade()
 
         override fun signOut() = eduUser.signOut()
     }

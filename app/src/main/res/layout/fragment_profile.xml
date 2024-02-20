@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,185 +9,193 @@
     android:focusable="true"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:background="@drawable/profile_top"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="80dp"
-            android:text="@string/your_profile"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:background="@drawable/profile_avatar"
-            android:paddingHorizontal="10dp"
-            android:paddingTop="20dp"
-            android:src="@drawable/student_123" />
-
-        <TextView
-            android:id="@+id/nameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="70dp"
-            android:textColor="@color/white"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            tools:text="Some name test" />
-
-    </FrameLayout>
-
     <LinearLayout
-        android:id="@+id/showEmailButton"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/profile_avatar"
-        android:backgroundTint="@color/background">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="60dp"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="@drawable/profile_top"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="80dp"
+                android:text="@string/your_profile"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/profile_avatar"
+                android:paddingHorizontal="10dp"
+                android:paddingTop="20dp"
+                android:src="@drawable/student_123" />
+
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="70dp"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                tools:text="Some name test" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/showEmailButton"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/profile_avatar"
-            android:backgroundTint="@color/gray"
-            android:padding="8dp"
-            android:src="@drawable/mail_24"
-            app:tint="@color/blue" />
+            android:backgroundTint="@color/background">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/show_email"
-            android:textSize="18sp" />
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/profile_avatar"
+                android:backgroundTint="@color/gray"
+                android:padding="8dp"
+                android:src="@drawable/mail_24"
+                app:tint="@color/blue" />
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="15dp"
-            android:rotation="180"
-            android:src="@drawable/arrow_24"
-            app:tint="@color/dark_gray" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/show_email"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="15dp"
+                android:rotation="180"
+                android:src="@drawable/arrow_24"
+                app:tint="@color/dark_gray" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/showSchoolInfoButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/profile_avatar"
+            android:backgroundTint="@color/background">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/profile_avatar"
+                android:backgroundTint="@color/gray"
+                android:padding="8dp"
+                android:src="@drawable/school_24"
+                app:tint="@color/blue" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/show_school_info"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="15dp"
+                android:rotation="180"
+                android:src="@drawable/arrow_24"
+                app:tint="@color/dark_gray" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/showGradeButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/profile_avatar"
+            android:backgroundTint="@color/background">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/profile_avatar"
+                android:backgroundTint="@color/gray"
+                android:padding="8dp"
+                android:src="@drawable/grade_24"
+                app:tint="@color/blue" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/show_grade_info"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="15dp"
+                android:rotation="180"
+                android:src="@drawable/arrow_24"
+                app:tint="@color/dark_gray" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/signOutButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/profile_avatar"
+            android:backgroundTint="@color/background">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/profile_avatar"
+                android:backgroundTint="@color/gray"
+                android:padding="8dp"
+                android:src="@drawable/logout_24"
+                app:tint="@color/blue" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/sign_out"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/showSchoolInfoButton"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/profile_avatar"
-        android:backgroundTint="@color/background">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/profile_avatar"
-            android:backgroundTint="@color/gray"
-            android:padding="8dp"
-            android:src="@drawable/school_24"
-            app:tint="@color/blue" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/show_school_info"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="15dp"
-            android:rotation="180"
-            android:src="@drawable/arrow_24"
-            app:tint="@color/dark_gray" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/showGradeButton"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/profile_avatar"
-        android:backgroundTint="@color/background">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/profile_avatar"
-            android:backgroundTint="@color/gray"
-            android:padding="8dp"
-            android:src="@drawable/grade_24"
-            app:tint="@color/blue" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/show_grade_info"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="15dp"
-            android:rotation="180"
-            android:src="@drawable/arrow_24"
-            app:tint="@color/dark_gray" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/signOutButton"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/profile_avatar"
-        android:backgroundTint="@color/background">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/profile_avatar"
-            android:backgroundTint="@color/gray"
-            android:padding="8dp"
-            android:src="@drawable/logout_24"
-            app:tint="@color/blue" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/sign_out"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

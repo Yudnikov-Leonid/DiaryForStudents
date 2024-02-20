@@ -122,4 +122,9 @@
     <string name="show_email">Show email</string>
     <string name="show_school_info">Show school info</string>
     <string name="show_grade_info">Show grade info</string>
+    <string name="your_email">Your email</string>
+    <string name="your_school">Your school</string>
+    <string name="your_grade">Your grade</string>
+    <string name="grade_name">Name:</string>
+    <string name="grade_head">Grade head:</string>
 </resources>

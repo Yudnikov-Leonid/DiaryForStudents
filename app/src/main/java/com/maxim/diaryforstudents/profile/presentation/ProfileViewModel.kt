@@ -41,16 +41,16 @@ class ProfileViewModel(
     }
 
     fun email(showEmail: ShowEmail) {
-        showEmail.show(repository.email())
+        showEmail.showEmail(repository.email())
     }
 
     fun school(showSchoolInfo: ShowSchoolInfo) {
-        showSchoolInfo.show(repository.school())
+        showSchoolInfo.showSchool(repository.school())
     }
 
     fun grade(showGradeInfo: ShowGradeInfo) {
         val data = repository.grade()
-        showGradeInfo.show(data.first, data.second)
+        showGradeInfo.showGrade(data.first, data.second)
     }
 
     override fun goBack() {

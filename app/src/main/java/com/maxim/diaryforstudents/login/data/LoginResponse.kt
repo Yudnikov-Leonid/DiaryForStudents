@@ -7,7 +7,7 @@ data class LoginResponse(
 )
 
 data class LoginData(
-    val LOGIN: String,
+    val EMAIL: String,
     val SCHOOLS: List<LoginSchools>
 )
 
@@ -25,9 +25,16 @@ data class LoginParticipant(
 
 data class LoginGrade(
     val NAME: String,
-    val SCHOOL: LoginSchool
+    val SCHOOL: LoginSchool,
+    val GRADE_HEAD: LoginGradeHead
 )
 
 data class LoginSchool(
     val SHORT_NAME: String
+)
+
+data class LoginGradeHead(
+    val SURNAME: String,
+    val NAME: String,
+    val SECONDNAME: String,
 )
