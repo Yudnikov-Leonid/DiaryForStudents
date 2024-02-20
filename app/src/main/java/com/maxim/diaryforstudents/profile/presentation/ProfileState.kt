@@ -6,18 +6,15 @@ import java.io.Serializable
 interface ProfileState: Serializable {
     fun show(
         nameTextView: TextView,
-        gradeTextView: TextView,
     )
 
     data class Base(
-        private val profile: ProfileUi
+        private val name: String
     ) : ProfileState {
         override fun show(
             nameTextView: TextView,
-            gradeTextView: TextView,
         ) {
-            profile.showName(nameTextView)
-            profile.showSchoolAndGrade(gradeTextView)
+            nameTextView.text = name
         }
     }
 }

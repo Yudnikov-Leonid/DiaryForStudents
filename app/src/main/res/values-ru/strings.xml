@@ -114,4 +114,7 @@
     <string name="diary_title">Электронный дневник</string>
     <string name="diary_subtitle">Неофициальный клиент edu43</string>
     <string name="your_profile">Ваш профиль</string>
+    <string name="show_email">Показать почту</string>
+    <string name="show_school_info">Показать информацию о школе</string>
+    <string name="show_grade_info">Показать инфорамцию о классе</string>
 </resources>

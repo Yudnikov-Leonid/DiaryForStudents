@@ -30,7 +30,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         viewModel.observe(this) {
             it.show(
                 binding.nameTextView,
-                binding.gradeTextView
             )
         }
 
@@ -46,4 +45,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
     }
+}
+
+interface ShowEmail {
+    fun show(email: String)
+}
+
+interface ShowSchoolInfo {
+    fun show(schoolName: String)
+}
+
+interface ShowGradeInfo {
+    fun show(grade: String, gradeHeadName: String)
 }

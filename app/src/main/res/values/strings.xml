@@ -119,4 +119,7 @@
     <string name="diary_title">Welcome to diary!</string>
     <string name="diary_subtitle">Unofficial client edu43</string>
     <string name="your_profile">Your profile</string>
+    <string name="show_email">Show email</string>
+    <string name="show_school_info">Show school info</string>
+    <string name="show_grade_info">Show grade info</string>
 </resources>

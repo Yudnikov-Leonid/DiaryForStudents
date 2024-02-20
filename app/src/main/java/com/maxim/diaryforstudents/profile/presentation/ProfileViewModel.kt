@@ -13,7 +13,6 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.presentation.SimpleInit
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
-import com.maxim.diaryforstudents.profile.data.ProfileData
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
 
 class ProfileViewModel(
@@ -21,11 +20,10 @@ class ProfileViewModel(
     private val communication: ProfileCommunication,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
-    private val mapper: ProfileData.Mapper<ProfileUi>,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<ProfileState>, SimpleInit, GoBack, SaveAndRestore {
     override fun init() {
-        communication.update(ProfileState.Base(repository.data().map(mapper)))
+        communication.update(ProfileState.Base(repository.name()))
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
@@ -40,6 +38,19 @@ class ProfileViewModel(
         repository.signOut()
         navigation.update(LoginScreen)
         clear.clearViewModel(ProfileViewModel::class.java)
+    }
+
+    fun email(showEmail: ShowEmail) {
+        showEmail.show(repository.email())
+    }
+
+    fun school(showSchoolInfo: ShowSchoolInfo) {
+        showSchoolInfo.show(repository.school())
+    }
+
+    fun grade(showGradeInfo: ShowGradeInfo) {
+        val data = repository.grade()
+        showGradeInfo.show(data.first, data.second)
     }
 
     override fun goBack() {

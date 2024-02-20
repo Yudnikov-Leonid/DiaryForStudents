@@ -14,13 +14,13 @@ import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.fakes.REPOSITORY
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
-import com.maxim.diaryforstudents.profile.data.ProfileData
-import com.maxim.diaryforstudents.profile.data.ProfileDataToUiMapper
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
 import com.maxim.diaryforstudents.profile.presentation.ProfileCommunication
 import com.maxim.diaryforstudents.profile.presentation.ProfileState
-import com.maxim.diaryforstudents.profile.presentation.ProfileUi
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
+import com.maxim.diaryforstudents.profile.presentation.ShowEmail
+import com.maxim.diaryforstudents.profile.presentation.ShowGradeInfo
+import com.maxim.diaryforstudents.profile.presentation.ShowSchoolInfo
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -46,25 +46,16 @@ class ProfileViewModelTest {
             repository,
             communication,
             navigation,
-            clear,
-            ProfileDataToUiMapper(), runAsync
+            clear, runAsync
         )
     }
 
     @Test
     fun test_init() {
-        repository.mustReturn("name", "school name", "grade")
+        repository.mustReturn("name")
         viewModel.init()
         communication.checkCalledTimes(1)
-        communication.checkCalledWith(
-            ProfileState.Base(
-                ProfileUi(
-                    "name",
-                    "school name",
-                    "grade"
-                )
-            )
-        )
+        communication.checkCalledWith(ProfileState.Base("name"))
     }
 
     @Test
@@ -73,6 +64,51 @@ class ProfileViewModelTest {
         navigation.checkCalledWith(LoginScreen)
         clear.checkCalledWith(ProfileViewModel::class.java)
         order.check(listOf(REPOSITORY, NAVIGATION, CLEAR))
+    }
+
+    @Test
+    fun test_email() {
+        repository.emailMustReturn("test@test.com")
+        var counter = 0
+        var argument = ""
+        viewModel.email(object : ShowEmail {
+            override fun show(email: String) {
+                counter++
+                argument = email
+            }
+        })
+        assertEquals(1, counter)
+        assertEquals("test@test.com", argument)
+    }
+
+    @Test
+    fun test_school() {
+        repository.schoolMustReturn("school name")
+        var counter = 0
+        var argument = ""
+        viewModel.school(object : ShowSchoolInfo {
+            override fun show(schoolName: String) {
+                counter++
+                argument = schoolName
+            }
+        })
+        assertEquals(1, counter)
+        assertEquals("school name", argument)
+    }
+
+    @Test
+    fun test_grade() {
+        repository.gradeMustReturn(Pair("grade name", "grade head name"))
+        var counter = 0
+        var argument = Pair("", "")
+        viewModel.grade(object : ShowGradeInfo {
+            override fun show(grade: String, gradeHeadName: String) {
+                counter++
+                argument = Pair(grade, gradeHeadName)
+            }
+        })
+        assertEquals(1, counter)
+        assertEquals(Pair("grade name", "grade head name"), argument)
     }
 
     @Test
@@ -101,10 +137,10 @@ class ProfileViewModelTest {
 }
 
 private class FakeProfileRepository(private val order: Order) : ProfileRepository {
-    private var data = Triple("", "", "")
+    private var name = ""
     private var counter = 0
-    fun mustReturn(name: String, schoolName: String, grade: String) {
-        data = Triple(name, schoolName, grade)
+    fun mustReturn(name: String) {
+        this.name = name
     }
 
     override fun signOut() {
@@ -112,7 +148,29 @@ private class FakeProfileRepository(private val order: Order) : ProfileRepositor
         counter++
     }
 
-    override fun data(): ProfileData = ProfileData(data.first, data.second, data.third)
+    override fun name() = name
+
+    private var email = ""
+    private var school = ""
+    private var grade = Pair("", "")
+
+    fun emailMustReturn(value: String) {
+        email = value
+    }
+
+    fun schoolMustReturn(value: String) {
+        school = value
+    }
+
+    fun gradeMustReturn(value: Pair<String, String>) {
+        grade = value
+    }
+
+    override fun email() = email
+
+    override fun school() = school
+
+    override fun grade() = grade
 }
 
 private class FakeProfileCommunication(private val order: Order) : ProfileCommunication {
