@@ -54,23 +54,11 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
             )
         }
 
-        viewModel.init(savedInstanceState == null, arguments?.getBoolean(ISDEPENDENT_KEY) ?: true)
+        viewModel.init(savedInstanceState == null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         viewModel.save(BundleWrapper.Base(outState))
-    }
-
-    companion object {
-        private const val ISDEPENDENT_KEY = "independent_key"
-
-        fun newInstance(isIndependent: Boolean): AnalyticsFragment {
-            return AnalyticsFragment().apply {
-                arguments = Bundle().apply {
-                    putBoolean(ISDEPENDENT_KEY, isIndependent)
-                }
-            }
-        }
     }
 }

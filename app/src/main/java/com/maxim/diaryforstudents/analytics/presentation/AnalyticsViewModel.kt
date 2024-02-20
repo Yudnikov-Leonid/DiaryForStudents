@@ -25,11 +25,9 @@ class AnalyticsViewModel(
     private var lessonName = ""
     private var interval = 1
 
-    fun init(isFirstRun: Boolean, isDependent: Boolean) {
-        if (isDependent) {
-            lessonName = analyticsStorage.read()
-        }
+    fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
+            lessonName = analyticsStorage.read()
             quarter = interactor.currentQuarter()
             reload()
         }
@@ -53,7 +51,7 @@ class AnalyticsViewModel(
 
     override fun reload() {
         communication.update(AnalyticsState.Loading)
-        handle({ interactor.analytics(quarter, lessonName, interval, true) }) {
+        handle({ interactor.analytics(quarter, lessonName, interval, lessonName.isEmpty()) }) {
             if (it.first().message().isNotEmpty())
                 communication.update(AnalyticsState.Error(it.first().message()))
             else
