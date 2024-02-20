@@ -42,8 +42,8 @@ interface AnalyticsStorage {
         }
 
         companion object {
-            private const val CACHE_RESTORE_KEY = "analytics_storage_restore"
-            private const val QUARTER_RESTORE_KEY = "analytics_storage_restore"
+            private const val CACHE_RESTORE_KEY = "analytics_cache_storage_restore"
+            private const val QUARTER_RESTORE_KEY = "analytics_quarter_storage_restore"
         }
     }
 }

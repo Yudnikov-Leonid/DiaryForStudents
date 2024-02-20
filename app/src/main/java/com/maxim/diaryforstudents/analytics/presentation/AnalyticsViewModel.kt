@@ -28,8 +28,8 @@ class AnalyticsViewModel(
     private var interval = 1
 
     fun init(isFirstRun: Boolean) {
+        lessonName = analyticsStorage.read().first
         if (isFirstRun) {
-            lessonName = analyticsStorage.read().first
             quarter = analyticsStorage.read().second
             if (quarter == -1)
                 quarter = interactor.currentQuarter()
