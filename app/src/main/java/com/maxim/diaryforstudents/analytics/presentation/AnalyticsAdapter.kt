@@ -79,7 +79,15 @@ class AnalyticsAdapter(
                             id: Long
                         ) {
                             if (byUser)
-                                listener.changeInterval(position)
+                                listener.changeInterval(
+                                    when (position) {
+                                        0 -> 1
+                                        1 -> 2
+                                        2 -> 3
+                                        3 -> 7
+                                        else -> 28
+                                    }
+                                )
                             byUser = false
                         }
 
@@ -159,6 +167,7 @@ class AnalyticsAdapter(
                     false
                 ), listener
             )
+
             1 -> PieViewHolder(
                 PieChartLayoutBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -166,6 +175,7 @@ class AnalyticsAdapter(
                     false
                 )
             )
+
             else -> TitleViewHolder(
                 AnalyticsTitleBinding.inflate(
                     LayoutInflater.from(parent.context),

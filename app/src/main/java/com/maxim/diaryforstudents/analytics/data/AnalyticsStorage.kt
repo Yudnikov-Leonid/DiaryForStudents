@@ -26,7 +26,8 @@ interface AnalyticsStorage {
         }
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
-            bundleWrapper.save(RESTORE_KEY, cache)
+            bundleWrapper.save(CACHE_RESTORE_KEY, cache)
+            bundleWrapper.save(QUARTER_RESTORE_KEY, cachedQuarter)
         }
 
         override fun read() = Pair(cache, cachedQuarter)
@@ -36,11 +37,13 @@ interface AnalyticsStorage {
         }
 
         override fun restore(bundleWrapper: BundleWrapper.Restore) {
-            cache = bundleWrapper.restore(RESTORE_KEY) ?: ""
+            cache = bundleWrapper.restore(CACHE_RESTORE_KEY) ?: ""
+            cachedQuarter = bundleWrapper.restore(QUARTER_RESTORE_KEY) ?: -1
         }
 
         companion object {
-            private const val RESTORE_KEY = "analytics_storage_restore"
+            private const val CACHE_RESTORE_KEY = "analytics_storage_restore"
+            private const val QUARTER_RESTORE_KEY = "analytics_storage_restore"
         }
     }
 }

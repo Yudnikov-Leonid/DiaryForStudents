@@ -17,7 +17,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxim.diaryforstudents.R
 import java.io.Serializable
 
-interface AnalyticsUi: Serializable {
+interface AnalyticsUi : Serializable {
     fun same(item: AnalyticsUi): Boolean
     fun showData(lineChart: LineChart) {}
     fun showData(pieChart: PieChart) {}
@@ -27,7 +27,7 @@ interface AnalyticsUi: Serializable {
 
     fun isLine(): Boolean
 
-    class Title(private val lessonName: String): AnalyticsUi {
+    data class Title(private val lessonName: String) : AnalyticsUi {
         override fun same(item: AnalyticsUi) = item is Title
 
         override fun showTitle(textView: TextView) {
@@ -40,7 +40,7 @@ interface AnalyticsUi: Serializable {
         override fun isLine() = false
     }
 
-    class LineCommon(
+    data class LineCommon(
         private val data: List<Float>,
         private val labels: List<String>,
         private val quarter: Int,
@@ -52,13 +52,15 @@ interface AnalyticsUi: Serializable {
         }
 
         override fun showInterval(spinner: Spinner) {
-            spinner.setSelection(when(interval) {
-                1 -> 0
-                2 -> 1
-                3 -> 2
-                7 -> 3
-                else -> 4
-            })
+            spinner.setSelection(
+                when (interval) {
+                    1 -> 0
+                    2 -> 1
+                    3 -> 2
+                    7 -> 3
+                    else -> 4
+                }
+            )
         }
 
         override fun isLine() = true
@@ -100,7 +102,7 @@ interface AnalyticsUi: Serializable {
         }
     }
 
-    class LineMarks(
+    data class LineMarks(
         private val fiveData: List<Float>,
         private val fourData: List<Float>,
         private val threeData: List<Float>,
@@ -165,7 +167,7 @@ interface AnalyticsUi: Serializable {
         override fun isLine() = true
     }
 
-    class PieMarks(
+    data class PieMarks(
         private val fiveCount: Int,
         private val fourCount: Int,
         private val threeCount: Int,
@@ -239,7 +241,7 @@ interface AnalyticsUi: Serializable {
         override fun isLine() = false
     }
 
-    class PieFinalMarks(
+    data class PieFinalMarks(
         private val fiveCount: Int,
         private val fourCount: Int,
         private val threeCount: Int,

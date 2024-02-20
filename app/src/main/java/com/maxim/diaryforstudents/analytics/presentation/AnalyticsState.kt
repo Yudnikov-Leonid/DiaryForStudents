@@ -43,7 +43,7 @@ interface AnalyticsState: Serializable {
         }
     }
 
-    class Base(
+    data class Base(
         private val data: List<AnalyticsUi>
     ) : AnalyticsState {
         override fun show(

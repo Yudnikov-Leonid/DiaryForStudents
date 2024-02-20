@@ -1,11 +1,12 @@
 package com.maxim.diaryforstudents.performance
 
+import com.maxim.diaryforstudents.analytics.domain.AnalyticsDomain
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
-import junit.framework.TestCase
+import junit.framework.TestCase.assertEquals
 
 class FakePerformanceInteractor : PerformanceInteractor {
     private var currentQuarter = 0
@@ -14,8 +15,9 @@ class FakePerformanceInteractor : PerformanceInteractor {
     override suspend fun loadData() {
         loadCounter++
     }
+
     fun checkLoadDataCalledTimes(expected: Int) {
-        TestCase.assertEquals(expected, loadCounter)
+        assertEquals(expected, loadCounter)
     }
 
     private var actualDataErrorMessage = ""
@@ -40,6 +42,33 @@ class FakePerformanceInteractor : PerformanceInteractor {
         else listOf(PerformanceDomain.Mark(4, "12.34.5678", "lesson name", true))
     }
 
+    private val analyticsList = mutableListOf<List<Any>>()
+
+    fun checkAnalyticsCalledTimes(expected: Int) {
+        assertEquals(expected, analyticsList.size)
+    }
+
+    fun checkAnalyticsCalledWith(quarter: Int, lessonName: String, interval: Int, showFinal: Boolean) {
+        assertEquals(listOf(quarter, lessonName, interval, showFinal), analyticsList.last())
+    }
+
+    override suspend fun analytics(
+        quarter: Int,
+        lessonName: String,
+        interval: Int,
+        showFinal: Boolean
+    ): List<AnalyticsDomain> {
+        analyticsList.add(listOf(quarter, lessonName, interval, showFinal))
+        return listOf(
+            AnalyticsDomain.LineCommon(
+                listOf(5.0f, 4.5f, 4.4f),
+                listOf("1", "2", "3"),
+                quarter,
+                interval
+            )
+        )
+    }
+
     private var progressTypeValue: ProgressType = ProgressType.Hide
     fun progressTypeMustReturn(value: ProgressType) {
         progressTypeValue = value
@@ -49,7 +78,7 @@ class FakePerformanceInteractor : PerformanceInteractor {
 
     private var currentQuarterCounter = 0
     fun checkCurrentQuarterCalledTimes(expected: Int) {
-        TestCase.assertEquals(expected, currentQuarterCounter)
+        assertEquals(expected, currentQuarterCounter)
     }
 
     override fun currentQuarter(): Int {
@@ -63,11 +92,11 @@ class FakePerformanceInteractor : PerformanceInteractor {
 
     private val changeQuarterList = mutableListOf<Int>()
     fun checkChangeQuarterCalledTimes(expected: Int) {
-        TestCase.assertEquals(expected, changeQuarterList.size)
+        assertEquals(expected, changeQuarterList.size)
     }
 
     fun checkChangeQuarterCalledWith(expected: Int) {
-        TestCase.assertEquals(expected, changeQuarterList.last())
+        assertEquals(expected, changeQuarterList.last())
     }
 
     override suspend fun changeQuarter(quarter: Int) {
@@ -80,9 +109,11 @@ class FakePerformanceInteractor : PerformanceInteractor {
     fun dataIsEmptyMustReturn(value: Boolean) {
         dataIsEmptyValue = value
     }
+
     fun dataIsEmptyRunCallback() {
         dataIsEmptyCallback?.invoke()
     }
+
     override fun dataIsEmpty(callback: () -> Unit): Boolean {
         dataIsEmptyCallback = callback
         return dataIsEmptyValue
@@ -98,15 +129,15 @@ class FakePerformanceInteractor : PerformanceInteractor {
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
-        TestCase.assertEquals(this.bundleWrapper, bundleWrapper)
+        assertEquals(this.bundleWrapper, bundleWrapper)
         restoreCounter++
     }
 
     fun checkSaveCalledTimes(expected: Int) {
-        TestCase.assertEquals(expected, saveCounter)
+        assertEquals(expected, saveCounter)
     }
 
     fun checkRestoreCalledTimes(expected: Int) {
-        TestCase.assertEquals(expected, restoreCounter)
+        assertEquals(expected, restoreCounter)
     }
 }
