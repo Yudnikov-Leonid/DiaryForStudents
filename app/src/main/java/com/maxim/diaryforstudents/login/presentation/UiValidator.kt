@@ -28,12 +28,10 @@ interface UiValidator {
         override fun isValid(value: String, manageResource: ManageResource) {
             if (value.length < minLength)
                 throw PasswordException(
-                    "${
-                        manageResource.string(
-                            R.string.password_must_be_at_least,
-                            minLength.toString()
-                        )
-                    } $minLength"
+                    manageResource.string(
+                        R.string.password_must_be_at_least,
+                        minLength.toString()
+                    )
                 )
         }
     }
