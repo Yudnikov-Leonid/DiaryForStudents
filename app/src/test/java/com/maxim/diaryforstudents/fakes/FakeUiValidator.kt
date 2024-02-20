@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.fakes
 
+import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.login.presentation.UiValidator
 import junit.framework.TestCase
 
@@ -24,7 +25,7 @@ class FakeUiValidator : UiValidator {
         TestCase.assertEquals(expected, list.last())
     }
 
-    override fun isValid(value: String) {
+    override fun isValid(value: String, manageResource: ManageResource) {
         list.add(value)
         counter++
         if (counter == 1 && firstException != null) throw firstException!!

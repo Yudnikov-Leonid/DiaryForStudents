@@ -11,6 +11,7 @@ import com.maxim.diaryforstudents.login.presentation.LoginException
 import com.maxim.diaryforstudents.login.presentation.PasswordException
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
+import com.maxim.diaryforstudents.fakes.FakeManageResources
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.FakeUiValidator
@@ -48,6 +49,7 @@ class LoginViewModelTest {
             passwordValidator,
             navigation,
             clearViewModel,
+            FakeManageResources("error message"),
             runAsync
         )
     }
