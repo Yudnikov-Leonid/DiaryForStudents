@@ -4,9 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:text="@string/welcome_back"
+        android:textColor="@color/blue_text"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/log_in_in_your_account"
+        android:textColor="@color/dark_gray"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginInputLayout"
@@ -39,12 +57,12 @@
 
     <Button
         android:id="@+id/loginButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="@string/login"
-        android:textColor="@color/white" />
+        android:text="@string/sign_in"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -60,5 +78,30 @@
         android:gravity="center"
         android:textColor="@color/red"
         tools:text="Some error" />
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:text="@string/diary_subtitle"
+        android:textColor="@color/dark_gray"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/contactsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        tools:text="Contacts"
+        android:textColor="@color/blue"
+        android:textSize="15sp" />
 
 </LinearLayout>

@@ -29,6 +29,7 @@
     <string name="no_data">No data</string>
     <string name="marks">Marks:</string>
     <string name="login">Login</string>
+    <string name="sign_in">Login</string>
     <string name="password">Password</string>
     <string name="homework_type">Homework: %s</string>
     <string name="previous">Previous</string>
@@ -127,4 +128,7 @@
     <string name="your_grade">Your grade</string>
     <string name="grade_name">Name:</string>
     <string name="grade_head">Grade head:</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="log_in_in_your_account">Log in in your account</string>
+    <string name="contacts">&lt;a href="https://vk.com/dorhun">Contacts&lt;/a></string>
 </resources>
