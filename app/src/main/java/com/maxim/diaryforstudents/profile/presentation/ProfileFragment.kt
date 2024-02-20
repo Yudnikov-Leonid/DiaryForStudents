@@ -72,7 +72,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
     override fun showGrade(grade: String, gradeHeadName: String) {
         AlertDialog.Builder(requireContext()).setTitle(resources.getString(R.string.your_grade))
-            .setMessage("${resources.getString(R.string.grade_name)} $grade\n${resources.getString(R.string.grade_head)} $gradeHeadName")
+            .setMessage("${resources.getString(R.string.grade_name)} $grade\n\n${resources.getString(R.string.grade_head)} $gradeHeadName")
             .setPositiveButton(resources.getString(R.string.close)) { _, _ -> }.show()
     }
 }
