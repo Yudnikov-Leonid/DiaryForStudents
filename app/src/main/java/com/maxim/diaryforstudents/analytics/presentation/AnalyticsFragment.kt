@@ -10,15 +10,11 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentAnalyticsBinding
 
 class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>() {
-    private var isDependent = arguments?.getBoolean(INDEPENDENT_KEY) ?: true
 
     override val viewModelClass = AnalyticsViewModel::class.java
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentAnalyticsBinding.inflate(inflater, container, false)
-
-
-    override var setOnBackPressedCallback = isDependent
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -58,7 +54,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
             )
         }
 
-        viewModel.init(savedInstanceState == null, isDependent)
+        viewModel.init(savedInstanceState == null, arguments?.getBoolean(ISDEPENDENT_KEY) ?: true)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -67,12 +63,12 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
     }
 
     companion object {
-        private const val INDEPENDENT_KEY = "independent_key"
+        private const val ISDEPENDENT_KEY = "independent_key"
 
         fun newInstance(isIndependent: Boolean): AnalyticsFragment {
             return AnalyticsFragment().apply {
                 arguments = Bundle().apply {
-                    putBoolean(INDEPENDENT_KEY, isIndependent)
+                    putBoolean(ISDEPENDENT_KEY, isIndependent)
                 }
             }
         }

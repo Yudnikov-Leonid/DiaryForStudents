@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.performance.common.domain
 
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel
+import com.maxim.diaryforstudents.analytics.domain.AnalyticsDomain
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
@@ -19,6 +20,8 @@ interface PerformanceInteractor: SaveAndRestore {
 
     fun actualData(): List<PerformanceDomain>
     fun finalData(): List<PerformanceDomain>
+
+    suspend fun analytics(quarter: Int, lessonName: String, interval: Int, showFinal: Boolean): List<AnalyticsDomain>
 
     fun currentProgressType(): ProgressType
     fun currentQuarter(): Int
@@ -81,6 +84,17 @@ interface PerformanceInteractor: SaveAndRestore {
             } catch (e: Exception) {
                 listOf(PerformanceDomain.Error(failureHandler.handle(e).message()))
             }
+
+        override suspend fun analytics(
+            quarter: Int,
+            lessonName: String,
+            interval: Int,
+            showFinal: Boolean
+        ) = try {
+            repository.analytics(quarter, lessonName, interval, showFinal).map { it.toDomain() }
+        } catch (e: Exception) {
+            listOf(AnalyticsDomain.Error(failureHandler.handle(e).message()))
+        }
 
         override fun currentProgressType() =
             if (!simpleStorage.read(

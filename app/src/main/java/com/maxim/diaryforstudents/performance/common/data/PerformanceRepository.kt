@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.performance.common.data
 
-import android.util.Log
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
@@ -112,9 +111,12 @@ interface PerformanceRepository : SaveAndRestore {
             cache.clear()
             try {
                 val dates = periods[quarter - 1]
+                if (responseCache[quarter] == null) {
+                    responseCache[quarter] = cloudDataSource.data(dates.first, dates.second)
+                }
                 cache.addAll(
                     handleResponse.lessons(
-                        cloudDataSource.data(dates.first, dates.second),
+                        responseCache[quarter]!!,
                         quarter == currentQuarter(), quarter
                     )
                 )
@@ -130,9 +132,12 @@ interface PerformanceRepository : SaveAndRestore {
             showFinal: Boolean
         ): List<AnalyticsData> {
             val dates = periods[quarter - 1]
+            if (responseCache[quarter] == null) {
+                responseCache[quarter] = cloudDataSource.data(dates.first, dates.second)
+            }
             val list = ArrayList(
                 handleResponse.analytics(
-                    responseCache[quarter] ?: cloudDataSource.data(dates.first, dates.second),
+                    responseCache[quarter]!!,
                     quarter,
                     lessonName,
                     dates.first,
@@ -154,7 +159,6 @@ interface PerformanceRepository : SaveAndRestore {
         override fun currentQuarter() = currentQuarter
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
-            Log.d("MyLog", "save")
             bundleWrapper.save(
                 RESTORE_KEY,
                 PerformanceRepositorySave(

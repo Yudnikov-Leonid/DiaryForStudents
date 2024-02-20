@@ -31,8 +31,8 @@ class AnalyticsViewModel(
         }
         if (isFirstRun) {
             quarter = interactor.currentQuarter()
+            reload()
         }
-        reload()
     }
 
     fun changeQuarter(value: Int) {
@@ -52,18 +52,18 @@ class AnalyticsViewModel(
     }
 
     override fun reload() {
-//        communication.update(AnalyticsState.Loading)
-//        handle({ interactor.analytics(quarter, lessonName, interval, showFinal) }) {
-//            if (it.first().message().isNotEmpty())
-//                communication.update(AnalyticsState.Error(it.first().message()))
-//            else
-//                communication.update(
-//                    AnalyticsState.Base(
-//                        it.map { it.toUi() },
-//                        lessonName
-//                    )
-//                )
-//        }
+        communication.update(AnalyticsState.Loading)
+        handle({ interactor.analytics(quarter, lessonName, interval, true) }) {
+            if (it.first().message().isNotEmpty())
+                communication.update(AnalyticsState.Error(it.first().message()))
+            else
+                communication.update(
+                    AnalyticsState.Base(
+                        it.map { it.toUi() },
+                        lessonName
+                    )
+                )
+        }
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<AnalyticsState>) {
