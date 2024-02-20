@@ -128,5 +128,5 @@
     <string name="contacts">&lt;a href="https://vk.com/dorhun">Контакты&lt;/a></string>
     <string name="empty_field">Это поле пустое</string>
     <string name="invalid_login">Некорректный логин</string>
-    <string name="password_must_be_at_least">Пароль должен быть длинной хотя бы %s символов</string>
+    <string name="password_must_be_at_least">Пароль должен быть длинной хотя бы %s символа</string>
 </resources>
