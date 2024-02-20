@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -9,57 +10,200 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="6dp">
 
-        <Button
+        <LinearLayout
+            android:layout_marginStart="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/diary_title"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/diary_subtitle"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/settings_button"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/settings_24"
+                app:tint="@color/blue" />
+
+        </LinearLayout>
+
+        <FrameLayout
             android:id="@+id/performanceButton"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/menu_shape"
-            android:gravity="top|start"
-            android:text="@string/performance"
-            android:textSize="26sp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/menu_button">
 
-        <Button
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:alpha=".6"
+                android:rotation="10"
+                android:src="@drawable/performance_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/performance"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/diaryButton"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/menu_shape"
-            android:gravity="top|start"
-            android:text="@string/diary"
-            android:textSize="26sp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/menu_button">
 
-        <Button
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:alpha=".6"
+                android:rotation="10"
+                android:src="@drawable/baseline_diary_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/diary"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/analyticsButton"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/menu_shape"
-            android:gravity="top|start"
-            android:text="@string/analytics"
-            android:textSize="26sp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/menu_button">
 
-        <Button
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:alpha=".6"
+                android:rotation="10"
+                android:src="@drawable/analytics_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/analytics"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/newsButton"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/menu_shape"
-            android:gravity="top|start"
-            android:text="@string/news"
-            android:textSize="26sp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/menu_button">
 
-        <Button
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:alpha=".6"
+                android:rotation="10"
+                android:src="@drawable/base_news_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/news"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/profileButton"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/menu_shape"
-            android:gravity="top|start"
-            android:text="@string/profile"
-            android:textSize="26sp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/menu_button">
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:alpha=".6"
+                android:rotation="10"
+                android:src="@drawable/profile_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="@string/profile"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
 
     </LinearLayout>
 

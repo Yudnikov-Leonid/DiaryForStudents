@@ -116,4 +116,6 @@
     <string name="in_total">%s in total</string>
     <string name="error">Error</string>
     <string name="interval">Interval</string>
+    <string name="diary_title">Welcome to diary!</string>
+    <string name="diary_subtitle">Unofficial client edu43</string>
 </resources>
