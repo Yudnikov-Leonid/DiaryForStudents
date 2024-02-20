@@ -27,6 +27,19 @@ interface AnalyticsUi: Serializable {
 
     fun isLine(): Boolean
 
+    class Title(private val lessonName: String): AnalyticsUi {
+        override fun same(item: AnalyticsUi) = item is Title
+
+        override fun showTitle(textView: TextView) {
+            if (lessonName.isEmpty()) {
+                textView.text = textView.context.getString(R.string.analytics)
+            } else
+                textView.text = lessonName
+        }
+
+        override fun isLine() = false
+    }
+
     class LineCommon(
         private val data: List<Float>,
         private val labels: List<String>,

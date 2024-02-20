@@ -88,7 +88,7 @@ class PerformanceActualViewModel(
 
     //not tested
     fun analytics(lessonName: String) {
-        analyticsStorage.save(lessonName)
+        analyticsStorage.save(lessonName, quarter)
         navigation.update(AnalyticsScreen)
     }
 

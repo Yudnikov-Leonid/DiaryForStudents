@@ -27,8 +27,10 @@ class AnalyticsViewModel(
 
     fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
-            lessonName = analyticsStorage.read()
-            quarter = interactor.currentQuarter()
+            lessonName = analyticsStorage.read().first
+            quarter = analyticsStorage.read().second
+            if (quarter == -1)
+                quarter = interactor.currentQuarter()
             reload()
         }
     }
@@ -51,16 +53,15 @@ class AnalyticsViewModel(
 
     override fun reload() {
         communication.update(AnalyticsState.Loading)
-        handle({ interactor.analytics(quarter, lessonName, interval, lessonName.isEmpty()) }) {
-            if (it.first().message().isNotEmpty())
-                communication.update(AnalyticsState.Error(it.first().message()))
-            else
-                communication.update(
-                    AnalyticsState.Base(
-                        it.map { it.toUi() },
-                        lessonName
-                    )
-                )
+        handle({ interactor.analytics(quarter, lessonName, interval, lessonName.isEmpty()) }) { list ->
+            if (list.first().message().isNotEmpty())
+                communication.update(AnalyticsState.Error(list.first().message()))
+            else {
+                val newList = mutableListOf<AnalyticsUi>()
+                newList.add(AnalyticsUi.Title(lessonName))
+                newList.addAll(list.map { it.toUi() })
+                communication.update(AnalyticsState.Base(newList))
+            }
         }
     }
 

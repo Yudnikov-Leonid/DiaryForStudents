@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewbinding.ViewBinding
 import com.github.mikephil.charting.components.XAxis
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.databinding.AnalyticsTitleBinding
 import com.maxim.diaryforstudents.databinding.LineChartLayoutBinding
 import com.maxim.diaryforstudents.databinding.PieChartLayoutBinding
 
@@ -64,27 +65,28 @@ class AnalyticsAdapter(
                 binding.quarterSpinner.onItemSelectedListener = periodListener
                 binding.quarterSpinner.setOnTouchListener(periodListener)
 
-                val intervalListener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
-                    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                        byUser = true
-                        return false
-                    }
+                val intervalListener =
+                    object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
+                        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                            byUser = true
+                            return false
+                        }
 
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        if (byUser)
-                            listener.changeInterval(position)
-                        byUser = false
-                    }
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            if (byUser)
+                                listener.changeInterval(position)
+                            byUser = false
+                        }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        byUser = false
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            byUser = false
+                        }
                     }
-                }
                 binding.intervalSpinner.onItemSelectedListener = intervalListener
                 binding.intervalSpinner.setOnTouchListener(intervalListener)
             }
@@ -127,7 +129,7 @@ class AnalyticsAdapter(
         }
     }
 
-    class PieViewHolder(private val binding: PieChartLayoutBinding): ItemViewHolder(binding) {
+    class PieViewHolder(private val binding: PieChartLayoutBinding) : ItemViewHolder(binding) {
         override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
             binding.chart.apply {
                 description.isEnabled = false
@@ -139,11 +141,17 @@ class AnalyticsAdapter(
         }
     }
 
+    class TitleViewHolder(private val binding: AnalyticsTitleBinding) : ItemViewHolder(binding) {
+        override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
+            item.showTitle(binding.titleTextView)
+        }
+    }
+
     override fun getItemViewType(position: Int) =
-        if (list[position].isLine()) 0 else 1
+        if (list[position].isLine()) 0 else if (list[position] is AnalyticsUi.Title) 2 else 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return when(viewType) {
+        return when (viewType) {
             0 -> LineViewHolder(
                 LineChartLayoutBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -151,8 +159,15 @@ class AnalyticsAdapter(
                     false
                 ), listener
             )
-            else -> PieViewHolder(
+            1 -> PieViewHolder(
                 PieChartLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            else -> TitleViewHolder(
+                AnalyticsTitleBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -164,7 +179,7 @@ class AnalyticsAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(list[position], position == 0)
+        holder.bind(list[position], position == 1)
     }
 
     fun update(newList: List<AnalyticsUi>) {
@@ -184,7 +199,7 @@ class AnalyticsAdapter(
 class AnalyticsDiff(
     private val oldList: List<AnalyticsUi>,
     private val newList: List<AnalyticsUi>,
-): DiffUtil.Callback() {
+) : DiffUtil.Callback() {
     override fun getOldListSize() = oldList.size
 
     override fun getNewListSize() = newList.size

@@ -4,11 +4,11 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 
 interface AnalyticsStorage {
     interface Save {
-        fun save(lessonName: String)
+        fun save(lessonName: String, currentQuarter: Int)
     }
 
     interface Read {
-        fun read(): String
+        fun read(): Pair<String, Int>
         fun clear()
         fun save(bundleWrapper: BundleWrapper.Save)
         fun restore(bundleWrapper: BundleWrapper.Restore)
@@ -18,18 +18,21 @@ interface AnalyticsStorage {
 
     class Base: Mutable {
         private var cache = ""
+        private var cachedQuarter = -1
 
-        override fun save(lessonName: String) {
+        override fun save(lessonName: String, currentQuarter: Int) {
             cache = lessonName
+            cachedQuarter = currentQuarter
         }
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
             bundleWrapper.save(RESTORE_KEY, cache)
         }
 
-        override fun read() = cache
+        override fun read() = Pair(cache, cachedQuarter)
         override fun clear() {
             cache = ""
+            cachedQuarter = -1
         }
 
         override fun restore(bundleWrapper: BundleWrapper.Restore) {
