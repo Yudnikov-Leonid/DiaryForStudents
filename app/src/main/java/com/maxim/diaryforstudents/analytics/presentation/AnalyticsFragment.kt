@@ -12,7 +12,7 @@ import com.maxim.diaryforstudents.databinding.FragmentAnalyticsBinding
 class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>() {
     private var isDependent = arguments?.getBoolean(INDEPENDENT_KEY) ?: true
 
-    override lateinit var viewModelClass: Class<out AnalyticsViewModel>
+    override val viewModelClass = AnalyticsViewModel::class.java
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentAnalyticsBinding.inflate(inflater, container, false)
@@ -26,9 +26,6 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
                 viewModel.goBack()
             }
         }
-        isDependent = arguments?.getBoolean(INDEPENDENT_KEY) ?: true
-        viewModelClass = if (isDependent) AnalyticsNotInnerViewModel::class.java else
-            AnalyticsInnerViewModel::class.java
         super.onViewCreated(view, savedInstanceState)
 
         savedInstanceState?.let {

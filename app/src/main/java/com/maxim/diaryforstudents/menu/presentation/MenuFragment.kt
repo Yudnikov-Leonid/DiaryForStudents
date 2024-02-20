@@ -29,14 +29,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         binding.newsButton.setOnClickListener {
             viewModel.news()
         }
-
-        viewModel.observe(this) {
-            it.show(
-                binding.diaryButton,
-                binding.performanceButton,
-                binding.profileButton,
-                binding.newsButton,
-            )
+        binding.analyticsButton.setOnClickListener {
+            viewModel.analytics()
         }
 
         viewModel.init(savedInstanceState == null)

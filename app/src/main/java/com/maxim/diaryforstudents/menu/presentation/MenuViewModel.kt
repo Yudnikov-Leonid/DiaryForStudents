@@ -1,10 +1,8 @@
 package com.maxim.diaryforstudents.menu.presentation
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.analytics.presentation.AnalyticsScreen
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
-import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
@@ -17,14 +15,12 @@ import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
 
 class MenuViewModel(
     private val performanceInteractor: PerformanceInteractor,
-    private val communication: MenuCommunication,
     private val navigation: Navigation.Update,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<MenuState>, Init, SaveAndRestore {
+) : BaseViewModel(runAsync), Init, SaveAndRestore {
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             handle { performanceInteractor.loadData() }
-            communication.update(MenuState.Initial)
         }
     }
 
@@ -44,15 +40,15 @@ class MenuViewModel(
         navigation.update(NewsScreen)
     }
 
+    fun analytics() {
+        navigation.update(AnalyticsScreen)
+    }
+
     override fun save(bundleWrapper: BundleWrapper.Save) {
         performanceInteractor.save(bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         performanceInteractor.restore(bundleWrapper)
-    }
-
-    override fun observe(owner: LifecycleOwner, observer: Observer<MenuState>) {
-        communication.observe(owner, observer)
     }
 }

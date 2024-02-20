@@ -22,10 +22,10 @@ class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, Pe
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = PerformanceLessonsAdapter(object : PerformanceLessonsAdapter.Listener {
-            override fun calculate(marks: List<PerformanceUi.Mark>, marksSum: Int) = Unit
+            override fun calculate(marks: List<PerformanceUi>, marksSum: Int) = Unit
             override fun analytics(lessonName: String) = Unit
         }, object : PerformanceMarksAdapter.Listener {
-            override fun details(mark: PerformanceUi.Mark) = Unit
+            override fun details(mark: PerformanceUi) = Unit
         })
         binding.lessonsRecyclerView.adapter = adapter
 

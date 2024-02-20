@@ -14,7 +14,7 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 
-abstract class AnalyticsViewModel(
+class AnalyticsViewModel(
     private val interactor: PerformanceInteractor,
     private val analyticsStorage: AnalyticsStorage.Read,
     private val communication: AnalyticsCommunication,
@@ -24,8 +24,6 @@ abstract class AnalyticsViewModel(
     private var quarter = 1
     private var lessonName = ""
     private var interval = 1
-
-    protected abstract val showFinal: Boolean
 
     fun init(isFirstRun: Boolean, isDependent: Boolean) {
         if (isDependent) {
@@ -75,7 +73,7 @@ abstract class AnalyticsViewModel(
     override fun goBack() {
         analyticsStorage.clear()
         navigation.update(Screen.Pop)
-        clearViewModel.clearViewModel(AnalyticsNotInnerViewModel::class.java)
+        clearViewModel.clearViewModel(AnalyticsViewModel::class.java)
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
@@ -92,7 +90,9 @@ abstract class AnalyticsViewModel(
         interval = bundleWrapper.restore(INTERVAL_RESTORE_KEY) ?: 1
     }
 
-    protected abstract val RESTORE_KEY: String
-    protected abstract val QUARTER_RESTORE_KEY: String
-    protected abstract val INTERVAL_RESTORE_KEY: String
+    companion object {
+        private const val RESTORE_KEY = "inner_analytics_restore"
+        private const val QUARTER_RESTORE_KEY = "inner_quarter_analytics_restore"
+        private const val INTERVAL_RESTORE_KEY = "inner_interval_analytics_restore"
+    }
 }

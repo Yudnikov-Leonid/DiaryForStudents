@@ -23,7 +23,7 @@ class CalculateDialogFragment: DialogFragment() {
         viewModel = (requireActivity() as ProvideViewModel).viewModel(CalculateViewModel::class.java)
 
         val adapter = PerformanceMarksAdapter(object : PerformanceMarksAdapter.Listener {
-            override fun details(mark: PerformanceUi.Mark) = Unit
+            override fun details(mark: PerformanceUi) = Unit
         })
         binding.marksRecyclerView.adapter = adapter
         binding.marksRecyclerView.itemAnimator = null

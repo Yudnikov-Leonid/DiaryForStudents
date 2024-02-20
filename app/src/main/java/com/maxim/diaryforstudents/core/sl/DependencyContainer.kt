@@ -21,10 +21,8 @@ import com.maxim.diaryforstudents.openNews.OpenNewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsViewModel
 import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewModel
 import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualModule
-import com.maxim.diaryforstudents.analytics.presentation.AnalyticsInnerViewModel
-import com.maxim.diaryforstudents.analytics.presentation.AnalyticsNotInnerViewModel
-import com.maxim.diaryforstudents.analytics.sl.AnalyticsInnerModule
-import com.maxim.diaryforstudents.analytics.sl.AnalyticsNotInnerModule
+import com.maxim.diaryforstudents.analytics.presentation.AnalyticsViewModel
+import com.maxim.diaryforstudents.analytics.sl.AnalyticsModule
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
 import com.maxim.diaryforstudents.performance.common.sl.PerformanceModule
 import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalViewModel
@@ -59,8 +57,7 @@ interface DependencyContainer {
             ActualSettingsViewModel::class.java -> ActualSettingsModule(core, clear)
             PerformanceActualViewModel::class.java -> PerformanceActualModule(core)
             PerformanceFinalViewModel::class.java -> PerformanceFinalModule(core)
-            AnalyticsInnerViewModel::class.java -> AnalyticsInnerModule(core, clear)
-            AnalyticsNotInnerViewModel::class.java -> AnalyticsNotInnerModule(core, clear)
+            AnalyticsViewModel::class.java -> AnalyticsModule(core, clear)
             else -> dependencyContainer.module(clasz)
         } as Module<T>
     }

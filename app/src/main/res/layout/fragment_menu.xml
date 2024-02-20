@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -9,116 +9,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        android:gravity="center">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/diaryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/round_button"
-                android:padding="20dp"
-                android:src="@drawable/baseline_diary_24" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/diary"
-                android:textColor="@color/blue_text"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <Button
             android:id="@+id/performanceButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/menu_shape"
+            android:gravity="top|start"
+            android:text="@string/performance"
+            android:textSize="26sp" />
 
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/round_button"
-                android:padding="20dp"
-                android:src="@drawable/performance_24" />
+        <Button
+            android:id="@+id/diaryButton"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/menu_shape"
+            android:gravity="top|start"
+            android:text="@string/diary"
+            android:textSize="26sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/performance"
-                android:textColor="@color/blue_text"
-                android:textSize="20sp" />
+        <Button
+            android:id="@+id/analyticsButton"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/menu_shape"
+            android:gravity="top|start"
+            android:text="@string/analytics"
+            android:textSize="26sp" />
 
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        android:gravity="center">
-
-        <LinearLayout
-            android:id="@+id/profileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/round_button"
-                android:padding="20dp"
-                android:src="@drawable/profile_24" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/profile"
-                android:textColor="@color/blue_text"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <Button
             android:id="@+id/newsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/menu_shape"
+            android:gravity="top|start"
+            android:text="@string/news"
+            android:textSize="26sp" />
 
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:background="@drawable/round_button"
-                android:padding="20dp"
-                android:src="@drawable/base_news_24" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/news"
-                android:textColor="@color/blue_text"
-                android:textSize="20sp" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/profileButton"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/menu_shape"
+            android:gravity="top|start"
+            android:text="@string/profile"
+            android:textSize="26sp" />
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
