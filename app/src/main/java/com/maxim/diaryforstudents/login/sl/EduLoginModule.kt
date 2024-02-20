@@ -17,6 +17,7 @@ class EduLoginModule(private val core: Core, private val clear: ClearViewModel) 
         UiValidator.Login(),
         UiValidator.Password(2),
         core.navigation(),
-        clear
+        clear,
+        core
     )
 }

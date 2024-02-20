@@ -68,6 +68,7 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         override fun openNewsData() = openNewsStorage
 
         override fun string(key: Int) = manageResource.string(key)
+        override fun string(key: Int, format: String) = manageResource.string(key, format)
 
         companion object {
             private const val STORAGE_NAME = "DIARY_STORAGE"
