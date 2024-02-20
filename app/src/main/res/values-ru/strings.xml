@@ -113,4 +113,5 @@
     <string name="interval">Интервал</string>
     <string name="diary_title">Электронный дневник</string>
     <string name="diary_subtitle">Неофициальный клиент edu43</string>
+    <string name="your_profile">Ваш профиль</string>
 </resources>
