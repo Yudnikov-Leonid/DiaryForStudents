@@ -1,7 +1,5 @@
 package com.maxim.diaryforstudents.performance.actualMarks
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsScreen
 import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.analytics.presentation.AnalyticsScreen
@@ -115,9 +113,5 @@ class PerformanceActualViewModel(
     companion object {
         private const val RESTORE_KEY = "performance_actual_communication_key"
         private const val QUARTER_KEY = "performance_actual_quarter_key"
-    }
-
-    override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
-        communication.observe(owner, observer)
     }
 }

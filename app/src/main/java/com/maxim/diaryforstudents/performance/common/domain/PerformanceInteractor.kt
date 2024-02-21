@@ -15,13 +15,18 @@ import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-interface PerformanceInteractor: SaveAndRestore {
+interface PerformanceInteractor : SaveAndRestore {
     suspend fun loadData()
 
     fun actualData(): List<PerformanceDomain>
     fun finalData(): List<PerformanceDomain>
 
-    suspend fun analytics(quarter: Int, lessonName: String, interval: Int, showFinal: Boolean): List<AnalyticsDomain>
+    suspend fun analytics(
+        quarter: Int,
+        lessonName: String,
+        interval: Int,
+        showFinal: Boolean
+    ): List<AnalyticsDomain>
 
     fun currentProgressType(): ProgressType
     fun currentQuarter(): Int
@@ -44,6 +49,7 @@ interface PerformanceInteractor: SaveAndRestore {
         override suspend fun loadData() {
             dataIsLoading = true
             repository.loadData()
+            dataIsLoading = false
             if (finalLoadCallbackList.isNotEmpty()) {
                 withContext(Dispatchers.Main) {
                     finalLoadCallbackList.forEach {
@@ -52,7 +58,6 @@ interface PerformanceInteractor: SaveAndRestore {
                 }
                 finalLoadCallbackList.clear()
             }
-            dataIsLoading = false
         }
 
         override fun actualData(): List<PerformanceDomain> {
@@ -135,14 +140,15 @@ interface PerformanceInteractor: SaveAndRestore {
         }
 
         override fun dataIsEmpty(callback: () -> Unit): Boolean {
-            val data = actualData()
+            if (dataIsLoading) {
+                finalLoadCallbackList.add(callback)
+                return true
+            }
+            val data = repository.cachedData().map { it.map(mapper) }
             val isEmpty =
                 if (data.isEmpty()) true
                 else data.first().message().isNotEmpty()
-            if (data.isNotEmpty() && data.first().message().isNotEmpty()) {
-                callback.invoke()
-            }
-            else if (isEmpty)
+            if (isEmpty)
                 finalLoadCallbackList.add(callback)
             return isEmpty
         }
