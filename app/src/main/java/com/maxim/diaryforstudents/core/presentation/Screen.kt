@@ -14,6 +14,21 @@ interface Screen {
         }
     }
 
+    abstract class AddWithAnimation(private val fragmentClass: Class<out Fragment>) : Screen {
+        override fun show(fragmentManager: FragmentManager, containerId: Int) {
+            fragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    com.google.android.material.R.anim.m3_side_sheet_enter_from_right,
+                    com.google.android.material.R.anim.m3_side_sheet_exit_to_right,
+                    com.google.android.material.R.anim.m3_side_sheet_enter_from_right,
+                    com.google.android.material.R.anim.m3_side_sheet_exit_to_right
+                )
+                .add(containerId, fragmentClass.getDeclaredConstructor().newInstance())
+                .addToBackStack("")
+                .commit()
+        }
+    }
+
     abstract class Add(private val fragmentClass: Class<out Fragment>) : Screen {
         override fun show(fragmentManager: FragmentManager, containerId: Int) {
             fragmentManager.beginTransaction()
@@ -29,7 +44,8 @@ interface Screen {
         }
     }
 
-    abstract class BottomSheetFragment(private val fragmentClass: Class<out BottomSheetDialogFragment>) : Screen {
+    abstract class BottomSheetFragment(private val fragmentClass: Class<out BottomSheetDialogFragment>) :
+        Screen {
         override fun show(fragmentManager: FragmentManager, containerId: Int) {
             fragmentClass.getDeclaredConstructor().newInstance().show(fragmentManager, "")
         }
