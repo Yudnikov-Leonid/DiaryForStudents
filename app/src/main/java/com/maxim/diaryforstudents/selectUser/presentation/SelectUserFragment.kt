@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentSelectUserBinding
 
 class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserViewModel>() {
@@ -32,6 +33,12 @@ class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserVie
             it.show(adapter)
         }
 
+        savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
         viewModel.init()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
     }
 }

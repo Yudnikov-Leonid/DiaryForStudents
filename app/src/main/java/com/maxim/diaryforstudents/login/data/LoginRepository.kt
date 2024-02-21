@@ -62,7 +62,7 @@ interface LoginRepository: SaveAndRestore {
         }
 
         override fun restore(bundleWrapper: BundleWrapper.Restore) {
-            usersList.addAll(bundleWrapper.restore(RESTORE_KEY) ?: emptyList())
+            usersList.addAll(bundleWrapper.restore<LoginUsersList>(RESTORE_KEY)?.list ?: emptyList())
             cachedEmail = bundleWrapper.restore(EMAIL_RESTORE_KEY) ?: ""
         }
 
