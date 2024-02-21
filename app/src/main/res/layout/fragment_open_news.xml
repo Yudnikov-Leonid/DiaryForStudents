@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
@@ -11,18 +11,18 @@
 
     <TextView
         android:id="@+id/titleTextView"
-        android:textStyle="bold"
-        android:textColor="@color/blue_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/blue_text"
         android:textSize="27sp"
+        android:textStyle="bold"
         tools:text="Some title text" />
 
     <ImageView
         android:id="@+id/newsImage"
-        android:background="@color/light_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/light_background"
         android:maxHeight="200dp"
         android:scaleType="center" />
 
@@ -38,6 +38,7 @@
         android:id="@+id/contentTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autoLink="web"
         android:textSize="20sp"
         tools:text="Some very long content text" />
 
