@@ -25,7 +25,10 @@ class SelectUserViewModel(
 ): ViewModel(), GoBack, SimpleInit, Communication.Observe<SelectUserState> {
 
     override fun init() {
-        communication.update(SelectUserState.Base(repository.users().map { it.map(mapper) }))
+        val list = mutableListOf<SelectUserUi>()
+        list.add(SelectUserUi.Title)
+        list.addAll(repository.users().map { it.map(mapper) })
+        communication.update(SelectUserState.Base(list))
     }
 
     fun select(position: Int) {

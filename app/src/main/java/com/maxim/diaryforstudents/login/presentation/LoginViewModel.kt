@@ -9,6 +9,7 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.login.data.LoginRepository
+import com.maxim.diaryforstudents.main.HideKeyboard
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserScreen
 
 class LoginViewModel(
@@ -25,7 +26,7 @@ class LoginViewModel(
             communication.update(LoginState.Initial)
     }
 
-    fun login(login: String, password: String) {
+    fun login(login: String, password: String, hideKeyboard: HideKeyboard) {
         try {
             loginValidator.isValid(login, manageResource)
             passwordValidator.isValid(password, manageResource)
@@ -33,6 +34,7 @@ class LoginViewModel(
             handle({ repository.login(login, password) }) { result ->
                 if (result.isSuccessful()) {
                     navigation.update(SelectUserScreen)
+                    hideKeyboard.hideKeyboard()
                     communication.update(LoginState.Initial)
                 }
                 else

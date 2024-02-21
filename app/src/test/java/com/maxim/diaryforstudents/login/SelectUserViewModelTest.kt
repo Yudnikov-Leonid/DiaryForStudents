@@ -56,6 +56,7 @@ class SelectUserViewModelTest {
         communication.checkCalledWith(
             SelectUserState.Base(
                 listOf(
+                    SelectUserUi.Title,
                     SelectUserUi.Base(
                         "name",
                         "school name"

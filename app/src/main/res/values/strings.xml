@@ -134,4 +134,5 @@
     <string name="empty_field">The field is empty</string>
     <string name="invalid_login">Invalid login</string>
     <string name="password_must_be_at_least">Password must be at least %s symbols long</string>
+    <string name="select_user">Select a user</string>
 </resources>

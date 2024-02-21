@@ -129,4 +129,5 @@
     <string name="empty_field">Это поле пустое</string>
     <string name="invalid_login">Некорректный логин</string>
     <string name="password_must_be_at_least">Пароль должен быть длинной хотя бы %s символа</string>
+    <string name="select_user">Выберите пользователя</string>
 </resources>
