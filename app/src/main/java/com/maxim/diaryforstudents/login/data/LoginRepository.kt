@@ -2,9 +2,12 @@ package com.maxim.diaryforstudents.login.data
 
 import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.service.EduUser
+import com.maxim.diaryforstudents.selectUser.data.SelectUserData
 
 interface LoginRepository {
     suspend fun login(login: String, password: String): LoginResult
+    fun users(): List<SelectUserData>
+    fun select(position: Int)
 
     class Base(private val service: LoginService, private val eduUser: EduUser) :
         LoginRepository {
@@ -29,6 +32,14 @@ interface LoginRepository {
             } catch (e: Exception) {
                 LoginResult.Failure(e.message!!)
             }
+        }
+
+        override fun users(): List<SelectUserData> {
+            TODO("Not yet implemented")
+        }
+
+        override fun select(position: Int) {
+            TODO("Not yet implemented")
         }
     }
 }

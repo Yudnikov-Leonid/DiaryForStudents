@@ -2,13 +2,6 @@ package com.maxim.diaryforstudents.login
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.maxim.diaryforstudents.login.data.LoginRepository
-import com.maxim.diaryforstudents.login.data.LoginResult
-import com.maxim.diaryforstudents.login.presentation.LoginCommunication
-import com.maxim.diaryforstudents.login.presentation.LoginState
-import com.maxim.diaryforstudents.login.presentation.LoginViewModel
-import com.maxim.diaryforstudents.login.presentation.LoginException
-import com.maxim.diaryforstudents.login.presentation.PasswordException
 import com.maxim.diaryforstudents.fakes.CLEAR
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeManageResources
@@ -17,6 +10,11 @@ import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.FakeUiValidator
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
+import com.maxim.diaryforstudents.login.presentation.LoginCommunication
+import com.maxim.diaryforstudents.login.presentation.LoginException
+import com.maxim.diaryforstudents.login.presentation.LoginState
+import com.maxim.diaryforstudents.login.presentation.LoginViewModel
+import com.maxim.diaryforstudents.login.presentation.PasswordException
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -111,29 +109,6 @@ class LoginViewModelTest {
         runAsync.returnResult()
         communication.checkCalledTimes(2)
         communication.checkCalledWith(LoginState.Error("some error"))
-    }
-}
-
-private class FakeLoginRepository : LoginRepository {
-    private var message = ""
-
-    private val list = mutableListOf<Pair<String, String>>()
-
-    fun shouldReturnFailure(message: String) {
-        this.message = message
-    }
-
-    fun checkCalledTimes(expected: Int) {
-        assertEquals(expected, list.size)
-    }
-
-    fun checkCalledWith(login: String, password: String) {
-        assertEquals(Pair(login, password), list.last())
-    }
-
-    override suspend fun login(login: String, password: String): LoginResult {
-        list.add(Pair(login, password))
-        return if (message.isEmpty()) LoginResult.Success else LoginResult.Failure(message)
     }
 }
 
