@@ -8,6 +8,8 @@ interface NewsData {
     }
     fun <T> map(mapper: Mapper<T>): T
 
+    fun hasChecked(lastCheck: Long): Boolean = true
+
     data class Base(
         private val title: String,
         private val content: String,
@@ -15,6 +17,8 @@ interface NewsData {
         private val photoUrl: String
     ) : NewsData {
         override fun <T> map(mapper: Mapper<T>) = mapper.map(title, content, date, photoUrl)
+
+        override fun hasChecked(lastCheck: Long) = date > lastCheck
     }
 
     object Empty : NewsData {

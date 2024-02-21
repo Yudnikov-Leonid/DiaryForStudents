@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.news.data
 
+import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.ReloadWithError
 
 interface NewsRepository {
@@ -8,7 +9,12 @@ interface NewsRepository {
     fun defaultNews(): List<NewsData>
     fun init(reload: ReloadWithError)
 
-    class Base(private val dataSource: NewsCloudDataSource) : NewsRepository {
+    fun checkNewNews(): Int
+
+    class Base(
+        private val dataSource: NewsCloudDataSource,
+        private val simpleStorage: SimpleStorage
+    ) : NewsRepository {
         override fun mainNews(): NewsData = try {
             dataSource.data(0).first()
         } catch (e: Exception) {
@@ -29,6 +35,15 @@ interface NewsRepository {
             listOf(NewsData.Failure(e.message ?: "error"))
         }
 
-        override fun init(reload: ReloadWithError) = dataSource.init(reload)
+        override fun init(reload: ReloadWithError) {
+            simpleStorage.save(LAST_CHECK, System.currentTimeMillis())
+            dataSource.init(reload)
+        }
+
+        override fun checkNewNews() = dataSource.checkNewNews(simpleStorage.read(LAST_CHECK, 0L))
+
+        companion object {
+            private const val LAST_CHECK = "news_last_check"
+        }
     }
 }

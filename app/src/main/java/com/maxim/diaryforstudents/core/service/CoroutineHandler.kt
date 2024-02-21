@@ -16,7 +16,9 @@ interface CoroutineHandler {
     ): List<Pair<String, T>>
 
     suspend fun handleResult(value: Task<Void>)
+
     class Base : CoroutineHandler {
+
         override suspend fun <T : Any> handleQuery(
             query: Query,
             clasz: Class<T>

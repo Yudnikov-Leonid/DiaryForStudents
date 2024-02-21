@@ -12,6 +12,9 @@ interface SimpleStorage {
     fun save(key: String, value: Int)
     fun read(key: String, defaultValue: Int): Int
 
+    fun save(key: String, value: Long)
+    fun read(key: String, defaultValue: Long): Long
+
     class Base(private val sharedPreferences: SharedPreferences) : SimpleStorage {
         override fun save(key: String, value: String) {
             sharedPreferences.edit().putString(key, value).apply()
@@ -25,6 +28,10 @@ interface SimpleStorage {
             sharedPreferences.edit().putInt(key, value).apply()
         }
 
+        override fun save(key: String, value: Long) {
+            sharedPreferences.edit().putLong(key, value).apply()
+        }
+
         override fun read(key: String, defaultValue: String) =
             sharedPreferences.getString(key, defaultValue) ?: ""
 
@@ -33,5 +40,8 @@ interface SimpleStorage {
 
         override fun read(key: String, defaultValue: Int) =
             sharedPreferences.getInt(key, defaultValue)
+
+        override fun read(key: String, defaultValue: Long) =
+            sharedPreferences.getLong(key, defaultValue)
     }
 }

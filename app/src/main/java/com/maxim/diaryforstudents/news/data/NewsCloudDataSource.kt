@@ -9,6 +9,8 @@ interface NewsCloudDataSource {
     fun init(reload: ReloadWithError)
     fun data(status: Int): List<NewsData>
 
+    fun checkNewNews(lastCheck: Long): Int
+
     class Base(
         private val service: Service
     ) : NewsCloudDataSource {
@@ -41,5 +43,13 @@ interface NewsCloudDataSource {
         }
 
         override fun data(status: Int): List<NewsData> = news[status] ?: emptyList()
+
+        override fun checkNewNews(lastCheck: Long): Int {
+            var counter = 0
+            news.forEach {
+                counter += it.value.filter { it.hasChecked(lastCheck) }.size
+            }
+            return counter
+        }
     }
 }

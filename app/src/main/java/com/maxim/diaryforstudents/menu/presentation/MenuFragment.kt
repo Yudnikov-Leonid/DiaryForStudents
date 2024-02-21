@@ -28,9 +28,14 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         }
         binding.newsButton.setOnClickListener {
             viewModel.news()
+            binding.newNewsCounter.visibility = View.GONE
         }
         binding.analyticsButton.setOnClickListener {
             viewModel.analytics()
+        }
+
+        viewModel.observe(this) {
+            it.show(binding.newNewsCounter)
         }
 
         viewModel.init(savedInstanceState == null)

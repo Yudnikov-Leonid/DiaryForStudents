@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -8,16 +9,16 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="vertical"
         android:paddingHorizontal="6dp">
 
         <LinearLayout
-            android:layout_marginStart="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -173,6 +174,19 @@
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:id="@+id/newNewsCounter"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                tools:text="5"
+                android:layout_gravity="end"
+                android:background="@drawable/round_button"
+                android:backgroundTint="@color/red"
+                android:textSize="16sp"/>
 
         </FrameLayout>
 

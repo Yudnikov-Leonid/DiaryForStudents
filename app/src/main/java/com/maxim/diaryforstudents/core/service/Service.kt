@@ -13,6 +13,8 @@ interface Service {
 
     fun <T : Any> listen(childOne: String, clasz: Class<T>, listener: ServiceValueEventListener<T>)
 
+    suspend fun <T: Any> single(childOne: String, clasz: Class<T>): List<T>
+
     //todo handler will use in news like feature
     class Base(context: Context, private val handler: CoroutineHandler) : Service {
         private val database: DatabaseReference
@@ -37,6 +39,13 @@ interface Service {
 
                 override fun onCancelled(error: DatabaseError) = listener.error(error.message)
             })
+        }
+
+        override suspend fun <T : Any> single(
+            childOne: String,
+            clasz: Class<T>,
+        ): List<T> {
+            return handler.handleQuery(database.child(childOne), clasz).map { it.second }
         }
     }
 
