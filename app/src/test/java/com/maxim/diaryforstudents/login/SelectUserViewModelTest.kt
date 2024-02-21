@@ -8,12 +8,15 @@ import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
 import com.maxim.diaryforstudents.fakes.Order
+import com.maxim.diaryforstudents.login.presentation.LoginViewModel
+import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 import com.maxim.diaryforstudents.selectUser.data.SelectUserData
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserCommunication
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserDataToUiMapper
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserState
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserUi
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserViewModel
+import com.maxim.diaryforstudents.selectUser.sl.SelectUserModule
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -25,6 +28,7 @@ class SelectUserViewModelTest {
     private lateinit var navigation: FakeNavigation
     private lateinit var clearViewModel: FakeClearViewModel
     private lateinit var order: Order
+    private lateinit var module: FakeSelectUserModule
 
     @Before
     fun setUp() {
@@ -33,12 +37,14 @@ class SelectUserViewModelTest {
         order = Order()
         navigation = FakeNavigation(order)
         clearViewModel = FakeClearViewModel(order)
+        module = FakeSelectUserModule()
         viewModel = SelectUserViewModel(
             repository,
             communication,
             navigation,
             clearViewModel,
-            SelectUserDataToUiMapper()
+            SelectUserDataToUiMapper(),
+            module
         )
     }
 
@@ -64,6 +70,10 @@ class SelectUserViewModelTest {
         viewModel.select(0)
         repository.checkSelectCalledTimes(1)
         repository.checkSelectCalledWith(0)
+        module.checkClearCalledTimes(1)
+        navigation.checkCalledWith(MenuScreen)
+        clearViewModel.checkCalledWith(listOf(LoginViewModel::class.java, SelectUserViewModel::class.java))
+        order.check(listOf(NAVIGATION, CLEAR, CLEAR))
     }
 
     @Test
@@ -72,6 +82,22 @@ class SelectUserViewModelTest {
         navigation.checkCalledWith(Screen.Pop)
         clearViewModel.checkCalledWith(SelectUserViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))
+    }
+}
+
+private class FakeSelectUserModule: SelectUserModule {
+    private var counter = 0
+
+    fun checkClearCalledTimes(expected: Int) {
+        assertEquals(expected, counter)
+    }
+
+    override fun clear() {
+        counter++
+    }
+
+    override fun viewModel(): SelectUserViewModel {
+        throw java.lang.IllegalStateException("not using in tests")
     }
 }
 

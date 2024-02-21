@@ -11,20 +11,16 @@ interface LoginRepository {
 
     class Base(private val service: LoginService, private val eduUser: EduUser) :
         LoginRepository {
+        private val usersList = mutableListOf<LoginSchools>()
+        private var cachedEmail = ""
+
         override suspend fun login(login: String, password: String): LoginResult {
             return try {
                 val data = service.login(LoginBody(BuildConfig.API_KEY, login, password))
                 if (data.success) {
-                    val user = data.data.SCHOOLS.first()
-                    val guid = user.PARTICIPANT.SYS_GUID
-                    val email = data.data.EMAIL
-                    val fullName =
-                        "${user.PARTICIPANT.SURNAME} ${user.PARTICIPANT.NAME} ${user.PARTICIPANT.SECONDNAME}"
-                    val grade = user.PARTICIPANT.GRADE.NAME
-                    val school = user.PARTICIPANT.GRADE.SCHOOL.SHORT_NAME
-                    val gradeHead = user.PARTICIPANT.GRADE.GRADE_HEAD
-                    val gradeHeadName = "${gradeHead.SURNAME} ${gradeHead.NAME} ${user.PARTICIPANT.SECONDNAME}"
-                    eduUser.login(guid, email, fullName, school, grade, gradeHeadName)
+                    usersList.clear()
+                    usersList.addAll(data.data.SCHOOLS)
+                    cachedEmail = data.data.EMAIL
                     LoginResult.Success
                 } else {
                     LoginResult.Failure(data.message)
@@ -35,11 +31,26 @@ interface LoginRepository {
         }
 
         override fun users(): List<SelectUserData> {
-            TODO("Not yet implemented")
+            return usersList.map {
+                SelectUserData.Base(
+                    "${it.PARTICIPANT.SURNAME} ${it.PARTICIPANT.NAME} ${it.PARTICIPANT.SECONDNAME}",
+                    it.PARTICIPANT.GRADE.SCHOOL.SHORT_NAME
+                )
+            }
         }
 
         override fun select(position: Int) {
-            TODO("Not yet implemented")
+            val user = usersList[position]
+            val guid = user.PARTICIPANT.SYS_GUID
+            val fullName =
+                "${user.PARTICIPANT.SURNAME} ${user.PARTICIPANT.NAME} ${user.PARTICIPANT.SECONDNAME}"
+            val grade = user.PARTICIPANT.GRADE.NAME
+            val school = user.PARTICIPANT.GRADE.SCHOOL.SHORT_NAME
+            val gradeHead = user.PARTICIPANT.GRADE.GRADE_HEAD
+            val gradeHeadName =
+                "${gradeHead.SURNAME} ${gradeHead.NAME} ${user.PARTICIPANT.SECONDNAME}"
+            eduUser.login(guid, cachedEmail, fullName, school, grade, gradeHeadName)
+            usersList.clear()
         }
     }
 }

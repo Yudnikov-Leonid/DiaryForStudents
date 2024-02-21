@@ -10,7 +10,7 @@ import com.maxim.diaryforstudents.diary.sl.DiaryModule
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsViewModel
 import com.maxim.diaryforstudents.lessonDetails.sl.LessonDetailsModule
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
-import com.maxim.diaryforstudents.login.sl.EduLoginModule
+import com.maxim.diaryforstudents.login.sl.LoginModule
 import com.maxim.diaryforstudents.main.MainModule
 import com.maxim.diaryforstudents.main.MainViewModel
 import com.maxim.diaryforstudents.menu.presentation.MenuViewModel
@@ -29,6 +29,8 @@ import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalViewMod
 import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalModule
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import com.maxim.diaryforstudents.profile.sl.ProfileModule
+import com.maxim.diaryforstudents.selectUser.presentation.SelectUserViewModel
+import com.maxim.diaryforstudents.selectUser.sl.SelectUserModule
 
 interface DependencyContainer {
     fun <T : ViewModel> module(clasz: Class<T>): Module<T>
@@ -45,7 +47,8 @@ interface DependencyContainer {
     ) : DependencyContainer {
         override fun <T : ViewModel> module(clasz: Class<T>) = when (clasz) {
             MainViewModel::class.java -> MainModule(core)
-            LoginViewModel::class.java -> EduLoginModule(core, clear)
+            LoginViewModel::class.java -> LoginModule(core)
+            SelectUserViewModel::class.java -> SelectUserModule.Base(core, clear)
             MenuViewModel::class.java -> MenuModule(core)
             ProfileViewModel::class.java -> ProfileModule(core, clear)
             NewsViewModel::class.java -> NewsModule(core, clear)

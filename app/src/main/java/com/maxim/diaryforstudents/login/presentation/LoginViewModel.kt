@@ -7,10 +7,9 @@ import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.login.data.LoginRepository
-import com.maxim.diaryforstudents.menu.presentation.MenuScreen
+import com.maxim.diaryforstudents.selectUser.presentation.SelectUserScreen
 
 class LoginViewModel(
     private val repository: LoginRepository,
@@ -18,7 +17,6 @@ class LoginViewModel(
     private val loginValidator: UiValidator,
     private val passwordValidator: UiValidator,
     private val navigation: Navigation.Update,
-    private val clearViewModel: ClearViewModel,
     private val manageResource: ManageResource,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<LoginState>, Init {
@@ -34,8 +32,8 @@ class LoginViewModel(
             communication.update(LoginState.Loading)
             handle({ repository.login(login, password) }) { result ->
                 if (result.isSuccessful()) {
-                    navigation.update(MenuScreen)
-                    clearViewModel.clearViewModel(LoginViewModel::class.java)
+                    navigation.update(SelectUserScreen)
+                    communication.update(LoginState.Initial)
                 }
                 else
                     communication.update(LoginState.Error(result.message()))

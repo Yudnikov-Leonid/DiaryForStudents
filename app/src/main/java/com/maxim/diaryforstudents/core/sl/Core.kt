@@ -10,6 +10,8 @@ import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
+import com.maxim.diaryforstudents.login.data.LoginRepository
+import com.maxim.diaryforstudents.login.data.LoginService
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
-    ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage{
+    ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, com.maxim.diaryforstudents.core.sl.LoginRepository{
 
     class Base(private val context: Context) : Core {
 
@@ -26,7 +28,7 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private val navigation = Navigation.Base()
         private val openNewsStorage by lazy { OpenNewsStorage.Base() }
 
-        val client: OkHttpClient.Builder
+        private val client: OkHttpClient.Builder
 
         init {
             val interceptor = HttpLoggingInterceptor()
@@ -60,6 +62,17 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
 
         private val analyticsStorage = AnalyticsStorage.Base()
         override fun analyticsStorage() = analyticsStorage
+
+        private var loginRepository: LoginRepository? = null
+        override fun loginRepository(): LoginRepository {
+            if (loginRepository == null)
+                loginRepository = LoginRepository.Base(retrofit.create(LoginService::class.java), eduUser)
+            return loginRepository!!
+        }
+
+        override fun clearLoginRepository() {
+            loginRepository = null
+        }
 
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
@@ -114,4 +127,9 @@ interface ProvideMarksModule {
 
 interface ProvideAnalyticsStorage {
     fun analyticsStorage(): AnalyticsStorage.Mutable
+}
+
+interface LoginRepository {
+    fun loginRepository(): LoginRepository
+    fun clearLoginRepository()
 }

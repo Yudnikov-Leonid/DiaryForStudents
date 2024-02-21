@@ -29,6 +29,7 @@ interface LoginState {
             passwordInputLayout.error = ""
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
+            button.isEnabled = true
         }
     }
 

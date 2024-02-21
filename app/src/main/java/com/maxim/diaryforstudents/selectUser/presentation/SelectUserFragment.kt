@@ -20,5 +20,18 @@ class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserVie
             }
         }
         super.onViewCreated(view, savedInstanceState)
+
+        val adapter = SelectUserAdapter(object : SelectUserAdapter.Listener {
+            override fun select(position: Int) {
+                viewModel.select(position)
+            }
+        })
+        binding.selectUserRecyclerView.adapter = adapter
+
+        viewModel.observe(this) {
+            it.show(adapter)
+        }
+
+        viewModel.init()
     }
 }
