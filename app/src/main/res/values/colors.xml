@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#E8E8E8</color>
     <color name="slash">#E8E8E8</color>
+    <color name="profile_button">#E8E8E8</color>
     <color name="settings_button">#E8E8E8</color>
     <color name="dark_gray">#7D7D7D</color>
     <color name="red">#FF0000</color>

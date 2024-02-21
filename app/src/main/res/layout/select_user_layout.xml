@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/student_123" />
+        android:src="@drawable/light_and_dark_student_123" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -66,10 +66,10 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/profile_avatar"
-                android:backgroundTint="@color/gray"
+                android:backgroundTint="@color/profile_button"
                 android:padding="8dp"
                 android:src="@drawable/mail_24"
-                app:tint="@color/blue" />
+                app:tint="@color/blue_text" />
 
             <TextView
                 android:layout_width="0dp"
@@ -104,10 +104,10 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/profile_avatar"
-                android:backgroundTint="@color/gray"
+                android:backgroundTint="@color/profile_button"
                 android:padding="8dp"
                 android:src="@drawable/school_24"
-                app:tint="@color/blue" />
+                app:tint="@color/blue_text" />
 
             <TextView
                 android:layout_width="0dp"
@@ -142,10 +142,10 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/profile_avatar"
-                android:backgroundTint="@color/gray"
+                android:backgroundTint="@color/profile_button"
                 android:padding="8dp"
                 android:src="@drawable/grade_24"
-                app:tint="@color/blue" />
+                app:tint="@color/blue_text" />
 
             <TextView
                 android:layout_width="0dp"
@@ -181,10 +181,10 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/profile_avatar"
-                android:backgroundTint="@color/gray"
+                android:backgroundTint="@color/profile_button"
                 android:padding="8dp"
                 android:src="@drawable/logout_24"
-                app:tint="@color/blue" />
+                app:tint="@color/blue_text" />
 
             <TextView
                 android:layout_width="0dp"
