@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView android:id="@+id/titleTextView"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/titleTextView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
     android:gravity="center"
     android:paddingHorizontal="10dp"
-    android:layout_marginBottom="5dp"
     android:textSize="26sp"
     android:textStyle="bold"
-    tools:text="Lesson name"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" />
+    tools:text="Lesson name" />

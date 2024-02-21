@@ -7,23 +7,32 @@ import com.maxim.diaryforstudents.core.service.ServiceValueEventListener
 
 interface NewsCloudDataSource {
     fun init(reload: ReloadWithError)
-    fun data(): List<NewsData>
+    fun data(status: Int): List<NewsData>
 
     class Base(
         private val service: Service
     ) : NewsCloudDataSource {
-        private val news = mutableListOf<NewsData>()
+        private val news = mutableMapOf<Int, ArrayList<NewsData>>()
         override fun init(reload: ReloadWithError) {
+
             service.listen(
                 "news",
                 CloudNews::class.java,
                 object : ServiceValueEventListener<CloudNews> {
                     override fun valueChanged(value: List<Pair<String, CloudNews>>) {
                         news.clear()
-                        val sorted = value.map { it.second }.sortedByDescending { it.date }
-                        val mainNews = sorted.first()
-                        news.add(NewsData.Main(mainNews.title, mainNews.content, mainNews.date, mainNews.photoUrl))
-                        news.addAll(sorted.subList(1, sorted.size).map { NewsData.Base(it.title, it.content, it.date, it.photoUrl) })
+                        value.sortedByDescending { it.second.date }.forEach {
+                            if (news[it.second.status] == null)
+                                news[it.second.status] = ArrayList()
+                            news[it.second.status]!!.add(
+                                NewsData.Base(
+                                    it.second.title,
+                                    it.second.content,
+                                    it.second.date,
+                                    it.second.photoUrl
+                                )
+                            )
+                        }
                         reload.reload()
                     }
 
@@ -31,6 +40,6 @@ interface NewsCloudDataSource {
                 })
         }
 
-        override fun data() = news
+        override fun data(status: Int): List<NewsData> = news[status] ?: emptyList()
     }
 }

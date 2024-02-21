@@ -23,7 +23,8 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
         }
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = NewsAdapter(object : NewsAdapter.Listener {
+
+        val listener = object : NewsAdapter.Listener {
             override fun retry() {
                 viewModel.init(true)
             }
@@ -31,11 +32,25 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
             override fun open(value: NewsUi) {
                 viewModel.open(value)
             }
-        })
-        binding.newsRecyclerView.adapter = adapter
+        }
+        val importantAdapter = NewsAdapter(listener)
+        binding.importantNewsRecyclerView.adapter = importantAdapter
+
+        val defaultAdapter = NewsAdapter(listener)
+        binding.defaultNewsRecyclerView.adapter = defaultAdapter
 
         viewModel.observe(this) {
-            it.show(adapter, binding.progressBar)
+            it.show(
+                binding.mainNews,
+                binding.imageView,
+                binding.titleTextView,
+                binding.contentTextView,
+                binding.dateTextView,
+                importantAdapter,
+                defaultAdapter,
+                listener,
+                binding.progressBar
+            )
         }
 
         viewModel.init(savedInstanceState == null)

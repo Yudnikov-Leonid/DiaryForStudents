@@ -8,10 +8,7 @@ class NewsDataToUiMapper : NewsData.Mapper<NewsUi> {
         content: String,
         date: Long,
         photoUrl: String,
-        isMain: Boolean
-    ): NewsUi =
-        if (isMain) NewsUi.Main(title, content, date, photoUrl)
-        else NewsUi.Base(title, content, date, photoUrl)
+    ): NewsUi = NewsUi.Base(title, content, date, photoUrl)
 
     override fun map() = NewsUi.Empty
 

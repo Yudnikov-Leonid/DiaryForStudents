@@ -25,7 +25,7 @@ class OpenNewsFragment : BaseFragment<FragmentOpenNewsBinding, OpenNewsViewModel
         super.onViewCreated(view, savedInstanceState)
         viewModel.observe(this) { data ->
             data.showTitle(binding.titleTextView)
-            data.showDate(binding.dateTextView)
+            data.showTime(binding.dateTextView)
             data.showContent(binding.contentTextView)
             data.showImage(binding.newsImage)
         }

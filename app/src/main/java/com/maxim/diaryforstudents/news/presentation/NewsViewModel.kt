@@ -14,8 +14,8 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.data.NewsData
 import com.maxim.diaryforstudents.news.data.NewsRepository
-import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
+import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 
 class NewsViewModel(
     private val repository: NewsRepository,
@@ -24,7 +24,8 @@ class NewsViewModel(
     private val clear: ClearViewModel,
     private val openNewsStorage: OpenNewsStorage.Save,
     private val mapper: NewsData.Mapper<NewsUi>
-) : BaseViewModel(), ReloadWithError, Communication.Observe<NewsState>, Init, GoBack, SaveAndRestore {
+) : BaseViewModel(), ReloadWithError, Communication.Observe<NewsState>, Init, GoBack,
+    SaveAndRestore {
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             communication.update(NewsState.Loading)
@@ -41,11 +42,17 @@ class NewsViewModel(
     }
 
     override fun reload() {
-        communication.update(NewsState.Base(repository.data().map { it.map(mapper) }))
+        communication.update(
+            NewsState.Base(
+                repository.mainNews().map(mapper),
+                repository.importantNews().map { it.map(mapper) },
+                repository.defaultNews().map { it.map(mapper) }
+            )
+        )
     }
 
     override fun error(message: String) {
-        communication.update(NewsState.Base(listOf(NewsUi.Failure(message))))
+        //communication.update(NewsState.Base(listOf(NewsUi.Failure(message))))
     }
 
     override fun goBack() {
