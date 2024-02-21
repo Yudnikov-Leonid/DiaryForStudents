@@ -47,6 +47,13 @@ class AnalyticsViewModel(
         reload()
     }
 
+    //not tested
+    fun retry() {
+        handle ({ interactor.loadData() } ) {
+            reload()
+        }
+    }
+
     override fun reload() {
         communication.update(AnalyticsState.Loading)
         handle({ interactor.analytics(quarter, lessonName, interval, lessonName.isEmpty()) }) { list ->

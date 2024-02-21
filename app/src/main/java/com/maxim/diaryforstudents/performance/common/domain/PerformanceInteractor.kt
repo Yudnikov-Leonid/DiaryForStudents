@@ -138,8 +138,11 @@ interface PerformanceInteractor: SaveAndRestore {
             val data = actualData()
             val isEmpty =
                 if (data.isEmpty()) true
-                else data.first() is PerformanceDomain.Error || data.first() is PerformanceDomain.Empty
-            if (isEmpty)
+                else data.first().message().isNotEmpty()
+            if (data.isNotEmpty() && data.first().message().isNotEmpty()) {
+                callback.invoke()
+            }
+            else if (isEmpty)
                 finalLoadCallbackList.add(callback)
             return isEmpty
         }

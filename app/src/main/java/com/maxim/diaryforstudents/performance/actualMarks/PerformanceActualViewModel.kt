@@ -55,8 +55,9 @@ class PerformanceActualViewModel(
 
     //not tested
     fun retry() {
-        handle { interactor.loadData() }
-        init(true)
+        handle ({ interactor.loadData() } ) {
+            reload()
+        }
     }
 
     fun changeQuarter(quarter: Int) {

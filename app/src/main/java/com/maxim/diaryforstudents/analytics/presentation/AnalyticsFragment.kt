@@ -41,7 +41,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         binding.lessonsRecyclerView.itemAnimator = null
 
         binding.retryButton.setOnClickListener {
-            viewModel.reload()
+            viewModel.retry()
         }
 
         viewModel.observe(this) {

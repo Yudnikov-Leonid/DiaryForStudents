@@ -27,8 +27,9 @@ class PerformanceFinalViewModel(
 
     //not tested
     fun retry() {
-        handle { interactor.loadData() }
-        reload()
+        handle ({ interactor.loadData() } ) {
+            reload()
+        }
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {

@@ -131,7 +131,7 @@ interface PerformanceRepository : SaveAndRestore {
             interval: Int,
             showFinal: Boolean
         ): List<AnalyticsData> {
-            val dates = periods[quarter - 1]
+            val dates = periods[quarter - 1] //!!
             if (responseCache[quarter] == null) {
                 responseCache[quarter] = cloudDataSource.data(dates.first, dates.second)
             }
