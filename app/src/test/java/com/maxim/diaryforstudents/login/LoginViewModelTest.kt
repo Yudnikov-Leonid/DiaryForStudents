@@ -2,7 +2,6 @@ package com.maxim.diaryforstudents.login
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeManageResources
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
@@ -27,7 +26,6 @@ class LoginViewModelTest {
     private lateinit var loginValidator: FakeUiValidator
     private lateinit var passwordValidator: FakeUiValidator
     private lateinit var runAsync: FakeRunAsync
-    private lateinit var clearViewModel: FakeClearViewModel
     private lateinit var navigation: FakeNavigation
     private lateinit var order: Order
 
@@ -41,7 +39,6 @@ class LoginViewModelTest {
         passwordValidator = FakeUiValidator()
         runAsync = FakeRunAsync()
         order = Order()
-        clearViewModel = FakeClearViewModel(order)
         navigation = FakeNavigation(order)
         viewModel = LoginViewModel(
             repository,
