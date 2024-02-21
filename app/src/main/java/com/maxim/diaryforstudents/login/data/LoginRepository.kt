@@ -1,10 +1,13 @@
 package com.maxim.diaryforstudents.login.data
 
 import com.maxim.diaryforstudents.BuildConfig
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.selectUser.data.SelectUserData
+import java.io.Serializable
 
-interface LoginRepository {
+interface LoginRepository: SaveAndRestore {
     suspend fun login(login: String, password: String): LoginResult
     fun users(): List<SelectUserData>
     fun select(position: Int)
@@ -52,5 +55,22 @@ interface LoginRepository {
             eduUser.login(guid, cachedEmail, fullName, school, grade, gradeHeadName)
             usersList.clear()
         }
+
+        override fun save(bundleWrapper: BundleWrapper.Save) {
+            bundleWrapper.save(RESTORE_KEY, LoginUsersList(usersList))
+            bundleWrapper.save(EMAIL_RESTORE_KEY, cachedEmail)
+        }
+
+        override fun restore(bundleWrapper: BundleWrapper.Restore) {
+            usersList.addAll(bundleWrapper.restore(RESTORE_KEY) ?: emptyList())
+            cachedEmail = bundleWrapper.restore(EMAIL_RESTORE_KEY) ?: ""
+        }
+
+        companion object {
+            private const val RESTORE_KEY = "login_repository_users_restore_key"
+            private const val EMAIL_RESTORE_KEY = "login_repository_email_restore_key"
+        }
     }
 }
+
+class LoginUsersList(val list: List<LoginSchools>): Serializable

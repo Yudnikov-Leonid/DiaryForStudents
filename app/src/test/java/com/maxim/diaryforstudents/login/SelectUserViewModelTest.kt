@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.fakes.CLEAR
+import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeClearViewModel
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.NAVIGATION
@@ -83,6 +84,15 @@ class SelectUserViewModelTest {
         navigation.checkCalledWith(Screen.Pop)
         clearViewModel.checkCalledWith(SelectUserViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))
+    }
+
+    @Test
+    fun test_save_and_restore() {
+        val bundleWrapper = FakeBundleWrapper()
+        viewModel.save(bundleWrapper)
+        repository.checkSaveCalledTimes(1)
+        viewModel.restore(bundleWrapper)
+        repository.checkRestoreCalledTimes(1)
     }
 }
 

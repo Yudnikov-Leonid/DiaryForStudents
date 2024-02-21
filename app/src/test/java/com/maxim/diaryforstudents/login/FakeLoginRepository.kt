@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.login
 
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.data.LoginResult
 import com.maxim.diaryforstudents.selectUser.data.SelectUserData
@@ -47,5 +48,27 @@ class FakeLoginRepository : LoginRepository {
 
     override fun select(position: Int) {
         selectList.add(position)
+    }
+
+    private var saveCounter = 0
+    private var restoreCounter = 0
+    private var bundleWrapper: BundleWrapper.Mutable? = null
+
+    fun checkSaveCalledTimes(expected: Int) {
+        assertEquals(expected, saveCounter)
+    }
+
+    fun checkRestoreCalledTimes(expected: Int) {
+        assertEquals(expected, restoreCounter)
+    }
+
+    override fun save(bundleWrapper: BundleWrapper.Save) {
+        saveCounter++
+        this.bundleWrapper = bundleWrapper as BundleWrapper.Mutable
+    }
+
+    override fun restore(bundleWrapper: BundleWrapper.Restore) {
+        restoreCounter++
+        assertEquals(bundleWrapper, this.bundleWrapper)
     }
 }
