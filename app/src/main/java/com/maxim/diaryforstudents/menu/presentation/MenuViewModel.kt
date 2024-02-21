@@ -20,7 +20,7 @@ class MenuViewModel(
 ) : BaseViewModel(runAsync), Init, SaveAndRestore {
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
-            handle { performanceInteractor.loadData() }
+            //handle { performanceInteractor.loadData() }
         }
     }
 

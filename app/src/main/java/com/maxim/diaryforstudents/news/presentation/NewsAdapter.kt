@@ -8,6 +8,7 @@ import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.BaseNewsBinding
 import com.maxim.diaryforstudents.databinding.EmptyNewsBinding
 import com.maxim.diaryforstudents.databinding.FailureNewsBinding
+import com.maxim.diaryforstudents.databinding.NewsMainLayourBinding
 
 class NewsAdapter(
     private val listener: Listener
@@ -16,6 +17,21 @@ class NewsAdapter(
 
     abstract class ItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
         open fun bind(item: NewsUi) {}
+    }
+
+    class MainViewHolder(
+        private val binding: NewsMainLayourBinding,
+        private val listener: Listener
+    ) : ItemViewHolder(binding) {
+        override fun bind(item: NewsUi) {
+            item.showTitle(binding.titleTextView)
+            item.showContent(binding.contentTextView)
+            item.showImage(binding.imageView)
+            item.showDate(binding.dateTextView)
+            itemView.setOnClickListener {
+                listener.open(item)
+            }
+        }
     }
 
     class BaseViewHolder(
@@ -46,7 +62,8 @@ class NewsAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (list[position] is NewsUi.Base) 0 else if (list[position] is NewsUi.Empty) 1 else 2
+        return if (list[position] is NewsUi.Base) 0 else if (list[position] is NewsUi.Main) 1
+        else if (list[position] is NewsUi.Empty) 2 else 3
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -56,7 +73,12 @@ class NewsAdapter(
                 listener
             )
 
-            1 -> EmptyViewHolder(
+            1 -> MainViewHolder(
+                NewsMainLayourBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener
+            )
+
+            2 -> EmptyViewHolder(
                 EmptyNewsBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
