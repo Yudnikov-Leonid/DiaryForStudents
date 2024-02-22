@@ -42,10 +42,14 @@ class PerformanceActualViewModel(
             communication.update(PerformanceState.Loading)
             if (!interactor.dataIsLoading {
                     quarter = interactor.currentQuarter()
-                    reload()
+                    handle ({ interactor.changeQuarter(quarter) } ) {
+                        reload()
+                    }
                 }) {
                 quarter = interactor.currentQuarter()
-                reload()
+                handle ({ interactor.changeQuarter(quarter) } ) {
+                    reload()
+                }
             }
         } else
             reload()

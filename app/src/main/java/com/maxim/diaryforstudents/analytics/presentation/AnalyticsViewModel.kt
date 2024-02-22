@@ -31,9 +31,13 @@ class AnalyticsViewModel(
         lessonName = analyticsStorage.read().first
         if (isFirstRun) {
             quarter = analyticsStorage.read().second
-            if (quarter == -1)
+            if (quarter == -1) {
+                handle({ interactor.changeQuarter(quarter) }) {
+                    reload()
+                }
                 quarter = interactor.currentQuarter()
-            reload()
+            } else
+                reload()
         }
     }
 
@@ -49,14 +53,21 @@ class AnalyticsViewModel(
 
     //not tested
     fun retry() {
-        handle ({ interactor.loadData() } ) {
+        handle({ interactor.loadData() }) {
             reload()
         }
     }
 
     override fun reload() {
         communication.update(AnalyticsState.Loading)
-        handle({ interactor.analytics(quarter, lessonName, interval, lessonName.isEmpty()) }) { list ->
+        handle({
+            interactor.analytics(
+                quarter,
+                lessonName,
+                interval,
+                lessonName.isEmpty()
+            )
+        }) { list ->
             if (list.first().message().isNotEmpty())
                 communication.update(AnalyticsState.Error(list.first().message()))
             else {
