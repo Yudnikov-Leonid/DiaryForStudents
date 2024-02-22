@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.performance.common.data
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
+import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import java.io.Serializable
 import java.util.Calendar
 
@@ -68,13 +69,26 @@ interface HandleResponse : SaveAndRestore {
                                 listOf(
                                     lesson.MARKS[i - 1].VALUE,
                                     lesson.MARKS[i].VALUE
-                                ), lesson.MARKS[i].DATE, lesson.SUBJECT_NAME
+                                ),
+                                listOf(
+                                    lesson.MARKS[i - 1].GRADE_TYPE_GUID?.let {
+                                        getMarkType(it)
+                                    } ?: MarkType.Current,
+                                    lesson.MARKS[i].GRADE_TYPE_GUID?.let {
+                                        getMarkType(it)
+                                    } ?: MarkType.Current
+                                ),
+                                lesson.MARKS[i].DATE,
+                                lesson.SUBJECT_NAME
                             )
                         )
                     } else {
                         marks.add(
                             PerformanceData.Mark(
                                 lesson.MARKS[i].VALUE,
+                                lesson.MARKS[i].GRADE_TYPE_GUID?.let {
+                                    getMarkType(it)
+                                } ?: MarkType.Current,
                                 lesson.MARKS[i].DATE,
                                 lesson.SUBJECT_NAME,
                                 false
@@ -103,6 +117,16 @@ interface HandleResponse : SaveAndRestore {
             }
         }
 
+        private fun getMarkType(value: String): MarkType {
+            return when (value) {
+                "12" -> MarkType.ControlTest
+                "24", "17", "16" -> MarkType.Test
+//                "17" -> MarkType.Practical
+//                "16" -> MarkType.Laboratory
+                else -> MarkType.Current
+            }
+        }
+
         override fun finalMarksLessons(lessons: List<PerformanceFinalLesson>): List<PerformanceData.Lesson> {
             lessons.forEach { lesson ->
                 lesson.PERIODS.forEachIndexed { i, period ->
@@ -117,6 +141,7 @@ interface HandleResponse : SaveAndRestore {
                         period.MARK?.let { mark ->
                             PerformanceData.Mark(
                                 mark.VALUE,
+                                MarkType.Current,
                                 period.GRADE_TYPE_GUID,
                                 lesson.NAME,
                                 true

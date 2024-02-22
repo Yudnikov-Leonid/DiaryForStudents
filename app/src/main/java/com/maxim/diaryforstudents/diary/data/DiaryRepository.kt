@@ -6,6 +6,7 @@ import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
+import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import java.util.Calendar
 
 interface DiaryRepository {
@@ -74,6 +75,7 @@ interface DiaryRepository {
                         lesson.MARKS?.map {
                             PerformanceData.Mark(
                                 it.VALUE,
+                                MarkType.Current,
                                 formattedDate,
                                 lesson.SUBJECT_NAME,
                                 false
@@ -141,6 +143,7 @@ interface DiaryRepository {
                         lesson.MARKS?.map {
                             PerformanceData.Mark(
                                 it.VALUE,
+                                MarkType.Current,
                                 formattedDate,
                                 lesson.SUBJECT_NAME,
                                 false

@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.domain
 
+import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class PerformanceDomainToUiMapper : PerformanceDomain.Mapper<PerformanceUi> {
@@ -29,12 +30,19 @@ class PerformanceDomainToUiMapper : PerformanceDomain.Mapper<PerformanceUi> {
 
     override fun map(message: String) = PerformanceUi.Error(message)
 
-    override fun map(mark: Int, date: String, lessonName: String, isFinal: Boolean) =
-        PerformanceUi.Mark(mark, date, lessonName, isFinal)
+    override fun map(
+        mark: Int,
+        type: MarkType,
+        date: String,
+        lessonName: String,
+        isFinal: Boolean
+    ): PerformanceUi =
+        PerformanceUi.Mark(mark, type, date, lessonName, isFinal)
 
     override fun map(
         marks: List<Int>,
+        types: List<MarkType>,
         date: String,
-        lessonName: String,
-    ) = PerformanceUi.SeveralMarks(marks, date, lessonName)
+        lessonName: String
+    ): PerformanceUi = PerformanceUi.SeveralMarks(marks, types, date, lessonName)
 }

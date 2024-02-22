@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class CalculateViewModel(
@@ -25,7 +26,7 @@ class CalculateViewModel(
     }
 
     fun add(value: Int) {
-        list.add(PerformanceUi.Mark(value, "12.34.5678", "", false))
+        list.add(PerformanceUi.Mark(value, MarkType.Current, "", "", false))
         sum += value
         reload()
     }

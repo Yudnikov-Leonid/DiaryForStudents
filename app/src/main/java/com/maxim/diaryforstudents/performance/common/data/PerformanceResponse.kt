@@ -16,5 +16,14 @@ data class CloudLesson(
 
 data class CloudMark(
     val DATE: String,
-    val VALUE: Int
+    val VALUE: Int,
+    val GRADE_TYPE_GUID: String?,
 ): Serializable
+
+/**
+ * 12 - Контрольная работа
+ * 30 - Текущая оценка
+ * 24 - Проверочная работа
+ * 17 - Практическая работа
+ * 16 - Лабораторная работа
+ */

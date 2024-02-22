@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.data
 
+import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import java.io.Serializable
 
 interface PerformanceData : Serializable {
@@ -23,8 +24,8 @@ interface PerformanceData : Serializable {
         ): T
 
         fun map(): T
-        fun map(mark: Int, date: String, lessonName: String, isFinal: Boolean): T
-        fun map(marks: List<Int>, date: String, lessonName: String): T
+        fun map(mark: Int, type: MarkType, date: String, lessonName: String, isFinal: Boolean): T
+        fun map(marks: List<Int>, types: List<MarkType>, date: String, lessonName: String): T
     }
 
     fun <T> map(mapper: Mapper<T>): T
@@ -59,18 +60,20 @@ interface PerformanceData : Serializable {
 
     data class Mark(
         private val mark: Int,
+        private val type: MarkType,
         private val date: String,
         private val lessonName: String,
         private val isFinal: Boolean
     ) : PerformanceData {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, date, lessonName, isFinal)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, type, date, lessonName, isFinal)
     }
 
     data class SeveralMarks(
         private val marks: List<Int>,
+        private val types: List<MarkType>,
         private val date: String,
         private val lessonName: String,
     ) : PerformanceData {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(marks, date, lessonName)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(marks, types, date, lessonName)
     }
 }

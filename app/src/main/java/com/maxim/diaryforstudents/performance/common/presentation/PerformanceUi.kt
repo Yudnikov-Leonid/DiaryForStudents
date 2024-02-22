@@ -26,6 +26,8 @@ interface PerformanceUi : Serializable {
     fun compare(value: Int): Boolean = false
     fun openDetails(listener: PerformanceMarksAdapter.Listener) {}
 
+    fun showType(view: View) {}
+
     suspend fun getLesson(
         interactor: PerformanceInteractor,
         mapper: DiaryDomain.Mapper<DiaryUi>
@@ -129,6 +131,7 @@ interface PerformanceUi : Serializable {
 
     data class Mark(
         private val mark: Int,
+        private val type: MarkType,
         private val date: String,
         private val lessonName: String,
         private val isFinal: Boolean
@@ -143,6 +146,10 @@ interface PerformanceUi : Serializable {
                 else -> R.color.black
             }
             textView.setTextColor(textView.context.getColor(color))
+        }
+
+        override fun showType(view: View) {
+            type.show(view)
         }
 
         override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
@@ -178,6 +185,7 @@ interface PerformanceUi : Serializable {
 
     data class SeveralMarks(
         private val marks: List<Int>,
+        private val types: List<MarkType>,
         private val date: String,
         private val lessonName: String,
     ) : PerformanceUi {
