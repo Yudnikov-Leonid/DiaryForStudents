@@ -1,23 +1,29 @@
 package com.maxim.diaryforstudents.login.data
 
 import com.maxim.diaryforstudents.BuildConfig
+import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.selectUser.data.SelectUserData
 import java.io.Serializable
 
-interface LoginRepository: SaveAndRestore {
+interface LoginRepository : SaveAndRestore {
     suspend fun login(login: String, password: String): LoginResult
     fun users(): List<SelectUserData>
     fun select(position: Int)
 
-    class Base(private val service: LoginService, private val eduUser: EduUser) :
+    class Base(
+        private val service: LoginService,
+        private val eduUser: EduUser,
+        private val simpleStorage: SimpleStorage
+    ) :
         LoginRepository {
         private val usersList = mutableListOf<LoginSchools>()
         private var cachedEmail = ""
 
         override suspend fun login(login: String, password: String): LoginResult {
+            simpleStorage.save("news_last_check", System.currentTimeMillis())
             return try {
                 val data = service.login(LoginBody(BuildConfig.API_KEY, login, password))
                 if (data.success) {
@@ -62,7 +68,9 @@ interface LoginRepository: SaveAndRestore {
         }
 
         override fun restore(bundleWrapper: BundleWrapper.Restore) {
-            usersList.addAll(bundleWrapper.restore<LoginUsersList>(RESTORE_KEY)?.list ?: emptyList())
+            usersList.addAll(
+                bundleWrapper.restore<LoginUsersList>(RESTORE_KEY)?.list ?: emptyList()
+            )
             cachedEmail = bundleWrapper.restore(EMAIL_RESTORE_KEY) ?: ""
         }
 
@@ -73,4 +81,4 @@ interface LoginRepository: SaveAndRestore {
     }
 }
 
-class LoginUsersList(val list: List<LoginSchools>): Serializable
+class LoginUsersList(val list: List<LoginSchools>) : Serializable
