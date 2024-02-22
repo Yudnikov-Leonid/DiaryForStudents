@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.news.presentation
 
+import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -50,7 +51,8 @@ abstract class NewsUi: Serializable {
         }
 
         override fun showContent(textView: TextView) {
-            textView.text = content
+            val text = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)
+            textView.text = text
         }
 
         override fun showImage(imageView: ImageView) {
