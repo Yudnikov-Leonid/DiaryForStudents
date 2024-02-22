@@ -28,7 +28,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         }
         binding.newsButton.setOnClickListener {
             viewModel.news()
-            binding.newNewsCounter.visibility = View.GONE
+            viewModel.reload()
         }
         binding.analyticsButton.setOnClickListener {
             viewModel.analytics()

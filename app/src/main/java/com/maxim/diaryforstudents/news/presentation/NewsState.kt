@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.news.presentation
 
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -16,24 +17,36 @@ interface NewsState : Serializable {
         importantAdapter: NewsAdapter,
         defaultAdapter: NewsAdapter,
         listener: NewsAdapter.Listener,
+    ) {}
+
+    fun show(
+        errorTextView: TextView,
+        retryButton: Button,
+        mainNewsLayout: View,
+        importantNewsLayout: View,
+        defaultNewsLayout: View,
         progressBar: ProgressBar
     )
 
     data class Error(
         private val message: String
     ): NewsState {
+
         override fun show(
+            errorTextView: TextView,
+            retryButton: Button,
             mainNewsLayout: View,
-            mainNewsImageView: ImageView,
-            mainNewsTitleTextView: TextView,
-            mainNewsContentTextView: TextView,
-            mainNewsTimeTextView: TextView,
-            importantAdapter: NewsAdapter,
-            defaultAdapter: NewsAdapter,
-            listener: NewsAdapter.Listener,
+            importantNewsLayout: View,
+            defaultNewsLayout: View,
             progressBar: ProgressBar
         ) {
-            TODO("Not yet implemented")
+            errorTextView.text = message
+            progressBar.visibility = View.GONE
+            errorTextView.visibility = View.VISIBLE
+            retryButton.visibility = View.VISIBLE
+            mainNewsLayout.visibility = View.GONE
+            importantNewsLayout.visibility = View.GONE
+            defaultNewsLayout.visibility = View.GONE
         }
     }
 
@@ -51,7 +64,6 @@ interface NewsState : Serializable {
             importantAdapter: NewsAdapter,
             defaultAdapter: NewsAdapter,
             listener: NewsAdapter.Listener,
-            progressBar: ProgressBar
         ) {
             mainNews.showFitImage(mainNewsImageView)
             mainNews.showTitle(mainNewsTitleTextView)
@@ -60,25 +72,43 @@ interface NewsState : Serializable {
             mainNewsLayout.setOnClickListener {
                 listener.open(mainNews)
             }
-            progressBar.visibility = View.GONE
             importantAdapter.update(importantNews)
             defaultAdapter.update(defaultNews)
+        }
+
+        override fun show(
+            errorTextView: TextView,
+            retryButton: Button,
+            mainNewsLayout: View,
+            importantNewsLayout: View,
+            defaultNewsLayout: View,
+            progressBar: ProgressBar
+        ) {
+            progressBar.visibility = View.GONE
+            errorTextView.visibility = View.GONE
+            retryButton.visibility = View.GONE
+            mainNewsLayout.visibility = View.VISIBLE
+            importantNewsLayout.visibility = View.VISIBLE
+            defaultNewsLayout.visibility = View.VISIBLE
         }
     }
 
     object Loading : NewsState {
+
         override fun show(
+            errorTextView: TextView,
+            retryButton: Button,
             mainNewsLayout: View,
-            mainNewsImageView: ImageView,
-            mainNewsTitleTextView: TextView,
-            mainNewsContentTextView: TextView,
-            mainNewsTimeTextView: TextView,
-            importantAdapter: NewsAdapter,
-            defaultAdapter: NewsAdapter,
-            listener: NewsAdapter.Listener,
+            importantNewsLayout: View,
+            defaultNewsLayout: View,
             progressBar: ProgressBar
         ) {
             progressBar.visibility = View.VISIBLE
+            errorTextView.visibility = View.GONE
+            retryButton.visibility = View.GONE
+            mainNewsLayout.visibility = View.GONE
+            importantNewsLayout.visibility = View.GONE
+            defaultNewsLayout.visibility = View.GONE
         }
     }
 }

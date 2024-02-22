@@ -2,8 +2,9 @@ package com.maxim.diaryforstudents.menu.presentation
 
 import android.view.View
 import android.widget.TextView
+import java.io.Serializable
 
-interface MenuState {
+interface MenuState: Serializable {
     fun show(textView: TextView)
 
     data class Initial(private val newNewsCount: Int): MenuState {

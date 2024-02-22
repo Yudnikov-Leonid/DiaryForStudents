@@ -9,6 +9,7 @@ interface NewsData {
     fun <T> map(mapper: Mapper<T>): T
 
     fun hasChecked(lastCheck: Long): Boolean = true
+    fun latest(item: NewsData): NewsData = Empty
 
     data class Base(
         private val title: String,
@@ -19,6 +20,10 @@ interface NewsData {
         override fun <T> map(mapper: Mapper<T>) = mapper.map(title, content, date, photoUrl)
 
         override fun hasChecked(lastCheck: Long) = date > lastCheck
+
+        override fun latest(item: NewsData): NewsData {
+            return if (item is Base && item.date > date) item else this
+        }
     }
 
     object Empty : NewsData {

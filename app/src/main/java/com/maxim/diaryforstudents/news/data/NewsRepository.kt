@@ -9,6 +9,7 @@ interface NewsRepository {
     fun defaultNews(): List<NewsData>
     fun init(reload: ReloadWithError)
 
+    fun checkNews()
     fun checkNewNews(): Int
 
     class Base(
@@ -16,7 +17,7 @@ interface NewsRepository {
         private val simpleStorage: SimpleStorage
     ) : NewsRepository {
         override fun mainNews(): NewsData = try {
-            dataSource.data(0).first()
+            dataSource.data(0).first().latest(dataSource.data(1).first())
         } catch (e: Exception) {
             NewsData.Empty
         }
@@ -36,14 +37,17 @@ interface NewsRepository {
         }
 
         override fun init(reload: ReloadWithError) {
-            simpleStorage.save(LAST_CHECK, System.currentTimeMillis())
             dataSource.init(reload)
         }
 
-        override fun checkNewNews() = dataSource.checkNewNews(simpleStorage.read(LAST_CHECK, 0L))
+        override fun checkNews() {
+            simpleStorage.save(LAST_CHECK, System.currentTimeMillis())
+        }
+
+        override fun checkNewNews() = dataSource.checkNewNews(simpleStorage.read(LAST_CHECK, Long.MAX_VALUE))
 
         companion object {
-            private const val LAST_CHECK = "news_last_check"
+            const val LAST_CHECK = "news_last_check"
         }
     }
 }

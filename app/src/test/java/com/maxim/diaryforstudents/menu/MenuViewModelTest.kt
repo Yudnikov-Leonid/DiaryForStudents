@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.menu
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.analytics.presentation.AnalyticsScreen
+import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeNavigation
@@ -83,6 +84,7 @@ class MenuViewModelTest {
     @Test
     fun test_news() {
         viewModel.news()
+        newsRepository.checkCheckNewsCalledTimes(1)
         navigation.checkCalledTimes(1)
         navigation.checkCalledWith(NewsScreen)
     }
@@ -99,8 +101,10 @@ class MenuViewModelTest {
         val bundleWrapper = FakeBundleWrapper()
         viewModel.save(bundleWrapper)
         performanceInteractor.checkSaveCalledTimes(1)
+        communication.checkSaveCalledTimes(1)
         viewModel.restore(bundleWrapper)
         performanceInteractor.checkRestoreCalledTimes(1)
+        communication.checkRestoreCalledTimes(1)
     }
 }
 
@@ -121,5 +125,27 @@ private class FakeMenuCommunication: MenuCommunication {
 
     override fun observe(owner: LifecycleOwner, observer: Observer<MenuState>) {
         throw IllegalStateException("not using in tests")
+    }
+
+    private var bundleWrapper: BundleWrapper.Mutable? = null
+    private var saveCounter = 0
+    private var restoreCounter = 0
+
+    fun checkSaveCalledTimes(expected: Int) {
+        assertEquals(expected, saveCounter)
+    }
+
+    fun checkRestoreCalledTimes(expected: Int) {
+        assertEquals(expected, restoreCounter)
+    }
+
+    override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
+        this.bundleWrapper = bundleWrapper as BundleWrapper.Mutable
+        saveCounter++
+    }
+
+    override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
+        assertEquals(bundleWrapper, this.bundleWrapper)
+        restoreCounter++
     }
 }

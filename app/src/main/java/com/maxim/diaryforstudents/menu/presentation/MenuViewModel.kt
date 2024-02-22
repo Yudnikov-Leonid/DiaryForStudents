@@ -28,7 +28,7 @@ class MenuViewModel(
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             handle {
-                performanceInteractor.loadData()
+                //performanceInteractor.loadData()
                 newsRepository.init(this)
             }
         }
@@ -47,6 +47,7 @@ class MenuViewModel(
     }
 
     fun news() {
+        newsRepository.checkNews()
         navigation.update(NewsScreen)
     }
 
@@ -56,10 +57,12 @@ class MenuViewModel(
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
         performanceInteractor.save(bundleWrapper)
+        communication.save(RESTORE_KEY, bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         performanceInteractor.restore(bundleWrapper)
+        communication.restore(RESTORE_KEY, bundleWrapper)
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<MenuState>) {
@@ -70,5 +73,9 @@ class MenuViewModel(
 
     override fun reload() {
         communication.update(MenuState.Initial(newsRepository.checkNewNews()))
+    }
+
+    companion object {
+        private const val RESTORE_KEY = "menu_restore_key"
     }
 }

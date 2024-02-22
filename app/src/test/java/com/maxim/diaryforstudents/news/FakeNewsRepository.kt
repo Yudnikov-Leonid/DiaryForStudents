@@ -3,7 +3,7 @@ package com.maxim.diaryforstudents.news
 import com.maxim.diaryforstudents.core.presentation.ReloadWithError
 import com.maxim.diaryforstudents.news.data.NewsData
 import com.maxim.diaryforstudents.news.data.NewsRepository
-import junit.framework.TestCase
+import junit.framework.TestCase.assertEquals
 
 class FakeNewsRepository : NewsRepository {
     private var counter = 0
@@ -25,16 +25,24 @@ class FakeNewsRepository : NewsRepository {
     }
 
     fun checkCalledTimes(expected: Int) {
-        TestCase.assertEquals(expected, counter)
+        assertEquals(expected, counter)
     }
 
     fun checkCalledWith(expected: ReloadWithError) {
-        TestCase.assertEquals(expected, reload)
+        assertEquals(expected, reload)
     }
 
     override fun init(reload: ReloadWithError) {
         counter++
         this.reload = reload
+    }
+
+    private var checkNewsCounter = 0
+    fun checkCheckNewsCalledTimes(expected: Int) {
+        assertEquals(expected, checkNewsCounter)
+    }
+    override fun checkNews() {
+        checkNewsCounter++
     }
 
     private var checkNewNewsValue = 0

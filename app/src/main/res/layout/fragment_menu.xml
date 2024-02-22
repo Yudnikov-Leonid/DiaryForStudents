@@ -176,17 +176,19 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textStyle="bold"
                 android:id="@+id/newNewsCounter"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                tools:text="5"
                 android:layout_gravity="end"
                 android:background="@drawable/round_button"
                 android:backgroundTint="@color/red"
-                android:textSize="16sp"/>
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="5"
+                tools:visibility="visible" />
 
         </FrameLayout>
 

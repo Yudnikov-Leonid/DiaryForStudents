@@ -56,6 +56,7 @@ class NewsViewModel(
     }
 
     override fun goBack() {
+        repository.checkNews()
         navigation.update(Screen.Pop)
         clear.clearViewModel(NewsViewModel::class.java)
     }

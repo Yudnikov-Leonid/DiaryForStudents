@@ -71,8 +71,6 @@ abstract class NewsUi: Serializable {
                 imageView.visibility = View.GONE
         }
 
-
-
         override fun same(item: NewsUi) =
             item is Base && item.title == title
 

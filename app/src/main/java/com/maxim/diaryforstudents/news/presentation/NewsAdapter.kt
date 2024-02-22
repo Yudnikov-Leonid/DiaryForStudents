@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.maxim.diaryforstudents.databinding.BaseNewsBinding
 import com.maxim.diaryforstudents.databinding.EmptyNewsBinding
-import com.maxim.diaryforstudents.databinding.FailureNewsBinding
 
 class NewsAdapter(
     private val listener: Listener
@@ -33,20 +32,8 @@ class NewsAdapter(
 
     class EmptyViewHolder(binding: EmptyNewsBinding) : ItemViewHolder(binding)
 
-    class FailureViewHolder(
-        private val binding: FailureNewsBinding,
-        private val listener: Listener
-    ) : ItemViewHolder(binding) {
-        override fun bind(item: NewsUi) {
-            item.showTitle(binding.errorTextView)
-            binding.retryButton.setOnClickListener {
-                listener.retry()
-            }
-        }
-    }
-
     override fun getItemViewType(position: Int): Int {
-        return if (list[position] is NewsUi.Base) 0 else if (list[position] is NewsUi.Empty) 1 else 2
+        return if (list[position] is NewsUi.Base) 0 else 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -56,17 +43,12 @@ class NewsAdapter(
                 listener
             )
 
-            1 -> EmptyViewHolder(
+            else -> EmptyViewHolder(
                 EmptyNewsBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-            )
-
-            else -> FailureViewHolder(
-                FailureNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-                listener
             )
         }
     }
@@ -86,7 +68,6 @@ class NewsAdapter(
     }
 
     interface Listener {
-        fun retry()
         fun open(value: NewsUi)
     }
 }

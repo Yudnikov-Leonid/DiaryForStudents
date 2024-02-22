@@ -91,6 +91,7 @@ class NewsViewModelTest {
     @Test
     fun test_back() {
         viewModel.goBack()
+        repository.checkCheckNewsCalledTimes(1)
         navigation.checkCalledWith(Screen.Pop)
         clear.checkCalledWith(NewsViewModel::class.java)
         order.check(listOf(NAVIGATION, CLEAR))

@@ -25,10 +25,6 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
 
         val listener = object : NewsAdapter.Listener {
-            override fun retry() {
-                viewModel.init(true)
-            }
-
             override fun open(value: NewsUi) {
                 viewModel.open(value)
             }
@@ -38,6 +34,10 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
         val defaultAdapter = NewsAdapter(listener)
         binding.defaultNewsRecyclerView.adapter = defaultAdapter
+
+        binding.retryButton.setOnClickListener {
+            viewModel.init(true)
+        }
 
         viewModel.observe(this) {
             it.show(
@@ -49,6 +49,13 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
                 importantAdapter,
                 defaultAdapter,
                 listener,
+            )
+            it.show(
+                binding.errorTextView,
+                binding.retryButton,
+                binding.mainNews,
+                binding.importantNews,
+                binding.defaultNews,
                 binding.progressBar
             )
         }
