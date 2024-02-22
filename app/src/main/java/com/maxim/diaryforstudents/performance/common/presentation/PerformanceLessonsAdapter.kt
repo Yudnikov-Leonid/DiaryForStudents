@@ -13,7 +13,7 @@ class PerformanceLessonsAdapter(
     private val listener: Listener,
     private val markListener: PerformanceMarksAdapter.Listener
 ) : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
-    private val list = mutableListOf<PerformanceUi>()
+    private var list = mutableListOf<PerformanceUi>()
     private var progressType: ProgressType = ProgressType.AWeekAgo
 
     abstract class ItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -69,14 +69,13 @@ class PerformanceLessonsAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun update(newList: List<PerformanceUi.Lesson>, progressType: ProgressType) {
+    fun update(newList: List<PerformanceUi>, progressType: ProgressType) {
         if (this.progressType != progressType) {
             this.progressType = progressType
             list.clear()
             list.addAll(newList)
             notifyDataSetChanged()
         } else {
-            this.progressType = progressType
             val diff = PerformanceDiffUtil(list, newList)
             val result = DiffUtil.calculateDiff(diff)
             list.clear()

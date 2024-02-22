@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.data
 
+import android.util.Log
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
@@ -120,9 +121,9 @@ interface HandleResponse : SaveAndRestore {
         private fun getMarkType(value: String): MarkType {
             return when (value) {
                 "12" -> MarkType.ControlTest
-                "24", "17", "16" -> MarkType.Test
-//                "17" -> MarkType.Practical
-//                "16" -> MarkType.Laboratory
+                "24" -> MarkType.Test
+                "17" -> MarkType.Practical
+                "16" -> MarkType.Laboratory
                 else -> MarkType.Current
             }
         }
@@ -133,6 +134,8 @@ interface HandleResponse : SaveAndRestore {
                     averageMap[Pair(lesson.SYS_GUID, i + 1)] = period.AVERAGE
                 }
             }
+
+            Log.d("MyLog", "add to averageMap, now size is: ${averageMap.size}")
 
             return lessons.map { lesson ->
                 PerformanceData.Lesson(

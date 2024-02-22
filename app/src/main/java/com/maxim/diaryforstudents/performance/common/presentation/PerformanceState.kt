@@ -54,7 +54,6 @@ interface PerformanceState: Serializable {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     data class Base(
         private val quarter: Int,
         private val lessons: List<PerformanceUi>,
@@ -73,7 +72,7 @@ interface PerformanceState: Serializable {
             retryButton: Button,
             progressBar: ProgressBar
         ) {
-            adapter.update(lessons as List<PerformanceUi.Lesson>, progressType)
+            adapter.update(lessons, progressType)
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE

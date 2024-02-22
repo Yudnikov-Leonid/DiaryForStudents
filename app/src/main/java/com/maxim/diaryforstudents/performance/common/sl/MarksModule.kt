@@ -17,31 +17,28 @@ interface MarksModule {
     fun marksInteractor(): PerformanceInteractor
 
     class Base(private val core: Core) : MarksModule {
-        private var marksInteractor: PerformanceInteractor? = null
-
-        override fun marksInteractor(): PerformanceInteractor {
-            if (marksInteractor == null) {
-                marksInteractor = PerformanceInteractor.Base(
-                    PerformanceRepository.Base(
-                        PerformanceCloudDataSource.Base(
-                            core.retrofit().create(PerformanceService::class.java),
-                            core.eduUser(),
-                        ),
-                        HandleResponse.Base()
-                    ),
-                    core.simpleStorage(),
-                    FailureHandler.Base(),
-                    PerformanceDataToDomainMapper(),
-                    DiaryRepository.Base(
-                        core.retrofit().create(DiaryService::class.java),
-                        Formatter.Base,
+        private val marksInteractor by lazy {
+            PerformanceInteractor.Base(
+                PerformanceRepository.Base(
+                    PerformanceCloudDataSource.Base(
+                        core.retrofit().create(PerformanceService::class.java),
                         core.eduUser(),
-                        core.simpleStorage()
                     ),
-                    DiaryDataToDomainMapper(PerformanceDataToDomainMapper())
-                )
-            }
-            return marksInteractor!!
+                    HandleResponse.Base()
+                ),
+                core.simpleStorage(),
+                FailureHandler.Base(),
+                PerformanceDataToDomainMapper(),
+                DiaryRepository.Base(
+                    core.retrofit().create(DiaryService::class.java),
+                    Formatter.Base,
+                    core.eduUser(),
+                    core.simpleStorage()
+                ),
+                DiaryDataToDomainMapper(PerformanceDataToDomainMapper())
+            )
         }
+
+        override fun marksInteractor() = marksInteractor
     }
 }

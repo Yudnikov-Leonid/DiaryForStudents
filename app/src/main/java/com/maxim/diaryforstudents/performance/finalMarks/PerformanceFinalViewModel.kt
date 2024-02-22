@@ -21,7 +21,7 @@ class PerformanceFinalViewModel(
 
     override fun reload() {
         communication.update(PerformanceState.Loading)
-        if (!interactor.dataIsEmpty { super.reload() })
+        if (!interactor.dataIsLoading { super.reload() })
             super.reload()
     }
 

@@ -33,7 +33,7 @@ interface PerformanceInteractor : SaveAndRestore {
     suspend fun getLessonByMark(lessonName: String, date: String): DiaryDomain.Lesson
     suspend fun changeQuarter(quarter: Int)
 
-    fun dataIsEmpty(callback: () -> Unit): Boolean
+    fun dataIsLoading(callback: () -> Unit): Boolean
 
     class Base(
         private val repository: PerformanceRepository,
@@ -139,18 +139,12 @@ interface PerformanceInteractor : SaveAndRestore {
             repository.changeQuarter(quarter)
         }
 
-        override fun dataIsEmpty(callback: () -> Unit): Boolean {
-            if (dataIsLoading) {
+        override fun dataIsLoading(callback: () -> Unit): Boolean {
+            return if (dataIsLoading) {
                 finalLoadCallbackList.add(callback)
-                return true
-            }
-            val data = repository.cachedData().map { it.map(mapper) }
-            val isEmpty =
-                if (data.isEmpty()) true
-                else data.first().message().isNotEmpty()
-            if (isEmpty)
-                finalLoadCallbackList.add(callback)
-            return isEmpty
+                true
+            } else
+                false
         }
 
         override fun save(bundleWrapper: BundleWrapper.Save) {

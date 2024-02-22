@@ -19,7 +19,7 @@ class PerformanceMarksAdapter(
             binding.dateTextView.visibility = if (showDate) View.VISIBLE else View.GONE
             item.showName(binding.markTextView)
             item.showDate(binding.dateTextView)
-            item.showType(binding.root)
+            //item.showType(binding.root)
             itemView.setOnClickListener {
                 item.openDetails(listener)
             }

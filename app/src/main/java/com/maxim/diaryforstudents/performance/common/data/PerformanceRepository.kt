@@ -42,6 +42,7 @@ interface PerformanceRepository : SaveAndRestore {
             responseCache.clear()
             finalResponseCache.clear()
             finalCache.clear()
+            cache.clear()
             loadException = null
 
             try {

@@ -3,8 +3,9 @@ package com.maxim.diaryforstudents.performance.common.presentation
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import com.maxim.diaryforstudents.R
+import java.io.Serializable
 
-interface MarkType {
+interface MarkType: Serializable {
     fun show(view: View)
 
     object ControlTest : MarkType {

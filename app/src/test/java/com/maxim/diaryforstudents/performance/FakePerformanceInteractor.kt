@@ -114,7 +114,7 @@ class FakePerformanceInteractor : PerformanceInteractor {
         dataIsEmptyCallback?.invoke()
     }
 
-    override fun dataIsEmpty(callback: () -> Unit): Boolean {
+    override fun dataIsLoading(callback: () -> Unit): Boolean {
         dataIsEmptyCallback = callback
         return dataIsEmptyValue
     }
