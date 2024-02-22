@@ -28,7 +28,7 @@ class MenuViewModel(
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             handle {
-                //performanceInteractor.loadData()
+                performanceInteractor.loadData()
                 newsRepository.init(this)
             }
         }
@@ -66,9 +66,7 @@ class MenuViewModel(
         communication.observe(owner, observer)
     }
 
-    override fun error(message: String) {
-        TODO("Not yet implemented")
-    }
+    override fun error(message: String) = Unit
 
     override fun reload() {
         communication.update(MenuState.Initial(newsRepository.checkNewNews()))

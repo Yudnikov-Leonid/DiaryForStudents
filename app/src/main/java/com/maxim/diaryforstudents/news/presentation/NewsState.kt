@@ -19,6 +19,24 @@ interface NewsState : Serializable {
         progressBar: ProgressBar
     )
 
+    data class Error(
+        private val message: String
+    ): NewsState {
+        override fun show(
+            mainNewsLayout: View,
+            mainNewsImageView: ImageView,
+            mainNewsTitleTextView: TextView,
+            mainNewsContentTextView: TextView,
+            mainNewsTimeTextView: TextView,
+            importantAdapter: NewsAdapter,
+            defaultAdapter: NewsAdapter,
+            listener: NewsAdapter.Listener,
+            progressBar: ProgressBar
+        ) {
+            TODO("Not yet implemented")
+        }
+    }
+
     data class Base(
         private val mainNews: NewsUi,
         private val importantNews: List<NewsUi>,

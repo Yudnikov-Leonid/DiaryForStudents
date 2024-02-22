@@ -1,22 +1,31 @@
 package com.maxim.diaryforstudents.menu
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.analytics.presentation.AnalyticsScreen
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.fakes.FakeNavigation
 import com.maxim.diaryforstudents.fakes.FakeRunAsync
 import com.maxim.diaryforstudents.fakes.Order
+import com.maxim.diaryforstudents.menu.presentation.MenuCommunication
+import com.maxim.diaryforstudents.menu.presentation.MenuState
 import com.maxim.diaryforstudents.menu.presentation.MenuViewModel
+import com.maxim.diaryforstudents.news.FakeNewsRepository
 import com.maxim.diaryforstudents.news.presentation.NewsScreen
 import com.maxim.diaryforstudents.performance.FakePerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceScreen
 import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
+import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.lang.IllegalStateException
 
 class MenuViewModelTest {
     private lateinit var navigation: FakeNavigation
     private lateinit var performanceInteractor: FakePerformanceInteractor
+    private lateinit var newsRepository: FakeNewsRepository
+    private lateinit var communication: FakeMenuCommunication
     private lateinit var viewModel: MenuViewModel
     private lateinit var runAsync: FakeRunAsync
 
@@ -25,16 +34,29 @@ class MenuViewModelTest {
         navigation = FakeNavigation(Order())
         performanceInteractor = FakePerformanceInteractor()
         runAsync = FakeRunAsync()
-        viewModel = MenuViewModel(performanceInteractor, navigation, runAsync)
+        communication = FakeMenuCommunication()
+        newsRepository = FakeNewsRepository()
+        viewModel = MenuViewModel(communication, performanceInteractor, newsRepository, navigation, runAsync)
     }
 
     @Test
     fun test_init() {
         viewModel.init(true)
         performanceInteractor.checkLoadDataCalledTimes(1)
+        newsRepository.checkCalledTimes(1)
+        newsRepository.checkCalledWith(viewModel)
 
         viewModel.init(false)
         performanceInteractor.checkLoadDataCalledTimes(1)
+        newsRepository.checkCalledTimes(1)
+    }
+
+    @Test
+    fun test_reload() {
+        newsRepository.checkNewNewsMustReturn(5)
+        viewModel.reload()
+        communication.checkCalledTimes(1)
+        communication.checkCalledWith(MenuState.Initial(5))
     }
 
     @Test
@@ -79,5 +101,25 @@ class MenuViewModelTest {
         performanceInteractor.checkSaveCalledTimes(1)
         viewModel.restore(bundleWrapper)
         performanceInteractor.checkRestoreCalledTimes(1)
+    }
+}
+
+private class FakeMenuCommunication: MenuCommunication {
+    private val list = mutableListOf<MenuState>()
+
+    fun checkCalledTimes(expected: Int) {
+        assertEquals(expected, list.size)
+    }
+
+    fun checkCalledWith(expected: MenuState) {
+        assertEquals(expected, list.last())
+    }
+
+    override fun update(value: MenuState) {
+        list.add(value)
+    }
+
+    override fun observe(owner: LifecycleOwner, observer: Observer<MenuState>) {
+        throw IllegalStateException("not using in tests")
     }
 }

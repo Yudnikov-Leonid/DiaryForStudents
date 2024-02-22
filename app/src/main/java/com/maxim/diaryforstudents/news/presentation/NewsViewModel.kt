@@ -52,7 +52,7 @@ class NewsViewModel(
     }
 
     override fun error(message: String) {
-        //communication.update(NewsState.Base(listOf(NewsUi.Failure(message))))
+        communication.update(NewsState.Error(message))
     }
 
     override fun goBack() {

@@ -132,6 +132,6 @@
     <string name="select_user">Выберите пользователя</string>
     <string name="news_title">Новости</string>
     <string name="latest_news">Последняя новость</string>
-    <string name="important_news">Важные</string>
-    <string name="interesting_news">Интересные</string>
+    <string name="important_news">Важно</string>
+    <string name="interesting_news">Интересно</string>
 </resources>
