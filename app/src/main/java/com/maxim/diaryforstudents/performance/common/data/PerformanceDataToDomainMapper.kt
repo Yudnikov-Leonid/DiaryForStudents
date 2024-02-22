@@ -30,15 +30,17 @@ class PerformanceDataToDomainMapper : PerformanceData.Mapper<PerformanceDomain> 
         type: MarkType,
         date: String,
         lessonName: String,
-        isFinal: Boolean
+        isFinal: Boolean,
+        isChecked: Boolean
     ): PerformanceDomain =
-        PerformanceDomain.Mark(mark, type, date, lessonName, isFinal)
+        PerformanceDomain.Mark(mark, type, date, lessonName, isFinal, isChecked)
 
     override fun map(
         marks: List<Int>,
         types: List<MarkType>,
         date: String,
-        lessonName: String
+        lessonName: String,
+        isChecked: Boolean
     ): PerformanceDomain =
-        PerformanceDomain.SeveralMarks(marks, types, date, lessonName)
+        PerformanceDomain.SeveralMarks(marks, types, date, lessonName, isChecked)
 }

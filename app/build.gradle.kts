@@ -1,10 +1,11 @@
-import java.util.Properties
 import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -25,7 +26,11 @@ android {
         properties.load(FileInputStream(project.rootProject.file("keys.properties")))
 
         buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
-        buildConfigField("String", "SHORT_API_KEY", "\"${properties.getProperty("SHORT_API_KEY")}\"")
+        buildConfigField(
+            "String",
+            "SHORT_API_KEY",
+            "\"${properties.getProperty("SHORT_API_KEY")}\""
+        )
     }
 
     buildTypes {
@@ -55,6 +60,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 
     implementation("net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3")
     implementation("com.squareup.picasso:picasso:2.8")

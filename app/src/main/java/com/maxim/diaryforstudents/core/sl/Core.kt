@@ -1,6 +1,8 @@
 package com.maxim.diaryforstudents.core.sl
 
 import android.content.Context
+import androidx.room.Room
+import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Navigation
@@ -8,10 +10,10 @@ import com.maxim.diaryforstudents.core.service.CoroutineHandler
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
-import com.maxim.diaryforstudents.openNews.OpenNewsStorage
-import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.data.LoginService
+import com.maxim.diaryforstudents.openNews.OpenNewsStorage
+import com.maxim.diaryforstudents.performance.common.room.PerformanceDatabase
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,7 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
-    ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, com.maxim.diaryforstudents.core.sl.LoginRepository{
+    ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, ProvideLoginRepository,
+    ProvidePerformanceDatabase {
 
     class Base(private val context: Context) : Core {
 
@@ -66,13 +69,19 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private var loginRepository: LoginRepository? = null
         override fun loginRepository(): LoginRepository {
             if (loginRepository == null)
-                loginRepository = LoginRepository.Base(retrofit.create(LoginService::class.java), eduUser)
+                loginRepository =
+                    LoginRepository.Base(retrofit.create(LoginService::class.java), eduUser)
             return loginRepository!!
         }
 
         override fun clearLoginRepository() {
             loginRepository = null
         }
+
+        private val database by lazy {
+            Room.databaseBuilder(context, PerformanceDatabase::class.java, "performance_database").build()
+        }
+        override fun performanceDatabase() = database
 
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
@@ -129,7 +138,11 @@ interface ProvideAnalyticsStorage {
     fun analyticsStorage(): AnalyticsStorage.Mutable
 }
 
-interface LoginRepository {
+interface ProvideLoginRepository {
     fun loginRepository(): LoginRepository
     fun clearLoginRepository()
+}
+
+interface ProvidePerformanceDatabase {
+    fun performanceDatabase(): PerformanceDatabase
 }

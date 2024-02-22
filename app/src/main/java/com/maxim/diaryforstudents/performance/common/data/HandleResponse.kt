@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.performance.common.data
 
-import android.util.Log
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
@@ -11,6 +10,7 @@ import java.util.Calendar
 interface HandleResponse : SaveAndRestore {
     fun lessons(
         lessons: List<CloudLesson>,
+        checkedMarks: Map<String, List<CloudMark>>,
         calculateProgress: Boolean,
         quarter: Int
     ): List<PerformanceData.Lesson>
@@ -36,6 +36,7 @@ interface HandleResponse : SaveAndRestore {
 
         override fun lessons(
             lessons: List<CloudLesson>,
+            checkedMarks: Map<String, List<CloudMark>>,
             calculateProgress: Boolean,
             quarter: Int
         ): List<PerformanceData.Lesson> {
@@ -80,7 +81,8 @@ interface HandleResponse : SaveAndRestore {
                                     } ?: MarkType.Current
                                 ),
                                 lesson.MARKS[i].DATE,
-                                lesson.SUBJECT_NAME
+                                lesson.SUBJECT_NAME,
+                                checkedMarks[lesson.SUBJECT_NAME]?.contains(lesson.MARKS[i]) ?: true
                             )
                         )
                     } else {
@@ -92,7 +94,8 @@ interface HandleResponse : SaveAndRestore {
                                 } ?: MarkType.Current,
                                 lesson.MARKS[i].DATE,
                                 lesson.SUBJECT_NAME,
-                                false
+                                false,
+                                checkedMarks[lesson.SUBJECT_NAME]?.contains(lesson.MARKS[i]) ?: true
                             )
                         )
                     }
@@ -135,8 +138,6 @@ interface HandleResponse : SaveAndRestore {
                 }
             }
 
-            Log.d("MyLog", "add to averageMap, now size is: ${averageMap.size}")
-
             return lessons.map { lesson ->
                 PerformanceData.Lesson(
                     lesson.NAME,
@@ -147,7 +148,8 @@ interface HandleResponse : SaveAndRestore {
                                 MarkType.Current,
                                 period.GRADE_TYPE_GUID,
                                 lesson.NAME,
-                                true
+                                isFinal =  true,
+                                isChecked = true
                             )
                         }
                     }, 0,

@@ -20,6 +20,7 @@ class PerformanceMarksAdapter(
             item.showName(binding.markTextView)
             item.showDate(binding.dateTextView)
             //item.showType(binding.root)
+            item.showIsChecked(binding.root)
             itemView.setOnClickListener {
                 item.openDetails(listener)
             }

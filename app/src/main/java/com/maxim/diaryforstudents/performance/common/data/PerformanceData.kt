@@ -24,8 +24,8 @@ interface PerformanceData : Serializable {
         ): T
 
         fun map(): T
-        fun map(mark: Int, type: MarkType, date: String, lessonName: String, isFinal: Boolean): T
-        fun map(marks: List<Int>, types: List<MarkType>, date: String, lessonName: String): T
+        fun map(mark: Int, type: MarkType, date: String, lessonName: String, isFinal: Boolean, isChecked: Boolean): T
+        fun map(marks: List<Int>, types: List<MarkType>, date: String, lessonName: String, isChecked: Boolean): T
     }
 
     fun <T> map(mapper: Mapper<T>): T
@@ -63,9 +63,10 @@ interface PerformanceData : Serializable {
         private val type: MarkType,
         private val date: String,
         private val lessonName: String,
-        private val isFinal: Boolean
+        private val isFinal: Boolean,
+        private val isChecked: Boolean
     ) : PerformanceData {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, type, date, lessonName, isFinal)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, type, date, lessonName, isFinal, isChecked)
     }
 
     data class SeveralMarks(
@@ -73,7 +74,8 @@ interface PerformanceData : Serializable {
         private val types: List<MarkType>,
         private val date: String,
         private val lessonName: String,
+        private val isChecked: Boolean
     ) : PerformanceData {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(marks, types, date, lessonName)
+        override fun <T> map(mapper: Mapper<T>) = mapper.map(marks, types, date, lessonName, isChecked)
     }
 }

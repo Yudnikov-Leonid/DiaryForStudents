@@ -3,6 +3,8 @@ package com.maxim.diaryforstudents.performance.common.data
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
+import com.maxim.diaryforstudents.performance.common.room.MarkRoom
+import com.maxim.diaryforstudents.performance.common.room.PerformanceDao
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -26,7 +28,8 @@ interface PerformanceRepository : SaveAndRestore {
 
     class Base(
         private val cloudDataSource: PerformanceCloudDataSource,
-        private val handleResponse: HandleResponse
+        private val handleResponse: HandleResponse,
+        private val dao: PerformanceDao
     ) : PerformanceRepository {
         private var loadException: Exception? = null
 
@@ -34,6 +37,8 @@ interface PerformanceRepository : SaveAndRestore {
         private val cache = mutableListOf<PerformanceData>()
         private val finalCache = mutableListOf<PerformanceData>()
         private val finalResponseCache = mutableListOf<PerformanceFinalLesson>()
+
+        private val checkedMarksCache: MutableMap<String, MutableList<CloudMark>> = mutableMapOf()
 
         private val periods = mutableListOf<Pair<String, String>>()
         private var currentQuarter = 1
@@ -44,6 +49,13 @@ interface PerformanceRepository : SaveAndRestore {
             finalCache.clear()
             cache.clear()
             loadException = null
+
+            checkedMarksCache.clear()
+            dao.checkedMarks().forEach {
+                if (checkedMarksCache[it.lessonName] == null)
+                    checkedMarksCache[it.lessonName] = ArrayList()
+                checkedMarksCache[it.lessonName]!!.add(CloudMark(it.date, it.value, it.markType))
+            }
 
             try {
                 if (periods.isEmpty()) {
@@ -64,8 +76,31 @@ interface PerformanceRepository : SaveAndRestore {
 
                 finalCache.addAll(handleResponse.finalMarksLessons(finalResponseCache))
                 cache.addAll(
-                    handleResponse.lessons(responseCache[currentQuarter]!!, true, currentQuarter)
+                    handleResponse.lessons(
+                        responseCache[currentQuarter]!!,
+                        checkedMarksCache,
+                        true,
+                        currentQuarter
+                    )
                 )
+                val checkedMarks = mutableListOf<MarkRoom>()
+                responseCache[currentQuarter]!!.forEach { lesson ->
+                    lesson.MARKS.forEach {
+                        checkedMarks.add(
+                            MarkRoom(
+                                "${lesson.SUBJECT_NAME}-${it.DATE}",
+                                it.VALUE,
+                                it.DATE,
+                                lesson.SUBJECT_NAME,
+                                it.GRADE_TYPE_GUID
+                            )
+                        )
+                    }
+                }
+                dao.clearAll()
+                checkedMarks.forEach {
+                    dao.insert(it)
+                }
             } catch (e: Exception) {
                 loadException = e
             }
@@ -118,7 +153,9 @@ interface PerformanceRepository : SaveAndRestore {
                 cache.addAll(
                     handleResponse.lessons(
                         responseCache[quarter]!!,
-                        quarter == currentQuarter(), quarter
+                        checkedMarksCache,
+                        quarter == currentQuarter(),
+                        quarter
                     )
                 )
             } catch (e: Exception) {

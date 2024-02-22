@@ -6,6 +6,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
@@ -27,6 +28,7 @@ interface PerformanceUi : Serializable {
     fun openDetails(listener: PerformanceMarksAdapter.Listener) {}
 
     fun showType(view: View) {}
+    fun showIsChecked(view: View) {}
 
     suspend fun getLesson(
         interactor: PerformanceInteractor,
@@ -134,7 +136,8 @@ interface PerformanceUi : Serializable {
         private val type: MarkType,
         private val date: String,
         private val lessonName: String,
-        private val isFinal: Boolean
+        private val isFinal: Boolean,
+        private val isChecked: Boolean
     ) : PerformanceUi {
         override fun showName(textView: TextView) {
             textView.text = mark.toString()
@@ -150,6 +153,19 @@ interface PerformanceUi : Serializable {
 
         override fun showType(view: View) {
             type.show(view)
+        }
+
+        override fun showIsChecked(view: View) {
+            view.background = if (isChecked) ResourcesCompat.getDrawable(
+                view.resources,
+                R.drawable.mark_current,
+                view.context.theme
+            ) else
+                ResourcesCompat.getDrawable(
+                    view.resources,
+                    R.drawable.mark_control_test,
+                    view.context.theme
+                )
         }
 
         override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
@@ -188,6 +204,7 @@ interface PerformanceUi : Serializable {
         private val types: List<MarkType>,
         private val date: String,
         private val lessonName: String,
+        private val isChecked: Boolean
     ) : PerformanceUi {
         override fun same(item: PerformanceUi) = item is SeveralMarks && item.date == date
 
@@ -195,6 +212,19 @@ interface PerformanceUi : Serializable {
 
         override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
             listener.details(this)
+        }
+
+        override fun showIsChecked(view: View) {
+            view.background = if (isChecked) ResourcesCompat.getDrawable(
+                view.resources,
+                R.drawable.mark_current,
+                view.context.theme
+            ) else
+                ResourcesCompat.getDrawable(
+                    view.resources,
+                    R.drawable.mark_control_test,
+                    view.context.theme
+                )
         }
 
         override fun showName(textView: TextView) {

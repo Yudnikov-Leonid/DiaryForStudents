@@ -24,7 +24,8 @@ interface MarksModule {
                         core.retrofit().create(PerformanceService::class.java),
                         core.eduUser(),
                     ),
-                    HandleResponse.Base()
+                    HandleResponse.Base(),
+                    core.performanceDatabase().dao()
                 ),
                 core.simpleStorage(),
                 FailureHandler.Base(),

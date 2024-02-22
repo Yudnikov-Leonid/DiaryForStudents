@@ -78,7 +78,8 @@ interface DiaryRepository {
                                 MarkType.Current,
                                 formattedDate,
                                 lesson.SUBJECT_NAME,
-                                false
+                                false,
+                                true
                             )
                         }
                             ?: emptyList(),
@@ -146,7 +147,8 @@ interface DiaryRepository {
                                 MarkType.Current,
                                 formattedDate,
                                 lesson.SUBJECT_NAME,
-                                false
+                                false,
+                                true
                             )
                         }
                             ?: emptyList(),

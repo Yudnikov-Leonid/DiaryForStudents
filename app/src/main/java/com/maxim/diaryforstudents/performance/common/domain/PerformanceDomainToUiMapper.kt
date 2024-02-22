@@ -35,14 +35,16 @@ class PerformanceDomainToUiMapper : PerformanceDomain.Mapper<PerformanceUi> {
         type: MarkType,
         date: String,
         lessonName: String,
-        isFinal: Boolean
+        isFinal: Boolean,
+        isChecked: Boolean
     ): PerformanceUi =
-        PerformanceUi.Mark(mark, type, date, lessonName, isFinal)
+        PerformanceUi.Mark(mark, type, date, lessonName, isFinal, isChecked)
 
     override fun map(
         marks: List<Int>,
         types: List<MarkType>,
         date: String,
-        lessonName: String
-    ): PerformanceUi = PerformanceUi.SeveralMarks(marks, types, date, lessonName)
+        lessonName: String,
+        isChecked: Boolean
+    ): PerformanceUi = PerformanceUi.SeveralMarks(marks, types, date, lessonName, isChecked)
 }
