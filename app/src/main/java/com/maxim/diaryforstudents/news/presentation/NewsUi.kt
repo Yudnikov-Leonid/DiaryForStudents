@@ -28,7 +28,7 @@ abstract class NewsUi: Serializable {
         private val photoUrl: String
     ) : NewsUi() {
         override fun showTitle(textView: TextView) {
-            textView.text = title
+            textView.text = Html.fromHtml(title, Html.FROM_HTML_MODE_LEGACY)
         }
 
         override fun showDate(textView: TextView) {
@@ -36,7 +36,7 @@ abstract class NewsUi: Serializable {
         }
 
         override fun share(share: Share) {
-            share.share("$title\n\n$content")
+            share.share("$title\n\n${Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)}")
         }
 
         override fun showTime(textView: TextView) {
