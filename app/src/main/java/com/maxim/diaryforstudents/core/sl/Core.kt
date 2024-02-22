@@ -66,7 +66,7 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private var loginRepository: LoginRepository? = null
         override fun loginRepository(): LoginRepository {
             if (loginRepository == null)
-                loginRepository = LoginRepository.Base(retrofit.create(LoginService::class.java), eduUser)
+                loginRepository = LoginRepository.Base(retrofit.create(LoginService::class.java), eduUser, simpleStorage)
             return loginRepository!!
         }
 

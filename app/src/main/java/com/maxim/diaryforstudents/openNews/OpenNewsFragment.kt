@@ -1,15 +1,17 @@
 package com.maxim.diaryforstudents.openNews
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentOpenNewsBinding
 
-class OpenNewsFragment : BaseFragment<FragmentOpenNewsBinding, OpenNewsViewModel>() {
+class OpenNewsFragment : BaseFragment<FragmentOpenNewsBinding, OpenNewsViewModel>(), Share {
     override val viewModelClass: Class<OpenNewsViewModel>
         get() = OpenNewsViewModel::class.java
 
@@ -30,6 +32,14 @@ class OpenNewsFragment : BaseFragment<FragmentOpenNewsBinding, OpenNewsViewModel
             data.showImage(binding.newsImage)
         }
 
+        binding.backButton.setOnClickListener {
+            viewModel.goBack()
+        }
+
+        binding.shareButton.setOnClickListener {
+            viewModel.share(this)
+        }
+
         viewModel.init(savedInstanceState == null)
     }
 
@@ -42,4 +52,21 @@ class OpenNewsFragment : BaseFragment<FragmentOpenNewsBinding, OpenNewsViewModel
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(savedInstanceState)) }
     }
+
+    override fun share(content: String) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+        }
+        intent.putExtra(Intent.EXTRA_TEXT, content)
+        startActivity(
+            Intent.createChooser(
+                intent,
+                requireContext().getString(R.string.send_to)
+            )
+        )
+    }
+}
+
+interface Share {
+    fun share(content: String)
 }

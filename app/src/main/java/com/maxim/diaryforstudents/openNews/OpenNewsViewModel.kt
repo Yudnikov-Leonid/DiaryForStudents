@@ -25,6 +25,10 @@ class OpenNewsViewModel(
             mutableLiveData.value = data.read()
     }
 
+    fun share(share: Share) {
+        data.read().share(share)
+    }
+
     override fun goBack() {
         navigation.update(Screen.Pop)
         clear.clearViewModel(OpenNewsViewModel::class.java)

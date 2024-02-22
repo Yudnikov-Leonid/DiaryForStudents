@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import com.maxim.diaryforstudents.openNews.Share
 import com.squareup.picasso.Picasso
 import java.io.Serializable
 
@@ -17,6 +18,8 @@ abstract class NewsUi: Serializable {
     abstract fun same(item: NewsUi): Boolean
     open fun sameContent(item: NewsUi): Boolean = false
 
+    open fun share(share: Share) {}
+
     data class Base(
         private val title: String,
         private val content: String,
@@ -29,6 +32,10 @@ abstract class NewsUi: Serializable {
 
         override fun showDate(textView: TextView) {
             textView.text = Formatter.Base.day((date / 86400000).toInt())
+        }
+
+        override fun share(share: Share) {
+            share.share("$title\n\n$content")
         }
 
         override fun showTime(textView: TextView) {
