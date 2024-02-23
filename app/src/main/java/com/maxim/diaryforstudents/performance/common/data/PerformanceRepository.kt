@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.performance.common.data
 
-import android.util.Log
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
@@ -94,7 +93,6 @@ interface PerformanceRepository : SaveAndRestore {
                 marksSet.forEach {
                     dao.insert(MarkRoom(it))
                 }
-                Log.d("MyLog", "setSize: ${marksSet.size}, checkedMarksSize: ${checkedMarksCache.size}")
                 newMarksCount = if (checkedMarksCache.isEmpty()) 0 else marksSet.size - checkedMarksCache.size
 
             } catch (e: Exception) {
@@ -139,6 +137,8 @@ interface PerformanceRepository : SaveAndRestore {
                 ?: finalCache.ifEmpty { listOf(PerformanceData.Empty) }
 
         override suspend fun changeQuarter(quarter: Int) {
+            if (periods.isEmpty()) return
+
             loadException = null
             cache.clear()
             try {
