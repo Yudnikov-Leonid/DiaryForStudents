@@ -82,7 +82,7 @@ interface HandleResponse : SaveAndRestore {
                                 ),
                                 lesson.MARKS[i].DATE,
                                 lesson.SUBJECT_NAME,
-                                checkedMarks.contains("${lesson.SUBJECT_NAME}-${lesson.MARKS[i].DATE}")
+                                if (checkedMarks.isNotEmpty()) checkedMarks.contains("${lesson.SUBJECT_SYS_GUID}-${lesson.MARKS[i].DATE}") else true
                             )
                         )
                     } else {
@@ -95,7 +95,7 @@ interface HandleResponse : SaveAndRestore {
                                 lesson.MARKS[i].DATE,
                                 lesson.SUBJECT_NAME,
                                 false,
-                                checkedMarks.contains("${lesson.SUBJECT_NAME}-${lesson.MARKS[i].DATE}")
+                                if (checkedMarks.isNotEmpty()) checkedMarks.contains("${lesson.SUBJECT_SYS_GUID}-${lesson.MARKS[i].DATE}") else true
                             )
                         )
                     }
@@ -148,7 +148,7 @@ interface HandleResponse : SaveAndRestore {
                                 MarkType.Current,
                                 period.GRADE_TYPE_GUID,
                                 lesson.NAME,
-                                isFinal =  true,
+                                isFinal = true,
                                 isChecked = true
                             )
                         }

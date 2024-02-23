@@ -25,11 +25,14 @@ class MenuViewModel(
     private val navigation: Navigation.Update,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Init, SaveAndRestore, Communication.Observe<MenuState>, ReloadWithError {
+    private var newMarksCount = 0
+
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             handle {
                 performanceInteractor.loadData()
                 newsRepository.init(this)
+                newMarksCount = performanceInteractor.newMarksCount()
             }
         }
     }
@@ -39,6 +42,8 @@ class MenuViewModel(
     }
 
     fun performance() {
+        newMarksCount = 0
+        reload()
         navigation.update(PerformanceScreen)
     }
 
@@ -72,7 +77,7 @@ class MenuViewModel(
     override fun error(message: String) = Unit
 
     override fun reload() {
-        communication.update(MenuState.Initial(performanceInteractor.newMarksCount(), newsRepository.checkNewNews()))
+        communication.update(MenuState.Initial(newMarksCount, newsRepository.checkNewNews()))
     }
 
     companion object {

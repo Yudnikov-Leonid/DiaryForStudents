@@ -26,7 +26,7 @@ class CalculateViewModel(
     }
 
     fun add(value: Int) {
-        list.add(PerformanceUi.Mark(value, MarkType.Current, "", "", false, isChecked = true))
+        list.add(PerformanceUi.Mark(value, MarkType.Current, "12.34.5678", "", false, isChecked = true))
         sum += value
         reload()
     }

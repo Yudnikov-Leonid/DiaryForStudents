@@ -88,14 +88,14 @@ interface PerformanceRepository : SaveAndRestore {
                 val marksSet = mutableSetOf<String>()
                 responseCache[currentQuarter]!!.forEach { lesson ->
                     lesson.MARKS.forEach {
-                        marksSet.add("${lesson.SUBJECT_NAME}-${it.DATE}")
+                        marksSet.add("${lesson.SUBJECT_SYS_GUID}-${it.DATE}")
                     }
                 }
                 marksSet.forEach {
                     dao.insert(MarkRoom(it))
                 }
                 Log.d("MyLog", "setSize: ${marksSet.size}, checkedMarksSize: ${checkedMarksCache.size}")
-                newMarksCount = marksSet.size - checkedMarksCache.size
+                newMarksCount = if (checkedMarksCache.isEmpty()) 0 else marksSet.size - checkedMarksCache.size
 
             } catch (e: Exception) {
                 loadException = e
