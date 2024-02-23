@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.data
 
+import android.util.Log
 import com.maxim.diaryforstudents.analytics.data.AnalyticsData
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
@@ -26,6 +27,8 @@ interface PerformanceRepository : SaveAndRestore {
 
     fun currentQuarter(): Int
 
+    fun newMarksCount(): Int
+
     class Base(
         private val cloudDataSource: PerformanceCloudDataSource,
         private val handleResponse: HandleResponse,
@@ -42,6 +45,8 @@ interface PerformanceRepository : SaveAndRestore {
 
         private val periods = mutableListOf<Pair<String, String>>()
         private var currentQuarter = 1
+
+        private var newMarksCount = 0
 
         override suspend fun loadData() {
             responseCache.clear()
@@ -80,11 +85,18 @@ interface PerformanceRepository : SaveAndRestore {
                     )
                 )
                 dao.clearAll()
+                val marksSet = mutableSetOf<String>()
                 responseCache[currentQuarter]!!.forEach { lesson ->
                     lesson.MARKS.forEach {
-                        dao.insert(MarkRoom("${lesson.SUBJECT_NAME}-${it.DATE}"))
+                        marksSet.add("${lesson.SUBJECT_NAME}-${it.DATE}")
                     }
                 }
+                marksSet.forEach {
+                    dao.insert(MarkRoom(it))
+                }
+                Log.d("MyLog", "setSize: ${marksSet.size}, checkedMarksSize: ${checkedMarksCache.size}")
+                newMarksCount = marksSet.size - checkedMarksCache.size
+
             } catch (e: Exception) {
                 loadException = e
             }
@@ -137,7 +149,7 @@ interface PerformanceRepository : SaveAndRestore {
                 cache.addAll(
                     handleResponse.lessons(
                         responseCache[quarter]!!,
-                        checkedMarksCache,
+                        if (quarter == currentQuarter) checkedMarksCache else emptyList(),
                         quarter == currentQuarter(),
                         quarter
                     )
@@ -179,6 +191,8 @@ interface PerformanceRepository : SaveAndRestore {
         }
 
         override fun currentQuarter() = currentQuarter
+
+        override fun newMarksCount() = newMarksCount
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
             bundleWrapper.save(

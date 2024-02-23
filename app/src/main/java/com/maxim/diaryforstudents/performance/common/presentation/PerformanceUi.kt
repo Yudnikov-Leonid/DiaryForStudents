@@ -217,7 +217,7 @@ interface PerformanceUi : Serializable {
         }
 
         override fun showIsChecked(view: View) {
-            val drawable = if (isChecked) R.drawable.mark_current else when(marks.last()) {
+            val drawable = if (isChecked) R.drawable.mark_current else when(marks.min()) {
                 1,2 -> R.drawable.new_mark_2
                 3 -> R.drawable.new_mark_3
                 4 -> R.drawable.new_mark_4

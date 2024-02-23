@@ -82,7 +82,7 @@ interface HandleResponse : SaveAndRestore {
                                 ),
                                 lesson.MARKS[i].DATE,
                                 lesson.SUBJECT_NAME,
-                                checkedMarks.contains("${lesson.SUBJECT_NAME}-${lesson.MARKS[i]}")
+                                checkedMarks.contains("${lesson.SUBJECT_NAME}-${lesson.MARKS[i].DATE}")
                             )
                         )
                     } else {

@@ -35,6 +35,8 @@ interface PerformanceInteractor : SaveAndRestore {
 
     fun dataIsLoading(callback: () -> Unit): Boolean
 
+    fun newMarksCount(): Int
+
     class Base(
         private val repository: PerformanceRepository,
         private val simpleStorage: SimpleStorage,
@@ -146,6 +148,8 @@ interface PerformanceInteractor : SaveAndRestore {
             } else
                 false
         }
+
+        override fun newMarksCount() = repository.newMarksCount()
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
             repository.save(bundleWrapper)

@@ -35,7 +35,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         }
 
         viewModel.observe(this) {
-            it.show(binding.newNewsCounter)
+            it.showNewsCount(binding.newNewsCounter)
+            it.showMarksCount(binding.newMarksCounter)
         }
 
         viewModel.init(savedInstanceState == null)

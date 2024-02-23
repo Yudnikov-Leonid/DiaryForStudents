@@ -72,7 +72,7 @@ class MenuViewModel(
     override fun error(message: String) = Unit
 
     override fun reload() {
-        communication.update(MenuState.Initial(newsRepository.checkNewNews()))
+        communication.update(MenuState.Initial(performanceInteractor.newMarksCount(), newsRepository.checkNewNews()))
     }
 
     companion object {
