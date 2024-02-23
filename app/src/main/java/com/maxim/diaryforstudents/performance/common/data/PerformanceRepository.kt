@@ -38,7 +38,7 @@ interface PerformanceRepository : SaveAndRestore {
         private val finalCache = mutableListOf<PerformanceData>()
         private val finalResponseCache = mutableListOf<PerformanceFinalLesson>()
 
-        private val checkedMarksCache: MutableMap<String, MutableList<CloudMark>> = mutableMapOf()
+        private val checkedMarksCache = mutableListOf<String>()
 
         private val periods = mutableListOf<Pair<String, String>>()
         private var currentQuarter = 1
@@ -51,11 +51,7 @@ interface PerformanceRepository : SaveAndRestore {
             loadException = null
 
             checkedMarksCache.clear()
-            dao.checkedMarks().forEach {
-                if (checkedMarksCache[it.lessonName] == null)
-                    checkedMarksCache[it.lessonName] = ArrayList()
-                checkedMarksCache[it.lessonName]!!.add(CloudMark(it.date, it.value, it.markType))
-            }
+            checkedMarksCache.addAll(dao.checkedMarks().map { it.id })
 
             try {
                 if (periods.isEmpty()) {
@@ -83,23 +79,11 @@ interface PerformanceRepository : SaveAndRestore {
                         currentQuarter
                     )
                 )
-                val checkedMarks = mutableListOf<MarkRoom>()
+                dao.clearAll()
                 responseCache[currentQuarter]!!.forEach { lesson ->
                     lesson.MARKS.forEach {
-                        checkedMarks.add(
-                            MarkRoom(
-                                "${lesson.SUBJECT_NAME}-${it.DATE}",
-                                it.VALUE,
-                                it.DATE,
-                                lesson.SUBJECT_NAME,
-                                it.GRADE_TYPE_GUID
-                            )
-                        )
+                        dao.insert(MarkRoom("${lesson.SUBJECT_NAME}-${it.DATE}"))
                     }
-                }
-                dao.clearAll()
-                checkedMarks.forEach {
-                    dao.insert(it)
                 }
             } catch (e: Exception) {
                 loadException = e

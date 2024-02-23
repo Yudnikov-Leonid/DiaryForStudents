@@ -156,16 +156,18 @@ interface PerformanceUi : Serializable {
         }
 
         override fun showIsChecked(view: View) {
-            view.background = if (isChecked) ResourcesCompat.getDrawable(
+            val drawable = if (isChecked) R.drawable.mark_current else when(mark) {
+                1,2 -> R.drawable.new_mark_2
+                3 -> R.drawable.new_mark_3
+                4 -> R.drawable.new_mark_4
+                5 -> R.drawable.new_mark_5
+                else -> R.drawable.new_mark_unknown
+            }
+            view.background = ResourcesCompat.getDrawable(
                 view.resources,
-                R.drawable.mark_current,
+                drawable,
                 view.context.theme
-            ) else
-                ResourcesCompat.getDrawable(
-                    view.resources,
-                    R.drawable.mark_control_test,
-                    view.context.theme
-                )
+            )
         }
 
         override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
@@ -215,16 +217,18 @@ interface PerformanceUi : Serializable {
         }
 
         override fun showIsChecked(view: View) {
-            view.background = if (isChecked) ResourcesCompat.getDrawable(
+            val drawable = if (isChecked) R.drawable.mark_current else when(marks.last()) {
+                1,2 -> R.drawable.new_mark_2
+                3 -> R.drawable.new_mark_3
+                4 -> R.drawable.new_mark_4
+                5 -> R.drawable.new_mark_5
+                else -> R.drawable.new_mark_unknown
+            }
+            view.background = ResourcesCompat.getDrawable(
                 view.resources,
-                R.drawable.mark_current,
+                drawable,
                 view.context.theme
-            ) else
-                ResourcesCompat.getDrawable(
-                    view.resources,
-                    R.drawable.mark_control_test,
-                    view.context.theme
-                )
+            )
         }
 
         override fun showName(textView: TextView) {

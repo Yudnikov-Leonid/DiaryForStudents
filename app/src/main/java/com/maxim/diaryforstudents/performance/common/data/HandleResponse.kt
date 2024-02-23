@@ -10,7 +10,7 @@ import java.util.Calendar
 interface HandleResponse : SaveAndRestore {
     fun lessons(
         lessons: List<CloudLesson>,
-        checkedMarks: Map<String, List<CloudMark>>,
+        checkedMarks: List<String>,
         calculateProgress: Boolean,
         quarter: Int
     ): List<PerformanceData.Lesson>
@@ -36,7 +36,7 @@ interface HandleResponse : SaveAndRestore {
 
         override fun lessons(
             lessons: List<CloudLesson>,
-            checkedMarks: Map<String, List<CloudMark>>,
+            checkedMarks: List<String>,
             calculateProgress: Boolean,
             quarter: Int
         ): List<PerformanceData.Lesson> {
@@ -82,7 +82,7 @@ interface HandleResponse : SaveAndRestore {
                                 ),
                                 lesson.MARKS[i].DATE,
                                 lesson.SUBJECT_NAME,
-                                checkedMarks[lesson.SUBJECT_NAME]?.contains(lesson.MARKS[i]) ?: true
+                                checkedMarks.contains("${lesson.SUBJECT_NAME}-${lesson.MARKS[i]}")
                             )
                         )
                     } else {
@@ -95,7 +95,7 @@ interface HandleResponse : SaveAndRestore {
                                 lesson.MARKS[i].DATE,
                                 lesson.SUBJECT_NAME,
                                 false,
-                                checkedMarks[lesson.SUBJECT_NAME]?.contains(lesson.MARKS[i]) ?: true
+                                checkedMarks.contains("${lesson.SUBJECT_NAME}-${lesson.MARKS[i].DATE}")
                             )
                         )
                     }
