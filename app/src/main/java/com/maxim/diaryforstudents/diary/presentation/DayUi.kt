@@ -32,6 +32,23 @@ data class DayUi(
         )
     }
 
+    fun setWeekendSelectedColor(textView: TextView, dayNameTextView: TextView) {
+        textView.background =
+            if (isSelected) ContextCompat.getDrawable(textView.context, R.drawable.day) else null
+        textView.setTextColor(
+            ContextCompat.getColor(
+                textView.context,
+                if (isSelected) R.color.white else R.color.red
+            )
+        )
+        dayNameTextView.setTextColor(
+            ContextCompat.getColor(
+                textView.context,
+                if (isSelected) R.color.red else R.color.dark_gray
+            )
+        )
+    }
+
     fun showDate(textView: TextView) {
         textView.text = Formatter.Base.format("dd", date)
     }

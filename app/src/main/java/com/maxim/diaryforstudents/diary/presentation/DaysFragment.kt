@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
+import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.databinding.FragmentDaysBinding
@@ -18,6 +20,10 @@ class DaysFragment: BaseFragment<FragmentDaysBinding, DaysViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val color = ContextCompat.getColor(requireContext(), R.color.red)
+        binding.dateTextViewSix.setTextColor(color)
+        binding.dateTextViewSeven.setTextColor(color)
+
         val days = mutableListOf<DayUi>()
         (0..6).forEachIndexed { i, _ ->
             days.add(requireArguments().getSerializable("$KEY$i") as DayUi)
@@ -62,14 +68,14 @@ class DaysFragment: BaseFragment<FragmentDaysBinding, DaysViewModel>() {
 
         days[5].showDayOfTheWeek(binding.dayTextViewSix)
         days[5].showDate(binding.dateTextViewSix)
-        days[5].setSelectedColor(binding.dateTextViewSix, binding.dayTextViewSix)
+        days[5].setWeekendSelectedColor(binding.dateTextViewSix, binding.dayTextViewSix)
         binding.dayItemViewSix.setOnClickListener {
             days[5].selectDay(onClick)
         }
 
         days[6].showDayOfTheWeek(binding.dayTextViewSeven)
         days[6].showDate(binding.dateTextViewSeven)
-        days[6].setSelectedColor(binding.dateTextViewSeven, binding.dayTextViewSeven)
+        days[6].setWeekendSelectedColor(binding.dateTextViewSeven, binding.dayTextViewSeven)
         binding.dayItemViewSeven.setOnClickListener {
             days[6].selectDay(onClick)
         }
