@@ -11,12 +11,14 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
 import java.util.Calendar
+import kotlin.math.absoluteValue
 
 class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
     override val viewModelClass: Class<DiaryViewModel>
@@ -39,13 +41,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             }
         })
         binding.lessonsRecyclerView.adapter = lessonsAdapter
-
-        val daysAdapter = DiaryDaysAdapter(object : DiaryDaysAdapter.Listener {
-            override fun selectDay(day: Int) {
-                viewModel.setActualDay(day)
-            }
-        })
-        binding.daysRecyclerView.adapter = daysAdapter
 
         binding.retryButton.setOnClickListener {
             viewModel.reload(true)
@@ -137,6 +132,28 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             }, year, month, day).show()
         }
 
+        val daysAdapter = DaysAdapter(requireActivity())
+        binding.daysViewPager.adapter = daysAdapter
+        binding.daysViewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                if (positionOffset.absoluteValue < 0.1f) {
+                    if (position == 0)
+                        viewModel.previousWeek()
+                    else if (position == 2)
+                        viewModel.nextWeek()
+                }
+            }
+        })
+
         viewModel.observe(this) {
             it.show(
                 lessonsAdapter,
@@ -149,9 +166,9 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 binding.progressBar,
                 binding.errorTextView,
                 binding.retryButton,
-                binding.daysRecyclerView,
                 binding.lessonsRecyclerView,
             )
+            binding.daysViewPager.setCurrentItem(1, false)
         }
         viewModel.init(savedInstanceState == null)
     }

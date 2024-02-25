@@ -23,6 +23,8 @@ import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewM
 import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualModule
 import com.maxim.diaryforstudents.analytics.presentation.AnalyticsViewModel
 import com.maxim.diaryforstudents.analytics.sl.AnalyticsModule
+import com.maxim.diaryforstudents.diary.presentation.DaysModule
+import com.maxim.diaryforstudents.diary.presentation.DaysViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
 import com.maxim.diaryforstudents.performance.common.sl.PerformanceModule
 import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalViewModel
@@ -55,6 +57,7 @@ interface DependencyContainer {
             OpenNewsViewModel::class.java -> OpenNewsModule(core, clear)
             PerformanceCommonViewModel::class.java -> PerformanceModule(core, clear)
             DiaryViewModel::class.java -> DiaryModule(core, clear)
+            DaysViewModel::class.java -> DaysModule()
             LessonDetailsViewModel::class.java -> LessonDetailsModule(core, clear)
             CalculateViewModel::class.java -> CalculateModule(core, clear)
             ActualSettingsViewModel::class.java -> ActualSettingsModule(core, clear)

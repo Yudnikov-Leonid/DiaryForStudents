@@ -1,8 +1,7 @@
 package com.maxim.diaryforstudents.diary.presentation
 
-import android.content.res.Configuration
-import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import java.io.Serializable
@@ -10,24 +9,34 @@ import java.io.Serializable
 data class DayUi(
     private val date: Int,
     private val isSelected: Boolean
-): Serializable {
+) : Serializable {
     fun same(item: DayUi) = item.date == date
     fun showDayOfTheWeek(textView: TextView) {
         textView.text = Formatter.Base.format("EE", date)
     }
 
-    fun setSelectedColor(view: View) {
-        val color =
-            view.context.getColor(
-                if (isSelected) R.color.selected_button else R.color.light_background)
-        view.setBackgroundColor(color)
+    fun setSelectedColor(textView: TextView, dayNameTextView: TextView) {
+        textView.background =
+            if (isSelected) ContextCompat.getDrawable(textView.context, R.drawable.day) else null
+        textView.setTextColor(
+            ContextCompat.getColor(
+                textView.context,
+                if (isSelected) R.color.white else R.color.black
+            )
+        )
+        dayNameTextView.setTextColor(
+            ContextCompat.getColor(
+                textView.context,
+                if (isSelected) R.color.selected_button else R.color.dark_gray
+            )
+        )
     }
 
     fun showDate(textView: TextView) {
         textView.text = Formatter.Base.format("dd", date)
     }
 
-    fun selectDay(listener: DiaryDaysAdapter.Listener) {
+    fun selectDay(listener: DaysAdapter.Listener) {
         listener.selectDay(date)
     }
 }

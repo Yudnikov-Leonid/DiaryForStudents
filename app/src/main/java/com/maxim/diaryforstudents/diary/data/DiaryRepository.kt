@@ -10,7 +10,7 @@ import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import java.util.Calendar
 
 interface DiaryRepository {
-    fun dayList(today: Int): List<DayData>
+    fun dayLists(today: Int): Triple<List<DayData>, List<DayData>, List<DayData>>
     suspend fun day(date: Int): DiaryData.Day
     fun actualDate(): Int
     fun homeworks(date: Int): String
@@ -31,7 +31,7 @@ interface DiaryRepository {
     ) : DiaryRepository {
         private val cache = mutableMapOf<String, DiaryData.Day>()
 
-        override fun dayList(today: Int): List<DayData> {
+        override fun dayLists(today: Int): Triple<List<DayData>, List<DayData>, List<DayData>> {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = today * 86400000L
             val dayOfTheWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
@@ -44,7 +44,7 @@ interface DiaryRepository {
                 Calendar.SUNDAY -> 7
                 else -> 0
             }
-            return listOf(
+            val currentList = listOf(
                 DayData(today - dayOfTheWeek + 1, dayOfTheWeek == 1),
                 DayData(today - dayOfTheWeek + 2, dayOfTheWeek == 2),
                 DayData(today - dayOfTheWeek + 3, dayOfTheWeek == 3),
@@ -53,6 +53,27 @@ interface DiaryRepository {
                 DayData(today - dayOfTheWeek + 6, dayOfTheWeek == 6),
                 DayData(today - dayOfTheWeek + 7, dayOfTheWeek == 7),
             )
+
+            val nextList = listOf(
+                DayData(today - dayOfTheWeek + 8, false),
+                DayData(today - dayOfTheWeek + 9, false),
+                DayData(today - dayOfTheWeek + 10, false),
+                DayData(today - dayOfTheWeek + 11, false),
+                DayData(today - dayOfTheWeek + 12, false),
+                DayData(today - dayOfTheWeek + 13, false),
+                DayData(today - dayOfTheWeek + 14, false),
+            )
+
+            val previousList = listOf(
+                DayData(today - dayOfTheWeek - 6, false),
+                DayData(today - dayOfTheWeek - 5, false),
+                DayData(today - dayOfTheWeek - 4, false),
+                DayData(today - dayOfTheWeek - 3, false),
+                DayData(today - dayOfTheWeek - 2, false),
+                DayData(today - dayOfTheWeek - 1, false),
+                DayData(today - dayOfTheWeek, false),
+            )
+            return Triple(previousList, currentList, nextList)
         }
 
         override suspend fun day(date: Int): DiaryData.Day {

@@ -12,7 +12,7 @@ import java.util.Locale
 interface DiaryState : Serializable {
     fun show(
         lessonsAdapter: DiaryLessonsAdapter,
-        daysAdapter: DiaryDaysAdapter,
+        daysAdapter: DaysAdapter,
         shareHomework: ImageButton,
         filterTextView: TextView,
         homeworkType: TextView,
@@ -21,19 +21,21 @@ interface DiaryState : Serializable {
         progressBar: ProgressBar,
         errorTextView: TextView,
         retryButton: Button,
-        daysRecyclerView: View,
         lessonsRecyclerView: View
     )
 
     data class Base(
         private val day: DiaryUi,
-        private val days: List<DayUi>,
+        private val daysOne: List<DayUi>,
+        private val daysTwo: List<DayUi>,
+        private val daysThree: List<DayUi>,
+        private val listener: DaysAdapter.Listener,
         private val filterCount: Int,
         private val homeworkFrom: Boolean
     ) : DiaryState {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
-            daysAdapter: DiaryDaysAdapter,
+            daysAdapter: DaysAdapter,
             shareHomework: ImageButton,
             filterTextView: TextView,
             homeworkType: TextView,
@@ -42,7 +44,6 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
-            daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
             val resourceManager = shareHomework.resources
@@ -56,13 +57,12 @@ interface DiaryState : Serializable {
             )
             homeworkType.text = homeworkTypeText
             day.showLessons(lessonsAdapter, homeworkFrom)
-            daysAdapter.update(days)
+            daysAdapter.update(daysOne, daysTwo, daysThree, listener)
             day.showName(monthTitle)
             monthSelector.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
-            daysRecyclerView.visibility = View.VISIBLE
             lessonsRecyclerView.visibility = View.VISIBLE
             shareHomework.visibility = View.VISIBLE
             filterTextView.visibility = View.VISIBLE
@@ -73,7 +73,7 @@ interface DiaryState : Serializable {
     object Progress : DiaryState {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
-            daysAdapter: DiaryDaysAdapter,
+            daysAdapter: DaysAdapter,
             shareHomework: ImageButton,
             filterTextView: TextView,
             homeworkType: TextView,
@@ -82,14 +82,12 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
-            daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
             monthSelector.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
-            daysRecyclerView.visibility = View.GONE
             lessonsRecyclerView.visibility = View.GONE
             shareHomework.visibility = View.GONE
             filterTextView.visibility = View.GONE
@@ -100,7 +98,7 @@ interface DiaryState : Serializable {
     data class Error(private val message: String) : DiaryState {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
-            daysAdapter: DiaryDaysAdapter,
+            daysAdapter: DaysAdapter,
             shareHomework: ImageButton,
             filterTextView: TextView,
             homeworkType: TextView,
@@ -109,7 +107,6 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
-            daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
             monthSelector.visibility = View.GONE
@@ -117,7 +114,6 @@ interface DiaryState : Serializable {
             retryButton.visibility = View.VISIBLE
             errorTextView.visibility = View.VISIBLE
             errorTextView.text = message
-            daysRecyclerView.visibility = View.GONE
             lessonsRecyclerView.visibility = View.GONE
             shareHomework.visibility = View.GONE
             filterTextView.visibility = View.GONE

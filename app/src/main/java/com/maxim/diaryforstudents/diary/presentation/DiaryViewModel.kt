@@ -52,18 +52,18 @@ class DiaryViewModel(
         actualDay = bundleWrapper.restore(ACTUAL_DAY_RESTORE_KEY) ?: interactor.actualDate()
     }
 
-    fun nextDay() {
-        actualDay++
-        reload(false)
-    }
-
-    fun previousDay() {
-        actualDay--
-        reload(false)
-    }
-
     fun setActualDay(day: Int) {
         actualDay = day
+        reload(false)
+    }
+
+    fun nextWeek() {
+        actualDay += 7
+        reload(false)
+    }
+
+    fun previousWeek() {
+        actualDay -= 7
         reload(false)
     }
 
@@ -128,10 +128,18 @@ class DiaryViewModel(
             }
             if (filters.size >= 4)
                 filteredDay = filteredDay.filter(filters[3])
+            val days = interactor.dayLists(actualDay)
             communication.update(
                 DiaryState.Base(
                     filteredDay,
-                    interactor.dayList(actualDay).map { it.map(dayMapper) },
+                    days.first.map { it.map(dayMapper) },
+                    days.second.map { it.map(dayMapper) },
+                    days.third.map { it.map(dayMapper) },
+                    object : DaysAdapter.Listener {
+                        override fun selectDay(day: Int) {
+                            setActualDay(day)
+                        }
+                    },
                     checks.filter { it }.size + if (nameFilter.isNotEmpty()) 1 else 0,
                     interactor.homeworkFrom()
                 ),

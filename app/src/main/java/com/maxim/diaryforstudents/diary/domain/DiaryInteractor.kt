@@ -6,7 +6,7 @@ import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 
 interface DiaryInteractor {
-    fun dayList(today: Int): List<DayDomain>
+    fun dayLists(today: Int): Triple<List<DayDomain>, List<DayDomain>, List<DayDomain>>
     suspend fun day(date: Int): DiaryDomain
     fun actualDate(): Int
     fun homeworks(date: Int): String
@@ -23,8 +23,12 @@ interface DiaryInteractor {
         private val mapper: DiaryData.Mapper<DiaryDomain>,
         private val dayMapper: DayData.Mapper<DayDomain>
     ) : DiaryInteractor {
-        override fun dayList(today: Int): List<DayDomain> {
-            return repository.dayList(today).map { it.map(dayMapper) }
+        override fun dayLists(today: Int): Triple<List<DayDomain>, List<DayDomain>, List<DayDomain>> {
+            val data = repository.dayLists(today)
+            return Triple(
+                data.first.map { it.map(dayMapper) },
+                data.second.map { it.map(dayMapper) },
+                data.third.map { it.map(dayMapper) })
         }
 
         override suspend fun day(date: Int): DiaryDomain {
