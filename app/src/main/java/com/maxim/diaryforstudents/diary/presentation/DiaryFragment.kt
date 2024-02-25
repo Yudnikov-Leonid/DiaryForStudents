@@ -47,12 +47,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         })
         binding.daysRecyclerView.adapter = daysAdapter
 
-        binding.moveLeftButton.setOnClickListener {
-            viewModel.previousDay()
-        }
-        binding.moveRightButton.setOnClickListener {
-            viewModel.nextDay()
-        }
         binding.retryButton.setOnClickListener {
             viewModel.reload(true)
         }
@@ -155,8 +149,6 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 binding.progressBar,
                 binding.errorTextView,
                 binding.retryButton,
-                binding.moveLeftButton,
-                binding.moveRightButton,
                 binding.daysRecyclerView,
                 binding.lessonsRecyclerView,
             )

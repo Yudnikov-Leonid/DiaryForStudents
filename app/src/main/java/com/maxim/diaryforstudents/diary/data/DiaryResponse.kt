@@ -11,6 +11,7 @@ data class DiaryResponse(
 data class DiaryLesson(
     val SUBJECT_NAME: String,
     val TEACHER_NAME: String,
+    val LESSON_NUMBER: Int,
     val LESSON_TIME_BEGIN: String,
     val LESSON_TIME_END: String,
     val TOPIC: String?,

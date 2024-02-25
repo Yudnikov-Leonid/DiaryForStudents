@@ -9,7 +9,6 @@ import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 import java.io.Serializable
-import java.lang.StringBuilder
 
 interface DiaryUi : Serializable {
     fun same(item: DiaryUi): Boolean
@@ -62,6 +61,7 @@ interface DiaryUi : Serializable {
 
     data class Lesson(
         private val name: String,
+        private val number: Int,
         private val teacherName: String,
         private val topic: String,
         private val homework: String,
@@ -80,7 +80,10 @@ interface DiaryUi : Serializable {
         }
 
         override fun showName(textView: TextView) {
-            textView.text = name
+            val text = if (number != -1)
+                "$number. $name"
+            else name
+            textView.text = text
         }
 
         override fun showTeacherName(textView: TextView) {
@@ -108,7 +111,8 @@ interface DiaryUi : Serializable {
         }
 
         override fun showMarks(linearLayout: LinearLayout) {
-            linearLayout.visibility = if (marks.isEmpty() && absence.isEmpty()) View.GONE else View.VISIBLE
+            linearLayout.visibility =
+                if (marks.isEmpty() && absence.isEmpty()) View.GONE else View.VISIBLE
             if (linearLayout.childCount > 1)
                 linearLayout.removeViews(1, linearLayout.childCount - 1)
             val layoutParams = LayoutParams(

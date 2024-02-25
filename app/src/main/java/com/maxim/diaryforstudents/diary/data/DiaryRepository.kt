@@ -65,6 +65,7 @@ interface DiaryRepository {
                 data.data.map { lesson ->
                     DiaryData.Lesson(
                         lesson.SUBJECT_NAME,
+                        lesson.LESSON_NUMBER,
                         lesson.TEACHER_NAME,
                         lesson.TOPIC ?: "",
                         lesson.HOMEWORK ?: "",
@@ -134,6 +135,7 @@ interface DiaryRepository {
                 return data.data.filter { it.SUBJECT_NAME == lessonName }.first().let { lesson ->
                     DiaryData.Lesson(
                         lesson.SUBJECT_NAME,
+                        lesson.LESSON_NUMBER,
                         lesson.TEACHER_NAME,
                         lesson.TOPIC ?: "",
                         lesson.HOMEWORK ?: "",

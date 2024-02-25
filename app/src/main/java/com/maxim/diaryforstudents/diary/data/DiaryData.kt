@@ -11,6 +11,7 @@ interface DiaryData {
         fun map(date: Int, lessons: List<DiaryData>): T
         fun map(
             name: String,
+            number: Int,
             teacherName: String,
             topic: String,
             homework: String,
@@ -49,6 +50,7 @@ interface DiaryData {
 
     data class Lesson(
         private val name: String,
+        private val number: Int,
         private val teacherName: String,
         private val topic: String,
         private val homework: String,
@@ -66,7 +68,7 @@ interface DiaryData {
         override fun previousHomeworks() = listOf(Pair(name, previousHomework))
 
         override fun <T> map(mapper: Mapper<T>): T = mapper.map(
-            name, teacherName, topic, homework, previousHomework, startTime, endTime, date, marks, absence, notes
+            name, number, teacherName, topic, homework, previousHomework, startTime, endTime, date, marks, absence, notes
         )
     }
 

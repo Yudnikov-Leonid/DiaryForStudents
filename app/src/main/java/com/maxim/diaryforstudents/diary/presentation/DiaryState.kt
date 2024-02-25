@@ -21,8 +21,6 @@ interface DiaryState : Serializable {
         progressBar: ProgressBar,
         errorTextView: TextView,
         retryButton: Button,
-        previousDayButton: ImageButton,
-        nextDayButton: ImageButton,
         daysRecyclerView: View,
         lessonsRecyclerView: View
     )
@@ -44,8 +42,6 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
-            previousDayButton: ImageButton,
-            nextDayButton: ImageButton,
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
@@ -66,8 +62,6 @@ interface DiaryState : Serializable {
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
-            previousDayButton.visibility = View.VISIBLE
-            nextDayButton.visibility = View.VISIBLE
             daysRecyclerView.visibility = View.VISIBLE
             lessonsRecyclerView.visibility = View.VISIBLE
             shareHomework.visibility = View.VISIBLE
@@ -88,8 +82,6 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
-            previousDayButton: ImageButton,
-            nextDayButton: ImageButton,
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
@@ -97,8 +89,6 @@ interface DiaryState : Serializable {
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
-            previousDayButton.visibility = View.GONE
-            nextDayButton.visibility = View.GONE
             daysRecyclerView.visibility = View.GONE
             lessonsRecyclerView.visibility = View.GONE
             shareHomework.visibility = View.GONE
@@ -119,8 +109,6 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
-            previousDayButton: ImageButton,
-            nextDayButton: ImageButton,
             daysRecyclerView: View,
             lessonsRecyclerView: View
         ) {
@@ -129,8 +117,6 @@ interface DiaryState : Serializable {
             retryButton.visibility = View.VISIBLE
             errorTextView.visibility = View.VISIBLE
             errorTextView.text = message
-            previousDayButton.visibility = View.GONE
-            nextDayButton.visibility = View.GONE
             daysRecyclerView.visibility = View.GONE
             lessonsRecyclerView.visibility = View.GONE
             shareHomework.visibility = View.GONE

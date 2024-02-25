@@ -30,7 +30,7 @@ class MenuViewModel(
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             handle {
-                performanceInteractor.loadData()
+                //performanceInteractor.loadData()
                 newsRepository.init(this)
                 newMarksCount = performanceInteractor.newMarksCount()
             }

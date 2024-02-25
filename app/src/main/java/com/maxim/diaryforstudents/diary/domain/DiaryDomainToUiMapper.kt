@@ -12,6 +12,7 @@ class DiaryDomainToUiMapper(
 
     override fun map(
         name: String,
+        number: Int,
         teacherName: String,
         topic: String,
         homework: String,
@@ -23,7 +24,7 @@ class DiaryDomainToUiMapper(
         absence: List<String>,
         notes: List<String>
     ): DiaryUi = DiaryUi.Lesson(
-        name, teacherName, topic, homework, previousHomework, startTime, endTime, date,
+        name, number, teacherName, topic, homework, previousHomework, startTime, endTime, date,
         marks.map { it.map(mapper) as PerformanceUi.Mark }, absence, notes
     )
 

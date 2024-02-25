@@ -76,6 +76,7 @@ interface PerformanceInteractor : SaveAndRestore {
                             it.progress()[2],
                             it.progress()[3]
                         ).toFloat()
+
                         else -> it.marksCount().toFloat()
                     }
                 }.map { it.map(mapper) }
@@ -124,6 +125,7 @@ interface PerformanceInteractor : SaveAndRestore {
             } catch (e: Exception) {
                 DiaryDomain.Lesson(
                     failureHandler.handle(e).message(),
+                    -1,
                     "",
                     "",
                     "",
