@@ -5,6 +5,7 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
+import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
 import junit.framework.TestCase.assertEquals
 
@@ -28,7 +29,16 @@ class FakePerformanceInteractor : PerformanceInteractor {
     override fun actualData(): List<PerformanceDomain> {
         return if (actualDataErrorMessage.isNotEmpty())
             listOf(PerformanceDomain.Error(actualDataErrorMessage))
-        else listOf(PerformanceDomain.Mark(5, "12.34.5678", "lesson name", false))
+        else listOf(
+            PerformanceDomain.Mark(
+                5,
+                MarkType.Current,
+                "12.34.5678",
+                "lesson name",
+                false,
+                true
+            )
+        )
     }
 
     private var finalDataErrorMessage = ""
@@ -39,7 +49,16 @@ class FakePerformanceInteractor : PerformanceInteractor {
     override fun finalData(): List<PerformanceDomain> {
         return if (finalDataErrorMessage.isNotEmpty())
             listOf(PerformanceDomain.Error(finalDataErrorMessage))
-        else listOf(PerformanceDomain.Mark(4, "12.34.5678", "lesson name", true))
+        else listOf(
+            PerformanceDomain.Mark(
+                4,
+                MarkType.Current,
+                "12.34.5678",
+                "lesson name",
+                true,
+                true
+            )
+        )
     }
 
     private val analyticsList = mutableListOf<List<Any>>()
@@ -48,7 +67,12 @@ class FakePerformanceInteractor : PerformanceInteractor {
         assertEquals(expected, analyticsList.size)
     }
 
-    fun checkAnalyticsCalledWith(quarter: Int, lessonName: String, interval: Int, showFinal: Boolean) {
+    fun checkAnalyticsCalledWith(
+        quarter: Int,
+        lessonName: String,
+        interval: Int,
+        showFinal: Boolean
+    ) {
         assertEquals(listOf(quarter, lessonName, interval, showFinal), analyticsList.last())
     }
 
@@ -118,6 +142,13 @@ class FakePerformanceInteractor : PerformanceInteractor {
         dataIsEmptyCallback = callback
         return dataIsEmptyValue
     }
+
+    private var newMarksCountValue = 0
+    fun newMarksCountMustReturn(value: Int) {
+        newMarksCountValue = value
+    }
+
+    override fun newMarksCount() = newMarksCountValue
 
     private var bundleWrapper: BundleWrapper.Mutable? = null
     private var saveCounter = 0

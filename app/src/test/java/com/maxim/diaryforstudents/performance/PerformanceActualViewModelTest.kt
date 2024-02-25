@@ -11,6 +11,7 @@ import com.maxim.diaryforstudents.fakes.Order
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomainToUiMapper
+import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
@@ -61,7 +62,16 @@ class PerformanceActualViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 0,
-                listOf(PerformanceUi.Mark(5, "12.34.5678", "lesson name", false)),
+                listOf(
+                    PerformanceUi.Mark(
+                        5,
+                        MarkType.Current,
+                        "12.34.5678",
+                        "lesson name",
+                        false,
+                        true
+                    )
+                ),
                 false,
                 ProgressType.AWeekAgo
             )
@@ -73,7 +83,16 @@ class PerformanceActualViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 0,
-                listOf(PerformanceUi.Mark(5, "12.34.5678", "lesson name", false)),
+                listOf(
+                    PerformanceUi.Mark(
+                        5,
+                        MarkType.Current,
+                        "12.34.5678",
+                        "lesson name",
+                        false,
+                        true
+                    )
+                ),
                 false,
                 ProgressType.AMonthAgo
             )
@@ -84,13 +103,24 @@ class PerformanceActualViewModelTest {
     fun test_init_first_run_data_is_not_empty() {
         interactor.dataIsEmptyMustReturn(false)
         viewModel.init(true)
-        communication.checkCalledTimes(2)
         interactor.checkCurrentQuarterCalledTimes(1)
+        interactor.checkChangeQuarterCalledTimes(1)
+        runAsync.returnResult()
+        communication.checkCalledTimes(2)
         communication.checkCalledWith(
             listOf(
                 PerformanceState.Loading, PerformanceState.Base(
                     0,
-                    listOf(PerformanceUi.Mark(5, "12.34.5678", "lesson name", false)),
+                    listOf(
+                        PerformanceUi.Mark(
+                            5,
+                            MarkType.Current,
+                            "12.34.5678",
+                            "lesson name",
+                            false,
+                            true
+                        )
+                    ),
                     false,
                     ProgressType.Hide
                 )
@@ -106,13 +136,24 @@ class PerformanceActualViewModelTest {
         communication.checkCalledWith(PerformanceState.Loading)
 
         interactor.dataIsEmptyRunCallback()
-
         interactor.checkCurrentQuarterCalledTimes(1)
+        interactor.checkChangeQuarterCalledTimes(1)
+        runAsync.returnResult()
+
         communication.checkCalledTimes(2)
         communication.checkCalledWith(
             PerformanceState.Base(
                 0,
-                listOf(PerformanceUi.Mark(5, "12.34.5678", "lesson name", false)),
+                listOf(
+                    PerformanceUi.Mark(
+                        5,
+                        MarkType.Current,
+                        "12.34.5678",
+                        "lesson name",
+                        false,
+                        true
+                    )
+                ),
                 false,
                 ProgressType.Hide
             )
@@ -126,7 +167,16 @@ class PerformanceActualViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 0,
-                listOf(PerformanceUi.Mark(5, "12.34.5678", "lesson name", false)),
+                listOf(
+                    PerformanceUi.Mark(
+                        5,
+                        MarkType.Current,
+                        "12.34.5678",
+                        "lesson name",
+                        false,
+                        true
+                    )
+                ),
                 false,
                 ProgressType.Hide
             )
@@ -147,7 +197,16 @@ class PerformanceActualViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 2,
-                listOf(PerformanceUi.Mark(5, "12.34.5678", "lesson name", false)),
+                listOf(
+                    PerformanceUi.Mark(
+                        5,
+                        MarkType.Current,
+                        "12.34.5678",
+                        "lesson name",
+                        false,
+                        true
+                    )
+                ),
                 false,
                 ProgressType.Hide
             )

@@ -117,6 +117,8 @@ class AnalyticsViewModelTest {
         interactor.changeQuarter(2)
         storage.readMustReturn("some lesson name", -1)
         viewModel.init(true)
+        interactor.checkChangeQuarterCalledTimes(2) //1, but +one in test setup
+        runAsync.returnResult()
 
         communication.checkCalledTimes(1)
         communication.checkCalledWith(AnalyticsState.Loading)
@@ -234,6 +236,10 @@ private class FakeAnalyticsCommunication : AnalyticsCommunication {
 
     fun checkCalledWith(expected: AnalyticsState) {
         assertEquals(expected, list.last())
+    }
+
+    fun checkCalledWith(expected: List<AnalyticsState>) {
+        assertEquals(expected, list)
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<AnalyticsState>) {

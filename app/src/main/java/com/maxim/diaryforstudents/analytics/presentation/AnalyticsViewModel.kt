@@ -32,10 +32,10 @@ class AnalyticsViewModel(
         if (isFirstRun) {
             quarter = analyticsStorage.read().second
             if (quarter == -1) {
+                quarter = interactor.currentQuarter()
                 handle({ interactor.changeQuarter(quarter) }) {
                     reload()
                 }
-                quarter = interactor.currentQuarter()
             } else
                 reload()
         }

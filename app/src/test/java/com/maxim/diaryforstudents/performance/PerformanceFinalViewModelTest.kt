@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.performance
 
 import com.maxim.diaryforstudents.fakes.FakeBundleWrapper
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomainToUiMapper
+import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
@@ -33,7 +34,7 @@ class PerformanceFinalViewModelTest {
                 PerformanceState.Loading,
                 PerformanceState.Base(
                     0,
-                    listOf(PerformanceUi.Mark(4, "12.34.5678", "lesson name", true)),
+                    listOf(PerformanceUi.Mark(4, MarkType.Current, "12.34.5678", "lesson name", true, true)),
                     true,
                     ProgressType.AWeekAgo
                 )
@@ -82,7 +83,7 @@ class PerformanceFinalViewModelTest {
         communication.checkCalledWith(
             PerformanceState.Base(
                 0,
-                listOf(PerformanceUi.Mark(4, "12.34.5678", "lesson name", true)),
+                listOf(PerformanceUi.Mark(4, MarkType.Current,"12.34.5678", "lesson name", true, true)),
                 true,
                 ProgressType.TwoWeeksAgo
             )

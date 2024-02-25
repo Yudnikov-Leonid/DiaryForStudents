@@ -55,9 +55,11 @@ class MenuViewModelTest {
     @Test
     fun test_reload() {
         newsRepository.checkNewNewsMustReturn(5)
+        performanceInteractor.newMarksCountMustReturn(3)
+        viewModel.init(true)
         viewModel.reload()
         communication.checkCalledTimes(1)
-        communication.checkCalledWith(MenuState.Initial(5))
+        communication.checkCalledWith(MenuState.Initial(3, 5))
     }
 
     @Test
