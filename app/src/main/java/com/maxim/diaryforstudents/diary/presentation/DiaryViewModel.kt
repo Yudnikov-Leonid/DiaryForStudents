@@ -17,10 +17,8 @@ import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
-import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class DiaryViewModel(
-    private val filters: MutableList<DiaryUi.Mapper<Boolean>>,
     private val interactor: DiaryInteractor,
     private val communication: DiaryCommunication,
     private val storage: LessonDetailsStorage.Save,
@@ -77,33 +75,6 @@ class DiaryViewModel(
     fun homeworkToShare() = interactor.homeworks(actualDay)
     fun previousHomeworkToShare() = interactor.previousHomeworks(actualDay)
 
-    fun setFilter(position: Int, isChecked: Boolean) {
-        val checks = checks()
-        checks[position] = isChecked
-        interactor.saveFilters(checks)
-        reload(false)
-    }
-
-    fun setNameFilter(value: String) {
-        filters[3] = object : DiaryUi.Mapper<Boolean> {
-            override fun map(
-                name: String, topic: String, homework: String,
-                startTime: String, endTime: String, date: Int, marks: List<PerformanceUi.Mark>
-            ) = name.contains(value, true)
-        }
-        nameFilter = value
-        reload(false)
-    }
-
-    fun setHomeworkType(from: Boolean) {
-        interactor.saveHomeworkFrom(from)
-        reload(false)
-    }
-
-    fun checks() = interactor.filters()
-    fun homeworkFrom() = interactor.homeworkFrom()
-    fun nameFilter() = nameFilter
-
     override fun goBack() {
         navigation.update(Screen.Pop)
         clear.clearViewModel(DiaryViewModel::class.java)
@@ -120,18 +91,10 @@ class DiaryViewModel(
                 return@handle
             }
 
-            val checks = checks()
-            var filteredDay = day.map(mapper)
-            checks.forEachIndexed { i, b ->
-                if (b)
-                    filteredDay = filteredDay.filter(filters[i])
-            }
-            if (filters.size >= 4)
-                filteredDay = filteredDay.filter(filters[3])
             val days = interactor.dayLists(actualDay)
             communication.update(
                 DiaryState.Base(
-                    filteredDay,
+                    day.map(mapper),
                     days.first.map { it.map(dayMapper) },
                     days.second.map { it.map(dayMapper) },
                     days.third.map { it.map(dayMapper) },
@@ -140,7 +103,6 @@ class DiaryViewModel(
                             setActualDay(day)
                         }
                     },
-                    checks.filter { it }.size + if (nameFilter.isNotEmpty()) 1 else 0,
                     interactor.homeworkFrom()
                 ),
             )

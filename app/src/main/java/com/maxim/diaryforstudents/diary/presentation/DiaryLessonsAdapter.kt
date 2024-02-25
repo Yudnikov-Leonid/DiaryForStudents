@@ -10,25 +10,25 @@ import com.maxim.diaryforstudents.databinding.LessonDiaryBinding
 import com.maxim.diaryforstudents.databinding.NoDataBinding
 
 class DiaryLessonsAdapter(
-    private val listener: Listener
+    private val listener: Listener,
 ) : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DiaryUi>()
     private var homeworkFrom = true
 
     abstract class ItemViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        open fun bind(item: DiaryUi, homeworkFrom: Boolean) {}
+        open fun bind(item: DiaryUi, actualHomework: Boolean) {}
     }
 
     class BaseItemViewHolder(
         private val binding: LessonDiaryBinding,
         private val listener: Listener
     ) : ItemViewHolder(binding) {
-        override fun bind(item: DiaryUi, homeworkFrom: Boolean) {
+        override fun bind(item: DiaryUi, actualHomework: Boolean) {
             item.showTime(binding.timeTextView)
             item.showName(binding.lessonNameTextView)
             item.showTopic(binding.themeTextView, binding.themeTitle)
-            if (homeworkFrom)
+            if (actualHomework)
                 item.showHomework(binding.homeworkTextView, binding.homeWorkTitle)
             else
                 item.showPreviousHomework(binding.homeworkTextView, binding.homeWorkTitle)
@@ -46,12 +46,16 @@ class DiaryLessonsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        if (viewType == 0) BaseItemViewHolder(
-            LessonDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener
-        ) else EmptyViewHolder(
-            NoDataBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+        when (viewType) {
+            0 -> BaseItemViewHolder(
+                LessonDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener
+            )
+            else -> EmptyViewHolder(
+                NoDataBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
+            )
+        }
 
     override fun getItemCount() = list.size
 

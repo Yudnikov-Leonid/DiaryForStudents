@@ -14,6 +14,8 @@ class DaysFragment: BaseFragment<FragmentDaysBinding, DaysViewModel>() {
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentDaysBinding.inflate(inflater, container, false)
 
+    override var setOnBackPressedCallback = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val days = mutableListOf<DayUi>()
