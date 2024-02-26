@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewbinding.ViewBinding
 import com.github.mikephil.charting.components.XAxis
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.databinding.AnalyticsTitleBinding
 import com.maxim.diaryforstudents.databinding.LineChartLayoutBinding
 import com.maxim.diaryforstudents.databinding.PieChartLayoutBinding
@@ -31,7 +32,8 @@ class AnalyticsAdapter(
         private val listener: Listener
     ) : ItemViewHolder(binding) {
         override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
-            item.showData(binding.chart)
+            val colorManager = (binding.chart.context.applicationContext as ProvideColorManager).colorManager()
+            item.showData(binding.chart, colorManager)
             item.showTitle(binding.titleTextView)
             item.showQuarter(binding.quarterSpinner)
             item.showInterval(binding.intervalSpinner)
@@ -99,8 +101,6 @@ class AnalyticsAdapter(
                 binding.intervalSpinner.setOnTouchListener(intervalListener)
             }
 
-
-
             binding.chart.apply {
                 setDrawBorders(false)
                 isDoubleTapToZoomEnabled = false
@@ -144,7 +144,8 @@ class AnalyticsAdapter(
                 setDrawEntryLabels(false)
                 setHoleColor(ContextCompat.getColor(binding.chart.context, R.color.background))
             }
-            item.showData(binding.chart)
+            val colorManager = (binding.chart.context.applicationContext as ProvideColorManager).colorManager()
+            item.showData(binding.chart, colorManager)
             item.showTitle(binding.titleTextView)
         }
     }

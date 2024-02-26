@@ -32,27 +32,19 @@ interface ColorManager {
         }
 
         override fun showColor(imageView: ImageView, key: String, defaultColor: Int) {
-            if (hasColor(key))
-                imageView.setBackgroundColor(getColor(key, 0))
-            else
-                imageView.setBackgroundColor(
-                    ContextCompat.getColor(
-                        imageView.context,
-                        defaultColor
-                    )
-                )
+            val color = if (hasColor(key)) getColor(key, 0) else ContextCompat.getColor(
+                imageView.context,
+                defaultColor
+            )
+            imageView.setBackgroundColor(color)
         }
 
         override fun showColor(textView: TextView, key: String, defaultColor: Int) {
-            if (hasColor(key))
-                textView.setTextColor(getColor(key, 0))
-            else
-                textView.setTextColor(
-                    ContextCompat.getColor(
-                        textView.context,
-                        defaultColor
-                    )
-                )
+            val color = if (hasColor(key)) getColor(key, 0) else ContextCompat.getColor(
+                textView.context,
+                defaultColor
+            )
+            textView.setTextColor(color)
         }
 
         companion object {

@@ -15,12 +15,13 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import java.io.Serializable
 
 interface AnalyticsUi : Serializable {
     fun same(item: AnalyticsUi): Boolean
-    fun showData(lineChart: LineChart) {}
-    fun showData(pieChart: PieChart) {}
+    fun showData(lineChart: LineChart, colorManager: ColorManager) {}
+    fun showData(pieChart: PieChart, colorManager: ColorManager) {}
     fun showTitle(textView: TextView)
     fun showQuarter(spinner: Spinner) {}
     fun showInterval(spinner: Spinner) {}
@@ -67,7 +68,7 @@ interface AnalyticsUi : Serializable {
 
         override fun same(item: AnalyticsUi) = item is LineCommon
 
-        override fun showData(lineChart: LineChart) {
+        override fun showData(lineChart: LineChart, colorManager: ColorManager) {
             val entries = arrayListOf<Entry>()
             data.forEachIndexed { i, float ->
                 entries.add(Entry(i.toFloat(), float))
@@ -109,7 +110,7 @@ interface AnalyticsUi : Serializable {
         private val twoData: List<Float>,
         private val labels: List<String>
     ) : AnalyticsUi {
-        override fun showData(lineChart: LineChart) {
+        override fun showData(lineChart: LineChart, colorManager: ColorManager) {
             lineChart.xAxis.apply {
                 valueFormatter = object : ValueFormatter() {
                     override fun getFormattedValue(value: Float): String {
@@ -139,10 +140,29 @@ interface AnalyticsUi : Serializable {
             val threeDataSet = LineDataSet(threeEntries, "3")
             val twoDataSer = LineDataSet(twoEntries, "2")
 
-            val colors = listOf(R.color.light_green, R.color.green, R.color.yellow, R.color.red)
+            val colors = listOf(
+                colorManager.getColor(
+                    "5",
+                    ContextCompat.getColor(lineChart.context, R.color.light_green)
+                ),
+                colorManager.getColor(
+                    "4",
+                    ContextCompat.getColor(lineChart.context, R.color.green)
+                ), colorManager.getColor(
+                    "3",
+                    ContextCompat.getColor(lineChart.context, R.color.yellow)
+                ), colorManager.getColor(
+                    "2",
+                    ContextCompat.getColor(lineChart.context, R.color.red)
+                ),
+                colorManager.getColor(
+                    "1",
+                    ContextCompat.getColor(lineChart.context, R.color.red)
+                )
+            )
             val dataSets = listOf(fiveDataSet, fourDataSet, threeDataSet, twoDataSer)
             dataSets.forEachIndexed { i, it ->
-                it.color = ContextCompat.getColor(lineChart.context, colors[i])
+                it.color = colors[i]
                 it.lineWidth = 4f
                 it.mode = LineDataSet.Mode.CUBIC_BEZIER
                 it.setDrawValues(false)
@@ -175,7 +195,7 @@ interface AnalyticsUi : Serializable {
     ) : AnalyticsUi {
         override fun same(item: AnalyticsUi) = item is PieMarks
 
-        override fun showData(pieChart: PieChart) {
+        override fun showData(pieChart: PieChart, colorManager: ColorManager) {
             val sum = fiveCount + fourCount + threeCount + twoCount
             val entries = hashMapOf(
                 "5" to fiveCount,
@@ -187,25 +207,44 @@ interface AnalyticsUi : Serializable {
                 else
                     PieEntry(it.value.toFloat(), it.key)
             }
-            val colorIds = arrayListOf<Int>()
+            val colors = arrayListOf<Int>()
             val legend = mutableListOf<String>()
             if (fiveCount > 0) {
-                colorIds.add(R.color.light_green)
+                colors.add(
+                    colorManager.getColor(
+                        "5",
+                        ContextCompat.getColor(pieChart.context, R.color.light_green)
+                    )
+                )
                 legend.add("5 (${(fiveCount.toFloat() / sum * 100).toInt()}%)")
             }
             if (fourCount > 0) {
-                colorIds.add(R.color.green)
+                colors.add(
+                    colorManager.getColor(
+                        "4",
+                        ContextCompat.getColor(pieChart.context, R.color.green)
+                    )
+                )
                 legend.add("4 (${(fourCount.toFloat() / sum * 100).toInt()}%)")
             }
             if (threeCount > 0) {
-                colorIds.add(R.color.yellow)
+                colors.add(
+                    colorManager.getColor(
+                        "3",
+                        ContextCompat.getColor(pieChart.context, R.color.yellow)
+                    )
+                )
                 legend.add("3 (${(threeCount.toFloat() / sum * 100).toInt()}%)")
             }
             if (twoCount > 0) {
-                colorIds.add(R.color.red)
+                colors.add(
+                    colorManager.getColor(
+                        "2",
+                        ContextCompat.getColor(pieChart.context, R.color.red)
+                    )
+                )
                 legend.add("2 (${(twoCount.toFloat() / sum * 100).toInt()}%)")
             }
-            val colors = colorIds.map { ContextCompat.getColor(pieChart.context, it) }
 
             pieChart.legend.setCustom(legend.mapIndexed { i, value ->
                 LegendEntry(value, Legend.LegendForm.DEFAULT, 10f, 2f, null, colors[i])
@@ -249,7 +288,7 @@ interface AnalyticsUi : Serializable {
     ) : AnalyticsUi {
         override fun same(item: AnalyticsUi) = item is PieFinalMarks
 
-        override fun showData(pieChart: PieChart) {
+        override fun showData(pieChart: PieChart, colorManager: ColorManager) {
             val sum = fiveCount + fourCount + threeCount + twoCount
             val entries = hashMapOf(
                 "5" to fiveCount,
@@ -261,25 +300,44 @@ interface AnalyticsUi : Serializable {
                 else
                     PieEntry(it.value.toFloat(), it.key)
             }
-            val colorIds = arrayListOf<Int>()
+            val colors = arrayListOf<Int>()
             val legend = mutableListOf<String>()
             if (fiveCount > 0) {
-                colorIds.add(R.color.light_green)
+                colors.add(
+                    colorManager.getColor(
+                        "5",
+                        ContextCompat.getColor(pieChart.context, R.color.light_green)
+                    )
+                )
                 legend.add("5 (${(fiveCount.toFloat() / sum * 100).toInt()}%)")
             }
             if (fourCount > 0) {
-                colorIds.add(R.color.green)
+                colors.add(
+                    colorManager.getColor(
+                        "4",
+                        ContextCompat.getColor(pieChart.context, R.color.green)
+                    )
+                )
                 legend.add("4 (${(fourCount.toFloat() / sum * 100).toInt()}%)")
             }
             if (threeCount > 0) {
-                colorIds.add(R.color.yellow)
+                colors.add(
+                    colorManager.getColor(
+                        "3",
+                        ContextCompat.getColor(pieChart.context, R.color.yellow)
+                    )
+                )
                 legend.add("3 (${(threeCount.toFloat() / sum * 100).toInt()}%)")
             }
             if (twoCount > 0) {
-                colorIds.add(R.color.red)
+                colors.add(
+                    colorManager.getColor(
+                        "2",
+                        ContextCompat.getColor(pieChart.context, R.color.red)
+                    )
+                )
                 legend.add("2 (${(twoCount.toFloat() / sum * 100).toInt()}%)")
             }
-            val colors = colorIds.map { ContextCompat.getColor(pieChart.context, it) }
 
             pieChart.legend.setCustom(legend.mapIndexed { i, value ->
                 LegendEntry(value, Legend.LegendForm.DEFAULT, 10f, 2f, null, colors[i])
@@ -318,7 +376,7 @@ interface AnalyticsUi : Serializable {
     object Error : AnalyticsUi {
         override fun same(item: AnalyticsUi) = item is java.lang.Error
 
-        override fun showData(lineChart: LineChart) {
+        override fun showData(lineChart: LineChart, colorManager: ColorManager) {
             lineChart.setNoDataText("Fail")
             lineChart.data = null
         }
