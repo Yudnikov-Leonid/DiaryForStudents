@@ -1,8 +1,10 @@
 package com.maxim.diaryforstudents.diary.data
 
 import com.maxim.diaryforstudents.BuildConfig
+import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
+import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
@@ -21,6 +23,7 @@ interface DiaryRepository {
         private val service: DiaryService,
         private val formatter: Formatter,
         private val eduUser: EduUser,
+        private val manageResource: ManageResource,
     ) : DiaryRepository {
         private val cache = mutableMapOf<String, DiaryData.Day>()
 
@@ -113,7 +116,8 @@ interface DiaryRepository {
             val formattedDate = formatter.format("dd.MM.yyyy", date)
             val data = cache[formattedDate]!!
             val homeworks = data.homeworks()
-            val sb = StringBuilder("Homework from $formattedDate\n\n")
+            val start = manageResource.string(R.string.homework_from)
+            val sb = StringBuilder("$start $formattedDate\n\n")
             homeworks.filter { it.second.isNotEmpty() }.forEach {
                 sb.append("${it.first}: ${it.second}\n\n")
             }
@@ -124,7 +128,8 @@ interface DiaryRepository {
             val formattedDate = formatter.format("dd.MM.yyyy", date)
             val data = cache[formattedDate]!!
             val homeworks = data.previousHomeworks()
-            val sb = StringBuilder("Homework for $formattedDate\n\n")
+            val start = manageResource.string(R.string.homework_for)
+            val sb = StringBuilder("$start $formattedDate\n\n")
             homeworks.filter { it.second.isNotEmpty() }.forEach {
                 sb.append("${it.first}: ${it.second}\n\n")
             }

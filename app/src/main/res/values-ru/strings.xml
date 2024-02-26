@@ -139,4 +139,6 @@
     <string name="themes">Темы</string>
     <string name="settings">Настройки</string>
     <string name="mark_colors">Цвета оценок</string>
+    <string name="homework_from">Домашнее задание, заданое</string>
+    <string name="homework_for">Домашнее задание на</string>
 </resources>

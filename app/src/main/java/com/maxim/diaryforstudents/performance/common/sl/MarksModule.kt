@@ -34,6 +34,7 @@ interface MarksModule {
                     core.retrofit().create(DiaryService::class.java),
                     Formatter.Base,
                     core.eduUser(),
+                    core
                 ),
                 DiaryDataToDomainMapper(PerformanceDataToDomainMapper())
             )
