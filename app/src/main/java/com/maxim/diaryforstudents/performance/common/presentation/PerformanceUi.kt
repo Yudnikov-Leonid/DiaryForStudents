@@ -1,13 +1,16 @@
 package com.maxim.diaryforstudents.performance.common.presentation
 
+import android.content.Context
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
@@ -16,9 +19,10 @@ import kotlin.math.absoluteValue
 
 interface PerformanceUi : Serializable {
     fun showName(textView: TextView) {}
+    fun showName(textView: TextView, colorManager: ColorManager) {}
     fun showDate(textView: TextView) {}
     fun showMarks(adapter: PerformanceMarksAdapter) {}
-    fun showAverage(titleTextView: TextView, textView: TextView) {}
+    fun showAverage(titleTextView: TextView, textView: TextView, colorManager: ColorManager) {}
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
     fun showCalculateButton(view: View) {}
@@ -60,7 +64,11 @@ interface PerformanceUi : Serializable {
             adapter.update(marks, true)
         }
 
-        override fun showAverage(titleTextView: TextView, textView: TextView) {
+        override fun showAverage(
+            titleTextView: TextView,
+            textView: TextView,
+            colorManager: ColorManager
+        ) {
             if (isFinal) {
                 titleTextView.visibility = View.GONE
                 textView.visibility = View.GONE
@@ -71,14 +79,22 @@ interface PerformanceUi : Serializable {
             }
             val avr = average.toString()
             textView.text = if (avr.length > 3) avr.substring(0, 4) else avr
-            val colorId = when (average) {
-                in 0f..2.49f -> R.color.red
-                in 2.5f..3.49f -> R.color.yellow
-                in 3.5f..4.49f -> R.color.green
-                in 4.5f..5f -> R.color.light_green
-                else -> R.color.black
-            }
-            textView.setTextColor(textView.context.getColor(colorId))
+            colorManager.showColor(
+                textView, when (average) {
+                    in 0f..1.49f -> 1
+                    in 1.5f..2.49f -> 2
+                    in 2.5f..3.49f -> 3
+                    in 3.5f..4.49f -> 4
+                    in 4.5f..5f -> 5
+                    else -> 0
+                }.toString(), when (average) {
+                    in 0f..2.49f -> R.color.red
+                    in 2.5f..3.49f -> R.color.yellow
+                    in 3.5f..4.49f -> R.color.green
+                    in 4.5f..5f -> R.color.light_green
+                    else -> R.color.black
+                }
+            )
         }
 
         override fun showProgress(
@@ -139,16 +155,20 @@ interface PerformanceUi : Serializable {
         private val isFinal: Boolean,
         private val isChecked: Boolean
     ) : PerformanceUi {
-        override fun showName(textView: TextView) {
+        override fun showName(textView: TextView, colorManager: ColorManager) {
             textView.text = mark.toString()
-            val color = if (isFinal) R.color.blue else when (mark) {
-                1, 2 -> R.color.red
-                3 -> R.color.yellow
-                4 -> R.color.green
-                5 -> R.color.light_green
-                else -> R.color.black
-            }
-            textView.setTextColor(textView.context.getColor(color))
+            if (isFinal)
+                textView.setTextColor(ContextCompat.getColor(textView.context, R.color.blue))
+            else
+                colorManager.showColor(
+                    textView, mark.toString(), when (mark) {
+                        1, 2 -> R.color.red
+                        3 -> R.color.yellow
+                        4 -> R.color.green
+                        5 -> R.color.light_green
+                        else -> R.color.black
+                    }
+                )
         }
 
         override fun showType(view: View) {
@@ -156,8 +176,8 @@ interface PerformanceUi : Serializable {
         }
 
         override fun showIsChecked(view: View) {
-            val drawable = if (isChecked) R.drawable.mark_current else when(mark) {
-                1,2 -> R.drawable.new_mark_2
+            val drawable = if (isChecked) R.drawable.mark_current else when (mark) {
+                1, 2 -> R.drawable.new_mark_2
                 3 -> R.drawable.new_mark_3
                 4 -> R.drawable.new_mark_4
                 5 -> R.drawable.new_mark_5
@@ -217,8 +237,8 @@ interface PerformanceUi : Serializable {
         }
 
         override fun showIsChecked(view: View) {
-            val drawable = if (isChecked) R.drawable.mark_current else when(marks.min()) {
-                1,2 -> R.drawable.new_mark_2
+            val drawable = if (isChecked) R.drawable.mark_current else when (marks.min()) {
+                1, 2 -> R.drawable.new_mark_2
                 3 -> R.drawable.new_mark_3
                 4 -> R.drawable.new_mark_4
                 5 -> R.drawable.new_mark_5
@@ -231,10 +251,10 @@ interface PerformanceUi : Serializable {
             )
         }
 
-        override fun showName(textView: TextView) {
+        override fun showName(textView: TextView, colorManager: ColorManager) {
             var markText = SpannableString(marks.first().toString())
             markText.setSpan(
-                ForegroundColorSpan(textView.context.getColor(getColor(marks.first()))),
+                ForegroundColorSpan(getColor(marks.first(), colorManager, textView.context)),
                 0,
                 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -252,7 +272,7 @@ interface PerformanceUi : Serializable {
                 textView.append(slash)
                 markText = SpannableString(marks[i].toString())
                 markText.setSpan(
-                    ForegroundColorSpan(textView.context.getColor(getColor(marks[i]))),
+                    ForegroundColorSpan(getColor(marks[i], colorManager, textView.context)),
                     0,
                     1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -268,14 +288,14 @@ interface PerformanceUi : Serializable {
             interactor.getLessonByMark(lessonName, date).map(mapper) as DiaryUi.Lesson
 
         //todo
-        private fun getColor(mark: Int): Int {
-            return when (mark) {
-                1, 2 -> R.color.red
-                3 -> R.color.yellow
-                4 -> R.color.green
-                5 -> R.color.light_green
-                else -> R.color.black
-            }
+        private fun getColor(mark: Int, colorManager: ColorManager, context: Context): Int {
+            return colorManager.getColor(mark.toString(), when (mark) {
+                1, 2 -> context.resources.getColor(R.color.red, context.theme)
+                3 -> context.resources.getColor(R.color.yellow, context.theme)
+                4 -> context.resources.getColor(R.color.green, context.theme)
+                5 -> context.resources.getColor(R.color.light_green, context.theme)
+                else -> context.resources.getColor(R.color.black, context.theme)
+            })
         }
 
         override fun showDate(textView: TextView) {

@@ -10,6 +10,7 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.settings.data.SettingsThemesRepository
 
+//todo refactor, make communication
 class SettingsThemesViewModel(
     private val repository: SettingsThemesRepository,
     private val navigation: Navigation.Update,

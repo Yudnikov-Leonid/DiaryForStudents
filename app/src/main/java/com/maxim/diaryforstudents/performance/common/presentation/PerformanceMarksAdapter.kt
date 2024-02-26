@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.databinding.MarkBinding
 
 class PerformanceMarksAdapter(
@@ -17,7 +18,10 @@ class PerformanceMarksAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PerformanceUi, showDate: Boolean) {
             binding.dateTextView.visibility = if (showDate) View.VISIBLE else View.GONE
-            item.showName(binding.markTextView)
+            item.showName(
+                binding.markTextView,
+                (binding.markTextView.context.applicationContext as ProvideColorManager).colorManager()
+            )
             item.showDate(binding.dateTextView)
             //item.showType(binding.root)
             item.showIsChecked(binding.root)

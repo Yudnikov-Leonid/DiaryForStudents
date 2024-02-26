@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.databinding.LessonPerformanceBinding
 import com.maxim.diaryforstudents.databinding.NoDataBinding
 
@@ -30,7 +31,11 @@ class PerformanceLessonsAdapter(
             val adapter = PerformanceMarksAdapter(markListener)
             binding.marksRecyclerView.adapter = adapter
             item.showMarks(adapter)
-            item.showAverage(binding.averageTitleTextView, binding.averageTextView)
+            item.showAverage(
+                binding.averageTitleTextView,
+                binding.averageTextView,
+                (binding.averageTextView.context.applicationContext as ProvideColorManager).colorManager()
+            )
             item.showProgress(
                 binding.statusImageView,
                 binding.statusDescriptionTextView,
