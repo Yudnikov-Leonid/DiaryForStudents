@@ -6,9 +6,11 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.ProvideColorManager
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 
-class MainActivity : AppCompatActivity(), ProvideViewModel, HideKeyboard {
+class MainActivity : AppCompatActivity(), ProvideViewModel, HideKeyboard, ProvideColorManager {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,6 +30,10 @@ class MainActivity : AppCompatActivity(), ProvideViewModel, HideKeyboard {
     override fun hideKeyboard() {
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow((currentFocus ?: View(this)).windowToken, 0)
+    }
+
+    override fun colorManager(): ColorManager {
+        return (application as ProvideColorManager).colorManager()
     }
 }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
@@ -11,6 +12,7 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
 class CalculateViewModel(
     private val communication: CalculateCommunication,
+    private val colorManager: ColorManager,
     private val calculateStorage: CalculateStorage.Read,
     private val clearViewModel: ClearViewModel
 ) : ViewModel(), Communication.Observe<CalculateState> {
@@ -48,7 +50,8 @@ class CalculateViewModel(
         communication.update(
             CalculateState.Base(
                 list,
-                sum.toFloat() / list.size
+                sum.toFloat() / list.size,
+                colorManager
             )
         )
     }

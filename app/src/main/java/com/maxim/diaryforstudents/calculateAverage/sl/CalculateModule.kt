@@ -9,6 +9,7 @@ import com.maxim.diaryforstudents.core.sl.Module
 class CalculateModule(private val core: Core, private val clearViewModel: ClearViewModel): Module<CalculateViewModel> {
     override fun viewModel() = CalculateViewModel(
         CalculateCommunication.Base(),
+        core.colorManager(),
         core.calculateStorage(),
         clearViewModel
     )
