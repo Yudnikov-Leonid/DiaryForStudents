@@ -4,23 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingHorizontal="5dp"
     android:paddingVertical="8dp">
 
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 
     <LinearLayout
         android:id="@+id/dayItemViewOne"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="18"
         android:background="@color/light_background"
         android:elevation="2dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
@@ -34,13 +32,15 @@
         <TextView
             android:id="@+id/dateTextViewOne"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:gravity="center"
-            android:maxLines="1"
+            android:layout_marginTop="5dp"
             android:padding="6dp"
             android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
             android:textStyle="bold"
             tools:background="@drawable/day"
             tools:text="25" />
@@ -50,16 +50,16 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 
     <LinearLayout
         android:id="@+id/dayItemViewTwo"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="18"
         android:background="@color/light_background"
         android:elevation="2dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
@@ -73,13 +73,15 @@
         <TextView
             android:id="@+id/dateTextViewTwo"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:gravity="center"
-            android:maxLines="1"
+            android:layout_marginTop="5dp"
             android:padding="6dp"
             android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
             android:textStyle="bold"
             tools:text="25" />
 
@@ -88,16 +90,16 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 
     <LinearLayout
         android:id="@+id/dayItemViewThree"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="18"
         android:background="@color/light_background"
         android:elevation="2dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
@@ -111,13 +113,15 @@
         <TextView
             android:id="@+id/dateTextViewThree"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:gravity="center"
-            android:maxLines="1"
+            android:layout_marginTop="5dp"
             android:padding="6dp"
             android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
             android:textStyle="bold"
             tools:text="25" />
 
@@ -126,16 +130,16 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 
     <LinearLayout
         android:id="@+id/dayItemViewFour"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="18"
         android:background="@color/light_background"
         android:elevation="2dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
@@ -149,13 +153,15 @@
         <TextView
             android:id="@+id/dateTextViewFour"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:gravity="center"
-            android:maxLines="1"
+            android:layout_marginTop="5dp"
             android:padding="6dp"
             android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
             android:textStyle="bold"
             tools:text="25" />
 
@@ -164,16 +170,16 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 
     <LinearLayout
         android:id="@+id/dayItemViewFive"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="18"
         android:background="@color/light_background"
         android:elevation="2dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
@@ -187,13 +193,15 @@
         <TextView
             android:id="@+id/dateTextViewFive"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:gravity="center"
-            android:maxLines="1"
+            android:layout_marginTop="5dp"
             android:padding="6dp"
             android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
             android:textStyle="bold"
             tools:text="25" />
 
@@ -202,16 +210,16 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 
     <LinearLayout
         android:id="@+id/dayItemViewSix"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="18"
         android:background="@color/light_background"
         android:elevation="2dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
@@ -225,12 +233,15 @@
         <TextView
             android:id="@+id/dateTextViewSix"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:maxLines="1"
+            android:layout_marginTop="5dp"
             android:padding="6dp"
             android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
             android:textStyle="bold"
             tools:text="25" />
 
@@ -239,16 +250,16 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 
     <LinearLayout
         android:id="@+id/dayItemViewSeven"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="18"
         android:background="@color/light_background"
         android:elevation="2dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="5dp">
 
         <TextView
@@ -262,13 +273,15 @@
         <TextView
             android:id="@+id/dateTextViewSeven"
             android:layout_width="match_parent"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:gravity="center"
-            android:maxLines="1"
+            android:layout_marginTop="5dp"
             android:padding="6dp"
             android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeTextType="uniform"
             android:textStyle="bold"
             tools:text="25" />
 
@@ -277,6 +290,6 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 
 </LinearLayout>

@@ -16,7 +16,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="240dp"
             android:background="@drawable/profile_top"
             android:paddingBottom="10dp">
 
@@ -54,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="75dp"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 android:textStyle="bold"
