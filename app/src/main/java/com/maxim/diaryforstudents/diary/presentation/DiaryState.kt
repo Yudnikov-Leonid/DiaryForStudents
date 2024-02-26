@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.diary.presentation
 
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import java.io.Serializable
@@ -15,6 +16,7 @@ interface DiaryState : Serializable {
         progressBar: ProgressBar,
         errorTextView: TextView,
         retryButton: Button,
+        errorBackButton: ImageButton,
         lessonsRecyclerView: View
     )
 
@@ -34,6 +36,7 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
+            errorBackButton: ImageButton,
             lessonsRecyclerView: View
         ) {
             day.showLessons(lessonsAdapter, homeworkFrom)
@@ -42,6 +45,7 @@ interface DiaryState : Serializable {
             topLayout.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
+            errorBackButton.visibility = View.GONE
             retryButton.visibility = View.GONE
             lessonsRecyclerView.visibility = View.VISIBLE
         }
@@ -56,10 +60,12 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
+            errorBackButton: ImageButton,
             lessonsRecyclerView: View
         ) {
             topLayout.visibility = View.GONE
             errorTextView.visibility = View.GONE
+            errorBackButton.visibility = View.VISIBLE
             retryButton.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             lessonsRecyclerView.visibility = View.GONE
@@ -75,12 +81,14 @@ interface DiaryState : Serializable {
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
+            errorBackButton: ImageButton,
             lessonsRecyclerView: View
         ) {
             topLayout.visibility = View.GONE
             progressBar.visibility = View.GONE
             retryButton.visibility = View.VISIBLE
             errorTextView.visibility = View.VISIBLE
+            errorBackButton.visibility = View.VISIBLE
             errorTextView.text = message
             lessonsRecyclerView.visibility = View.GONE
         }

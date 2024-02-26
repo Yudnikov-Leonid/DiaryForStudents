@@ -24,6 +24,10 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         }
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backButton.setOnClickListener {
+            viewModel.goBack()
+        }
+
         savedInstanceState?.let {
             viewModel.restore(BundleWrapper.Base(it))
         }
@@ -35,6 +39,10 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
 
             override fun changeInterval(value: Int) {
                 viewModel.changeInterval(value)
+            }
+
+            override fun goBack() {
+                viewModel.goBack()
             }
         })
         binding.lessonsRecyclerView.adapter = adapter
@@ -48,6 +56,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
             it.show(
                 adapter,
                 binding.progressBar,
+                binding.backButton,
                 binding.errorTextView,
                 binding.retryButton
             )

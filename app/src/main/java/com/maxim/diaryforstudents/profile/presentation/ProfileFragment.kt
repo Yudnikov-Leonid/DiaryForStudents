@@ -26,6 +26,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
             }
         }
         super.onViewCreated(view, savedInstanceState)
+        binding.backButton.setOnClickListener {
+            viewModel.goBack()
+        }
+
         binding.showEmailButton.setOnClickListener {
             viewModel.email(this)
         }

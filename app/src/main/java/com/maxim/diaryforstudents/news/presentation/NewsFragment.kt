@@ -23,6 +23,9 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
         }
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backButton.setOnClickListener {
+            viewModel.goBack()
+        }
 
         val listener = object : NewsAdapter.Listener {
             override fun open(value: NewsUi) {

@@ -31,6 +31,12 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
         }
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backButton.setOnClickListener {
+            viewModel.goBack()
+        }
+        binding.errorBackButton.setOnClickListener {
+            viewModel.goBack()
+        }
         val lessonsAdapter = DiaryLessonsAdapter(object : DiaryLessonsAdapter.Listener {
             override fun openDetails(item: DiaryUi.Lesson) {
                 viewModel.openDetails(item)
@@ -119,6 +125,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 binding.progressBar,
                 binding.errorTextView,
                 binding.retryButton,
+                binding.errorBackButton,
                 binding.lessonsRecyclerView,
             )
             binding.daysViewPager.setCurrentItem(1, false)

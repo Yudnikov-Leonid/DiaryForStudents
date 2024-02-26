@@ -149,9 +149,12 @@ class AnalyticsAdapter(
         }
     }
 
-    class TitleViewHolder(private val binding: AnalyticsTitleBinding) : ItemViewHolder(binding) {
+    class TitleViewHolder(private val binding: AnalyticsTitleBinding, private val listener: Listener) : ItemViewHolder(binding) {
         override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
             item.showTitle(binding.titleTextView)
+            binding.backButton.setOnClickListener {
+                listener.goBack()
+            }
         }
     }
 
@@ -181,7 +184,7 @@ class AnalyticsAdapter(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                )
+                ), listener
             )
         }
     }
@@ -203,6 +206,7 @@ class AnalyticsAdapter(
     interface Listener {
         fun changeQuarter(value: Int)
         fun changeInterval(value: Int)
+        fun goBack()
     }
 }
 

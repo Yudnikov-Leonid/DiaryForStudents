@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/titleTextView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:gravity="center"
-    android:paddingHorizontal="10dp"
-    android:textSize="26sp"
-    android:textStyle="bold"
-    tools:text="Lesson name" />
+    android:layout_marginBottom="10dp">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@null"
+        android:src="@drawable/back_24" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        tools:text="Lesson name"
+        android:textSize="26sp"
+        android:layout_marginEnd="50dp"
+        android:textStyle="bold" />
+
+</LinearLayout>

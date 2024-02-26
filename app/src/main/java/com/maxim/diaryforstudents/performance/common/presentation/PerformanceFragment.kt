@@ -28,8 +28,7 @@ class PerformanceFragment : BaseFragment<FragmentPerformanceBinding, Performance
         TabLayoutMediator(binding.screenTabLayout, binding.viewPager) { tab, pos ->
             tab.text = when (pos) {
                 0 -> resources.getString(R.string.actual)
-                1 -> resources.getString(R.string.final_marks)
-                else -> resources.getString(R.string.analytics)
+                else -> resources.getString(R.string.final_marks)
             }
         }.attach()
     }
