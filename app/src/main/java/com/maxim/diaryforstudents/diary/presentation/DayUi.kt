@@ -21,7 +21,7 @@ data class DayUi(
         textView.setTextColor(
             ContextCompat.getColor(
                 textView.context,
-                if (isSelected) R.color.white else R.color.black
+                if (isSelected) R.color.white else R.color.text
             )
         )
         dayNameTextView.setTextColor(
