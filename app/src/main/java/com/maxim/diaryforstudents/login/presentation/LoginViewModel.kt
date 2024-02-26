@@ -33,9 +33,9 @@ class LoginViewModel(
             communication.update(LoginState.Loading)
             handle({ repository.login(login, password) }) { result ->
                 if (result.isSuccessful()) {
+                    communication.update(LoginState.Initial)
                     navigation.update(SelectUserScreen)
                     hideKeyboard.hideKeyboard()
-                    communication.update(LoginState.Initial)
                 }
                 else
                     communication.update(LoginState.Error(result.message()))

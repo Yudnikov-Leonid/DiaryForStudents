@@ -16,6 +16,7 @@ import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import java.io.Serializable
 import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 
 interface PerformanceUi : Serializable {
     fun showName(textView: TextView) {}
@@ -78,7 +79,8 @@ interface PerformanceUi : Serializable {
                 textView.visibility = View.VISIBLE
             }
             val avr = average.toString()
-            textView.text = if (avr.length > 3) avr.substring(0, 4) else avr
+            textView.text =
+                if (avr.length > 3) ((average * 100).roundToInt() / 100f).toString() else avr
             colorManager.showColor(
                 textView, when (average) {
                     in 0f..1.49f -> 1
@@ -289,13 +291,15 @@ interface PerformanceUi : Serializable {
 
         //todo
         private fun getColor(mark: Int, colorManager: ColorManager, context: Context): Int {
-            return colorManager.getColor(mark.toString(), when (mark) {
-                1, 2 -> context.resources.getColor(R.color.red, context.theme)
-                3 -> context.resources.getColor(R.color.yellow, context.theme)
-                4 -> context.resources.getColor(R.color.green, context.theme)
-                5 -> context.resources.getColor(R.color.light_green, context.theme)
-                else -> context.resources.getColor(R.color.black, context.theme)
-            })
+            return colorManager.getColor(
+                mark.toString(), when (mark) {
+                    1, 2 -> context.resources.getColor(R.color.red, context.theme)
+                    3 -> context.resources.getColor(R.color.yellow, context.theme)
+                    4 -> context.resources.getColor(R.color.green, context.theme)
+                    5 -> context.resources.getColor(R.color.light_green, context.theme)
+                    else -> context.resources.getColor(R.color.black, context.theme)
+                }
+            )
         }
 
         override fun showDate(textView: TextView) {

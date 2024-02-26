@@ -42,8 +42,8 @@ interface HandleResponse : SaveAndRestore {
         ): List<PerformanceData.Lesson> {
             return lessons.filter { it.MARKS.isNotEmpty() }.map { lesson ->
                 val progresses = IntArray(3)
-                val actualAverage = averageMap[Pair(lesson.SUBJECT_SYS_GUID, quarter)]
-                    ?: (lesson.MARKS.sumOf { it.VALUE }.toFloat() / lesson.MARKS.size)
+                val actualAverage = averageMap[Pair(lesson.SUBJECT_SYS_GUID, quarter)] ?:
+                    (lesson.MARKS.sumOf { it.VALUE }.toFloat() / lesson.MARKS.size)
                 if (calculateProgress) {
                     listOf(7, 14, 28).forEachIndexed { i, n ->
                         val ago = System.currentTimeMillis() / 86400000 - n
