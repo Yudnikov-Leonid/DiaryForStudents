@@ -28,6 +28,10 @@ class SettingsFragment: BaseFragment<FragmentSettingsBinding, SettingsViewModel>
             viewModel.goBack()
         }
 
+        binding.themesButton.setOnClickListener {
+            viewModel.themes()
+        }
+
         binding.contactsButton.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/dorhun"))
             startActivity(browserIntent)
