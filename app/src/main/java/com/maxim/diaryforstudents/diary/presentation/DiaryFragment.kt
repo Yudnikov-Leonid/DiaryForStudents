@@ -15,7 +15,6 @@ import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
 import java.util.Calendar
-import kotlin.math.absoluteValue
 
 class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
     override val viewModelClass: Class<DiaryViewModel>
@@ -99,11 +98,13 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                if (positionOffset.absoluteValue < 0.1f) {
-                    if (position == 0)
+                if (positionOffset == 0f) {
+                    if (position == 0) {
                         viewModel.previousWeek()
-                    else if (position == 2)
+                    }
+                    else if (position == 2) {
                         viewModel.nextWeek()
+                    }
                 }
             }
         })
@@ -112,8 +113,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             it.show(
                 lessonsAdapter,
                 daysAdapter,
-                binding.selectDateButton,
-                binding.shareDateButton,
+                binding.topLayout,
                 binding.monthTextView,
                 binding.progressBar,
                 binding.errorTextView,

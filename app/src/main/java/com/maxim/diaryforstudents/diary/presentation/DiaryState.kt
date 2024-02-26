@@ -10,8 +10,7 @@ interface DiaryState : Serializable {
     fun show(
         lessonsAdapter: DiaryLessonsAdapter,
         daysAdapter: DaysAdapter,
-        monthSelector: View,
-        shareButton: View,
+        topLayout: View,
         monthTitle: TextView,
         progressBar: ProgressBar,
         errorTextView: TextView,
@@ -30,8 +29,7 @@ interface DiaryState : Serializable {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DaysAdapter,
-            monthSelector: View,
-            shareButton: View,
+            topLayout: View,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
@@ -41,8 +39,7 @@ interface DiaryState : Serializable {
             day.showLessons(lessonsAdapter, homeworkFrom)
             daysAdapter.update(daysOne, daysTwo, daysThree, listener)
             day.showName(monthTitle)
-            monthSelector.visibility = View.VISIBLE
-            shareButton.visibility = View.VISIBLE
+            topLayout.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
@@ -54,18 +51,16 @@ interface DiaryState : Serializable {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DaysAdapter,
-            monthSelector: View,
-            shareButton: View,
+            topLayout: View,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
             lessonsRecyclerView: View
         ) {
-            monthSelector.visibility = View.GONE
+            topLayout.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
-            shareButton.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             lessonsRecyclerView.visibility = View.GONE
         }
@@ -75,16 +70,14 @@ interface DiaryState : Serializable {
         override fun show(
             lessonsAdapter: DiaryLessonsAdapter,
             daysAdapter: DaysAdapter,
-            monthSelector: View,
-            shareButton: View,
+            topLayout: View,
             monthTitle: TextView,
             progressBar: ProgressBar,
             errorTextView: TextView,
             retryButton: Button,
             lessonsRecyclerView: View
         ) {
-            monthSelector.visibility = View.GONE
-            shareButton.visibility = View.GONE
+            topLayout.visibility = View.GONE
             progressBar.visibility = View.GONE
             retryButton.visibility = View.VISIBLE
             errorTextView.visibility = View.VISIBLE
