@@ -140,4 +140,7 @@
     <string name="latest_news">Latest news</string>
     <string name="important_news">Important</string>
     <string name="interesting_news">Interesting</string>
+    <string name="settings_contacts">Contacts</string>
+    <string name="themes">Themes</string>
+    <string name="settings">Settings</string>
 </resources>

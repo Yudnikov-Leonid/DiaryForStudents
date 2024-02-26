@@ -31,6 +31,8 @@ import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import com.maxim.diaryforstudents.profile.sl.ProfileModule
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserViewModel
 import com.maxim.diaryforstudents.selectUser.sl.SelectUserModule
+import com.maxim.diaryforstudents.settings.presentation.SettingsViewModel
+import com.maxim.diaryforstudents.settings.sl.SettingsModule
 
 interface DependencyContainer {
     fun <T : ViewModel> module(clasz: Class<T>): Module<T>
@@ -61,6 +63,7 @@ interface DependencyContainer {
             PerformanceActualViewModel::class.java -> PerformanceActualModule(core)
             PerformanceFinalViewModel::class.java -> PerformanceFinalModule(core)
             AnalyticsViewModel::class.java -> AnalyticsModule(core, clear)
+            SettingsViewModel::class.java -> SettingsModule(core, clear)
             else -> dependencyContainer.module(clasz)
         } as Module<T>
     }

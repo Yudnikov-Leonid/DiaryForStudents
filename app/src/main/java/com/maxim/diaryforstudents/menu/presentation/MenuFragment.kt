@@ -33,6 +33,9 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         binding.analyticsButton.setOnClickListener {
             viewModel.analytics()
         }
+        binding.settingsButton.setOnClickListener {
+            viewModel.settings()
+        }
 
         viewModel.observe(this) {
             it.showNewsCount(binding.newNewsCounter)

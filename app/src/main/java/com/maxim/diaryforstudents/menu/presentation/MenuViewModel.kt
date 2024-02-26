@@ -17,6 +17,7 @@ import com.maxim.diaryforstudents.news.presentation.NewsScreen
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceScreen
 import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
+import com.maxim.diaryforstudents.settings.presentation.SettingsScreen
 
 class MenuViewModel(
     private val communication: MenuCommunication,
@@ -35,6 +36,10 @@ class MenuViewModel(
                 newMarksCount = performanceInteractor.newMarksCount()
             }
         }
+    }
+
+    fun settings() {
+        navigation.update(SettingsScreen)
     }
 
     fun diary() {
