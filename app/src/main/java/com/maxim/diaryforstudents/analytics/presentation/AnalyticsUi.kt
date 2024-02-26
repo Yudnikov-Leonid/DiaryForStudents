@@ -192,16 +192,18 @@ interface AnalyticsUi : Serializable {
         private val fourCount: Int,
         private val threeCount: Int,
         private val twoCount: Int,
+        private val oneCount: Int
     ) : AnalyticsUi {
         override fun same(item: AnalyticsUi) = item is PieMarks
 
         override fun showData(pieChart: PieChart, colorManager: ColorManager) {
-            val sum = fiveCount + fourCount + threeCount + twoCount
+            val sum = fiveCount + fourCount + threeCount + twoCount + oneCount
             val entries = hashMapOf(
                 "5" to fiveCount,
                 "4" to fourCount,
                 "3" to threeCount,
-                "2" to twoCount
+                "2" to twoCount,
+                "1" to oneCount
             ).mapNotNull {
                 if (it.value == 0) null
                 else
@@ -245,13 +247,22 @@ interface AnalyticsUi : Serializable {
                 )
                 legend.add("2 (${(twoCount.toFloat() / sum * 100).toInt()}%)")
             }
+            if (oneCount > 0) {
+                colors.add(
+                    colorManager.getColor(
+                        "1",
+                        ContextCompat.getColor(pieChart.context, R.color.red)
+                    )
+                )
+                legend.add("1 (${(oneCount.toFloat() / sum * 100).toInt()}%)")
+            }
 
             pieChart.legend.setCustom(legend.mapIndexed { i, value ->
                 LegendEntry(value, Legend.LegendForm.DEFAULT, 10f, 2f, null, colors[i])
             })
             pieChart.centerText = pieChart.resources.getString(
                 R.string.in_total,
-                (fiveCount + fourCount + threeCount + twoCount).toString()
+                (fiveCount + fourCount + threeCount + twoCount + oneCount).toString()
             )
             pieChart.setCenterTextSize(14f)
             pieChart.setCenterTextColor(ContextCompat.getColor(pieChart.context, R.color.text))
@@ -285,16 +296,18 @@ interface AnalyticsUi : Serializable {
         private val fourCount: Int,
         private val threeCount: Int,
         private val twoCount: Int,
+        private val oneCount: Int
     ) : AnalyticsUi {
         override fun same(item: AnalyticsUi) = item is PieFinalMarks
 
         override fun showData(pieChart: PieChart, colorManager: ColorManager) {
-            val sum = fiveCount + fourCount + threeCount + twoCount
+            val sum = fiveCount + fourCount + threeCount + twoCount + oneCount
             val entries = hashMapOf(
                 "5" to fiveCount,
                 "4" to fourCount,
                 "3" to threeCount,
-                "2" to twoCount
+                "2" to twoCount,
+                "1" to oneCount
             ).mapNotNull {
                 if (it.value == 0) null
                 else
@@ -338,13 +351,22 @@ interface AnalyticsUi : Serializable {
                 )
                 legend.add("2 (${(twoCount.toFloat() / sum * 100).toInt()}%)")
             }
+            if (oneCount > 0) {
+                colors.add(
+                    colorManager.getColor(
+                        "1",
+                        ContextCompat.getColor(pieChart.context, R.color.red)
+                    )
+                )
+                legend.add("1 (${(oneCount.toFloat() / sum * 100).toInt()}%)")
+            }
 
             pieChart.legend.setCustom(legend.mapIndexed { i, value ->
                 LegendEntry(value, Legend.LegendForm.DEFAULT, 10f, 2f, null, colors[i])
             })
             pieChart.centerText = pieChart.resources.getString(
                 R.string.in_total,
-                (fiveCount + fourCount + threeCount + twoCount).toString()
+                (fiveCount + fourCount + threeCount + twoCount + oneCount).toString()
             )
             pieChart.setCenterTextSize(14f)
             pieChart.setCenterTextColor(ContextCompat.getColor(pieChart.context, R.color.text))

@@ -179,6 +179,7 @@ interface HandleResponse : SaveAndRestore {
             val fourCount = marks.filter { it.VALUE == 4 }.size
             val threeCount = marks.filter { it.VALUE == 3 }.size
             val twoCount = marks.filter { it.VALUE == 2 }.size
+            val oneCount = marks.filter { it.VALUE == 1 }.size
 
             //calculate weeks count
             var firstDate: Int
@@ -240,7 +241,7 @@ interface HandleResponse : SaveAndRestore {
             }
             return listOf(
                 AnalyticsData.LineCommon(result, labels, quarter, interval),
-                AnalyticsData.PieMarks(fiveCount, fourCount, threeCount, twoCount),
+                AnalyticsData.PieMarks(fiveCount, fourCount, threeCount, twoCount, oneCount),
                 AnalyticsData.LineMarks(
                     separateMarksResult[0],
                     separateMarksResult[1],
@@ -286,7 +287,8 @@ interface HandleResponse : SaveAndRestore {
                 resultMap[5] ?: 0,
                 resultMap[4] ?: 0,
                 resultMap[3] ?: 0,
-                resultMap[2] ?: 0
+                resultMap[2] ?: 0,
+                resultMap[1] ?: 0
             )
         }
 

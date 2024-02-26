@@ -33,8 +33,9 @@ interface AnalyticsDomain {
         private val fourCount: Int,
         private val threeCount: Int,
         private val twoCount: Int,
+        private val oneCount: Int
     ) : AnalyticsDomain {
-        override fun toUi() = AnalyticsUi.PieMarks(fiveCount, fourCount, threeCount, twoCount)
+        override fun toUi() = AnalyticsUi.PieMarks(fiveCount, fourCount, threeCount, twoCount, oneCount)
 
         override fun message() = ""
     }
@@ -44,8 +45,9 @@ interface AnalyticsDomain {
         private val fourCount: Int,
         private val threeCount: Int,
         private val twoCount: Int,
+        private val oneCount: Int
     ) : AnalyticsDomain {
-        override fun toUi() = AnalyticsUi.PieFinalMarks(fiveCount, fourCount, threeCount, twoCount)
+        override fun toUi() = AnalyticsUi.PieFinalMarks(fiveCount, fourCount, threeCount, twoCount, oneCount)
 
         override fun message() = ""
     }

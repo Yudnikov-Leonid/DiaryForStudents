@@ -20,8 +20,9 @@ interface AnalyticsData {
         private val threeData: List<Float>,
         private val twoData: List<Float>,
         private val labels: List<String>
-    ): AnalyticsData {
-        override fun toDomain() = AnalyticsDomain.LineMarks(fiveData, fourData, threeData, twoData, labels)
+    ) : AnalyticsData {
+        override fun toDomain() =
+            AnalyticsDomain.LineMarks(fiveData, fourData, threeData, twoData, labels)
     }
 
     data class PieMarks(
@@ -29,8 +30,10 @@ interface AnalyticsData {
         private val fourCount: Int,
         private val threeCount: Int,
         private val twoCount: Int,
-    ): AnalyticsData {
-        override fun toDomain() = AnalyticsDomain.PieMarks(fiveCount, fourCount, threeCount, twoCount)
+        private val oneCount: Int
+    ) : AnalyticsData {
+        override fun toDomain() =
+            AnalyticsDomain.PieMarks(fiveCount, fourCount, threeCount, twoCount, oneCount)
     }
 
     data class PieFinalMarks(
@@ -38,7 +41,9 @@ interface AnalyticsData {
         private val fourCount: Int,
         private val threeCount: Int,
         private val twoCount: Int,
-    ): AnalyticsData {
-        override fun toDomain() = AnalyticsDomain.PieFinalMarks(fiveCount, fourCount, threeCount, twoCount)
+        private val oneCount: Int
+    ) : AnalyticsData {
+        override fun toDomain() =
+            AnalyticsDomain.PieFinalMarks(fiveCount, fourCount, threeCount, twoCount, oneCount)
     }
 }
