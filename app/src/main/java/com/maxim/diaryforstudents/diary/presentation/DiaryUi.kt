@@ -20,7 +20,7 @@ interface DiaryUi : Serializable {
     fun showTopic(textView: TextView, title: TextView) {}
     fun showHomework(textView: TextView, title: TextView) {}
     fun showPreviousHomework(textView: TextView, title: TextView) {}
-    fun showLessons(adapter: DiaryLessonsAdapter, homeworkFrom: Boolean) {}
+    fun showLessons(adapter: DiaryLessonsAdapter, actualHomework: Boolean) {}
     fun showMarks(linearLayout: LinearLayout) {}
     fun showNotes(textView: TextView, title: TextView) {}
     fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
@@ -52,8 +52,8 @@ interface DiaryUi : Serializable {
         }
 
         override fun sameContent(item: DiaryUi) = item is Day && item.lessons == lessons
-        override fun showLessons(adapter: DiaryLessonsAdapter, homeworkFrom: Boolean) {
-            adapter.update(lessons, homeworkFrom)
+        override fun showLessons(adapter: DiaryLessonsAdapter, actualHomework: Boolean) {
+            adapter.update(lessons, actualHomework)
         }
 
         override fun filter(mapper: Mapper<Boolean>) = Day(

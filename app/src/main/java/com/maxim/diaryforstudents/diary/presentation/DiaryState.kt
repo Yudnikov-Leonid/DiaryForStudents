@@ -9,8 +9,7 @@ import java.io.Serializable
 
 interface DiaryState : Serializable {
     fun show(
-        lessonsAdapter: DiaryLessonsAdapter,
-        daysAdapter: DaysAdapter,
+
         topLayout: View,
         monthTitle: TextView,
         progressBar: ProgressBar,
@@ -20,17 +19,19 @@ interface DiaryState : Serializable {
         lessonsRecyclerView: View
     )
 
+    fun show(
+        lessonsAdapter: DiaryLessonsAdapter,
+        daysAdapter: DaysRecyclerViewAdapter,
+    ) {}
+
     data class Base(
         private val day: DiaryUi,
         private val daysOne: List<DayUi>,
         private val daysTwo: List<DayUi>,
         private val daysThree: List<DayUi>,
-        private val listener: DaysAdapter.Listener,
-        private val homeworkFrom: Boolean
+        private val actualHomework: Boolean
     ) : DiaryState {
         override fun show(
-            lessonsAdapter: DiaryLessonsAdapter,
-            daysAdapter: DaysAdapter,
             topLayout: View,
             monthTitle: TextView,
             progressBar: ProgressBar,
@@ -39,8 +40,6 @@ interface DiaryState : Serializable {
             errorBackButton: ImageButton,
             lessonsRecyclerView: View
         ) {
-            day.showLessons(lessonsAdapter, homeworkFrom)
-            daysAdapter.update(daysOne, daysTwo, daysThree, listener)
             day.showName(monthTitle)
             topLayout.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
@@ -49,12 +48,18 @@ interface DiaryState : Serializable {
             retryButton.visibility = View.GONE
             lessonsRecyclerView.visibility = View.VISIBLE
         }
+
+        override fun show(
+            lessonsAdapter: DiaryLessonsAdapter,
+            daysAdapter: DaysRecyclerViewAdapter,
+        ) {
+            day.showLessons(lessonsAdapter, actualHomework)
+            daysAdapter.update(daysOne, daysTwo, daysThree)
+        }
     }
 
     object Progress : DiaryState {
         override fun show(
-            lessonsAdapter: DiaryLessonsAdapter,
-            daysAdapter: DaysAdapter,
             topLayout: View,
             monthTitle: TextView,
             progressBar: ProgressBar,
@@ -74,8 +79,6 @@ interface DiaryState : Serializable {
 
     data class Error(private val message: String) : DiaryState {
         override fun show(
-            lessonsAdapter: DiaryLessonsAdapter,
-            daysAdapter: DaysAdapter,
             topLayout: View,
             monthTitle: TextView,
             progressBar: ProgressBar,

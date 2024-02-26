@@ -3,6 +3,8 @@ package com.maxim.diaryforstudents.core.sl
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel
 import com.maxim.diaryforstudents.actualPerformanceSettings.sl.ActualSettingsModule
+import com.maxim.diaryforstudents.analytics.presentation.AnalyticsViewModel
+import com.maxim.diaryforstudents.analytics.sl.AnalyticsModule
 import com.maxim.diaryforstudents.calculateAverage.presentation.CalculateViewModel
 import com.maxim.diaryforstudents.calculateAverage.sl.CalculateModule
 import com.maxim.diaryforstudents.diary.presentation.DiaryViewModel
@@ -19,16 +21,12 @@ import com.maxim.diaryforstudents.news.presentation.NewsViewModel
 import com.maxim.diaryforstudents.news.sl.NewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsModule
 import com.maxim.diaryforstudents.openNews.OpenNewsViewModel
-import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewModel
 import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualModule
-import com.maxim.diaryforstudents.analytics.presentation.AnalyticsViewModel
-import com.maxim.diaryforstudents.analytics.sl.AnalyticsModule
-import com.maxim.diaryforstudents.diary.presentation.DaysModule
-import com.maxim.diaryforstudents.diary.presentation.DaysViewModel
+import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
 import com.maxim.diaryforstudents.performance.common.sl.PerformanceModule
-import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalViewModel
 import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalModule
+import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalViewModel
 import com.maxim.diaryforstudents.profile.presentation.ProfileViewModel
 import com.maxim.diaryforstudents.profile.sl.ProfileModule
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserViewModel
@@ -57,7 +55,6 @@ interface DependencyContainer {
             OpenNewsViewModel::class.java -> OpenNewsModule(core, clear)
             PerformanceCommonViewModel::class.java -> PerformanceModule(core, clear)
             DiaryViewModel::class.java -> DiaryModule(core, clear)
-            DaysViewModel::class.java -> DaysModule()
             LessonDetailsViewModel::class.java -> LessonDetailsModule(core, clear)
             CalculateViewModel::class.java -> CalculateModule(core, clear)
             ActualSettingsViewModel::class.java -> ActualSettingsModule(core, clear)

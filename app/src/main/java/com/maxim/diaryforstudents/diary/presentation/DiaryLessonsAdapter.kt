@@ -13,7 +13,7 @@ class DiaryLessonsAdapter(
     private val listener: Listener,
 ) : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DiaryUi>()
-    private var homeworkFrom = true
+    private var actualHomework = true
 
     abstract class ItemViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -60,16 +60,16 @@ class DiaryLessonsAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(list[position], homeworkFrom)
+        holder.bind(list[position], actualHomework)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun update(newList: List<DiaryUi>, homeworkFrom: Boolean) {
-        if (homeworkFrom != this.homeworkFrom) {
-            this.homeworkFrom = homeworkFrom
+    fun update(newList: List<DiaryUi>, actualHomework: Boolean) {
+        if (actualHomework != this.actualHomework) {
+            this.actualHomework = actualHomework
             notifyDataSetChanged()
         } else
-            this.homeworkFrom = homeworkFrom
+            this.actualHomework = actualHomework
         val diff = DiaryLessonDiffUtil(list, newList)
         val result = DiffUtil.calculateDiff(diff)
         list.clear()

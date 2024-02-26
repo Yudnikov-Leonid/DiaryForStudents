@@ -26,7 +26,6 @@ class DiaryModule(private val core: Core, private val clear: ClearViewModel) :
                 core.retrofit().create(DiaryService::class.java),
                 Formatter.Base,
                 core.eduUser(),
-                core.simpleStorage()
             ), FailureHandler.Base(), DiaryDataToDomainMapper(PerformanceDataToDomainMapper()), DayDataToDomainMapper()
         ),
         DiaryCommunication.Base(),

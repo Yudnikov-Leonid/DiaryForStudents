@@ -1,7 +1,6 @@
 package com.maxim.diaryforstudents.diary.data
 
 import com.maxim.diaryforstudents.BuildConfig
-import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
@@ -18,16 +17,10 @@ interface DiaryRepository {
 
     suspend fun getLesson(lessonName: String, date: String): DiaryData.Lesson
 
-    fun saveFilters(booleanArray: BooleanArray)
-    fun filters(): BooleanArray
-    fun saveHomeworkFrom(value: Boolean)
-    fun homeworkFrom(): Boolean
-
     class Base(
         private val service: DiaryService,
         private val formatter: Formatter,
         private val eduUser: EduUser,
-        private val simpleStorage: SimpleStorage
     ) : DiaryRepository {
         private val cache = mutableMapOf<String, DiaryData.Day>()
 
@@ -180,31 +173,6 @@ interface DiaryRepository {
                     )
                 }
             } else throw ServiceUnavailableException(data.message)
-        }
-
-        override fun saveFilters(booleanArray: BooleanArray) {
-            simpleStorage.save(HOMEWORK_FILTER, booleanArray[0])
-            simpleStorage.save(TOPIC_FILTER, booleanArray[1])
-            simpleStorage.save(MARKS_FILTER, booleanArray[2])
-        }
-
-        override fun filters() = booleanArrayOf(
-            simpleStorage.read(HOMEWORK_FILTER, false),
-            simpleStorage.read(TOPIC_FILTER, false),
-            simpleStorage.read(MARKS_FILTER, false),
-        )
-
-        override fun saveHomeworkFrom(value: Boolean) {
-            simpleStorage.save(HOMEWORK_FROM, value)
-        }
-
-        override fun homeworkFrom() = simpleStorage.read(HOMEWORK_FROM, true)
-
-        companion object {
-            private const val HOMEWORK_FILTER = "homework_filter"
-            private const val TOPIC_FILTER = "topic_filter"
-            private const val MARKS_FILTER = "marks_filter"
-            private const val HOMEWORK_FROM = "homework_from"
         }
     }
 }

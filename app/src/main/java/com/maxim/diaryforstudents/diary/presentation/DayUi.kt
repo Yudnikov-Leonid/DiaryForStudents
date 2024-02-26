@@ -53,7 +53,7 @@ data class DayUi(
         textView.text = Formatter.Base.format("dd", date)
     }
 
-    fun selectDay(listener: DaysAdapter.Listener) {
+    fun selectDay(listener: DaysRecyclerViewAdapter.Listener) {
         listener.selectDay(date)
     }
 }

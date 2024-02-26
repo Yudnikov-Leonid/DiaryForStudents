@@ -17,6 +17,8 @@ import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
+import com.maxim.diaryforstudents.openNews.Share
+import java.io.Serializable
 
 class DiaryViewModel(
     private val interactor: DiaryInteractor,
@@ -27,7 +29,7 @@ class DiaryViewModel(
     private val mapper: DiaryDomain.Mapper<DiaryUi>,
     private val dayMapper: DayDomain.Mapper<DayUi>,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<DiaryState>, Init, GoBack, SaveAndRestore {
+) : BaseViewModel(runAsync), Communication.Observe<DiaryState>, Init, GoBack, SaveAndRestore, Serializable {
     private var actualDay = 0
 
     override fun init(isFirstRun: Boolean) {
@@ -69,8 +71,13 @@ class DiaryViewModel(
         navigation.update(LessonDetailsScreen)
     }
 
-    fun homeworkToShare() = interactor.homeworks(actualDay)
-    fun previousHomeworkToShare() = interactor.previousHomeworks(actualDay)
+    fun shareHomework(share: Share) {
+        share.share(interactor.homeworks(actualDay))
+    }
+
+    fun sharePreviousHomework(share: Share) {
+        share.share(interactor.previousHomeworks(actualDay))
+    }
 
     override fun goBack() {
         navigation.update(Screen.Pop)
@@ -95,12 +102,7 @@ class DiaryViewModel(
                     days.first.map { it.map(dayMapper) },
                     days.second.map { it.map(dayMapper) },
                     days.third.map { it.map(dayMapper) },
-                    object : DaysAdapter.Listener {
-                        override fun selectDay(day: Int) {
-                            setActualDay(day)
-                        }
-                    },
-                    interactor.homeworkFrom()
+                    true
                 ),
             )
         }
