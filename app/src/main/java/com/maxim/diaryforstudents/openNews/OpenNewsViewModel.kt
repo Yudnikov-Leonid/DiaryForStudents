@@ -14,6 +14,7 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsUi
 
+//todo make communication and tests
 class OpenNewsViewModel(
     private val data: OpenNewsStorage.Read,
     private val navigation: Navigation.Update,

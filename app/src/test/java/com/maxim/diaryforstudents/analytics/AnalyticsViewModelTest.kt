@@ -73,6 +73,20 @@ class AnalyticsViewModelTest {
     }
 
     @Test
+    fun test_reload_failure() {
+        interactor.analyticsMustReturnFail("some message")
+        viewModel.reload()
+        communication.checkCalledTimes(1)
+        communication.checkCalledWith(AnalyticsState.Loading)
+        interactor.checkAnalyticsCalledTimes(1)
+        interactor.checkAnalyticsCalledWith(1, "", 1, true)
+
+        runAsync.returnResult()
+        communication.checkCalledTimes(2)
+        communication.checkCalledWith(AnalyticsState.Error("some message"))
+    }
+
+    @Test
     fun test_change_interval() {
         viewModel.changeInterval(3)
         communication.checkCalledTimes(1)
@@ -238,12 +252,8 @@ private class FakeAnalyticsCommunication : AnalyticsCommunication {
         assertEquals(expected, list.last())
     }
 
-    fun checkCalledWith(expected: List<AnalyticsState>) {
-        assertEquals(expected, list)
-    }
-
     override fun observe(owner: LifecycleOwner, observer: Observer<AnalyticsState>) {
-        TODO("Not yet implemented")
+        throw IllegalStateException("not using in tests")
     }
 
     private var key = ""

@@ -64,6 +64,13 @@ class LoginViewModelTest {
     }
 
     @Test
+    fun test_hide_error() {
+        viewModel.hideError()
+        communication.checkCalledTimes(1)
+        communication.checkCalledWith(LoginState.Initial)
+    }
+
+    @Test
     fun test_correct_login() {
         viewModel.login("123@gmail.com", "321", hideKeyboard)
         loginValidator.checkCalledTimes(1)

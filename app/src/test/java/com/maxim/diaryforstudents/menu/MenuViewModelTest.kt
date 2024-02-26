@@ -17,6 +17,7 @@ import com.maxim.diaryforstudents.news.presentation.NewsScreen
 import com.maxim.diaryforstudents.performance.FakePerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceScreen
 import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
+import com.maxim.diaryforstudents.settings.presentation.SettingsScreen
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -60,6 +61,13 @@ class MenuViewModelTest {
         viewModel.reload()
         communication.checkCalledTimes(1)
         communication.checkCalledWith(MenuState.Initial(3, 5))
+    }
+
+    @Test
+    fun test_settings() {
+        viewModel.settings()
+        navigation.checkCalledTimes(1)
+        navigation.checkCalledWith(SettingsScreen)
     }
 
     @Test

@@ -76,6 +76,11 @@ class FakePerformanceInteractor : PerformanceInteractor {
         assertEquals(listOf(quarter, lessonName, interval, showFinal), analyticsList.last())
     }
 
+    private var analyticsMessage = ""
+    fun analyticsMustReturnFail(message: String) {
+        analyticsMessage = message
+    }
+
     override suspend fun analytics(
         quarter: Int,
         lessonName: String,
@@ -83,7 +88,7 @@ class FakePerformanceInteractor : PerformanceInteractor {
         showFinal: Boolean
     ): List<AnalyticsDomain> {
         analyticsList.add(listOf(quarter, lessonName, interval, showFinal))
-        return listOf(
+        return if (analyticsMessage.isNotEmpty()) listOf(AnalyticsDomain.Error(analyticsMessage)) else listOf(
             AnalyticsDomain.LineCommon(
                 listOf(5.0f, 4.5f, 4.4f),
                 listOf("1", "2", "3"),

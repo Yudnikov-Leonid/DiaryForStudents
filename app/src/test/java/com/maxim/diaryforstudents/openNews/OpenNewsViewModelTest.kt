@@ -11,6 +11,7 @@ import com.maxim.diaryforstudents.news.presentation.NewsUi
 import org.junit.Before
 import org.junit.Test
 
+//todo refactor openNewsViewModel and update tests
 class OpenNewsViewModelTest {
     private lateinit var openNewsData: FakeOpenNewsData
     private lateinit var viewModel: OpenNewsViewModel
