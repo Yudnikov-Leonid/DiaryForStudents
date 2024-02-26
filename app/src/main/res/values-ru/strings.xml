@@ -135,4 +135,8 @@
     <string name="latest_news">Последняя новость</string>
     <string name="important_news">Важно</string>
     <string name="interesting_news">Интересно</string>
+    <string name="settings_contacts">Контакты</string>
+    <string name="themes">Темы</string>
+    <string name="settings">Настройки</string>
+    <string name="mark_colors">Цвета оценок</string>
 </resources>

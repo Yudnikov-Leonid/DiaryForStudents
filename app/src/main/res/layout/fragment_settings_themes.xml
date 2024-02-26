@@ -42,9 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:paddingVertical="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/background"
-        android:layout_marginBottom="10dp">
+        android:paddingVertical="5dp">
 
         <TextView
             android:layout_width="0dp"
@@ -75,9 +76,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:paddingVertical="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:paddingVertical="5dp">
 
         <TextView
             android:layout_width="0dp"
@@ -108,9 +109,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:paddingVertical="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:paddingVertical="5dp">
 
         <TextView
             android:layout_width="0dp"
@@ -141,9 +142,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:paddingVertical="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:paddingVertical="5dp">
 
         <TextView
             android:layout_width="0dp"
@@ -174,9 +175,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:paddingVertical="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:paddingVertical="5dp">
 
         <TextView
             android:layout_width="0dp"
