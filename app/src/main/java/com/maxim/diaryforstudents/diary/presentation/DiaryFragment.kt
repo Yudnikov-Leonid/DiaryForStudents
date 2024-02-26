@@ -14,14 +14,33 @@ import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.databinding.FragmentDiaryBinding
+import com.maxim.diaryforstudents.openNews.Share
 import java.util.Calendar
 
-class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
+class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>(), Share {
     override val viewModelClass: Class<DiaryViewModel>
         get() = DiaryViewModel::class.java
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentDiaryBinding.inflate(inflater, container, false)
+
+    private val viewPagerCallback = object : OnPageChangeCallback() {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            if (positionOffset == 0f) {
+                if (position == 0) {
+                    viewModel.previousWeek()
+                } else if (position == 2) {
+                    viewModel.nextWeek()
+                }
+            }
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+        }
+    }
+    private lateinit var daysAdapter: DaysRecyclerViewAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -63,11 +82,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             }, year, month, day).show()
         }
 
-        //todo refactor with share interface
         binding.shareDateButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-            }
             AlertDialog.Builder(requireContext())
                 .setTitle(requireContext().resources.getString(R.string.share_homework))
                 .setItems(
@@ -76,51 +91,25 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                         requireContext().resources.getString(R.string.send_previous)
                     )
                 ) { _, i ->
-                    if (i == 0) {
-                        intent.putExtra(Intent.EXTRA_TEXT, viewModel.homeworkToShare())
-                        startActivity(
-                            Intent.createChooser(
-                                intent,
-                                requireContext().getString(R.string.send_to)
-                            )
-                        )
-                    } else {
-                        intent.putExtra(Intent.EXTRA_TEXT, viewModel.previousHomeworkToShare())
-                        startActivity(
-                            Intent.createChooser(
-                                intent,
-                                requireContext().getString(R.string.send_to)
-                            )
-                        )
-                    }
+                    if (i == 0)
+                        viewModel.shareHomework(this)
+                    else
+                        viewModel.sharePreviousHomework(this)
                 }.create().show()
         }
 
-        val daysAdapter = DaysAdapter(requireActivity())
-        binding.daysViewPager.adapter = daysAdapter
-        binding.daysViewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                if (positionOffset == 0f) {
-                    if (position == 0) {
-                        viewModel.previousWeek()
-                    }
-                    else if (position == 2) {
-                        viewModel.nextWeek()
-                    }
-                }
+        daysAdapter = DaysRecyclerViewAdapter(object : DaysRecyclerViewAdapter.Listener {
+            override fun selectDay(day: Int) {
+                viewModel.setActualDay(day)
             }
         })
+        binding.daysViewPager.adapter = daysAdapter
+        binding.daysViewPager.registerOnPageChangeCallback(viewPagerCallback)
 
         viewModel.observe(this) {
             it.show(
-                lessonsAdapter,
-                daysAdapter,
                 binding.topLayout,
+                binding.daysViewPager,
                 binding.monthTextView,
                 binding.progressBar,
                 binding.errorTextView,
@@ -128,9 +117,14 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
                 binding.errorBackButton,
                 binding.lessonsRecyclerView,
             )
+            it.show(
+                lessonsAdapter,
+                daysAdapter,
+            )
             binding.daysViewPager.setCurrentItem(1, false)
             binding.lessonsRecyclerView.scrollToPosition(0)
         }
+
         viewModel.init(savedInstanceState == null)
     }
 
@@ -142,5 +136,23 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
+    }
+
+    override fun onDestroyView() {
+        binding.daysViewPager.unregisterOnPageChangeCallback(viewPagerCallback)
+        super.onDestroyView()
+    }
+
+    override fun share(content: String) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+        }
+        intent.putExtra(Intent.EXTRA_TEXT, content)
+        startActivity(
+            Intent.createChooser(
+                intent,
+                requireContext().getString(R.string.send_to)
+            )
+        )
     }
 }

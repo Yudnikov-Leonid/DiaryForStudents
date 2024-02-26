@@ -16,6 +16,8 @@ class DaysRecyclerViewAdapter(
     class ItemViewHolder(private val binding: FragmentDaysBinding, private val listener: Listener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(days: List<DayUi>) {
+            if (days.isEmpty()) return
+
             days[0].showDayOfTheWeek(binding.dayTextViewOne)
             days[0].showDate(binding.dateTextViewOne)
             days[0].setSelectedColor(binding.dateTextViewOne, binding.dayTextViewOne)
