@@ -30,6 +30,7 @@
     <string name="homework_type">Тип заданий: %s</string>
     <string name="previous">Предыдущие</string>
     <string name="send_previous">Предыдущим</string>
+    <string name="send_all">Всем</string>
     <string name="send_actual">Текущим</string>
     <string name="filters">%s фильтров</string>
     <string name="set_filters">Установить фильтры</string>

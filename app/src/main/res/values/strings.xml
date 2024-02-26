@@ -34,6 +34,7 @@
     <string name="homework_type">Homework: %s</string>
     <string name="previous">Previous</string>
     <string name="send_previous">Previous</string>
+    <string name="send_all">All</string>
     <string name="send_actual">Actual</string>
     <string name="filters">%s filters</string>
     <string name="set_filters">Set filters</string>

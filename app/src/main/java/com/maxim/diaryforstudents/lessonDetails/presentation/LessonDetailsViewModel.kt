@@ -13,7 +13,9 @@ import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
+import com.maxim.diaryforstudents.openNews.Share
 
 class LessonDetailsViewModel(
     private val storage: LessonDetailsStorage.Read,
@@ -69,6 +71,10 @@ class LessonDetailsViewModel(
         }
     }
 
+    fun share(share: Share, type: ShareType) {
+        type.share(share, storage.lesson())
+    }
+
     override fun reload() {
         val lesson = storage.lesson()
         lesson.showName(viewList[0])
@@ -105,5 +111,27 @@ class LessonDetailsViewModel(
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         storage.restore(bundleWrapper)
+    }
+}
+
+interface ShareType {
+    fun share(share: Share, lesson: DiaryUi.Lesson)
+
+    object Previous: ShareType {
+        override fun share(share: Share, lesson: DiaryUi.Lesson) {
+            lesson.sharePreviousHomework(share)
+        }
+    }
+
+    object Actual: ShareType {
+        override fun share(share: Share, lesson: DiaryUi.Lesson) {
+            lesson.shareActualHomework(share)
+        }
+    }
+
+    object All: ShareType {
+        override fun share(share: Share, lesson: DiaryUi.Lesson) {
+            lesson.shareAllHomework(share)
+        }
     }
 }

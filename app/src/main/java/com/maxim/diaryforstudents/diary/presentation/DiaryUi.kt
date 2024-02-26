@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import com.maxim.diaryforstudents.openNews.Share
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 import java.io.Serializable
 
@@ -24,6 +25,10 @@ interface DiaryUi : Serializable {
     fun showNotes(textView: TextView, title: TextView) {}
     fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
     fun map(mapper: Mapper<Boolean>): Boolean
+
+    fun shareActualHomework(share: Share) {}
+    fun sharePreviousHomework(share: Share) {}
+    fun shareAllHomework(share: Share) {}
 
     interface Mapper<T> {
         fun map(
@@ -73,6 +78,18 @@ interface DiaryUi : Serializable {
         private val absence: List<String>,
         private val notes: List<String>
     ) : DiaryUi {
+
+        override fun shareActualHomework(share: Share) {
+            share.share(homework)
+        }
+
+        override fun sharePreviousHomework(share: Share) {
+            share.share(previousHomework)
+        }
+
+        override fun shareAllHomework(share: Share) {
+            share.share("${homework.ifEmpty { "-" }}\n\n${previousHomework.ifEmpty { "-" }}")
+        }
 
         override fun showTime(textView: TextView) {
             val text = "$startTime - $endTime"

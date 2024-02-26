@@ -57,6 +57,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>() {
             }, year, month, day).show()
         }
 
+        //todo refactor with share interface
         binding.shareDateButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
