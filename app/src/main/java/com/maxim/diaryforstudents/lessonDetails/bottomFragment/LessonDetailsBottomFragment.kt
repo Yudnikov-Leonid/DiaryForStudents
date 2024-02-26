@@ -43,6 +43,8 @@ class LessonDetailsBottomFragment: BottomSheetDialogFragment() {
             binding.noteTextView,
             binding.progressBar
         )
+
+        binding.titleLayout.visibility = View.GONE
     }
 
     override fun onDestroyView() {

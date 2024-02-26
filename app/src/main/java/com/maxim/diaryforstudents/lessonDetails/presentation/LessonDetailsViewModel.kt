@@ -43,7 +43,6 @@ class LessonDetailsViewModel(
         notesTextView: TextView,
         progressBar: ProgressBar
     ) {
-
         viewList.addAll(
             listOf(
                 nameTextView,
