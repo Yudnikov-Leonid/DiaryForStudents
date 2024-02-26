@@ -5,7 +5,7 @@ import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.settings.themes.ThemesScreen
+import com.maxim.diaryforstudents.settings.themes.SettingsThemesScreen
 
 class SettingsViewModel(
     private val navigation: Navigation.Update,
@@ -13,7 +13,7 @@ class SettingsViewModel(
 ): ViewModel(), GoBack {
 
     fun themes() {
-        navigation.update(ThemesScreen)
+        navigation.update(SettingsThemesScreen)
     }
 
     override fun goBack() {
