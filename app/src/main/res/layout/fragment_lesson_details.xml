@@ -65,9 +65,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="40dp"
             android:textSize="18sp"
-            tools:text="Some teacher name"
-            android:layout_marginBottom="40dp"/>
+            tools:text="Some teacher name" />
 
         <TextView
             android:id="@+id/topicTitleTextView"
@@ -139,7 +139,8 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/marksTextView"

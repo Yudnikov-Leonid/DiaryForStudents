@@ -6,6 +6,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.openNews.Share
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
@@ -143,10 +144,12 @@ interface DiaryUi : Serializable {
                 textView.setTextColor(textView.context.getColor(R.color.blue))
                 linearLayout.addView(textView)
             }
-            marks.forEach { grade ->
+            val colorManager =
+                (linearLayout.context.applicationContext as ProvideColorManager).colorManager()
+            marks.forEach { mark ->
                 val textView = TextView(linearLayout.context)
                 textView.layoutParams = layoutParams
-                grade.showName(textView)
+                mark.showName(textView, colorManager)
                 linearLayout.addView(textView)
             }
         }
