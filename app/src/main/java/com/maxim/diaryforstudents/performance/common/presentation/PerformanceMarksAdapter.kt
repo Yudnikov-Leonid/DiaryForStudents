@@ -23,8 +23,9 @@ class PerformanceMarksAdapter(
                 (binding.markTextView.context.applicationContext as ProvideColorManager).colorManager()
             )
             item.showDate(binding.dateTextView)
-            //item.showType(binding.root)
-            item.showIsChecked(binding.root)
+            item.showType(binding.root)
+            val colorManager = (binding.root.context.applicationContext as ProvideColorManager).colorManager()
+            item.showIsChecked(binding.root, colorManager)
             itemView.setOnClickListener {
                 item.openDetails(listener)
             }

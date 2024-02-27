@@ -1,5 +1,7 @@
 package com.maxim.diaryforstudents.core.presentation
 
+import android.graphics.drawable.GradientDrawable
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -13,6 +15,7 @@ interface ColorManager {
 
     fun showColor(imageButton: ImageButton, key: String, defaultColor: Int)
     fun showColor(textView: TextView, key: String, defaultColor: Int)
+    fun showStroke(view: View, key: String, defaultColor: Int)
 
     class Base(private val simpleStorage: SimpleStorage) : ColorManager {
         override fun saveColor(color: Int, key: String) {
@@ -45,6 +48,11 @@ interface ColorManager {
                 defaultColor
             )
             textView.setTextColor(color)
+        }
+
+        override fun showStroke(view: View, key: String, defaultColor: Int) {
+            val background = view.background as GradientDrawable
+            background.setStroke(8, getColor(key, ContextCompat.getColor(view.context, defaultColor)))
         }
 
         companion object {

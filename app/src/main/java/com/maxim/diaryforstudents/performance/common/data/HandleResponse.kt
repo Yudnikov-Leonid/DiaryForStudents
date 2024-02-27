@@ -124,9 +124,7 @@ interface HandleResponse : SaveAndRestore {
         private fun getMarkType(value: String): MarkType {
             return when (value) {
                 "12" -> MarkType.ControlTest
-                "24" -> MarkType.Test
-                "17" -> MarkType.Practical
-                "16" -> MarkType.Laboratory
+                "24", "17", "16" -> MarkType.Test
                 else -> MarkType.Current
             }
         }

@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
@@ -33,7 +32,7 @@ interface PerformanceUi : Serializable {
     fun openDetails(listener: PerformanceMarksAdapter.Listener) {}
 
     fun showType(view: View) {}
-    fun showIsChecked(view: View) {}
+    fun showIsChecked(view: View, colorManager: ColorManager) {}
 
     suspend fun getLesson(
         interactor: PerformanceInteractor,
@@ -177,19 +176,17 @@ interface PerformanceUi : Serializable {
             type.show(view)
         }
 
-        override fun showIsChecked(view: View) {
-            val drawable = if (isChecked) R.drawable.mark_current else when (mark) {
-                1, 2 -> R.drawable.new_mark_2
-                3 -> R.drawable.new_mark_3
-                4 -> R.drawable.new_mark_4
-                5 -> R.drawable.new_mark_5
-                else -> R.drawable.new_mark_unknown
-            }
-            view.background = ResourcesCompat.getDrawable(
-                view.resources,
-                drawable,
-                view.context.theme
-            )
+        override fun showIsChecked(view: View, colorManager: ColorManager) {
+            if (!isChecked)
+                colorManager.showStroke(
+                    view, mark.toString(), when (mark) {
+                        1, 2 -> R.color.red
+                        3 -> R.color.yellow
+                        4 -> R.color.green
+                        5 -> R.color.light_green
+                        else -> R.color.black
+                    }
+                )
         }
 
         override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
@@ -238,19 +235,18 @@ interface PerformanceUi : Serializable {
             listener.details(this)
         }
 
-        override fun showIsChecked(view: View) {
-            val drawable = if (isChecked) R.drawable.mark_current else when (marks.min()) {
-                1, 2 -> R.drawable.new_mark_2
-                3 -> R.drawable.new_mark_3
-                4 -> R.drawable.new_mark_4
-                5 -> R.drawable.new_mark_5
-                else -> R.drawable.new_mark_unknown
-            }
-            view.background = ResourcesCompat.getDrawable(
-                view.resources,
-                drawable,
-                view.context.theme
-            )
+        override fun showIsChecked(view: View, colorManager: ColorManager) {
+            val mark = marks.min()
+            if (!isChecked)
+                colorManager.showStroke(
+                    view, mark.toString(), when (mark) {
+                        1, 2 -> R.color.red
+                        3 -> R.color.yellow
+                        4 -> R.color.green
+                        5 -> R.color.light_green
+                        else -> R.color.black
+                    }
+                )
         }
 
         override fun showName(textView: TextView, colorManager: ColorManager) {
