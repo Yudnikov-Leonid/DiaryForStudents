@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.core.presentation
 
-import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.maxim.diaryforstudents.core.data.SimpleStorage
@@ -11,7 +11,7 @@ interface ColorManager {
     fun hasColor(key: String): Boolean
     fun resetColor(key: String)
 
-    fun showColor(imageView: ImageView, key: String, defaultColor: Int)
+    fun showColor(imageButton: ImageButton, key: String, defaultColor: Int)
     fun showColor(textView: TextView, key: String, defaultColor: Int)
 
     class Base(private val simpleStorage: SimpleStorage) : ColorManager {
@@ -31,12 +31,12 @@ interface ColorManager {
             simpleStorage.save("$KEY$key", -1)
         }
 
-        override fun showColor(imageView: ImageView, key: String, defaultColor: Int) {
+        override fun showColor(imageButton: ImageButton, key: String, defaultColor: Int) {
             val color = if (hasColor(key)) getColor(key, 0) else ContextCompat.getColor(
-                imageView.context,
+                imageButton.context,
                 defaultColor
             )
-            imageView.setBackgroundColor(color)
+            imageButton.setBackgroundColor(color)
         }
 
         override fun showColor(textView: TextView, key: String, defaultColor: Int) {

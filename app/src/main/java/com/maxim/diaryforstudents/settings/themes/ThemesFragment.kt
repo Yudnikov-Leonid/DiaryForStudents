@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentSettingsThemesBinding
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -50,66 +51,36 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
 
         binding.fiveResetButton.setOnClickListener {
             viewModel.resetColor("5")
-            viewModel.showDefaultColors(
-                binding.fiveColorButton,
-                binding.fourColorButton,
-                binding.threeColorButton,
-                binding.twoColorButton,
-                binding.oneColorButton
-            )
         }
 
         binding.fourResetButton.setOnClickListener {
             viewModel.resetColor("4")
-            viewModel.showDefaultColors(
-                binding.fiveColorButton,
-                binding.fourColorButton,
-                binding.threeColorButton,
-                binding.twoColorButton,
-                binding.oneColorButton
-            )
         }
 
         binding.threeResetButton.setOnClickListener {
             viewModel.resetColor("3")
-            viewModel.showDefaultColors(
-                binding.fiveColorButton,
-                binding.fourColorButton,
-                binding.threeColorButton,
-                binding.twoColorButton,
-                binding.oneColorButton
-            )
         }
 
         binding.twoResetButton.setOnClickListener {
             viewModel.resetColor("2")
-            viewModel.showDefaultColors(
-                binding.fiveColorButton,
-                binding.fourColorButton,
-                binding.threeColorButton,
-                binding.twoColorButton,
-                binding.oneColorButton
-            )
         }
 
         binding.oneResetButton.setOnClickListener {
             viewModel.resetColor("1")
-            viewModel.showDefaultColors(
+        }
+
+        viewModel.observe(this) {
+            it.show(
                 binding.fiveColorButton,
                 binding.fourColorButton,
                 binding.threeColorButton,
                 binding.twoColorButton,
-                binding.oneColorButton
+                binding.oneColorButton,
+                (requireActivity() as ProvideColorManager).colorManager()
             )
         }
 
-        viewModel.showDefaultColors(
-            binding.fiveColorButton,
-            binding.fourColorButton,
-            binding.threeColorButton,
-            binding.twoColorButton,
-            binding.oneColorButton
-        )
+        viewModel.reload()
     }
 
     override fun open(defaultColor: Int, parseColor: Boolean, key: String) {
@@ -121,13 +92,6 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
 
                 override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
                     viewModel.saveColor(color, key)
-                    viewModel.showDefaultColors(
-                        binding.fiveColorButton,
-                        binding.fourColorButton,
-                        binding.threeColorButton,
-                        binding.twoColorButton,
-                        binding.oneColorButton
-                    )
                 }
             }).show()
     }
