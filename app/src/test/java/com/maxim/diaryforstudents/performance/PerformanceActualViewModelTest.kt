@@ -57,6 +57,7 @@ class PerformanceActualViewModelTest {
     @Test
     fun test_reload_success() {
         interactor.progressTypeMustReturn(ProgressType.AWeekAgo)
+        interactor.showTypeMustReturn(true)
         viewModel.reload()
         communication.checkCalledTimes(1)
         communication.checkCalledWith(
@@ -69,15 +70,17 @@ class PerformanceActualViewModelTest {
                         "12.34.5678",
                         "lesson name",
                         false,
-                        true
+                        true,
                     )
                 ),
                 false,
-                ProgressType.AWeekAgo
+                ProgressType.AWeekAgo,
+                true
             )
         )
 
         interactor.progressTypeMustReturn(ProgressType.AMonthAgo)
+        interactor.showTypeMustReturn(false)
         viewModel.reload()
         communication.checkCalledTimes(2)
         communication.checkCalledWith(
@@ -94,7 +97,8 @@ class PerformanceActualViewModelTest {
                     )
                 ),
                 false,
-                ProgressType.AMonthAgo
+                ProgressType.AMonthAgo,
+                false
             )
         )
     }
@@ -122,7 +126,8 @@ class PerformanceActualViewModelTest {
                         )
                     ),
                     false,
-                    ProgressType.Hide
+                    ProgressType.Hide,
+                    true
                 )
             )
         )
@@ -155,7 +160,8 @@ class PerformanceActualViewModelTest {
                     )
                 ),
                 false,
-                ProgressType.Hide
+                ProgressType.Hide,
+                true
             )
         )
     }
@@ -178,7 +184,8 @@ class PerformanceActualViewModelTest {
                     )
                 ),
                 false,
-                ProgressType.Hide
+                ProgressType.Hide,
+                true
             )
         )
     }
@@ -208,7 +215,8 @@ class PerformanceActualViewModelTest {
                     )
                 ),
                 false,
-                ProgressType.Hide
+                ProgressType.Hide,
+                true
             )
         )
     }

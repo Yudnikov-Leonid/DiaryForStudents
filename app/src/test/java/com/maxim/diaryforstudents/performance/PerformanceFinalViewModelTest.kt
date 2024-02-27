@@ -36,7 +36,8 @@ class PerformanceFinalViewModelTest {
                     0,
                     listOf(PerformanceUi.Mark(4, MarkType.Current, "12.34.5678", "lesson name", true, true)),
                     true,
-                    ProgressType.AWeekAgo
+                    ProgressType.AWeekAgo,
+                    true
                 )
             )
         )
@@ -85,7 +86,8 @@ class PerformanceFinalViewModelTest {
                 0,
                 listOf(PerformanceUi.Mark(4, MarkType.Current,"12.34.5678", "lesson name", true, true)),
                 true,
-                ProgressType.TwoWeeksAgo
+                ProgressType.TwoWeeksAgo,
+                true
             )
         )
     }

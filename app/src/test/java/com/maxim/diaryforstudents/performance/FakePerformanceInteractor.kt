@@ -103,7 +103,13 @@ class FakePerformanceInteractor : PerformanceInteractor {
         progressTypeValue = value
     }
 
+    private var showTypeValue = true
+    fun showTypeMustReturn(value: Boolean) {
+        showTypeValue = value
+    }
+
     override fun currentProgressType() = progressTypeValue
+    override fun showType() = showTypeValue
 
     private var currentQuarterCounter = 0
     fun checkCurrentQuarterCalledTimes(expected: Int) {
