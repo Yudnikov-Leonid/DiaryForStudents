@@ -16,4 +16,7 @@
     <color name="light_background">#1E1E1E</color>
     <color name="selected_button">#0048A0</color>
     <color name="icon">#CDCDCD</color>
+
+    <color name="test">#306DA3</color>
+    <color name="control_test">#8C1D0D</color>
 </resources>
