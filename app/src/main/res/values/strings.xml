@@ -155,4 +155,7 @@
     <string name="test_type">Test</string>
     <string name="laboratory_test_type">Laboratory test</string>
     <string name="practical_test_type">Practical test</string>
+
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="timeout">Timeout</string>
 </resources>

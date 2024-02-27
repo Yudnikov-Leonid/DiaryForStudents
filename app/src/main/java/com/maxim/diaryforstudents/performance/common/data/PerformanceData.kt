@@ -5,7 +5,7 @@ import java.io.Serializable
 
 interface PerformanceData : Serializable {
 
-    //todo public to sort
+    //todo how to sort without public fields?
     fun average(): Float = 0f
     fun progress(): List<Int> = emptyList()
     fun marksCount(): Int = 0

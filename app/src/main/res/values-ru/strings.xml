@@ -150,4 +150,7 @@
     <string name="test_type">Проверочная работа</string>
     <string name="laboratory_test_type">Лабораторная работа</string>
     <string name="practical_test_type">Практическая работа</string>
+
+    <string name="no_internet_connection">Нет интернета</string>
+    <string name="timeout">Время ожидания истекло</string>
 </resources>
