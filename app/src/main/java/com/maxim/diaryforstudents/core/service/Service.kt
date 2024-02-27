@@ -15,7 +15,6 @@ interface Service {
 
     suspend fun <T: Any> single(childOne: String, clasz: Class<T>): List<T>
 
-    //todo handler will use in news like feature
     class Base(context: Context, private val handler: CoroutineHandler) : Service {
         private val database: DatabaseReference
 

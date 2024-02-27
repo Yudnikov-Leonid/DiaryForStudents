@@ -1,7 +1,6 @@
 package com.maxim.diaryforstudents.openNews
 
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
@@ -14,18 +13,19 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsUi
 
-//todo make communication and tests
 class OpenNewsViewModel(
+    private val communication: OpenNewsCommunication,
     private val data: OpenNewsStorage.Read,
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel
 ) : BaseViewModel(), Init, GoBack, SaveAndRestore, Communication.Observe<NewsUi> {
-    private val mutableLiveData = MutableLiveData<NewsUi>()
+
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun)
-            mutableLiveData.value = data.read()
+            communication.update(data.read())
     }
 
+    //not tested
     fun share(share: Share) {
         data.read().share(share)
     }
@@ -41,10 +41,10 @@ class OpenNewsViewModel(
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         data.restore(bundleWrapper)
-        mutableLiveData.value = data.read()
+        communication.update(data.read())
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<NewsUi>) {
-        mutableLiveData.observe(owner, observer)
+        communication.observe(owner, observer)
     }
 }
