@@ -7,6 +7,6 @@
         android:centerColor="@color/white"
         android:centerX="0.15"
         android:endColor="@color/white"
-        android:startColor="#9DD1FF" />
+        android:startColor="@color/test" />
 
 </shape>

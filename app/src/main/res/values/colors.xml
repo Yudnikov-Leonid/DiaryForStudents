@@ -21,4 +21,7 @@
     <color name="light_green">#00EA58</color>
     <color name="green">#16B552</color>
     <color name="yellow">#FFC107</color>
+
+    <color name="test">#9DD1FF</color>
+    <color name="control_test">#FFB6AD</color>
 </resources>
