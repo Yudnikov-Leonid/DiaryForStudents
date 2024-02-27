@@ -23,6 +23,7 @@ interface DiaryUi : Serializable {
     fun showPreviousHomework(textView: TextView, title: TextView) {}
     fun showLessons(adapter: DiaryLessonsAdapter, actualHomework: Boolean) {}
     fun showMarks(linearLayout: LinearLayout) {}
+    fun showMarkType(textView: TextView) {}
     fun showNotes(textView: TextView, title: TextView) {}
     fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
     fun map(mapper: Mapper<Boolean>): Boolean
@@ -151,6 +152,15 @@ interface DiaryUi : Serializable {
                 textView.layoutParams = layoutParams
                 mark.showName(textView, colorManager)
                 linearLayout.addView(textView)
+            }
+        }
+
+        override fun showMarkType(textView: TextView) {
+            textView.visibility = if (marks.isEmpty()) {
+                View.GONE
+            } else {
+                marks.last().showType(textView)
+                View.VISIBLE
             }
         }
 

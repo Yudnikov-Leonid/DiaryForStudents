@@ -149,4 +149,10 @@
     <string name="show_mark_type">Show mark type</string>
     <string name="control_test">- Control test</string>
     <string name="test">- Test</string>
+
+    <string name="current_type">Current mark</string>
+    <string name="control_test_type">Control test</string>
+    <string name="test_type">Test</string>
+    <string name="laboratory_test_type">Laboratory test</string>
+    <string name="practical_test_type">Practical test</string>
 </resources>

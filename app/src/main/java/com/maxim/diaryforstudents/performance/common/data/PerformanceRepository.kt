@@ -31,6 +31,7 @@ interface PerformanceRepository : SaveAndRestore {
     class Base(
         private val cloudDataSource: PerformanceCloudDataSource,
         private val handleResponse: HandleResponse,
+        private val handleMarkType: HandleMarkType,
         private val dao: PerformanceDao
     ) : PerformanceRepository {
         private var loadException: Exception? = null
@@ -80,6 +81,7 @@ interface PerformanceRepository : SaveAndRestore {
                         responseCache[currentQuarter]!!,
                         checkedMarksCache,
                         true,
+                        handleMarkType,
                         currentQuarter
                     )
                 )
@@ -151,6 +153,7 @@ interface PerformanceRepository : SaveAndRestore {
                         responseCache[quarter]!!,
                         if (quarter == currentQuarter) checkedMarksCache else emptyList(),
                         quarter == currentQuarter(),
+                        handleMarkType,
                         quarter
                     )
                 )

@@ -50,20 +50,25 @@ class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDe
                 }.create().show()
         }
 
-        viewModel.show(
-            binding.lessonNameTextView,
-            binding.teacherNameTextView,
-            binding.topicTextView,
-            binding.topicTitleTextView,
-            binding.homeworkTextView,
-            binding.homeworkTitleTextView,
-            binding.previousHomeworkTextView,
-            binding.previousHomeworkTitleTextView,
-            binding.marksLayout,
-            binding.noteTitleTextView,
-            binding.noteTextView,
-            binding.progressBar
-        )
+        viewModel.observe(this) {
+            it.show(
+                binding.lessonNameTextView,
+                binding.teacherNameTextView,
+                binding.topicTextView,
+                binding.topicTitleTextView,
+                binding.homeworkTextView,
+                binding.homeworkTitleTextView,
+                binding.previousHomeworkTextView,
+                binding.previousHomeworkTitleTextView,
+                binding.marksLayout,
+                binding.markTypeTextView,
+                binding.noteTextView,
+                binding.noteTitleTextView,
+                binding.progressBar
+            )
+        }
+
+        viewModel.init()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

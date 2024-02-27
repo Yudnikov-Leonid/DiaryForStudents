@@ -143,5 +143,11 @@
     <string name="homework_for">Домашнее задание на</string>
     <string name="show_mark_type">Показывать тип оценки</string>
     <string name="control_test">- Контрольная работа</string>
-    <string name="test">- Тест</string>
+    <string name="test">- Проверочная</string>
+
+    <string name="current_type">Текущая оценка</string>
+    <string name="control_test_type">Контрольная работа</string>
+    <string name="test_type">Проверочная работа</string>
+    <string name="laboratory_test_type">Лабораторная работа</string>
+    <string name="practical_test_type">Практическая работа</string>
 </resources>

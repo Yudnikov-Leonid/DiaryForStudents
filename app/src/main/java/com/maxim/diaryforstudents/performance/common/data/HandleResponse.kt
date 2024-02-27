@@ -12,6 +12,7 @@ interface HandleResponse : SaveAndRestore {
         lessons: List<CloudLesson>,
         checkedMarks: List<String>,
         calculateProgress: Boolean,
+        handleMarkType: HandleMarkType,
         quarter: Int
     ): List<PerformanceData.Lesson>
 
@@ -38,6 +39,7 @@ interface HandleResponse : SaveAndRestore {
             lessons: List<CloudLesson>,
             checkedMarks: List<String>,
             calculateProgress: Boolean,
+            handleMarkType: HandleMarkType,
             quarter: Int
         ): List<PerformanceData.Lesson> {
             return lessons.filter { it.MARKS.isNotEmpty() }.map { lesson ->
@@ -74,10 +76,10 @@ interface HandleResponse : SaveAndRestore {
                                 ),
                                 listOf(
                                     lesson.MARKS[i - 1].GRADE_TYPE_GUID?.let {
-                                        getMarkType(it)
+                                        handleMarkType.handle(it)
                                     } ?: MarkType.Current,
                                     lesson.MARKS[i].GRADE_TYPE_GUID?.let {
-                                        getMarkType(it)
+                                        handleMarkType.handle(it)
                                     } ?: MarkType.Current
                                 ),
                                 lesson.MARKS[i].DATE,
@@ -90,7 +92,7 @@ interface HandleResponse : SaveAndRestore {
                             PerformanceData.Mark(
                                 lesson.MARKS[i].VALUE,
                                 lesson.MARKS[i].GRADE_TYPE_GUID?.let {
-                                    getMarkType(it)
+                                    handleMarkType.handle(it)
                                 } ?: MarkType.Current,
                                 lesson.MARKS[i].DATE,
                                 lesson.SUBJECT_NAME,
@@ -118,14 +120,6 @@ interface HandleResponse : SaveAndRestore {
                         (actualAverage / it - 1) * 100
                     } ?: 0).toInt() else 0
                 )
-            }
-        }
-
-        private fun getMarkType(value: String): MarkType {
-            return when (value) {
-                "12" -> MarkType.ControlTest
-                "24", "17", "16" -> MarkType.Test
-                else -> MarkType.Current
             }
         }
 

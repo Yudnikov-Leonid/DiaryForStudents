@@ -5,6 +5,7 @@ import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.sl.ManageResource
+import com.maxim.diaryforstudents.performance.common.data.HandleMarkType
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
@@ -24,6 +25,7 @@ interface DiaryRepository {
         private val formatter: Formatter,
         private val eduUser: EduUser,
         private val manageResource: ManageResource,
+        private val handleMarkType: HandleMarkType,
     ) : DiaryRepository {
         private val cache = mutableMapOf<String, DiaryData.Day>()
 
@@ -93,7 +95,9 @@ interface DiaryRepository {
                         lesson.MARKS?.map {
                             PerformanceData.Mark(
                                 it.VALUE,
-                                MarkType.Current,
+                                it.GRADE_TYPE_GUID?.let { typeGuid ->
+                                    handleMarkType.handle(typeGuid)
+                                } ?: MarkType.Current,
                                 formattedDate,
                                 lesson.SUBJECT_NAME,
                                 false,
@@ -165,7 +169,9 @@ interface DiaryRepository {
                         lesson.MARKS?.map {
                             PerformanceData.Mark(
                                 it.VALUE,
-                                MarkType.Current,
+                                it.GRADE_TYPE_GUID?.let { typeGuid ->
+                                    handleMarkType.handle(typeGuid)
+                                } ?: MarkType.Current,
                                 formattedDate,
                                 lesson.SUBJECT_NAME,
                                 false,

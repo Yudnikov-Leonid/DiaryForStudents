@@ -6,7 +6,8 @@
     android:background="@color/light_background"
     android:clickable="true"
     android:focusable="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -151,6 +152,14 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/markTypeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="16sp"
+            tools:text="Control test" />
 
         <TextView
             android:id="@+id/noteTitleTextView"

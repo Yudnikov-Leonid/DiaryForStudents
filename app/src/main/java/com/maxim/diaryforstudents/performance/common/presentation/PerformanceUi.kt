@@ -32,6 +32,7 @@ interface PerformanceUi : Serializable {
     fun openDetails(listener: PerformanceMarksAdapter.Listener) {}
 
     fun showType(view: View) {}
+    fun showType(textView: TextView) {}
     fun showIsChecked(view: View, colorManager: ColorManager) {}
 
     suspend fun getLesson(
@@ -174,6 +175,10 @@ interface PerformanceUi : Serializable {
 
         override fun showType(view: View) {
             type.show(view)
+        }
+
+        override fun showType(textView: TextView) {
+            type.show(textView)
         }
 
         override fun showIsChecked(view: View, colorManager: ColorManager) {
