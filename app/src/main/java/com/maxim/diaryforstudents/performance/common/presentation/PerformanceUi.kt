@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.performance.common.presentation
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -192,6 +193,8 @@ interface PerformanceUi : Serializable {
                         else -> R.color.black
                     }
                 )
+            else
+                (view.background as GradientDrawable).setStroke(0, 0)
         }
 
         override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
@@ -252,6 +255,8 @@ interface PerformanceUi : Serializable {
                         else -> R.color.black
                     }
                 )
+            else
+                (view.background as GradientDrawable).setStroke(0, 0)
         }
 
         override fun showName(textView: TextView, colorManager: ColorManager) {
