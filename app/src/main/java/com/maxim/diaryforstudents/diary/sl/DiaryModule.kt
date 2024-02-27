@@ -22,7 +22,8 @@ class DiaryModule(private val core: Core, private val clear: ClearViewModel) :
             core.marksModule().diaryRepository(),
             FailureHandler.Base(),
             DiaryDataToDomainMapper(PerformanceDataToDomainMapper()),
-            DayDataToDomainMapper()
+            DayDataToDomainMapper(),
+            core
         ),
         DiaryCommunication.Base(),
         core.lessonDetailsStorage(),

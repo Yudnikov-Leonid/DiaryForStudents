@@ -44,7 +44,8 @@ interface MarksModule {
                 FailureHandler.Base(),
                 PerformanceDataToDomainMapper(),
                 diaryRepository,
-                DiaryDataToDomainMapper(PerformanceDataToDomainMapper())
+                DiaryDataToDomainMapper(PerformanceDataToDomainMapper()),
+                core
             )
         }
 

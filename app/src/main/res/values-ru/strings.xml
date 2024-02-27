@@ -144,6 +144,7 @@
     <string name="show_mark_type">Показывать тип оценки</string>
     <string name="control_test">- Контрольная работа</string>
     <string name="test">- Проверочная</string>
+    <string name="lesson_number">%s урок</string>
 
     <string name="current_type">Текущая оценка</string>
     <string name="control_test_type">Контрольная работа</string>

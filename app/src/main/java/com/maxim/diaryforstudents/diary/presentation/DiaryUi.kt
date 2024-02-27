@@ -16,7 +16,9 @@ interface DiaryUi : Serializable {
     fun same(item: DiaryUi): Boolean
     fun sameContent(item: DiaryUi): Boolean
     fun showTime(textView: TextView) {}
+    fun showNameAndNumber(textView: TextView) {}
     fun showName(textView: TextView) {}
+    fun showNumber(textView: TextView) {}
     fun showTeacherName(textView: TextView) {}
     fun showTopic(textView: TextView, title: TextView) {}
     fun showHomework(textView: TextView, title: TextView) {}
@@ -49,7 +51,7 @@ interface DiaryUi : Serializable {
         private val lessons: List<DiaryUi>
     ) : DiaryUi {
         override fun same(item: DiaryUi) = item is Day && item.date == date
-        override fun showName(textView: TextView) {
+        override fun showNameAndNumber(textView: TextView) {
             textView.text = Formatter.Base.format("LLLL yyyy", date)
         }
 
@@ -98,10 +100,19 @@ interface DiaryUi : Serializable {
             textView.text = text
         }
 
-        override fun showName(textView: TextView) {
+        override fun showNameAndNumber(textView: TextView) {
             val text = if (number != -1)
                 "$number. $name"
             else name
+            textView.text = text
+        }
+
+        override fun showName(textView: TextView) {
+            textView.text = name
+        }
+
+        override fun showNumber(textView: TextView) {
+            val text = textView.resources.getString(R.string.lesson_number, number.toString())
             textView.text = text
         }
 

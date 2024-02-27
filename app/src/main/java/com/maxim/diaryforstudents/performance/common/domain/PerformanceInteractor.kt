@@ -5,6 +5,7 @@ import com.maxim.diaryforstudents.analytics.domain.AnalyticsDomain
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
+import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
@@ -44,7 +45,8 @@ interface PerformanceInteractor : SaveAndRestore {
         private val failureHandler: FailureHandler,
         private val mapper: PerformanceData.Mapper<PerformanceDomain>,
         private val diaryRepository: DiaryRepository,
-        private val diaryMapper: DiaryData.Mapper<DiaryDomain>
+        private val diaryMapper: DiaryData.Mapper<DiaryDomain>,
+        private val manageResource: ManageResource
     ) : PerformanceInteractor {
         private var finalLoadCallbackList: MutableList<(() -> Unit)> = ArrayList()
         private var dataIsLoading = false
@@ -83,7 +85,7 @@ interface PerformanceInteractor : SaveAndRestore {
                 }.map { it.map(mapper) }
                 if (sortingOrder == 0) data else data.reversed()
             } catch (e: Exception) {
-                listOf(PerformanceDomain.Error(failureHandler.handle(e).message()))
+                listOf(PerformanceDomain.Error(failureHandler.handle(e).message(manageResource)))
             }
         }
 
@@ -91,7 +93,7 @@ interface PerformanceInteractor : SaveAndRestore {
             try {
                 repository.cachedFinalData().map { it.map(mapper) }
             } catch (e: Exception) {
-                listOf(PerformanceDomain.Error(failureHandler.handle(e).message()))
+                listOf(PerformanceDomain.Error(failureHandler.handle(e).message(manageResource)))
             }
 
         override suspend fun analytics(
@@ -102,7 +104,7 @@ interface PerformanceInteractor : SaveAndRestore {
         ) = try {
             repository.analytics(quarter, lessonName, interval, showFinal).map { it.toDomain() }
         } catch (e: Exception) {
-            listOf(AnalyticsDomain.Error(failureHandler.handle(e).message()))
+            listOf(AnalyticsDomain.Error(failureHandler.handle(e).message(manageResource)))
         }
 
         override fun currentProgressType() =
@@ -129,7 +131,7 @@ interface PerformanceInteractor : SaveAndRestore {
                 diaryRepository.getLesson(lessonName, date).map(diaryMapper) as DiaryDomain.Lesson
             } catch (e: Exception) {
                 DiaryDomain.Lesson(
-                    failureHandler.handle(e).message(),
+                    failureHandler.handle(e).message(manageResource),
                     -1,
                     "",
                     "",

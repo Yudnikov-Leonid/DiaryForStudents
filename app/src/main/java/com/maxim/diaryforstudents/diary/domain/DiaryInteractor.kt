@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.diary.domain
 
+import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.diary.data.DayData
 import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
@@ -16,7 +17,8 @@ interface DiaryInteractor {
         private val repository: DiaryRepository,
         private val failureHandler: FailureHandler,
         private val mapper: DiaryData.Mapper<DiaryDomain>,
-        private val dayMapper: DayData.Mapper<DayDomain>
+        private val dayMapper: DayData.Mapper<DayDomain>,
+        private val manageResource: ManageResource
     ) : DiaryInteractor {
         override fun dayLists(today: Int): Triple<List<DayDomain>, List<DayDomain>, List<DayDomain>> {
             val data = repository.dayLists(today)
@@ -30,7 +32,7 @@ interface DiaryInteractor {
             return try {
                 repository.day(date).map(mapper)
             } catch (e: Exception) {
-                DiaryDomain.Error(failureHandler.handle(e).message())
+                DiaryDomain.Error(failureHandler.handle(e).message(manageResource))
             }
         }
 

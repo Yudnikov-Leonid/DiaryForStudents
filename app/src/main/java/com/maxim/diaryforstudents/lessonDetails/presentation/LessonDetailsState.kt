@@ -9,6 +9,7 @@ import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 interface LessonDetailsState {
     fun show(
         nameTextView: TextView,
+        numberTextView: TextView,
         teacherTextView: TextView,
         topicTextView: TextView,
         topicTitle: TextView,
@@ -26,6 +27,7 @@ interface LessonDetailsState {
     object Loading: LessonDetailsState {
         override fun show(
             nameTextView: TextView,
+            numberTextView: TextView,
             teacherTextView: TextView,
             topicTextView: TextView,
             topicTitle: TextView,
@@ -48,6 +50,7 @@ interface LessonDetailsState {
     ): LessonDetailsState {
         override fun show(
             nameTextView: TextView,
+            numberTextView: TextView,
             teacherTextView: TextView,
             topicTextView: TextView,
             topicTitle: TextView,
@@ -62,6 +65,7 @@ interface LessonDetailsState {
             progressBar: ProgressBar
         ) {
             lesson.showName(nameTextView)
+            lesson.showNumber(numberTextView)
             lesson.showTeacherName(teacherTextView)
             lesson.showTopic(topicTextView, topicTitle)
             lesson.showHomework(homeworkTextView, homeworkTitle)

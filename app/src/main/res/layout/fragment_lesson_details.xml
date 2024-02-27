@@ -62,6 +62,15 @@
             tools:text="Some lesson name" />
 
         <TextView
+            android:id="@+id/lessonNumberTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="20sp"
+            tools:text="1 lesson" />
+
+        <TextView
             android:id="@+id/teacherNameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

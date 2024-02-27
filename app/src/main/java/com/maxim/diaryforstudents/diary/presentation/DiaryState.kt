@@ -41,7 +41,7 @@ interface DiaryState : Serializable {
             errorBackButton: ImageButton,
             lessonsRecyclerView: View
         ) {
-            day.showName(monthTitle)
+            day.showNameAndNumber(monthTitle)
             topLayout.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
             daysViewPager.visibility = View.VISIBLE

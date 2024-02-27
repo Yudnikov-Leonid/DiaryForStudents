@@ -53,6 +53,7 @@ class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDe
         viewModel.observe(this) {
             it.show(
                 binding.lessonNameTextView,
+                binding.lessonNumberTextView,
                 binding.teacherNameTextView,
                 binding.topicTextView,
                 binding.topicTitleTextView,

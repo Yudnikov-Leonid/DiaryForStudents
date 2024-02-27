@@ -149,6 +149,7 @@
     <string name="show_mark_type">Show mark type</string>
     <string name="control_test">- Control test</string>
     <string name="test">- Test</string>
+    <string name="lesson_number">%s lesson</string>
 
     <string name="current_type">Current mark</string>
     <string name="control_test_type">Control test</string>
