@@ -146,4 +146,7 @@
     <string name="mark_colors">Colors of marks</string>
     <string name="homework_from">Homework from</string>
     <string name="homework_for">Homework for</string>
+    <string name="show_mark_type">Show mark type</string>
+    <string name="control_test">- Control test</string>
+    <string name="test">- Test</string>
 </resources>

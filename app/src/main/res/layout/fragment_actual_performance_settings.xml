@@ -34,6 +34,47 @@
 
     </LinearLayout>
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/showTypeSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_mark_type"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/typeInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="5dp"
+            android:background="#9DD1FF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/test"
+            android:textColor="@color/dark_gray" />
+
+        <View
+            android:layout_marginStart="20dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="5dp"
+            android:background="#FFB6AD" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/control_test"
+            android:textColor="@color/dark_gray" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

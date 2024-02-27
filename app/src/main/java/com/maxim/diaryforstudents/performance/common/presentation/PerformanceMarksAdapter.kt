@@ -1,9 +1,9 @@
 package com.maxim.diaryforstudents.performance.common.presentation
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.databinding.MarkBinding
@@ -13,18 +13,21 @@ class PerformanceMarksAdapter(
 ) : RecyclerView.Adapter<PerformanceMarksAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi>()
     private var showDate = true
+    private var showType = true
 
     class ItemViewHolder(private val binding: MarkBinding, private val listener: Listener) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: PerformanceUi, showDate: Boolean) {
+        fun bind(item: PerformanceUi, showDate: Boolean, showType: Boolean) {
             binding.dateTextView.visibility = if (showDate) View.VISIBLE else View.GONE
             item.showName(
                 binding.markTextView,
                 (binding.markTextView.context.applicationContext as ProvideColorManager).colorManager()
             )
             item.showDate(binding.dateTextView)
-            item.showType(binding.root)
-            val colorManager = (binding.root.context.applicationContext as ProvideColorManager).colorManager()
+            if (showType)
+                item.showType(binding.root)
+            val colorManager =
+                (binding.root.context.applicationContext as ProvideColorManager).colorManager()
             item.showIsChecked(binding.root, colorManager)
             itemView.setOnClickListener {
                 item.openDetails(listener)
@@ -41,16 +44,16 @@ class PerformanceMarksAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(list[position], showDate)
+        holder.bind(list[position], showDate, showType)
     }
 
-    fun update(newList: List<PerformanceUi>, showDate: Boolean) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun update(newList: List<PerformanceUi>, showDate: Boolean, showType: Boolean) {
         this.showDate = showDate
-        val diff = PerformanceDiffUtil(list, newList)
-        val result = DiffUtil.calculateDiff(diff)
+        this.showType = showType
         list.clear()
         list.addAll(newList)
-        result.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 
     interface Listener {

@@ -29,6 +29,7 @@ interface PerformanceInteractor : SaveAndRestore {
     ): List<AnalyticsDomain>
 
     fun currentProgressType(): ProgressType
+    fun showType(): Boolean
     fun currentQuarter(): Int
     suspend fun getLessonByMark(lessonName: String, date: String): DiaryDomain.Lesson
     suspend fun changeQuarter(quarter: Int)
@@ -116,6 +117,10 @@ interface PerformanceInteractor : SaveAndRestore {
                 2 -> ProgressType.AMonthAgo
                 else -> ProgressType.PreviousQuarter
             }
+
+        override fun showType(): Boolean {
+            return simpleStorage.read(ActualSettingsViewModel.SHOW_TYPE_KEY, true)
+        }
 
         override fun currentQuarter() = repository.currentQuarter()
 

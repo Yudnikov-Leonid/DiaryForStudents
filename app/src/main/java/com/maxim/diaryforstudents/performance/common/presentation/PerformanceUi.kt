@@ -21,7 +21,7 @@ interface PerformanceUi : Serializable {
     fun showName(textView: TextView) {}
     fun showName(textView: TextView, colorManager: ColorManager) {}
     fun showDate(textView: TextView) {}
-    fun showMarks(adapter: PerformanceMarksAdapter) {}
+    fun showMarks(adapter: PerformanceMarksAdapter, showType: Boolean) {}
     fun showAverage(titleTextView: TextView, textView: TextView, colorManager: ColorManager) {}
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
@@ -60,8 +60,8 @@ interface PerformanceUi : Serializable {
             textView.text = name
         }
 
-        override fun showMarks(adapter: PerformanceMarksAdapter) {
-            adapter.update(marks, true)
+        override fun showMarks(adapter: PerformanceMarksAdapter, showType: Boolean) {
+            adapter.update(marks, true, showType)
         }
 
         override fun showAverage(

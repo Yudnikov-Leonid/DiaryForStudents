@@ -16,9 +16,10 @@ class PerformanceLessonsAdapter(
 ) : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
     private var list = mutableListOf<PerformanceUi>()
     private var progressType: ProgressType = ProgressType.AWeekAgo
+    private var showType = true
 
     abstract class ItemViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        open fun bind(item: PerformanceUi, progressType: ProgressType) {}
+        open fun bind(item: PerformanceUi, progressType: ProgressType, showType: Boolean) {}
     }
 
     class BaseViewHolder(
@@ -26,11 +27,11 @@ class PerformanceLessonsAdapter(
         private val listener: Listener,
         private val markListener: PerformanceMarksAdapter.Listener
     ) : ItemViewHolder(binding) {
-        override fun bind(item: PerformanceUi, progressType: ProgressType) {
+        override fun bind(item: PerformanceUi, progressType: ProgressType, showType: Boolean) {
             item.showName(binding.lessonNameTextView)
             val adapter = PerformanceMarksAdapter(markListener)
             binding.marksRecyclerView.adapter = adapter
-            item.showMarks(adapter)
+            item.showMarks(adapter, showType)
             item.showAverage(
                 binding.averageTitleTextView,
                 binding.averageTextView,
@@ -70,13 +71,14 @@ class PerformanceLessonsAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(list[position], progressType)
+        holder.bind(list[position], progressType, showType)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun update(newList: List<PerformanceUi>, progressType: ProgressType) {
-        if (this.progressType != progressType) {
+    fun update(newList: List<PerformanceUi>, progressType: ProgressType, showType: Boolean) {
+        if (this.progressType != progressType || this.showType != showType) {
             this.progressType = progressType
+            this.showType = showType
             list.clear()
             list.addAll(newList)
             notifyDataSetChanged()

@@ -14,16 +14,25 @@ class ActualSettingsViewModel(
 
     fun init(
         showProgressSwitch: SwitchCompat,
+        showTypeSwitch: SwitchCompat,
         progressInfo: View,
+        typeInfo: View,
         progressComparedSpinner: Spinner,
         sortBySpinner: Spinner,
         sortingOrderSpinner: Spinner
     ) {
         showProgressSwitch.isChecked = simpleStorage.read(SHOW_PROGRESS_KEY, true)
+        showTypeSwitch.isChecked = simpleStorage.read(SHOW_TYPE_KEY, true)
         progressInfo.visibility = if (showProgressSwitch.isChecked) View.VISIBLE else View.GONE
+        typeInfo.visibility = if (showTypeSwitch.isChecked) View.VISIBLE else View.GONE
         progressComparedSpinner.setSelection(simpleStorage.read(PROGRESS_COMPARED_KEY, 0))
         sortBySpinner.setSelection(simpleStorage.read(SORT_BY_KEY, 0))
         sortingOrderSpinner.setSelection(simpleStorage.read(SORTING_ORDER_KEY, 0))
+    }
+
+    fun setShowType(value: Boolean, reload: () -> Unit) {
+        simpleStorage.save(SHOW_TYPE_KEY, value)
+        reload.invoke()
     }
 
     fun setShowProgress(value: Boolean, reload: () -> Unit) {
@@ -52,6 +61,7 @@ class ActualSettingsViewModel(
 
     companion object {
         const val SHOW_PROGRESS_KEY = "actual_show_progress"
+        const val SHOW_TYPE_KEY = "actual_show_type"
         const val PROGRESS_COMPARED_KEY = "actual_progress_compared"
         const val SORT_BY_KEY = "actual_sort_by"
         const val SORTING_ORDER_KEY = "actual_sorting_order"

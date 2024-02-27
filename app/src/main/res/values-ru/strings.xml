@@ -141,4 +141,7 @@
     <string name="mark_colors">Цвета оценок</string>
     <string name="homework_from">Домашнее задание, заданое</string>
     <string name="homework_for">Домашнее задание на</string>
+    <string name="show_mark_type">Показывать тип оценки</string>
+    <string name="control_test">- Контрольная работа</string>
+    <string name="test">- Тест</string>
 </resources>

@@ -17,7 +17,7 @@ interface CalculateState {
             adapter: PerformanceMarksAdapter,
             averageTextView: TextView,
         ) {
-            adapter.update(marks, false)
+            adapter.update(marks, showDate =  false, showType =  false)
             val avr = average.toString()
             averageTextView.text = if (avr.length > 3) avr.substring(0, 4) else avr
             colorManager.showColor(

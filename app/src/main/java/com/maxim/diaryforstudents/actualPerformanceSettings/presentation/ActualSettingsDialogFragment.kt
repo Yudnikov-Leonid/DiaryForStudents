@@ -27,7 +27,9 @@ class ActualSettingsDialogFragment : DialogFragment() {
 
         viewModel.init(
             binding.showProgressSwitch,
+            binding.showTypeSwitch,
             binding.progressInfoLayout,
+            binding.typeInfoLayout,
             binding.progressCompareSpinner,
             binding.sortBySpinner,
             binding.sortingOrderSpinner
@@ -36,6 +38,11 @@ class ActualSettingsDialogFragment : DialogFragment() {
         binding.showProgressSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setShowProgress(isChecked, reload)
             binding.progressInfoLayout.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+
+        binding.showTypeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setShowType(isChecked, reload)
+            binding.typeInfoLayout.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
         binding.progressCompareSpinner.onItemSelectedListener = object : OnItemSelectedListener {

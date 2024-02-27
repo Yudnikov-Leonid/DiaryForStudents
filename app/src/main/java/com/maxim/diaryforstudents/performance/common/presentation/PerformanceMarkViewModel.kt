@@ -28,7 +28,8 @@ abstract class PerformanceMarkViewModel(
                     quarter,
                     list.map { it.map(mapper) },
                     type.isFinal(),
-                    interactor.currentProgressType()
+                    interactor.currentProgressType(),
+                    interactor.showType()
                 )
             )
     }
