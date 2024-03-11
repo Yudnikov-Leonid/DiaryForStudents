@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
@@ -22,7 +23,7 @@ interface PerformanceUi : Serializable {
     fun showName(textView: TextView) {}
     fun showName(textView: TextView, colorManager: ColorManager) {}
     fun showDate(textView: TextView) {}
-    fun showMarks(adapter: PerformanceMarksAdapter, showType: Boolean) {}
+    fun showMarks(adapter: PerformanceMarksAdapter, showType: Boolean, recyclerView: RecyclerView) {}
     fun showAverage(titleTextView: TextView, textView: TextView, colorManager: ColorManager) {}
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
@@ -62,8 +63,13 @@ interface PerformanceUi : Serializable {
             textView.text = name
         }
 
-        override fun showMarks(adapter: PerformanceMarksAdapter, showType: Boolean) {
+        override fun showMarks(
+            adapter: PerformanceMarksAdapter,
+            showType: Boolean,
+            recyclerView: RecyclerView
+        ) {
             adapter.update(marks, true, showType)
+            recyclerView.scrollToPosition(marks.size - 1)
         }
 
         override fun showAverage(

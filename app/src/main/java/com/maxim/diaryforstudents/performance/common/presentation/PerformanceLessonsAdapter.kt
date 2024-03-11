@@ -31,7 +31,7 @@ class PerformanceLessonsAdapter(
             item.showName(binding.lessonNameTextView)
             val adapter = PerformanceMarksAdapter(markListener)
             binding.marksRecyclerView.adapter = adapter
-            item.showMarks(adapter, showType)
+            item.showMarks(adapter, showType, binding.marksRecyclerView)
             item.showAverage(
                 binding.averageTitleTextView,
                 binding.averageTextView,
