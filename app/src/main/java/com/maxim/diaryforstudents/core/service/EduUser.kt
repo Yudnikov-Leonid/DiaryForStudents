@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.core.service
 
 import com.maxim.diaryforstudents.core.data.SimpleStorage
+import com.maxim.diaryforstudents.performance.common.room.PerformanceDao
 
 interface EduUser {
     fun login(
@@ -18,9 +19,9 @@ interface EduUser {
     fun grade(): Pair<String, String>
     fun guid(): String
     fun isLogged(): Boolean
-    fun signOut()
+    suspend fun signOut()
 
-    class Base(private val simpleStorage: SimpleStorage) : EduUser {
+    class Base(private val simpleStorage: SimpleStorage, private val dao: PerformanceDao) : EduUser {
         override fun login(
             guid: String,
             email: String,
@@ -52,8 +53,9 @@ interface EduUser {
 
         override fun guid() = simpleStorage.read(GUID_KEY, "")
         override fun isLogged() = simpleStorage.read(GUID_KEY, "") != ""
-        override fun signOut() {
+        override suspend fun signOut() {
             simpleStorage.save(GUID_KEY, "")
+            dao.clearAll()
         }
 
         companion object {

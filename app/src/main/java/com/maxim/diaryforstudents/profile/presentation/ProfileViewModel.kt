@@ -35,7 +35,9 @@ class ProfileViewModel(
     }
 
     fun signOut() {
-        repository.signOut()
+        handle {
+            repository.signOut()
+        }
         navigation.update(LoginScreen)
         clear.clearViewModel(ProfileViewModel::class.java)
     }

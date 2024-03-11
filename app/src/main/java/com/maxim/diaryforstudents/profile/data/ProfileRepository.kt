@@ -7,7 +7,7 @@ interface ProfileRepository {
     fun email(): String
     fun school(): String
     fun grade(): Pair<String, String>
-    fun signOut()
+    suspend fun signOut()
 
     class Base(private val eduUser: EduUser): ProfileRepository {
         override fun name() = eduUser.name()
@@ -18,6 +18,6 @@ interface ProfileRepository {
 
         override fun grade() = eduUser.grade()
 
-        override fun signOut() = eduUser.signOut()
+        override suspend fun signOut() = eduUser.signOut()
     }
 }

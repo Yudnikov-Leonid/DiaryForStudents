@@ -143,7 +143,7 @@ private class FakeProfileRepository(private val order: Order) : ProfileRepositor
         this.name = name
     }
 
-    override fun signOut() {
+    override suspend fun signOut() {
         order.add(REPOSITORY)
         counter++
     }

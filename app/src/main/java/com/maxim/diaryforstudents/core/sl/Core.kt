@@ -46,14 +46,14 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
             Retrofit.Builder().baseUrl("https://mp.43edu.ru/journals/").client(client.build())
                 .addConverterFactory(GsonConverterFactory.create()).build()
 
-        override fun retrofit() = retrofit
+        override fun retrofit(): Retrofit = retrofit
 
         private val simpleStorage =
             SimpleStorage.Base(context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE))
 
         override fun simpleStorage() = simpleStorage
 
-        private val eduUser = EduUser.Base(simpleStorage)
+        private val eduUser = EduUser.Base(simpleStorage, performanceDatabase().dao())
         override fun eduUser() = eduUser
 
         private val lessonDetailsStorage = LessonDetailsStorage.Base()
@@ -80,10 +80,16 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
             loginRepository = null
         }
 
-        private val database by lazy {
-            Room.databaseBuilder(context, PerformanceDatabase::class.java, "performance_database").build()
+        private var performanceDatabase: PerformanceDatabase? = null
+        override fun performanceDatabase(): PerformanceDatabase {
+            if (performanceDatabase == null)
+                performanceDatabase = Room.databaseBuilder(
+                    context,
+                    PerformanceDatabase::class.java,
+                    "performance_database"
+                ).build()
+            return performanceDatabase!!
         }
-        override fun performanceDatabase() = database
 
         private val colorManager = ColorManager.Base(simpleStorage)
         override fun colorManager() = colorManager
