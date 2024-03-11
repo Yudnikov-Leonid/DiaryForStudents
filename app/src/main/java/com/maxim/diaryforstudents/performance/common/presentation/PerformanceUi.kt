@@ -32,6 +32,7 @@ interface PerformanceUi : Serializable {
     fun analytics(listener: PerformanceLessonsAdapter.Listener) {}
     fun compare(value: Int): Boolean = false
     fun openDetails(listener: PerformanceMarksAdapter.Listener) {}
+    fun toMarks(): List<Mark> = emptyList()
 
     fun showType(view: View) {}
     fun showType(textView: TextView) {}
@@ -247,6 +248,10 @@ interface PerformanceUi : Serializable {
 
         override fun openDetails(listener: PerformanceMarksAdapter.Listener) {
             listener.details(this)
+        }
+
+        override fun toMarks(): List<Mark> {
+            return marks.mapIndexed { index, it -> Mark(it, types[index], date, lessonName, false, isChecked) }
         }
 
         override fun showIsChecked(view: View, colorManager: ColorManager) {

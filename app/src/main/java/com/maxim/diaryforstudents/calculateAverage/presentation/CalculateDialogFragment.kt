@@ -39,7 +39,7 @@ class CalculateDialogFragment : DialogFragment() {
                 viewModel.add(5 - i)
             }
             colorManager.showColor(view as TextView, (5 - i).toString(), when (i) {
-                3 -> R.color.red
+                4, 3 -> R.color.red
                 2 -> R.color.yellow
                 1 -> R.color.green
                 else -> R.color.light_green
@@ -51,7 +51,7 @@ class CalculateDialogFragment : DialogFragment() {
                 viewModel.remove(5 - i)
             }
             colorManager.showColor(view as TextView, (5 - i).toString(), when (i) {
-                3 -> R.color.red
+                4, 3 -> R.color.red
                 2 -> R.color.yellow
                 1 -> R.color.green
                 else -> R.color.light_green

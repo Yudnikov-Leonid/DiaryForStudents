@@ -20,7 +20,14 @@ interface CalculateStorage {
 
         override fun save(marks: List<PerformanceUi>, marksSum: Int) {
             list.clear()
-            list.addAll(marks)
+            val newList = mutableListOf<PerformanceUi>()
+            marks.forEach {
+                if (it is PerformanceUi.Mark)
+                    newList.add(it)
+                else if (it is PerformanceUi.SeveralMarks)
+                    newList.addAll(it.toMarks())
+            }
+            list.addAll(newList)
             sum = marksSum
         }
 
