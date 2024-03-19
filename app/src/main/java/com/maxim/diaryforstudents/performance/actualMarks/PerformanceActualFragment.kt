@@ -105,7 +105,7 @@ class PerformanceActualFragment :
                 adapter,
                 binding.errorTextView,
                 binding.retryButton,
-                binding.progressBar,
+                binding.skeletonLoading,
             )
         }
 

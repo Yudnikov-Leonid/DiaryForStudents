@@ -3,7 +3,6 @@ package com.maxim.diaryforstudents.news.presentation
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import java.io.Serializable
 
@@ -22,10 +21,8 @@ interface NewsState : Serializable {
     fun show(
         errorTextView: TextView,
         retryButton: Button,
-        mainNewsLayout: View,
-        importantNewsLayout: View,
-        defaultNewsLayout: View,
-        progressBar: ProgressBar
+        news: View,
+        loading: View
     )
 
     data class Error(
@@ -35,18 +32,14 @@ interface NewsState : Serializable {
         override fun show(
             errorTextView: TextView,
             retryButton: Button,
-            mainNewsLayout: View,
-            importantNewsLayout: View,
-            defaultNewsLayout: View,
-            progressBar: ProgressBar
+            news: View,
+            loading: View
         ) {
             errorTextView.text = message
-            progressBar.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE
             retryButton.visibility = View.VISIBLE
-            mainNewsLayout.visibility = View.GONE
-            importantNewsLayout.visibility = View.GONE
-            defaultNewsLayout.visibility = View.GONE
+            news.visibility = View.GONE
+            loading.visibility = View.GONE
         }
     }
 
@@ -79,17 +72,13 @@ interface NewsState : Serializable {
         override fun show(
             errorTextView: TextView,
             retryButton: Button,
-            mainNewsLayout: View,
-            importantNewsLayout: View,
-            defaultNewsLayout: View,
-            progressBar: ProgressBar
+            news: View,
+            loading: View
         ) {
-            progressBar.visibility = View.GONE
+            loading.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
-            mainNewsLayout.visibility = View.VISIBLE
-            importantNewsLayout.visibility = View.VISIBLE
-            defaultNewsLayout.visibility = View.VISIBLE
+            news.visibility = View.VISIBLE
         }
     }
 
@@ -98,17 +87,13 @@ interface NewsState : Serializable {
         override fun show(
             errorTextView: TextView,
             retryButton: Button,
-            mainNewsLayout: View,
-            importantNewsLayout: View,
-            defaultNewsLayout: View,
-            progressBar: ProgressBar
+            news: View,
+            loading: View
         ) {
-            progressBar.visibility = View.VISIBLE
+            loading.visibility = View.VISIBLE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
-            mainNewsLayout.visibility = View.GONE
-            importantNewsLayout.visibility = View.GONE
-            defaultNewsLayout.visibility = View.GONE
+            news.visibility = View.GONE
         }
     }
 }

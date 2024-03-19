@@ -55,7 +55,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         viewModel.observe(this) {
             it.show(
                 adapter,
-                binding.progressBar,
+                binding.skeletonLoading,
                 binding.backButton,
                 binding.errorTextView,
                 binding.retryButton

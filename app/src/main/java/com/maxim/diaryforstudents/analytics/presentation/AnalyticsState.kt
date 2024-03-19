@@ -3,14 +3,13 @@ package com.maxim.diaryforstudents.analytics.presentation
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ProgressBar
 import android.widget.TextView
 import java.io.Serializable
 
 interface AnalyticsState: Serializable {
     fun show(
         adapter: AnalyticsAdapter,
-        progressBar: ProgressBar,
+        loading: View,
         backButton: ImageButton,
         errorTextView: TextView,
         retryButton: Button
@@ -19,13 +18,13 @@ interface AnalyticsState: Serializable {
     object Loading : AnalyticsState {
         override fun show(
             adapter: AnalyticsAdapter,
-            progressBar: ProgressBar,
+            loading: View,
             backButton: ImageButton,
             errorTextView: TextView,
             retryButton: Button
         ) {
             adapter.update(emptyList())
-            progressBar.visibility = View.VISIBLE
+            loading.visibility = View.VISIBLE
             backButton.visibility = View.VISIBLE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
@@ -35,13 +34,13 @@ interface AnalyticsState: Serializable {
     data class Error(private val message: String) : AnalyticsState {
         override fun show(
             adapter: AnalyticsAdapter,
-            progressBar: ProgressBar,
+            loading: View,
             backButton: ImageButton,
             errorTextView: TextView,
             retryButton: Button
         ) {
             adapter.update(listOf(AnalyticsUi.Error))
-            progressBar.visibility = View.GONE
+            loading.visibility = View.GONE
             backButton.visibility = View.VISIBLE
             errorTextView.text = message
             errorTextView.visibility = View.VISIBLE
@@ -54,13 +53,13 @@ interface AnalyticsState: Serializable {
     ) : AnalyticsState {
         override fun show(
             adapter: AnalyticsAdapter,
-            progressBar: ProgressBar,
+            loading: View,
             backButton: ImageButton,
             errorTextView: TextView,
             retryButton: Button
         ) {
             adapter.update(data)
-            progressBar.visibility = View.GONE
+            loading.visibility = View.GONE
             backButton.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE

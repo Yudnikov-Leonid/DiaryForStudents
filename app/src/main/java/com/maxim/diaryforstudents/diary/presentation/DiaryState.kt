@@ -3,8 +3,8 @@ package com.maxim.diaryforstudents.diary.presentation
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ProgressBar
 import android.widget.TextView
+import com.facebook.shimmer.ShimmerFrameLayout
 import java.io.Serializable
 
 interface DiaryState : Serializable {
@@ -12,7 +12,7 @@ interface DiaryState : Serializable {
         topLayout: View,
         daysViewPager: View,
         monthTitle: TextView,
-        progressBar: ProgressBar,
+        skeletonLoading: ShimmerFrameLayout,
         errorTextView: TextView,
         retryButton: Button,
         errorBackButton: ImageButton,
@@ -35,7 +35,7 @@ interface DiaryState : Serializable {
             topLayout: View,
             daysViewPager: View,
             monthTitle: TextView,
-            progressBar: ProgressBar,
+            skeletonLoading: ShimmerFrameLayout,
             errorTextView: TextView,
             retryButton: Button,
             errorBackButton: ImageButton,
@@ -43,7 +43,7 @@ interface DiaryState : Serializable {
         ) {
             day.showNameAndNumber(monthTitle)
             topLayout.visibility = View.VISIBLE
-            progressBar.visibility = View.GONE
+            skeletonLoading.visibility = View.GONE
             daysViewPager.visibility = View.VISIBLE
             errorTextView.visibility = View.GONE
             errorBackButton.visibility = View.GONE
@@ -65,7 +65,7 @@ interface DiaryState : Serializable {
             topLayout: View,
             daysViewPager: View,
             monthTitle: TextView,
-            progressBar: ProgressBar,
+            skeletonLoading: ShimmerFrameLayout,
             errorTextView: TextView,
             retryButton: Button,
             errorBackButton: ImageButton,
@@ -76,7 +76,7 @@ interface DiaryState : Serializable {
             errorBackButton.visibility = View.VISIBLE
             daysViewPager.visibility = View.GONE
             retryButton.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
+            skeletonLoading.visibility = View.VISIBLE
             lessonsRecyclerView.visibility = View.GONE
         }
     }
@@ -86,14 +86,14 @@ interface DiaryState : Serializable {
             topLayout: View,
             daysViewPager: View,
             monthTitle: TextView,
-            progressBar: ProgressBar,
+            skeletonLoading: ShimmerFrameLayout,
             errorTextView: TextView,
             retryButton: Button,
             errorBackButton: ImageButton,
             lessonsRecyclerView: View
         ) {
             topLayout.visibility = View.GONE
-            progressBar.visibility = View.GONE
+            skeletonLoading.visibility = View.GONE
             retryButton.visibility = View.VISIBLE
             daysViewPager.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE

@@ -121,7 +121,7 @@ interface PerformanceInteractor : SaveAndRestore {
             }
 
         override fun showType(): Boolean {
-            return simpleStorage.read(ActualSettingsViewModel.SHOW_TYPE_KEY, true)
+            return simpleStorage.read(ActualSettingsViewModel.SHOW_TYPE_KEY, false)
         }
 
         override fun currentQuarter() = repository.currentQuarter()
