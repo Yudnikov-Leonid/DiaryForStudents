@@ -45,7 +45,7 @@ interface PerformanceData : Serializable {
 
         override fun progress() = listOf(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
 
-        override fun marksCount() = marks.size
+        override fun marksCount() = marks.sumOf { it.marksCount() }
 
         override fun <T> map(mapper: Mapper<T>) =
             mapper.map(
@@ -67,6 +67,8 @@ interface PerformanceData : Serializable {
         private val isChecked: Boolean
     ) : PerformanceData {
         override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, type, date, lessonName, isFinal, isChecked)
+
+        override fun marksCount() = 1
     }
 
     data class SeveralMarks(
@@ -77,5 +79,7 @@ interface PerformanceData : Serializable {
         private val isChecked: Boolean
     ) : PerformanceData {
         override fun <T> map(mapper: Mapper<T>) = mapper.map(marks, types, date, lessonName, isChecked)
+
+        override fun marksCount() = marks.size
     }
 }
