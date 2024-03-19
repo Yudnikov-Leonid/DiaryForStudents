@@ -22,6 +22,7 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCom
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarkViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import kotlinx.coroutines.flow.StateFlow
 
 class PerformanceActualViewModel(
     private val interactor: PerformanceInteractor,
@@ -35,6 +36,7 @@ class PerformanceActualViewModel(
     runAsync: RunAsync = RunAsync.Base()
 ) : PerformanceMarkViewModel(interactor, communication, mapper, runAsync), Init, SaveAndRestore {
     override val type = MarksType.Base
+
     private var lastOpenDetailsTime = 0L
 
     override fun init(isFirstRun: Boolean) {
@@ -105,12 +107,12 @@ class PerformanceActualViewModel(
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
-        communication.save(RESTORE_KEY, bundleWrapper)
+        //communication.save(RESTORE_KEY, bundleWrapper)
         bundleWrapper.save(QUARTER_KEY, quarter)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
-        communication.restore(RESTORE_KEY, bundleWrapper)
+        //communication.restore(RESTORE_KEY, bundleWrapper)
         quarter = bundleWrapper.restore<Int>(QUARTER_KEY) ?: interactor.currentQuarter()
     }
 

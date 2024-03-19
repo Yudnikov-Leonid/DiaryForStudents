@@ -15,6 +15,7 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.openNews.Share
+import kotlinx.coroutines.flow.StateFlow
 
 class LessonDetailsViewModel(
     private val communication: LessonDetailsCommunication,
@@ -46,7 +47,7 @@ class LessonDetailsViewModel(
 
     override fun goBack() {
         storage.clear()
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clearViewModel.clearViewModel(LessonDetailsViewModel::class.java)
     }
 
@@ -58,9 +59,7 @@ class LessonDetailsViewModel(
         storage.restore(bundleWrapper)
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<LessonDetailsState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 }
 
 interface ShareType {

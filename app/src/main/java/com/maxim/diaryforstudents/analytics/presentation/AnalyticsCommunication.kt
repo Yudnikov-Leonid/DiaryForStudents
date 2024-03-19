@@ -1,7 +1,8 @@
 package com.maxim.diaryforstudents.analytics.presentation
 
 import com.maxim.diaryforstudents.core.presentation.Communication
+import kotlinx.coroutines.flow.MutableStateFlow
 
-interface AnalyticsCommunication: Communication.All<AnalyticsState> {
-    class Base: Communication.RegularWithDeath<AnalyticsState>(), AnalyticsCommunication
+interface AnalyticsCommunication: Communication.Mutable<AnalyticsState> {
+    class Base: Communication.Regular<AnalyticsState>(MutableStateFlow(AnalyticsState.Empty)), AnalyticsCommunication
 }

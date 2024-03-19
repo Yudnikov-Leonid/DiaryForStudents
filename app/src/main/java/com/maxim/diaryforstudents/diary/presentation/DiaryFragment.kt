@@ -106,24 +106,24 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>(), Shar
         binding.daysViewPager.adapter = daysAdapter
         binding.daysViewPager.registerOnPageChangeCallback(viewPagerCallback)
 
-        viewModel.observe(this) {
-            it.show(
-                binding.topLayout,
-                binding.daysViewPager,
-                binding.monthTextView,
-                binding.progressBar,
-                binding.errorTextView,
-                binding.retryButton,
-                binding.errorBackButton,
-                binding.lessonsRecyclerView,
-            )
-            it.show(
-                lessonsAdapter,
-                daysAdapter,
-            )
-            binding.daysViewPager.setCurrentItem(1, false)
-            binding.lessonsRecyclerView.scrollToPosition(0)
-        }
+//        viewModel.observe(this) {
+//            it.show(
+//                binding.topLayout,
+//                binding.daysViewPager,
+//                binding.monthTextView,
+//                binding.progressBar,
+//                binding.errorTextView,
+//                binding.retryButton,
+//                binding.errorBackButton,
+//                binding.lessonsRecyclerView,
+//            )
+//            it.show(
+//                lessonsAdapter,
+//                daysAdapter,
+//            )
+//            binding.daysViewPager.setCurrentItem(1, false)
+//            binding.lessonsRecyclerView.scrollToPosition(0)
+//        }
 
         viewModel.init(savedInstanceState == null)
     }

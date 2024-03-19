@@ -43,11 +43,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
             viewModel.signOut()
         }
 
-        viewModel.observe(this) {
-            it.show(
-                binding.nameTextView,
-            )
-        }
+//        viewModel.observe(this) {
+//            it.show(
+//                binding.nameTextView,
+//            )
+//        }
 
         viewModel.init()
     }

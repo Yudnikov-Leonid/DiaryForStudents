@@ -16,6 +16,7 @@ import com.maxim.diaryforstudents.news.data.NewsData
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
+import kotlinx.coroutines.flow.StateFlow
 
 class NewsViewModel(
     private val repository: NewsRepository,
@@ -34,11 +35,11 @@ class NewsViewModel(
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
-        communication.save(RESTORE_KEY, bundleWrapper)
+        //communication.save(RESTORE_KEY, bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
-        communication.restore(RESTORE_KEY, bundleWrapper)
+        //communication.restore(RESTORE_KEY, bundleWrapper)
     }
 
     override fun reload() {
@@ -57,7 +58,7 @@ class NewsViewModel(
 
     override fun goBack() {
         repository.checkNews()
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clear.clearViewModel(NewsViewModel::class.java)
     }
 
@@ -66,9 +67,7 @@ class NewsViewModel(
         navigation.update(OpenNewsScreen)
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<NewsState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 
     companion object {
         private const val RESTORE_KEY = "news_restore"

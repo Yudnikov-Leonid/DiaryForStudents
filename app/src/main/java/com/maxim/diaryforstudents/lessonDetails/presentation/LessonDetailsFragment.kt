@@ -50,24 +50,7 @@ class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDe
                 }.create().show()
         }
 
-        viewModel.observe(this) {
-            it.show(
-                binding.lessonNameTextView,
-                binding.lessonNumberTextView,
-                binding.teacherNameTextView,
-                binding.topicTextView,
-                binding.topicTitleTextView,
-                binding.homeworkTextView,
-                binding.homeworkTitleTextView,
-                binding.previousHomeworkTextView,
-                binding.previousHomeworkTitleTextView,
-                binding.marksLayout,
-                binding.markTypeTextView,
-                binding.noteTextView,
-                binding.noteTitleTextView,
-                binding.progressBar
-            )
-        }
+
 
         viewModel.init()
     }

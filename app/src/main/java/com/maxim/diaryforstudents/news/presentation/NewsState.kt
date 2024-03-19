@@ -111,4 +111,15 @@ interface NewsState : Serializable {
             defaultNewsLayout.visibility = View.GONE
         }
     }
+
+    object Empty: NewsState {
+        override fun show(
+            errorTextView: TextView,
+            retryButton: Button,
+            mainNewsLayout: View,
+            importantNewsLayout: View,
+            defaultNewsLayout: View,
+            progressBar: ProgressBar
+        ) = Unit
+    }
 }

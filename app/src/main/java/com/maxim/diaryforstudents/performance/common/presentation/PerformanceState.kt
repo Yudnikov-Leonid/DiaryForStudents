@@ -79,4 +79,13 @@ interface PerformanceState: Serializable {
             retryButton.visibility = View.GONE
         }
     }
+
+    object Empty: PerformanceState {
+        override fun show(
+            adapter: PerformanceLessonsAdapter,
+            errorTextView: TextView,
+            retryButton: Button,
+            progressBar: ProgressBar
+        ) = Unit
+    }
 }

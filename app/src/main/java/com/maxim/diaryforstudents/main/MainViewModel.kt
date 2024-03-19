@@ -12,12 +12,13 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
+import kotlinx.coroutines.flow.StateFlow
 
 class MainViewModel(
     private val interactor: MainInteractor,
     private val navigation: Navigation.Mutable,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<Screen>, Init {
+) : BaseViewModel(runAsync), Init, Communication.Observe<Screen> {
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun && interactor.isLogged())
             navigation.update(MenuScreen)
@@ -25,7 +26,5 @@ class MainViewModel(
             navigation.update(LoginScreen)
     }
 
-    override fun observe(owner: LifecycleOwner, observer: androidx.lifecycle.Observer<Screen>) {
-        navigation.observe(owner, observer)
-    }
+    override fun state() = navigation.state()
 }

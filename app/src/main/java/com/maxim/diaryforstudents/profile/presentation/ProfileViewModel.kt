@@ -14,6 +14,7 @@ import com.maxim.diaryforstudents.core.presentation.SimpleInit
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
+import kotlinx.coroutines.flow.StateFlow
 
 class ProfileViewModel(
     private val repository: ProfileRepository,
@@ -27,11 +28,11 @@ class ProfileViewModel(
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
-        communication.save(RESTORE_KEY, bundleWrapper)
+        //communication.save(RESTORE_KEY, bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
-        communication.restore(RESTORE_KEY, bundleWrapper)
+        //communication.restore(RESTORE_KEY, bundleWrapper)
     }
 
     fun signOut() {
@@ -56,13 +57,11 @@ class ProfileViewModel(
     }
 
     override fun goBack() {
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clear.clearViewModel(ProfileViewModel::class.java)
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<ProfileState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 
     companion object {
         private const val RESTORE_KEY = "profile_communication_restore"

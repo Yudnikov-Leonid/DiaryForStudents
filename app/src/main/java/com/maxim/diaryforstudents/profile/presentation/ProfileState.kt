@@ -17,4 +17,8 @@ interface ProfileState: Serializable {
             nameTextView.text = name
         }
     }
+
+    object Empty: ProfileState {
+        override fun show(nameTextView: TextView) = Unit
+    }
 }

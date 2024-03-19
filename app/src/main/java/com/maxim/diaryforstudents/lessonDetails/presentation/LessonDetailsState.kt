@@ -76,4 +76,23 @@ interface LessonDetailsState {
             progressBar.visibility = View.GONE
         }
     }
+
+    object Empty: LessonDetailsState {
+        override fun show(
+            nameTextView: TextView,
+            numberTextView: TextView,
+            teacherTextView: TextView,
+            topicTextView: TextView,
+            topicTitle: TextView,
+            homeworkTextView: TextView,
+            homeworkTitle: TextView,
+            previousHomeworkTextView: TextView,
+            previousHomeworkTitle: TextView,
+            marksLayout: LinearLayout,
+            markTypeTextView: TextView,
+            notesTextView: TextView,
+            notesTitle: TextView,
+            progressBar: ProgressBar
+        ) = Unit
+    }
 }

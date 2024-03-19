@@ -12,6 +12,7 @@ import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsUi
+import kotlinx.coroutines.flow.StateFlow
 
 class OpenNewsViewModel(
     private val communication: OpenNewsCommunication,
@@ -31,7 +32,7 @@ class OpenNewsViewModel(
     }
 
     override fun goBack() {
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clear.clearViewModel(OpenNewsViewModel::class.java)
     }
 
@@ -44,7 +45,5 @@ class OpenNewsViewModel(
         communication.update(data.read())
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<NewsUi>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 }

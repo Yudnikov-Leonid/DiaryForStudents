@@ -17,7 +17,7 @@ class SettingsViewModel(
     }
 
     override fun goBack() {
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clearViewModel.clearViewModel(SettingsViewModel::class.java)
     }
 }

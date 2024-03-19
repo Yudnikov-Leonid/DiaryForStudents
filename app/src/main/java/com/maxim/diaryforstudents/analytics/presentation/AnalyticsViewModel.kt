@@ -14,6 +14,7 @@ import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
+import kotlinx.coroutines.flow.StateFlow
 
 class AnalyticsViewModel(
     private val interactor: PerformanceInteractor,
@@ -79,26 +80,22 @@ class AnalyticsViewModel(
         }
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<AnalyticsState>) {
-        communication.observe(owner, observer)
-    }
-
     override fun goBack() {
         analyticsStorage.clear()
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clearViewModel.clearViewModel(AnalyticsViewModel::class.java)
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
         analyticsStorage.save(bundleWrapper)
-        communication.save(RESTORE_KEY, bundleWrapper)
+        //communication.save(RESTORE_KEY, bundleWrapper)
         bundleWrapper.save(QUARTER_RESTORE_KEY, quarter)
         bundleWrapper.save(INTERVAL_RESTORE_KEY, interval)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         analyticsStorage.restore(bundleWrapper)
-        communication.restore(RESTORE_KEY, bundleWrapper)
+        //communication.restore(RESTORE_KEY, bundleWrapper)
         quarter = bundleWrapper.restore(QUARTER_RESTORE_KEY) ?: 1
         interval = bundleWrapper.restore(INTERVAL_RESTORE_KEY) ?: 1
     }
@@ -108,4 +105,6 @@ class AnalyticsViewModel(
         private const val QUARTER_RESTORE_KEY = "inner_quarter_analytics_restore"
         private const val INTERVAL_RESTORE_KEY = "inner_interval_analytics_restore"
     }
+
+    override fun state() = communication.state()
 }

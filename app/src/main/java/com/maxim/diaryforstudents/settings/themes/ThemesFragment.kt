@@ -69,16 +69,16 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
             viewModel.resetColor("1")
         }
 
-        viewModel.observe(this) {
-            it.show(
-                binding.fiveColorButton,
-                binding.fourColorButton,
-                binding.threeColorButton,
-                binding.twoColorButton,
-                binding.oneColorButton,
-                (requireActivity() as ProvideColorManager).colorManager()
-            )
-        }
+//        viewModel.observe(this) {
+//            it.show(
+//                binding.fiveColorButton,
+//                binding.fourColorButton,
+//                binding.threeColorButton,
+//                binding.twoColorButton,
+//                binding.oneColorButton,
+//                (requireActivity() as ProvideColorManager).colorManager()
+//            )
+//        }
 
         viewModel.reload()
     }

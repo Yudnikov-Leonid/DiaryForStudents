@@ -1,96 +1,147 @@
 package com.maxim.diaryforstudents.login.presentation
 
-import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import com.google.android.material.textfield.TextInputLayout
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import java.io.Serializable
 
-interface LoginState {
-    fun show(
-        loginInputLayout: TextInputLayout,
-        passwordInputLayout: TextInputLayout,
-        button: Button,
-        progressBar: ProgressBar,
-        errorTextView: TextView
-    )
+interface LoginState : Serializable {
+
+    @Composable
+    fun Show(viewModel: LoginViewModel)
 
     object Initial : LoginState {
-        override fun show(
-            loginInputLayout: TextInputLayout,
-            passwordInputLayout: TextInputLayout,
-            button: Button,
-            progressBar: ProgressBar,
-            errorTextView: TextView
-        ) {
-            loginInputLayout.isErrorEnabled = false
-            loginInputLayout.error = ""
-            passwordInputLayout.isErrorEnabled = false
-            passwordInputLayout.error = ""
-            progressBar.visibility = View.GONE
-            errorTextView.visibility = View.GONE
-            button.isEnabled = true
+        @Composable
+        override fun Show(viewModel: LoginViewModel) {
+            var login by rememberSaveable { mutableStateOf("") }
+            var password by rememberSaveable { mutableStateOf("") }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(text = "Welcome back!")
+                OutlinedTextField(
+                    value = login,
+                    onValueChange = { login = it },
+                    label = { Text("Login") })
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") })
+                Button(onClick = { viewModel.login(login, password) }) {
+                    Text(text = "Login")
+                }
+            }
         }
     }
 
     object Loading : LoginState {
-        override fun show(
-            loginInputLayout: TextInputLayout,
-            passwordInputLayout: TextInputLayout,
-            button: Button,
-            progressBar: ProgressBar,
-            errorTextView: TextView
-        ) {
-            button.isEnabled = false
-            progressBar.visibility = View.VISIBLE
-            errorTextView.visibility = View.GONE
+
+        @Composable
+        override fun Show(viewModel: LoginViewModel) {
+            var login by rememberSaveable { mutableStateOf("") }
+            var password by rememberSaveable { mutableStateOf("") }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(text = "Welcome back!")
+                OutlinedTextField(
+                    enabled = false,
+                    value = login,
+                    onValueChange = { login = it },
+                    label = { Text("Login") })
+                OutlinedTextField(
+                    enabled = false,
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") })
+                CircularProgressIndicator(modifier = Modifier.wrapContentSize())
+                Button(onClick = {}, enabled = false) {
+                    Text(text = "Login")
+                }
+            }
         }
     }
 
     data class LoginError(private val message: String) : LoginState {
-        override fun show(
-            loginInputLayout: TextInputLayout,
-            passwordInputLayout: TextInputLayout,
-            button: Button,
-            progressBar: ProgressBar,
-            errorTextView: TextView
-        ) {
-            loginInputLayout.isErrorEnabled = true
-            loginInputLayout.error = message
-            button.isEnabled = true
-            progressBar.visibility = View.GONE
-            errorTextView.visibility = View.GONE
+
+        @Composable
+        override fun Show(viewModel: LoginViewModel) {
+            var login by rememberSaveable { mutableStateOf("") }
+            var password by rememberSaveable { mutableStateOf("") }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(text = "Welcome back!")
+                OutlinedTextField(
+                    value = login,
+                    isError = true,
+                    supportingText = { Text(message) },
+                    onValueChange = { login = it },
+                    label = { Text("Login") })
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") })
+                Button(onClick = { viewModel.login(login, password) }) {
+                    Text(text = "Login")
+                }
+            }
         }
     }
 
     data class PasswordError(private val message: String) : LoginState {
-        override fun show(
-            loginInputLayout: TextInputLayout,
-            passwordInputLayout: TextInputLayout,
-            button: Button,
-            progressBar: ProgressBar,
-            errorTextView: TextView
-        ) {
-            passwordInputLayout.isErrorEnabled = true
-            passwordInputLayout.error = message
-            button.isEnabled = true
-            progressBar.visibility = View.GONE
-            errorTextView.visibility = View.GONE
+
+        @Composable
+        override fun Show(viewModel: LoginViewModel) {
+            var login by rememberSaveable { mutableStateOf("") }
+            var password by rememberSaveable { mutableStateOf("") }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(text = "Welcome back!")
+                OutlinedTextField(
+                    value = login,
+                    onValueChange = { login = it },
+                    label = { Text("Login") })
+                OutlinedTextField(
+                    value = password,
+                    isError = true,
+                    supportingText = { Text(message) },
+                    onValueChange = { password = it },
+                    label = { Text("Password") })
+                Button(onClick = { viewModel.login(login, password) }) {
+                    Text(text = "Login")
+                }
+            }
         }
     }
 
-    data class Error(private val message: String): LoginState {
-        override fun show(
-            loginInputLayout: TextInputLayout,
-            passwordInputLayout: TextInputLayout,
-            button: Button,
-            progressBar: ProgressBar,
-            errorTextView: TextView
-        ) {
-            button.isEnabled = true
-            progressBar.visibility = View.GONE
-            errorTextView.visibility = View.VISIBLE
-            errorTextView.text = message
+    data class Error(private val message: String) : LoginState {
+
+        @Composable
+        override fun Show(viewModel: LoginViewModel) {
+
         }
+    }
+
+    object Empty : LoginState {
+
+        @Composable
+        override fun Show(viewModel: LoginViewModel) = Unit
     }
 }

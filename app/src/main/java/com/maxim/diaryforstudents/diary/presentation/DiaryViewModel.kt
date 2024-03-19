@@ -18,6 +18,7 @@ import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
 import com.maxim.diaryforstudents.openNews.Share
+import kotlinx.coroutines.flow.StateFlow
 import java.io.Serializable
 
 class DiaryViewModel(
@@ -40,12 +41,12 @@ class DiaryViewModel(
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
-        communication.save(COMMUNICATION_RESTORE_KEY, bundleWrapper)
+        //communication.save(COMMUNICATION_RESTORE_KEY, bundleWrapper)
         bundleWrapper.save(ACTUAL_DAY_RESTORE_KEY, actualDay)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
-        communication.restore(COMMUNICATION_RESTORE_KEY, bundleWrapper)
+        //communication.restore(COMMUNICATION_RESTORE_KEY, bundleWrapper)
         actualDay = bundleWrapper.restore(ACTUAL_DAY_RESTORE_KEY) ?: interactor.actualDate()
     }
 
@@ -80,7 +81,7 @@ class DiaryViewModel(
     }
 
     override fun goBack() {
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clear.clearViewModel(DiaryViewModel::class.java)
     }
 
@@ -108,9 +109,7 @@ class DiaryViewModel(
         }
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<DiaryState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 
     companion object {
         private const val COMMUNICATION_RESTORE_KEY = "diary_communication_restore"

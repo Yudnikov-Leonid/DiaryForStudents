@@ -8,4 +8,8 @@ interface SelectUserState {
             adapter.update(users)
         }
     }
+
+    object Empty: SelectUserState {
+        override fun show(adapter: SelectUserAdapter) = Unit
+    }
 }

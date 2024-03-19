@@ -29,9 +29,9 @@ class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserVie
         })
         binding.selectUserRecyclerView.adapter = adapter
 
-        viewModel.observe(this) {
-            it.show(adapter)
-        }
+//        viewModel.observe(this) {
+//            it.show(adapter)
+//        }
 
         savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
         viewModel.init()

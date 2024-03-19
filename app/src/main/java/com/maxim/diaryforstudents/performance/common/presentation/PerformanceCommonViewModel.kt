@@ -16,7 +16,7 @@ class PerformanceCommonViewModel(
 ) : BaseViewModel(runAsync), GoBack {
 
     override fun goBack() {
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clear.clearViewModel(PerformanceActualViewModel::class.java)
         clear.clearViewModel(PerformanceFinalViewModel::class.java)
         clear.clearViewModel(PerformanceCommonViewModel::class.java)

@@ -66,4 +66,14 @@ interface AnalyticsState: Serializable {
             retryButton.visibility = View.GONE
         }
     }
+
+    object Empty: AnalyticsState {
+        override fun show(
+            adapter: AnalyticsAdapter,
+            progressBar: ProgressBar,
+            backButton: ImageButton,
+            errorTextView: TextView,
+            retryButton: Button
+        ) = Unit
+    }
 }

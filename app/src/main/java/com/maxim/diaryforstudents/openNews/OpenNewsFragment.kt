@@ -25,12 +25,12 @@ class OpenNewsFragment : BaseFragment<FragmentOpenNewsBinding, OpenNewsViewModel
             }
         }
         super.onViewCreated(view, savedInstanceState)
-        viewModel.observe(this) { data ->
-            data.showTitle(binding.titleTextView)
-            data.showDate(binding.dateTextView)
-            data.showContent(binding.contentTextView)
-            data.showImage(binding.newsImage)
-        }
+//        viewModel.observe(this) { data ->
+//            data.showTitle(binding.titleTextView)
+//            data.showDate(binding.dateTextView)
+//            data.showContent(binding.contentTextView)
+//            data.showImage(binding.newsImage)
+//        }
 
         binding.backButton.setOnClickListener {
             viewModel.goBack()

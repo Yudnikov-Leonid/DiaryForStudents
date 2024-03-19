@@ -8,6 +8,7 @@ import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
+import kotlinx.coroutines.flow.StateFlow
 
 abstract class PerformanceMarkViewModel(
     private val interactor: PerformanceInteractor,
@@ -34,7 +35,5 @@ abstract class PerformanceMarkViewModel(
             )
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<PerformanceState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 }

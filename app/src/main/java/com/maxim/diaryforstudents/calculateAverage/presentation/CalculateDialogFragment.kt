@@ -58,12 +58,7 @@ class CalculateDialogFragment : DialogFragment() {
             })
         }
 
-        viewModel.observe(this) {
-            it.show(
-                adapter,
-                binding.averageTextView,
-            )
-        }
+
 
         viewModel.init()
 

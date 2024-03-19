@@ -52,15 +52,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
             viewModel.retry()
         }
 
-        viewModel.observe(this) {
-            it.show(
-                adapter,
-                binding.progressBar,
-                binding.backButton,
-                binding.errorTextView,
-                binding.retryButton
-            )
-        }
+
 
         viewModel.init(savedInstanceState == null)
     }

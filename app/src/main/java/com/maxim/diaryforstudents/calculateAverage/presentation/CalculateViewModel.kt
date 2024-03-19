@@ -9,6 +9,7 @@ import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import kotlinx.coroutines.flow.StateFlow
 
 class CalculateViewModel(
     private val communication: CalculateCommunication,
@@ -60,7 +61,5 @@ class CalculateViewModel(
         clearViewModel.clearViewModel(CalculateViewModel::class.java)
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<CalculateState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 }

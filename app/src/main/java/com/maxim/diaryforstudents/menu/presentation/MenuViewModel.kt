@@ -18,6 +18,7 @@ import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteracto
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceScreen
 import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
 import com.maxim.diaryforstudents.settings.presentation.SettingsScreen
+import kotlinx.coroutines.flow.StateFlow
 
 class MenuViewModel(
     private val communication: MenuCommunication,
@@ -67,17 +68,15 @@ class MenuViewModel(
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
         performanceInteractor.save(bundleWrapper)
-        communication.save(RESTORE_KEY, bundleWrapper)
+        //communication.save(RESTORE_KEY, bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
         performanceInteractor.restore(bundleWrapper)
-        communication.restore(RESTORE_KEY, bundleWrapper)
+        //communication.restore(RESTORE_KEY, bundleWrapper)
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<MenuState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 
     override fun error(message: String) = Unit
 

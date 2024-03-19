@@ -33,11 +33,11 @@ class PerformanceFinalViewModel(
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
-        communication.save(RESTORE_KEY, bundleWrapper)
+        //communication.save(RESTORE_KEY, bundleWrapper)
     }
 
     override fun restore(bundleWrapper: BundleWrapper.Restore) {
-        communication.restore(RESTORE_KEY, bundleWrapper)
+        //communication.restore(RESTORE_KEY, bundleWrapper)
     }
 
     companion object {

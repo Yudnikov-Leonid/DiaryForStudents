@@ -3,6 +3,8 @@ package com.maxim.diaryforstudents.core.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.io.Serializable
 
 interface Communication {
@@ -11,7 +13,7 @@ interface Communication {
     }
 
     interface Observe<T> {
-        fun observe(owner: LifecycleOwner, observer: Observer<T>)
+        fun state(): StateFlow<T>
     }
 
     interface Save {
@@ -27,34 +29,15 @@ interface Communication {
     interface All<T : Serializable> : Mutable<T>, Save, Restore
 
     abstract class Abstract<T>(
-        protected val liveData: MutableLiveData<T> = MutableLiveData()
+        protected val state: MutableStateFlow<T>
     ) : Mutable<T> {
         override fun update(value: T) {
-            liveData.value = value
+            state.value = value
         }
 
-        override fun observe(owner: LifecycleOwner, observer: Observer<T>) {
-            liveData.observe(owner, observer)
-        }
+        override fun state() = state
     }
 
-    abstract class AbstractDeath<T : Serializable>(
-        liveDataInner: MutableLiveData<T> = MutableLiveData()
-    ) : Abstract<T>(liveDataInner), All<T> {
-        override fun save(key: String, bundleWrapper: BundleWrapper.Save) {
-            liveData.value?.let {
-                bundleWrapper.save(key, it)
-            }
-        }
-
-        override fun restore(key: String, bundleWrapper: BundleWrapper.Restore) {
-            liveData.value = bundleWrapper.restore(key)
-        }
-    }
-
-    abstract class Regular<T> : Abstract<T>()
-    abstract class Single<T> : Abstract<T>(SingleLiveEvent())
-
-    abstract class RegularWithDeath<T : Serializable> : AbstractDeath<T>()
-    abstract class SingleWithDeath<T : Serializable> : AbstractDeath<T>(SingleLiveEvent())
+    abstract class Regular<T>(state: MutableStateFlow<T>) : Abstract<T>(state)
+    abstract class Single<T>(state: MutableStateFlow<T>) : Abstract<T>(state)
 }

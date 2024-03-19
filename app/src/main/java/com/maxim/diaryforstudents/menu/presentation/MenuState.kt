@@ -22,4 +22,9 @@ interface MenuState: Serializable {
             textView.text = newMarksCount.toString()
         }
     }
+
+    object Empty: MenuState {
+        override fun showNewsCount(textView: TextView) = Unit
+        override fun showMarksCount(textView: TextView) = Unit
+    }
 }

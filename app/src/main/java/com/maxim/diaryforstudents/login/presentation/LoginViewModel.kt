@@ -1,57 +1,58 @@
 package com.maxim.diaryforstudents.login.presentation
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
-import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.login.data.LoginRepository
-import com.maxim.diaryforstudents.main.HideKeyboard
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserScreen
 
 class LoginViewModel(
     private val repository: LoginRepository,
-    private val communication: LoginCommunication,
+    private val communication: LoginCommunication.Mutable,
     private val loginValidator: UiValidator,
     private val passwordValidator: UiValidator,
     private val navigation: Navigation.Update,
     private val manageResource: ManageResource,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Communication.Observe<LoginState>, Init {
+) : BaseViewModel(runAsync), LoginCommunication.Read, Init {
     override fun init(isFirstRun: Boolean) {
-        if (isFirstRun)
-            communication.update(LoginState.Initial)
-    }
-
-    fun login(login: String, password: String, hideKeyboard: HideKeyboard) {
-        try {
-            loginValidator.isValid(login, manageResource)
-            passwordValidator.isValid(password, manageResource)
-            communication.update(LoginState.Loading)
-            handle({ repository.login(login, password) }) { result ->
-                if (result.isSuccessful()) {
-                    communication.update(LoginState.Initial)
-                    navigation.update(SelectUserScreen)
-                    hideKeyboard.hideKeyboard()
-                }
-                else
-                    communication.update(LoginState.Error(result.message()))
-            }
-        } catch (e: LoginException) {
-            communication.update(LoginState.LoginError(e.message!!))
-        } catch (e: PasswordException) {
-            communication.update(LoginState.PasswordError(e.message!!))
+        if (isFirstRun) {
+            communication.setErrorMessage("")
+            communication.setLoginErrorMessage("")
+            communication.setPasswordErrorMessage("")
         }
     }
 
-    fun hideError() {
-        communication.update(LoginState.Initial)
+    fun login(login: String, password: String) {
+        try {
+            loginValidator.isValid(login, manageResource)
+            passwordValidator.isValid(password, manageResource)
+            communication.setLoading(true)
+            handle({ repository.login(login, password) }) { result ->
+                communication.setLoading(false)
+                if (result.isSuccessful()) {
+                    navigation.update(SelectUserScreen)
+                }
+                else
+                    communication.setErrorMessage(result.message())
+            }
+        } catch (e: LoginException) {
+            communication.setLoginErrorMessage(e.message!!)
+        } catch (e: PasswordException) {
+            communication.setPasswordErrorMessage(e.message!!)
+        }
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<LoginState>) {
-        communication.observe(owner, observer)
+    fun hideErrors() {
+        communication.setErrorMessage("")
+        communication.setLoginErrorMessage("")
+        communication.setPasswordErrorMessage("")
     }
+
+    override fun loginErrorMessage() = communication.loginErrorMessage()
+    override fun passwordErrorMessage() = communication.passwordErrorMessage()
+    override fun errorMessage() = communication.errorMessage()
+    override fun isLoading() = communication.isLoading()
 }

@@ -38,4 +38,8 @@ interface CalculateState {
             )
         }
     }
+
+    object Empty : CalculateState {
+        override fun show(adapter: PerformanceMarksAdapter, averageTextView: TextView) = Unit
+    }
 }

@@ -16,6 +16,7 @@ import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 import com.maxim.diaryforstudents.selectUser.data.SelectUserData
 import com.maxim.diaryforstudents.selectUser.sl.SelectUserModule
+import kotlinx.coroutines.flow.StateFlow
 
 class SelectUserViewModel(
     private val repository: LoginRepository,
@@ -42,13 +43,11 @@ class SelectUserViewModel(
     }
 
     override fun goBack() {
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clearViewModel.clearViewModel(SelectUserViewModel::class.java)
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<SelectUserState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 
     override fun save(bundleWrapper: BundleWrapper.Save) {
         repository.save(bundleWrapper)

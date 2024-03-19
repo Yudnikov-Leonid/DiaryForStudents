@@ -42,26 +42,26 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
             viewModel.init(true)
         }
 
-        viewModel.observe(this) {
-            it.show(
-                binding.mainNews,
-                binding.imageView,
-                binding.titleTextView,
-                binding.contentTextView,
-                binding.dateTextView,
-                importantAdapter,
-                defaultAdapter,
-                listener,
-            )
-            it.show(
-                binding.errorTextView,
-                binding.retryButton,
-                binding.mainNews,
-                binding.importantNews,
-                binding.defaultNews,
-                binding.progressBar
-            )
-        }
+//        viewModel.observe(this) {
+//            it.show(
+//                binding.mainNews,
+//                binding.imageView,
+//                binding.titleTextView,
+//                binding.contentTextView,
+//                binding.dateTextView,
+//                importantAdapter,
+//                defaultAdapter,
+//                listener,
+//            )
+//            it.show(
+//                binding.errorTextView,
+//                binding.retryButton,
+//                binding.mainNews,
+//                binding.importantNews,
+//                binding.defaultNews,
+//                binding.progressBar
+//            )
+//        }
 
         viewModel.init(savedInstanceState == null)
     }

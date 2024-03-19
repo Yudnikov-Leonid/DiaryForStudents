@@ -102,4 +102,17 @@ interface DiaryState : Serializable {
             lessonsRecyclerView.visibility = View.GONE
         }
     }
+
+    object Empty: DiaryState {
+        override fun show(
+            topLayout: View,
+            daysViewPager: View,
+            monthTitle: TextView,
+            progressBar: ProgressBar,
+            errorTextView: TextView,
+            retryButton: Button,
+            errorBackButton: ImageButton,
+            lessonsRecyclerView: View
+        ) = Unit
+    }
 }

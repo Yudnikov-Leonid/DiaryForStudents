@@ -96,18 +96,18 @@ class PerformanceActualFragment :
         binding.quarterSpinner.onItemSelectedListener = spinnerListener
         binding.quarterSpinner.setOnTouchListener(spinnerListener)
 
-        viewModel.observe(this) {
-            it.show(
-                binding.quarterSpinner,
-                binding.settingsImageButton,
-            )
-            it.show(
-                adapter,
-                binding.errorTextView,
-                binding.retryButton,
-                binding.progressBar,
-            )
-        }
+//        viewModel.observe(this) {
+//            it.show(
+//                binding.quarterSpinner,
+//                binding.settingsImageButton,
+//            )
+//            it.show(
+//                adapter,
+//                binding.errorTextView,
+//                binding.retryButton,
+//                binding.progressBar,
+//            )
+//        }
 
         binding.settingsImageButton.setOnClickListener {
             viewModel.settings()

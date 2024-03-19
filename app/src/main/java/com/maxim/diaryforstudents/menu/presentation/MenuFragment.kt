@@ -37,10 +37,10 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
             viewModel.settings()
         }
 
-        viewModel.observe(this) {
-            it.showNewsCount(binding.newNewsCounter)
-            it.showMarksCount(binding.newMarksCounter)
-        }
+//        viewModel.observe(this) {
+//            it.showNewsCount(binding.newNewsCounter)
+//            it.showMarksCount(binding.newMarksCounter)
+//        }
 
         viewModel.init(savedInstanceState == null)
     }

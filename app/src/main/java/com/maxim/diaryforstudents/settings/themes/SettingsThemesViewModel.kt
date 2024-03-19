@@ -10,6 +10,7 @@ import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.settings.data.SettingsThemesRepository
+import kotlinx.coroutines.flow.StateFlow
 
 class SettingsThemesViewModel(
     private val communication: SettingsThemesCommunication,
@@ -47,11 +48,9 @@ class SettingsThemesViewModel(
     }
 
     override fun goBack() {
-        navigation.update(Screen.Pop)
+        //navigation.update(Screen.Pop)
         clearViewModel.clearViewModel(SettingsThemesViewModel::class.java)
     }
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<SettingsThemesState>) {
-        communication.observe(owner, observer)
-    }
+    override fun state() = communication.state()
 }

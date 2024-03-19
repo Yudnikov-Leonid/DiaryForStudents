@@ -33,14 +33,14 @@ class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, Pe
             viewModel.retry()
         }
 
-        viewModel.observe(this) {
-            it.show(
-                adapter,
-                binding.errorTextView,
-                binding.retryButton,
-                binding.progressBar
-            )
-        }
+//        viewModel.observe(this) {
+//            it.show(
+//                adapter,
+//                binding.errorTextView,
+//                binding.retryButton,
+//                binding.progressBar
+//            )
+//        }
 
         viewModel.reload()
     }

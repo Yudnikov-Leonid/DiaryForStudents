@@ -37,4 +37,15 @@ interface SettingsThemesState {
             colorManager.showColor(oneImageButton, "1", defaultOneColor)
         }
     }
+
+    object Empty: SettingsThemesState {
+        override fun show(
+            fiveImageButton: ImageButton,
+            fourImageButton: ImageButton,
+            threeImageButton: ImageButton,
+            twoImageButton: ImageButton,
+            oneImageButton: ImageButton,
+            colorManager: ColorManager
+        ) = Unit
+    }
 }

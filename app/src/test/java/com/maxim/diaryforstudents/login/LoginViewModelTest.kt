@@ -65,7 +65,7 @@ class LoginViewModelTest {
 
     @Test
     fun test_hide_error() {
-        viewModel.hideError()
+        viewModel.hideErrors()
         communication.checkCalledTimes(1)
         communication.checkCalledWith(LoginState.Initial)
     }
