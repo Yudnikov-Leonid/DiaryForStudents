@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.core.presentation
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 interface Formatter {
     fun format(pattern: String, date: Int): String
@@ -9,7 +10,7 @@ interface Formatter {
 
     object Base : Formatter {
         override fun format(pattern: String, date: Int): String {
-            val formatter = SimpleDateFormat(pattern)
+            val formatter = SimpleDateFormat(pattern, Locale.getDefault())
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = date * 86400000L
             return formatter.format(calendar.time)

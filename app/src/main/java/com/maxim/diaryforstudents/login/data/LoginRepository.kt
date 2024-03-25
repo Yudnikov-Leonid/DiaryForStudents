@@ -55,7 +55,14 @@ interface LoginRepository : SaveAndRestore {
             val gradeHead = user.PARTICIPANT.GRADE.GRADE_HEAD
             val gradeHeadName =
                 "${gradeHead.SURNAME} ${gradeHead.NAME} ${user.PARTICIPANT.SECONDNAME}"
-            eduUser.login(guid, cachedEmail, fullName, school, grade, gradeHeadName)
+            val apikey = when {
+                fullName.startsWith("Ю") -> BuildConfig.ONE_SHORT_API_KEY
+                fullName.startsWith("К") -> BuildConfig.TWO_SHORT_API_KEY
+                fullName.startsWith("М") -> BuildConfig.THREE_SHORT_API_KEY
+                fullName.startsWith("Л") -> BuildConfig.FOUR_SHORT_API_KEY
+                else -> ""
+            }
+            eduUser.login(guid, apikey, cachedEmail, fullName, school, grade,  gradeHeadName)
             usersList.clear()
         }
 

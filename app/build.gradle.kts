@@ -28,8 +28,23 @@ android {
         buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
         buildConfigField(
             "String",
-            "SHORT_API_KEY",
-            "\"${properties.getProperty("SHORT_API_KEY")}\""
+            "ONE_SHORT_API_KEY",
+            "\"${properties.getProperty("ONE_SHORT_API_KEY")}\""
+        )
+        buildConfigField(
+            "String",
+            "TWO_SHORT_API_KEY",
+            "\"${properties.getProperty("TWO_SHORT_API_KEY")}\""
+        )
+        buildConfigField(
+            "String",
+            "THREE_SHORT_API_KEY",
+            "\"${properties.getProperty("THREE_SHORT_API_KEY")}\""
+        )
+        buildConfigField(
+            "String",
+            "FOUR_SHORT_API_KEY",
+            "\"${properties.getProperty("FOUR_SHORT_API_KEY")}\""
         )
     }
 

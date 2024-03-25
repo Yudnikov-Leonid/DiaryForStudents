@@ -10,7 +10,7 @@ data class DayUi(
     private val date: Int,
     private val isSelected: Boolean
 ) : Serializable {
-    fun same(item: DayUi) = item.date == date
+
     fun showDayOfTheWeek(textView: TextView) {
         textView.text = Formatter.Base.format("EE", date)
     }
