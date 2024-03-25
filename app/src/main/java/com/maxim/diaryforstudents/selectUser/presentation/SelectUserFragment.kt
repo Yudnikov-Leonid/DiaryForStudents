@@ -8,8 +8,10 @@ import androidx.activity.OnBackPressedCallback
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentSelectUserBinding
+import com.maxim.diaryforstudents.databinding.SelectUserLayoutBinding
 
-class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserViewModel>() {
+class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserViewModel>(),
+    ShowUsersToSelect {
     override val viewModelClass = SelectUserViewModel::class.java
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSelectUserBinding.inflate(inflater, container, false)
@@ -22,15 +24,12 @@ class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserVie
         }
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = SelectUserAdapter(object : SelectUserAdapter.Listener {
-            override fun select(position: Int) {
-                viewModel.select(position)
-            }
-        })
-        binding.selectUserRecyclerView.adapter = adapter
+        binding.backButton.setOnClickListener {
+            viewModel.goBack()
+        }
 
         viewModel.observe(this) {
-            it.show(adapter)
+            it.show(this)
         }
 
         savedInstanceState?.let { viewModel.restore(BundleWrapper.Base(it)) }
@@ -41,4 +40,26 @@ class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserVie
         super.onSaveInstanceState(outState)
         viewModel.save(BundleWrapper.Base(outState))
     }
+
+    override fun show(items: List<SelectUserUi>) {
+        if (binding.usersLayout.childCount > 1)
+            binding.usersLayout.removeViews(1, binding.usersLayout.childCount)
+        items.forEachIndexed { i, it ->
+            val view = SelectUserLayoutBinding.inflate(
+                LayoutInflater.from(context),
+                binding.usersLayout,
+                false
+            )
+            it.showName(view.nameTextView)
+            it.showSchool(view.schoolNameTextView)
+            view.root.setOnClickListener {
+                viewModel.select(i)
+            }
+            binding.usersLayout.addView(view.root)
+        }
+    }
+}
+
+interface ShowUsersToSelect {
+    fun show(items: List<SelectUserUi>)
 }

@@ -56,81 +56,88 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/addMarkLinearLayout"
+                <TextView
+                    android:id="@+id/addFive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="5"
+                    android:textColor="@color/light_green"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="5"
-                        android:textColor="@color/light_green"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/addFour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="4"
+                    android:textColor="@color/green"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="4"
-                        android:textColor="@color/green"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/addThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="3"
+                    android:textColor="@color/yellow"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="3"
-                        android:textColor="@color/yellow"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="2"
-                        android:textColor="@color/red"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="1"
-                        android:textColor="@color/red"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/addTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="2"
+                    android:textColor="@color/red"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/addOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="1"
+                    android:textColor="@color/red"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-            </HorizontalScrollView>
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -148,81 +155,88 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/removeMarkLinearLayout"
+                <TextView
+                    android:id="@+id/removeFive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="5"
+                    android:textColor="@color/light_green"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="5"
-                        android:textColor="@color/light_green"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/removeFour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="4"
+                    android:textColor="@color/green"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="4"
-                        android:textColor="@color/green"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/removeThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="3"
+                    android:textColor="@color/yellow"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="3"
-                        android:textColor="@color/yellow"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="2"
-                        android:textColor="@color/red"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/shape"
-                        android:elevation="3dp"
-                        android:text="1"
-                        android:textColor="@color/red"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/removeTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="2"
+                    android:textColor="@color/red"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/removeOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape"
+                    android:elevation="3dp"
+                    android:text="1"
+                    android:textColor="@color/red"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-            </HorizontalScrollView>
+            </LinearLayout>
 
         </LinearLayout>
 

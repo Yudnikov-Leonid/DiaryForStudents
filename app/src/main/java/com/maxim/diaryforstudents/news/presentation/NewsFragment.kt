@@ -56,10 +56,8 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
             it.show(
                 binding.errorTextView,
                 binding.retryButton,
-                binding.mainNews,
-                binding.importantNews,
-                binding.defaultNews,
-                binding.progressBar
+                binding.news,
+                binding.skeletonLoading
             )
         }
 

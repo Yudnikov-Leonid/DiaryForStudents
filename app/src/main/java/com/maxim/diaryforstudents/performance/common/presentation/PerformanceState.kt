@@ -3,9 +3,9 @@ package com.maxim.diaryforstudents.performance.common.presentation
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
+import com.facebook.shimmer.ShimmerFrameLayout
 import java.io.Serializable
 
 interface PerformanceState: Serializable {
@@ -14,7 +14,7 @@ interface PerformanceState: Serializable {
         settingsImageButton: ImageButton,
     ) {}
 
-    fun show(adapter: PerformanceLessonsAdapter, errorTextView: TextView, retryButton: Button, progressBar: ProgressBar)
+    fun show(adapter: PerformanceLessonsAdapter, errorTextView: TextView, retryButton: Button, skeletonLoading: ShimmerFrameLayout)
 
     object Loading : PerformanceState {
         override fun show(quarterSpinner: Spinner, settingsImageButton: ImageButton) {
@@ -26,9 +26,10 @@ interface PerformanceState: Serializable {
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             retryButton: Button,
-            progressBar: ProgressBar
+            skeletonLoading: ShimmerFrameLayout
         ) {
-            progressBar.visibility = View.VISIBLE
+            adapter.update(emptyList(), ProgressType.Hide, false)
+            skeletonLoading.visibility = View.VISIBLE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
         }
@@ -44,10 +45,10 @@ interface PerformanceState: Serializable {
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             retryButton: Button,
-            progressBar: ProgressBar
+            skeletonLoading: ShimmerFrameLayout
         ) {
             adapter.update(emptyList(), ProgressType.Hide, false)
-            progressBar.visibility = View.GONE
+            skeletonLoading.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE
             retryButton.visibility = View.VISIBLE
             errorTextView.text = message
@@ -71,10 +72,10 @@ interface PerformanceState: Serializable {
             adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             retryButton: Button,
-            progressBar: ProgressBar
+            skeletonLoading: ShimmerFrameLayout
         ) {
             adapter.update(lessons, progressType, showType)
-            progressBar.visibility = View.GONE
+            skeletonLoading.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
         }

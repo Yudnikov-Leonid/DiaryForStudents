@@ -38,7 +38,7 @@ class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, Pe
                 adapter,
                 binding.errorTextView,
                 binding.retryButton,
-                binding.progressBar
+                binding.skeletonLoading
             )
         }
 

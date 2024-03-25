@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.diary.data
 
-import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
@@ -79,7 +78,7 @@ interface DiaryRepository {
             cache[formattedDate]?.let { return it }
 
             val data = service
-                .getDay(DiaryBody(formattedDate, BuildConfig.SHORT_API_KEY, eduUser.guid(), ""))
+                .getDay(DiaryBody(formattedDate, eduUser.apikey(), eduUser.guid(), ""))
             val day = if (data.success) DiaryData.Day(date,
                 data.data.map { lesson ->
                     DiaryData.Lesson(
@@ -151,7 +150,7 @@ interface DiaryRepository {
                 formatter.format("dd.MM.yyyy", (calendar.timeInMillis / 86400000).toInt())
             val data = service.getDay(
                 DiaryBody(
-                    formattedDate, BuildConfig.SHORT_API_KEY, eduUser.guid(), ""
+                    formattedDate, eduUser.apikey(), eduUser.guid(), ""
                 )
             )
             if (data.success) {

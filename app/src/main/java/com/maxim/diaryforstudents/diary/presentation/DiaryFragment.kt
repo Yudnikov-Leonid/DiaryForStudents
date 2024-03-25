@@ -111,7 +111,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding, DiaryViewModel>(), Shar
                 binding.topLayout,
                 binding.daysViewPager,
                 binding.monthTextView,
-                binding.progressBar,
+                binding.skeletonLoading,
                 binding.errorTextView,
                 binding.retryButton,
                 binding.errorBackButton,

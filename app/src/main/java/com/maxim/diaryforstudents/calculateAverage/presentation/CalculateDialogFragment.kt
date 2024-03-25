@@ -3,8 +3,6 @@ package com.maxim.diaryforstudents.calculateAverage.presentation
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.TextView
-import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.ProvideColorManager
@@ -34,31 +32,48 @@ class CalculateDialogFragment : DialogFragment() {
 
         val colorManager = (requireActivity() as ProvideColorManager).colorManager()
 
-        binding.addMarkLinearLayout.children.forEachIndexed { i, view ->
+        listOf(
+            binding.addFive,
+            binding.addFour,
+            binding.addThree,
+            binding.addTwo,
+            binding.addOne
+        ).forEachIndexed { i, view ->
             view.setOnClickListener {
                 viewModel.add(5 - i)
             }
-            colorManager.showColor(view as TextView, (5 - i).toString(), when (i) {
-                4, 3 -> R.color.red
-                2 -> R.color.yellow
-                1 -> R.color.green
-                else -> R.color.light_green
-            })
+            colorManager.showColor(
+                view, (5 - i).toString(), when (i) {
+                    4, 3 -> R.color.red
+                    2 -> R.color.yellow
+                    1 -> R.color.green
+                    else -> R.color.light_green
+                }
+            )
         }
 
-        binding.removeMarkLinearLayout.children.forEachIndexed { i, view ->
+        listOf(
+            binding.removeFive,
+            binding.removeFour,
+            binding.removeThree,
+            binding.removeTwo,
+            binding.removeOne
+        ).forEachIndexed { i, view ->
             view.setOnClickListener {
                 viewModel.remove(5 - i)
             }
-            colorManager.showColor(view as TextView, (5 - i).toString(), when (i) {
-                4, 3 -> R.color.red
-                2 -> R.color.yellow
-                1 -> R.color.green
-                else -> R.color.light_green
-            })
+            colorManager.showColor(
+                view, (5 - i).toString(), when (i) {
+                    4, 3 -> R.color.red
+                    2 -> R.color.yellow
+                    1 -> R.color.green
+                    else -> R.color.light_green
+                }
+            )
         }
 
-        viewModel.observe(this) {
+        viewModel.observe(this)
+        {
             it.show(
                 adapter,
                 binding.averageTextView,

@@ -16,8 +16,8 @@ android {
         applicationId = "com.maxim.diaryforstudents"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
         buildFeatures.buildConfig = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -28,8 +28,23 @@ android {
         buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
         buildConfigField(
             "String",
-            "SHORT_API_KEY",
-            "\"${properties.getProperty("SHORT_API_KEY")}\""
+            "ONE_SHORT_API_KEY",
+            "\"${properties.getProperty("ONE_SHORT_API_KEY")}\""
+        )
+        buildConfigField(
+            "String",
+            "TWO_SHORT_API_KEY",
+            "\"${properties.getProperty("TWO_SHORT_API_KEY")}\""
+        )
+        buildConfigField(
+            "String",
+            "THREE_SHORT_API_KEY",
+            "\"${properties.getProperty("THREE_SHORT_API_KEY")}\""
+        )
+        buildConfigField(
+            "String",
+            "FOUR_SHORT_API_KEY",
+            "\"${properties.getProperty("FOUR_SHORT_API_KEY")}\""
         )
     }
 
@@ -56,6 +71,7 @@ android {
 
 dependencies {
 
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
