@@ -22,7 +22,7 @@ interface PerformanceCloudDataSource {
         ): List<CloudLesson> {
             val data = service.getMarks(
                 PerformanceBody(
-                    BuildConfig.SHORT_API_KEY,
+                    eduUser.apikey(),
                     eduUser.guid(),
                     from,
                     to,
@@ -37,7 +37,7 @@ interface PerformanceCloudDataSource {
         override suspend fun finalData(): List<PerformanceFinalLesson> {
             val data = service.getFinalMarks(
                 PerformanceFinalBody(
-                    BuildConfig.SHORT_API_KEY,
+                    eduUser.apikey(),
                     eduUser.guid(),
                     ""
                 )
@@ -51,7 +51,7 @@ interface PerformanceCloudDataSource {
         override suspend fun periods(): List<PerformancePeriod> {
             val data = service.getPeriods(
                 PerformanceFinalBody(
-                    BuildConfig.SHORT_API_KEY,
+                    eduUser.apikey(),
                     eduUser.guid(),
                     ""
                 )
