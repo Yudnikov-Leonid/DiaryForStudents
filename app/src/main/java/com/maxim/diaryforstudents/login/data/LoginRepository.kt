@@ -60,13 +60,15 @@ interface LoginRepository : SaveAndRestore {
         }
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
-            bundleWrapper.save(RESTORE_KEY, LoginUsersList(usersList))
+            bundleWrapper.save(RESTORE_KEY, LoginUsersList(usersList.toTypedArray()))
             bundleWrapper.save(EMAIL_RESTORE_KEY, cachedEmail)
         }
 
         override fun restore(bundleWrapper: BundleWrapper.Restore) {
+            usersList.clear()
+            val item = bundleWrapper.restore(RESTORE_KEY) as? LoginUsersList
             usersList.addAll(
-                bundleWrapper.restore<LoginUsersList>(RESTORE_KEY)?.list ?: emptyList()
+                item?.list?.toList() ?: emptyList()
             )
             cachedEmail = bundleWrapper.restore(EMAIL_RESTORE_KEY) ?: ""
         }
@@ -78,4 +80,4 @@ interface LoginRepository : SaveAndRestore {
     }
 }
 
-class LoginUsersList(val list: List<LoginSchools>) : Serializable
+class LoginUsersList(val list: Array<LoginSchools>) : Serializable

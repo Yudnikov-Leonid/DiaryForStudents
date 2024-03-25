@@ -1,11 +1,11 @@
 package com.maxim.diaryforstudents.selectUser.presentation
 
 interface SelectUserState {
-    fun show(adapter: SelectUserAdapter)
+    fun show(showUsersToSelect: ShowUsersToSelect)
 
     data class Base(private val users: List<SelectUserUi>): SelectUserState {
-        override fun show(adapter: SelectUserAdapter) {
-            adapter.update(users)
+        override fun show(showUsersToSelect: ShowUsersToSelect) {
+            showUsersToSelect.show(users)
         }
     }
 }

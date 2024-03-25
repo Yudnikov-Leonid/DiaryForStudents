@@ -9,6 +9,9 @@ interface Screen {
     fun show(fragmentManager: FragmentManager, containerId: Int)
     abstract class Replace(private val fragmentClass: Class<out Fragment>) : Screen {
         override fun show(fragmentManager: FragmentManager, containerId: Int) {
+            for(i in 0..<fragmentManager.backStackEntryCount) {
+                fragmentManager.popBackStack()
+            }
             fragmentManager.beginTransaction()
                 .replace(containerId, fragmentClass.getDeclaredConstructor().newInstance()).commit()
         }
@@ -23,15 +26,6 @@ interface Screen {
                     com.google.android.material.R.anim.m3_side_sheet_enter_from_right,
                     com.google.android.material.R.anim.m3_side_sheet_exit_to_right
                 )
-                .add(containerId, fragmentClass.getDeclaredConstructor().newInstance())
-                .addToBackStack("")
-                .commit()
-        }
-    }
-
-    abstract class Add(private val fragmentClass: Class<out Fragment>) : Screen {
-        override fun show(fragmentManager: FragmentManager, containerId: Int) {
-            fragmentManager.beginTransaction()
                 .add(containerId, fragmentClass.getDeclaredConstructor().newInstance())
                 .addToBackStack("")
                 .commit()
