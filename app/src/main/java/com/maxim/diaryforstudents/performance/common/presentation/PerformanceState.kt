@@ -28,6 +28,7 @@ interface PerformanceState: Serializable {
             retryButton: Button,
             skeletonLoading: ShimmerFrameLayout
         ) {
+            adapter.update(emptyList(), ProgressType.Hide, false)
             skeletonLoading.visibility = View.VISIBLE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
