@@ -3,7 +3,6 @@ package com.maxim.diaryforstudents.calculateAverage.presentation
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.ProvideColorManager

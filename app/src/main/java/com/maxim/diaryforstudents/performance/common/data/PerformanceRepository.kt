@@ -85,7 +85,6 @@ interface PerformanceRepository : SaveAndRestore {
                         currentQuarter
                     )
                 )
-                dao.clearAll()
                 val marksSet = mutableSetOf<String>()
                 responseCache[currentQuarter]!!.forEach { lesson ->
                     lesson.MARKS.forEach {
@@ -105,26 +104,27 @@ interface PerformanceRepository : SaveAndRestore {
         private suspend fun loadPeriods() {
             periods.addAll(
                 cloudDataSource.periods().map { Pair(it.DATE_BEGIN, it.DATE_END) })
+            currentQuarter = 4
             val calendar = Calendar.getInstance()
-            for (i in periods.indices) {
+            for (i in 0..<periods.lastIndex) {
                 var split = periods[i].first.split('.')
                 calendar.apply {
                     set(Calendar.DAY_OF_MONTH, split[0].toInt())
                     set(Calendar.MONTH, split[1].toInt() - 1)
                     set(Calendar.YEAR, split[2].toInt())
                 }
-                if (calendar.timeInMillis / 86400000 > System.currentTimeMillis() / 86400000)
-                    continue
-                split = periods[i].second.split('.')
+                val firstDate = calendar.timeInMillis / 86400000
+                split = periods[i + 1].first.split('.')
                 calendar.apply {
                     set(Calendar.DAY_OF_MONTH, split[0].toInt())
                     set(Calendar.MONTH, split[1].toInt() - 1)
                     set(Calendar.YEAR, split[2].toInt())
                 }
-                if (calendar.timeInMillis / 86400000 < System.currentTimeMillis() / 86400000)
-                    continue
-                currentQuarter = i + 1
-                break
+                val secondDate = calendar.timeInMillis / 86400000
+                if (System.currentTimeMillis() / 86400000 in firstDate..secondDate) {
+                    currentQuarter = i + 1
+                    break
+                }
             }
             periods.add(Pair(periods.first().first, periods.last().second))
         }

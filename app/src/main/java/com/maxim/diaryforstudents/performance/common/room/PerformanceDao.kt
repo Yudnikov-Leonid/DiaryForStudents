@@ -10,7 +10,7 @@ interface PerformanceDao {
     @Query("DELETE FROM checked_marks")
     suspend fun clearAll()
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(item: MarkRoom)
 
     @Query("SELECT * FROM checked_marks")
