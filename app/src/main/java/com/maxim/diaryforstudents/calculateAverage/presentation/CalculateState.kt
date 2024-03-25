@@ -5,6 +5,7 @@ import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import kotlin.math.roundToInt
 
 interface CalculateState {
     fun show(adapter: PerformanceMarksAdapter, averageTextView: TextView)
@@ -19,7 +20,7 @@ interface CalculateState {
         ) {
             adapter.update(marks, showDate =  false, showType =  false)
             val avr = average.toString()
-            averageTextView.text = if (avr.length > 3) avr.substring(0, 4) else avr
+            averageTextView.text = if (avr.length > 3) ((average * 100).roundToInt() / 100f).toString() else avr
             colorManager.showColor(
                 averageTextView, when (average) {
                     in 0f..1.49f -> 1
