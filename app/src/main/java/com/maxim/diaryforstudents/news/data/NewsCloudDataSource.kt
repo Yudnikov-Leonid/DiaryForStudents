@@ -31,7 +31,9 @@ interface NewsCloudDataSource {
                                     it.second.title,
                                     it.second.content,
                                     it.second.date,
-                                    it.second.photoUrl
+                                    it.second.photoUrl,
+                                    it.second.downloadUrl,
+                                    it.second.fileName
                                 )
                             )
                         }

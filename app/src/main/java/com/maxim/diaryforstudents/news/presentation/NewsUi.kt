@@ -2,14 +2,16 @@ package com.maxim.diaryforstudents.news.presentation
 
 import android.text.Html
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.openNews.Share
+import com.maxim.diaryforstudents.openNews.data.Downloader
 import com.squareup.picasso.Picasso
 import java.io.Serializable
 
-abstract class NewsUi: Serializable {
+abstract class NewsUi : Serializable {
     open fun showTitle(textView: TextView) {}
     open fun showTime(textView: TextView) {}
     open fun showDate(textView: TextView) {}
@@ -18,6 +20,11 @@ abstract class NewsUi: Serializable {
     open fun showFitImage(imageView: ImageView) {}
     abstract fun same(item: NewsUi): Boolean
     open fun sameContent(item: NewsUi): Boolean = false
+    open fun showDownloadButton(button: Button) {
+        button.visibility = View.GONE
+    }
+
+    open fun download(downloader: Downloader) {}
 
     open fun share(share: Share) {}
 
@@ -25,7 +32,9 @@ abstract class NewsUi: Serializable {
         private val title: String,
         private val content: String,
         private val date: Long,
-        private val photoUrl: String
+        private val photoUrl: String,
+        private val downloadUrl: String,
+        private val fileName: String
     ) : NewsUi() {
         override fun showTitle(textView: TextView) {
             textView.text = Html.fromHtml(title, Html.FROM_HTML_MODE_LEGACY)
@@ -39,14 +48,19 @@ abstract class NewsUi: Serializable {
             share.share("$title\n\n${Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)}")
         }
 
+        override fun showDownloadButton(button: Button) {
+            button.visibility = if (downloadUrl.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+
         override fun showTime(textView: TextView) {
             val timePassed = System.currentTimeMillis() - date
-            val text = if (timePassed / 2_592_000_000 > 0) "${timePassed / 2_592_000_000} months ago"
-            else if (timePassed / 604_800_000 > 0) "${timePassed / 604_800_000} weeks ago"
-            else if (timePassed / 86_400_000 > 0) "${timePassed / 86_400_000} days ago"
-            else if (timePassed / 3_600_000 > 0) "${timePassed / 3_600_000} hours ago"
-            else if (timePassed / 60000 > 0) "${timePassed / 60000} minutes ago"
-            else "Just once"
+            val text =
+                if (timePassed / 2_592_000_000 > 0) "${timePassed / 2_592_000_000} months ago"
+                else if (timePassed / 604_800_000 > 0) "${timePassed / 604_800_000} weeks ago"
+                else if (timePassed / 86_400_000 > 0) "${timePassed / 86_400_000} days ago"
+                else if (timePassed / 3_600_000 > 0) "${timePassed / 3_600_000} hours ago"
+                else if (timePassed / 60000 > 0) "${timePassed / 60000} minutes ago"
+                else "Just once"
             textView.text = text
         }
 
@@ -69,6 +83,10 @@ abstract class NewsUi: Serializable {
                 Picasso.get().load(photoUrl).fit().into(imageView)
             } else
                 imageView.visibility = View.GONE
+        }
+
+        override fun download(downloader: Downloader) {
+            downloader.download(fileName, downloadUrl)
         }
 
         override fun same(item: NewsUi) =
