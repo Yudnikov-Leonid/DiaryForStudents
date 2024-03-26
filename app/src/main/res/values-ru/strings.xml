@@ -154,4 +154,5 @@
 
     <string name="no_internet_connection">Нет интернета</string>
     <string name="timeout">Время ожидания истекло</string>
+    <string name="download">Скачать</string>
 </resources>

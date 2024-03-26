@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalLessonsAdapter
 import java.io.Serializable
 
 interface PerformanceState: Serializable {
@@ -14,7 +15,10 @@ interface PerformanceState: Serializable {
         settingsImageButton: ImageButton,
     ) {}
 
-    fun show(adapter: PerformanceLessonsAdapter, errorTextView: TextView, retryButton: Button, skeletonLoading: ShimmerFrameLayout)
+    fun show(adapter: PerformanceLessonsAdapter)
+    fun show(adapter: PerformanceFinalLessonsAdapter)
+
+    fun show(errorTextView: TextView, retryButton: Button, skeletonLoading: ShimmerFrameLayout)
 
     object Loading : PerformanceState {
         override fun show(quarterSpinner: Spinner, settingsImageButton: ImageButton) {
@@ -22,13 +26,19 @@ interface PerformanceState: Serializable {
             quarterSpinner.visibility = View.GONE
         }
 
+        override fun show(adapter: PerformanceLessonsAdapter) {
+            adapter.update(emptyList(), ProgressType.Hide, false)
+        }
+
+        override fun show(adapter: PerformanceFinalLessonsAdapter) {
+            adapter.update(emptyList())
+        }
+
         override fun show(
-            adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             retryButton: Button,
             skeletonLoading: ShimmerFrameLayout
         ) {
-            adapter.update(emptyList(), ProgressType.Hide, false)
             skeletonLoading.visibility = View.VISIBLE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE
@@ -41,13 +51,19 @@ interface PerformanceState: Serializable {
             quarterSpinner.visibility = View.GONE
         }
 
+        override fun show(adapter: PerformanceLessonsAdapter) {
+            adapter.update(emptyList(), ProgressType.Hide, false)
+        }
+
+        override fun show(adapter: PerformanceFinalLessonsAdapter) {
+            adapter.update(emptyList())
+        }
+
         override fun show(
-            adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             retryButton: Button,
             skeletonLoading: ShimmerFrameLayout
         ) {
-            adapter.update(emptyList(), ProgressType.Hide, false)
             skeletonLoading.visibility = View.GONE
             errorTextView.visibility = View.VISIBLE
             retryButton.visibility = View.VISIBLE
@@ -68,13 +84,19 @@ interface PerformanceState: Serializable {
             quarterSpinner.setSelection(quarter - 1)
         }
 
+        override fun show(adapter: PerformanceLessonsAdapter) {
+            adapter.update(lessons, progressType, showType)
+        }
+
+        override fun show(adapter: PerformanceFinalLessonsAdapter) {
+            adapter.update(lessons)
+        }
+
         override fun show(
-            adapter: PerformanceLessonsAdapter,
             errorTextView: TextView,
             retryButton: Button,
             skeletonLoading: ShimmerFrameLayout
         ) {
-            adapter.update(lessons, progressType, showType)
             skeletonLoading.visibility = View.GONE
             errorTextView.visibility = View.GONE
             retryButton.visibility = View.GONE

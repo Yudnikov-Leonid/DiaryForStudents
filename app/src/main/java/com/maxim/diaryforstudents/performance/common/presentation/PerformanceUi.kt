@@ -8,7 +8,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.ColorManager
@@ -23,7 +22,13 @@ interface PerformanceUi : Serializable {
     fun showName(textView: TextView) {}
     fun showName(textView: TextView, colorManager: ColorManager) {}
     fun showDate(textView: TextView) {}
-    fun showMarks(adapter: PerformanceMarksAdapter, showType: Boolean, recyclerView: RecyclerView) {}
+    fun showMarks(
+        adapter: PerformanceMarksAdapter,
+        showType: Boolean,
+        recyclerView: RecyclerView
+    ) {
+    }
+
     fun showAverage(titleTextView: TextView, textView: TextView, colorManager: ColorManager) {}
     fun same(item: PerformanceUi): Boolean
     fun sameContent(item: PerformanceUi): Boolean = false
@@ -37,6 +42,16 @@ interface PerformanceUi : Serializable {
     fun showType(view: View) {}
     fun showType(textView: TextView) {}
     fun showIsChecked(view: View, colorManager: ColorManager) {}
+
+    fun showFinalMarks(
+        one: TextView,
+        two: TextView,
+        three: TextView,
+        four: TextView,
+        final: TextView,
+        colorManager: ColorManager
+    ) {
+    }
 
     suspend fun getLesson(
         interactor: PerformanceInteractor,
@@ -71,6 +86,19 @@ interface PerformanceUi : Serializable {
         ) {
             adapter.update(marks, true, showType)
             recyclerView.scrollToPosition(marks.size - 1)
+        }
+
+        override fun showFinalMarks(
+            one: TextView,
+            two: TextView,
+            three: TextView,
+            four: TextView,
+            final: TextView,
+            colorManager: ColorManager
+        ) {
+            marks.forEach {
+                it.showFinalMarks(one, two, three, four, final, colorManager)
+            }
         }
 
         override fun showAverage(
@@ -167,18 +195,32 @@ interface PerformanceUi : Serializable {
     ) : PerformanceUi {
         override fun showName(textView: TextView, colorManager: ColorManager) {
             textView.text = mark.toString()
-            if (isFinal)
-                textView.setTextColor(ContextCompat.getColor(textView.context, R.color.blue))
-            else
-                colorManager.showColor(
-                    textView, mark.toString(), when (mark) {
-                        1, 2 -> R.color.red
-                        3 -> R.color.yellow
-                        4 -> R.color.green
-                        5 -> R.color.light_green
-                        else -> R.color.black
-                    }
-                )
+            colorManager.showColor(
+                textView, mark.toString(), when (mark) {
+                    1, 2 -> R.color.red
+                    3 -> R.color.yellow
+                    4 -> R.color.green
+                    5 -> R.color.light_green
+                    else -> R.color.black
+                }
+            )
+        }
+
+        override fun showFinalMarks(
+            one: TextView,
+            two: TextView,
+            three: TextView,
+            four: TextView,
+            final: TextView,
+            colorManager: ColorManager
+        ) {
+            when (date) {
+                "1" -> this.showName(one, colorManager)
+                "2" -> this.showName(two, colorManager)
+                "3" -> this.showName(three, colorManager)
+                "4" -> this.showName(four, colorManager)
+                "5" -> this.showName(final, colorManager)
+            }
         }
 
         override fun showType(view: View) {
@@ -251,7 +293,16 @@ interface PerformanceUi : Serializable {
         }
 
         override fun toMarks(): List<Mark> {
-            return marks.mapIndexed { index, it -> Mark(it, types[index], date, lessonName, false, isChecked) }
+            return marks.mapIndexed { index, it ->
+                Mark(
+                    it,
+                    types[index],
+                    date,
+                    lessonName,
+                    false,
+                    isChecked
+                )
+            }
         }
 
         override fun showIsChecked(view: View, colorManager: ColorManager) {

@@ -15,6 +15,7 @@ import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.data.LoginService
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
+import com.maxim.diaryforstudents.openNews.data.Downloader
 import com.maxim.diaryforstudents.performance.common.room.PerformanceDatabase
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
 import okhttp3.OkHttpClient
@@ -25,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
     ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, ProvideLoginRepository,
-    ProvidePerformanceDatabase, ProvideColorManager {
+    ProvidePerformanceDatabase, ProvideColorManager, ProvideDownloader {
 
     class Base(private val context: Context) : Core {
 
@@ -94,6 +95,9 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private val colorManager = ColorManager.Base(simpleStorage)
         override fun colorManager() = colorManager
 
+        private val downloader = Downloader.Base(context)
+        override fun downloader() = downloader
+
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
 
@@ -156,4 +160,8 @@ interface ProvideLoginRepository {
 
 interface ProvidePerformanceDatabase {
     fun performanceDatabase(): PerformanceDatabase
+}
+
+interface ProvideDownloader {
+    fun downloader(): Downloader
 }

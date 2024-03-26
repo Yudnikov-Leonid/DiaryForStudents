@@ -8,7 +8,9 @@ class NewsDataToUiMapper : NewsData.Mapper<NewsUi> {
         content: String,
         date: Long,
         photoUrl: String,
-    ): NewsUi = NewsUi.Base(title, content, date, photoUrl)
+        downloadUrl: String,
+        fileName: String
+    ): NewsUi = NewsUi.Base(title, content, date, photoUrl, downloadUrl, fileName)
 
     override fun map() = NewsUi.Empty
 

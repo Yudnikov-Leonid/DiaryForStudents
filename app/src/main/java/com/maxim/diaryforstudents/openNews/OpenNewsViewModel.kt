@@ -12,8 +12,10 @@ import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsUi
+import com.maxim.diaryforstudents.openNews.data.Downloader
 
 class OpenNewsViewModel(
+    private val downloader: Downloader,
     private val communication: OpenNewsCommunication,
     private val data: OpenNewsStorage.Read,
     private val navigation: Navigation.Update,
@@ -23,6 +25,11 @@ class OpenNewsViewModel(
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun)
             communication.update(data.read())
+    }
+
+    //not tested
+    fun download() {
+        data.read().download(downloader)
     }
 
     //not tested

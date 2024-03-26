@@ -25,11 +25,17 @@ class OpenNewsFragment : BaseFragment<FragmentOpenNewsBinding, OpenNewsViewModel
             }
         }
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.observe(this) { data ->
             data.showTitle(binding.titleTextView)
             data.showDate(binding.dateTextView)
             data.showContent(binding.contentTextView)
             data.showImage(binding.newsImage)
+            data.showDownloadButton(binding.downloadButton)
+        }
+
+        binding.downloadButton.setOnClickListener {
+            viewModel.download()
         }
 
         binding.backButton.setOnClickListener {

@@ -5,5 +5,7 @@ data class CloudNews(
     val content: String = "",
     val date: Long = 0L,
     val photoUrl: String = "",
+    val downloadUrl: String = "",
+    val fileName: String = "",
     val status: Int = 0
 )
