@@ -12,7 +12,7 @@ interface Downloader {
         private val downloadManager = context.getSystemService(DownloadManager::class.java)
 
         override fun download(fileName: String, url: String): Long {
-            val request = DownloadManager.Request(url.toUri())
+            val request = DownloadManager.Request(url.trim().toUri())
                 .setMimeType("application/vnd.android.package-archive")
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 .setTitle(fileName)
