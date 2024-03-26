@@ -102,11 +102,11 @@ class PerformanceActualFragment :
                 binding.settingsImageButton,
             )
             it.show(
-                adapter,
                 binding.errorTextView,
                 binding.retryButton,
                 binding.skeletonLoading,
             )
+            it.show(adapter)
         }
 
         binding.settingsImageButton.setOnClickListener {
