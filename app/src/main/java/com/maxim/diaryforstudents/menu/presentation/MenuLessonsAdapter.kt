@@ -8,14 +8,16 @@ import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.databinding.MenuLessonLayoutBinding
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 
-class MenuLessonsAdapter : RecyclerView.Adapter<MenuLessonsAdapter.ItemViewHolder>() {
+class MenuLessonsAdapter(
+    private val listener: Listener
+) : RecyclerView.Adapter<MenuLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DiaryUi.Lesson>()
     private var currentLesson = 0
 
-    class ItemViewHolder(private val binding: MenuLessonLayoutBinding) :
+    class ItemViewHolder(private val binding: MenuLessonLayoutBinding, private val listener: Listener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DiaryUi.Lesson, pos: Int, currentLesson: Int) {
-            item.showName(binding.lessonName)
+            item.showNameAndNumber(binding.lessonName)
             item.showTime(binding.time)
             item.showPreviousHomework(binding.previousHomework, binding.previousHomeworkTitle)
             if (pos == currentLesson) {
@@ -26,6 +28,9 @@ class MenuLessonsAdapter : RecyclerView.Adapter<MenuLessonsAdapter.ItemViewHolde
                 binding.title.text = binding.time.context.getString(R.string.next_lesson)
             } else
                 binding.title.visibility = View.GONE
+            itemView.setOnClickListener {
+                listener.details(item)
+            }
         }
     }
 
@@ -35,7 +40,7 @@ class MenuLessonsAdapter : RecyclerView.Adapter<MenuLessonsAdapter.ItemViewHolde
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), listener
         )
     }
 
@@ -50,5 +55,9 @@ class MenuLessonsAdapter : RecyclerView.Adapter<MenuLessonsAdapter.ItemViewHolde
         list.clear()
         list.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    interface Listener {
+        fun details(item: DiaryUi.Lesson)
     }
 }

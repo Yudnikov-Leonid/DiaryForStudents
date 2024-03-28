@@ -15,6 +15,8 @@ import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
+import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
+import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsScreen
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.news.presentation.NewsScreen
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
@@ -25,6 +27,7 @@ import com.maxim.diaryforstudents.settings.presentation.SettingsScreen
 class MenuViewModel(
     private val communication: MenuCommunication,
     private val diaryInteractor: DiaryInteractor,
+    private val storage: LessonDetailsStorage.Save,
     private val performanceInteractor: PerformanceInteractor,
     private val newsRepository: NewsRepository,
     private val navigation: Navigation.Update,
@@ -71,6 +74,12 @@ class MenuViewModel(
 
     fun analytics() {
         navigation.update(AnalyticsScreen)
+    }
+
+    //not tested
+    fun lesson(item: DiaryUi.Lesson) {
+        storage.save(item)
+        navigation.update(LessonDetailsScreen)
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {

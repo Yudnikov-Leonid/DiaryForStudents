@@ -13,6 +13,7 @@ class MenuModule(private val core: Core) : Module<MenuViewModel> {
     override fun viewModel() = MenuViewModel(
         MenuCommunication.Base(),
         core.diaryInteractor(),
+        core.lessonDetailsStorage(),
         core.marksModule().marksInteractor(),
         NewsRepository.Base(NewsCloudDataSource.Base(core.service()), core.simpleStorage()),
         core.navigation(),
