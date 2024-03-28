@@ -39,10 +39,11 @@ class MenuViewModel(
 
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
+            handle ({diaryInteractor.initMenuLessons()}) {
+                reload()
+            }
             handle {
-                //todo
                 performanceInteractor.loadData()
-                diaryInteractor.initMenuLessons()
                 newMarksCount = performanceInteractor.newMarksCount()
                 newsRepository.init(this)
             }

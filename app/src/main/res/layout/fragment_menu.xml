@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingHorizontal="6dp">
 
@@ -65,6 +66,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/menu_lessons"
+            android:elevation="5dp"
             android:visibility="gone"
             tools:visibility="visible" />
 

@@ -1,13 +1,17 @@
 package com.maxim.diaryforstudents.diary.data
 
+import android.util.Log
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.sl.ManageResource
+import com.maxim.diaryforstudents.diary.data.room.MenuLessonsDao
+import com.maxim.diaryforstudents.diary.data.room.RoomLesson
 import com.maxim.diaryforstudents.performance.common.data.HandleMarkType
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
+import java.lang.Exception
 import java.util.Calendar
 
 interface DiaryRepository {
@@ -22,6 +26,8 @@ interface DiaryRepository {
 
     class Base(
         private val service: DiaryService,
+        private val menuService: MenuLessonsDao,
+        private val mapper: DiaryData.Mapper<RoomLesson>,
         private val formatter: Formatter,
         private val eduUser: EduUser,
         private val manageResource: ManageResource,
@@ -187,17 +193,42 @@ interface DiaryRepository {
         }
 
         override suspend fun menuLesson(): Pair<List<DiaryData.Lesson>, Int> {
-            val today = formatter.format("dd.MM.yyyy", actualDate())
-            val day = if (cache[today] == null) day(actualDate()) else cache[today]!!
+            val cachedLessons = menuService.lessons()
+            val lessons: List<DiaryData.Lesson>
+            if (cachedLessons.isEmpty() || cachedLessons[0].date != actualDate()) {
+                Log.d("MyLog", "1")
+                val today = formatter.format("dd.MM.yyyy", actualDate())
+                val day: DiaryData
+                try {
+                    day = if (cache[today] == null) day(actualDate()) else cache[today]!!
+                } catch (e: Exception) {
+                    return Pair(emptyList(), 0)
+                }
+                menuService.clear()
+                day.lessons().forEach {
+                    menuService.insert(it.map(mapper))
+                }
+                lessons = day.lessons()
+            } else {
+                Log.d("MyLog", "2")
+                lessons = menuService.lessons().map {
+                    DiaryData.Lesson(it.name, it.number, it.teacherName, it.topic,
+                        it.homework, it.previousHomework, it.startTime, it.endTime,
+                        it.date, emptyList(), emptyList(), emptyList()
+                    )
+                }
+            }
+
             var currentLesson = 0
             val time = formatter.hoursAndMinutes(System.currentTimeMillis()).toInt()
-            for (i in 1..day.lessons().lastIndex) {
-                if (time in (day.lessons()[i - 1].period().first..day.lessons()[i].period().first)) {
-                    currentLesson = i
+            for (i in 1..lessons.lastIndex) {
+                if (time in (lessons[i - 1].period().first..lessons[i].period().first)) {
+                    currentLesson = i - 1
                     break
                 }
             }
-            return Pair(day.lessons(), currentLesson)
+
+            return Pair(lessons, currentLesson)
         }
     }
 }

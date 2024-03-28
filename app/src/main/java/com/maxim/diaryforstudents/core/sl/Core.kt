@@ -13,6 +13,7 @@ import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
 import com.maxim.diaryforstudents.diary.data.DayDataToDomainMapper
 import com.maxim.diaryforstudents.diary.data.DiaryDataToDomainMapper
+import com.maxim.diaryforstudents.diary.data.room.MenuLessonsDatabase
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.login.data.LoginRepository
@@ -31,7 +32,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
     ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, ProvideLoginRepository,
-    ProvidePerformanceDatabase, ProvideColorManager, ProvideDownloader, ProvideDiaryInteractor {
+    ProvidePerformanceDatabase, ProvideColorManager, ProvideDownloader, ProvideDiaryInteractor,
+    ProvideMenuLessonsDatabase {
 
     class Base(private val context: Context) : Core {
 
@@ -108,7 +110,19 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
             DiaryDataToDomainMapper(PerformanceDataToDomainMapper()),
             DayDataToDomainMapper(), this
         )
+
         override fun diaryInteractor() = diaryInteractor
+
+        private var menuLessonsDatabase: MenuLessonsDatabase? = null
+        override fun menuLessonsDatabase(): MenuLessonsDatabase {
+            if (menuLessonsDatabase == null)
+                menuLessonsDatabase =  Room.databaseBuilder(
+                    context,
+                    MenuLessonsDatabase::class.java,
+                    "menu_lessons_database"
+                ).build()
+            return menuLessonsDatabase!!
+        }
 
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
@@ -180,4 +194,8 @@ interface ProvideDownloader {
 
 interface ProvideDiaryInteractor {
     fun diaryInteractor(): DiaryInteractor
+}
+
+interface ProvideMenuLessonsDatabase {
+    fun menuLessonsDatabase(): MenuLessonsDatabase
 }
