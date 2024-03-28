@@ -6,6 +6,8 @@ interface DiaryData {
     fun isDate(date: Int): Boolean
     fun homeworks(): List<Pair<String, String>>
     fun previousHomeworks(): List<Pair<String, String>>
+    fun lessons(): List<Lesson> = emptyList()
+    fun period(): Pair<Int, Int> = Pair(0, 0)
 
     interface Mapper<T> {
         fun map(date: Int, lessons: List<DiaryData>): T
@@ -23,6 +25,7 @@ interface DiaryData {
             absence: List<String>,
             notes: List<String>
         ): T
+
         fun map(): T
     }
 
@@ -44,6 +47,8 @@ interface DiaryData {
                 if (it.previousHomeworks().isNotEmpty()) it.previousHomeworks().first() else null
             }
         }
+
+        override fun lessons() = lessons as List<Lesson>
 
         override fun <T> map(mapper: Mapper<T>): T = mapper.map(date, lessons)
     }
@@ -68,8 +73,23 @@ interface DiaryData {
         override fun previousHomeworks() = listOf(Pair(name, previousHomework))
 
         override fun <T> map(mapper: Mapper<T>): T = mapper.map(
-            name, number, teacherName, topic, homework, previousHomework, startTime, endTime, date, marks, absence, notes
+            name,
+            number,
+            teacherName,
+            topic,
+            homework,
+            previousHomework,
+            startTime,
+            endTime,
+            date,
+            marks,
+            absence,
+            notes
         )
+
+        override fun period(): Pair<Int, Int> {
+            return Pair(startTime.replace(":", "").toInt(), startTime.replace(":", "").toInt())
+        }
     }
 
     object Empty : DiaryData {

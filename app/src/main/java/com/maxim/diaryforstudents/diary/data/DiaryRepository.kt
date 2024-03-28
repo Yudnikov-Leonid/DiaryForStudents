@@ -18,6 +18,7 @@ interface DiaryRepository {
     fun previousHomeworks(date: Int): String
 
     suspend fun getLesson(lessonName: String, date: String): DiaryData.Lesson
+    suspend fun menuLesson(): Pair<List<DiaryData.Lesson>, Int>
 
     class Base(
         private val service: DiaryService,
@@ -183,6 +184,21 @@ interface DiaryRepository {
                     )
                 }
             } else throw ServiceUnavailableException(data.message)
+        }
+
+        override suspend fun menuLesson(): Pair<List<DiaryData.Lesson>, Int> {
+            val today = formatter.format("dd.MM.yyyy", actualDate())
+            val day = if (cache[today] == null) day(actualDate()) else cache[today]!!
+            var currentLesson = 0
+            val time = formatter.hoursAndMinutes(System.currentTimeMillis()).toInt()
+            for (i in 0..day.lessons().lastIndex) {
+                val lessonPeriod = day.lessons()[i].period()
+                if (time in (lessonPeriod.first..lessonPeriod.second)) {
+                    currentLesson = i
+                    break
+                }
+            }
+            return Pair(day.lessons(), currentLesson)
         }
     }
 }

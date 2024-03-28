@@ -11,6 +11,7 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.ReloadWithError
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
+import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.news.presentation.NewsScreen
@@ -21,6 +22,7 @@ import com.maxim.diaryforstudents.settings.presentation.SettingsScreen
 
 class MenuViewModel(
     private val communication: MenuCommunication,
+    private val diaryInteractor: DiaryInteractor,
     private val performanceInteractor: PerformanceInteractor,
     private val newsRepository: NewsRepository,
     private val navigation: Navigation.Update,
@@ -34,6 +36,11 @@ class MenuViewModel(
                 performanceInteractor.loadData()
                 newsRepository.init(this)
                 newMarksCount = performanceInteractor.newMarksCount()
+            }
+            handle ({
+                diaryInteractor.menuLessons()
+            }) {
+
             }
         }
     }

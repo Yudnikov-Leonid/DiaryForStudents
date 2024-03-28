@@ -10,6 +10,7 @@ import com.maxim.diaryforstudents.news.data.NewsRepository
 class MenuModule(private val core: Core) : Module<MenuViewModel> {
     override fun viewModel() = MenuViewModel(
         MenuCommunication.Base(),
+        core.diaryInteractor(),
         core.marksModule().marksInteractor(),
         NewsRepository.Base(NewsCloudDataSource.Base(core.service()), core.simpleStorage()),
         core.navigation()
