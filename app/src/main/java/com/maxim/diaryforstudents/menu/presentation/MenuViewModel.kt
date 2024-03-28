@@ -11,8 +11,10 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.ReloadWithError
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
+import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.diary.presentation.DiaryScreen
+import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.news.presentation.NewsScreen
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
@@ -26,21 +28,20 @@ class MenuViewModel(
     private val performanceInteractor: PerformanceInteractor,
     private val newsRepository: NewsRepository,
     private val navigation: Navigation.Update,
+    private val mapper: DiaryDomain.Mapper<DiaryUi>,
     runAsync: RunAsync = RunAsync.Base()
-) : BaseViewModel(runAsync), Init, SaveAndRestore, Communication.Observe<MenuState>, ReloadWithError {
+) : BaseViewModel(runAsync), Init, SaveAndRestore, Communication.Observe<MenuState>,
+    ReloadWithError {
     private var newMarksCount = 0
 
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
             handle {
+                //todo
                 performanceInteractor.loadData()
-                newsRepository.init(this)
+                diaryInteractor.initMenuLessons()
                 newMarksCount = performanceInteractor.newMarksCount()
-            }
-            handle ({
-                diaryInteractor.menuLessons()
-            }) {
-
+                newsRepository.init(this)
             }
         }
     }
@@ -89,7 +90,14 @@ class MenuViewModel(
     override fun error(message: String) = Unit
 
     override fun reload() {
-        communication.update(MenuState.Initial(newMarksCount, newsRepository.checkNewNews()))
+        communication.update(
+            MenuState.Initial(
+                newMarksCount,
+                newsRepository.checkNewNews(),
+                diaryInteractor.menuLessons().map { it.map(mapper) as DiaryUi.Lesson },
+                diaryInteractor.currentLesson()
+            )
+        )
     }
 
     companion object {

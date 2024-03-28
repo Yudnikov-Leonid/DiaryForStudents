@@ -58,6 +58,16 @@
 
         </LinearLayout>
 
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/lessonsViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/menu_lessons"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <FrameLayout
             android:id="@+id/performanceButton"
             android:layout_width="match_parent"

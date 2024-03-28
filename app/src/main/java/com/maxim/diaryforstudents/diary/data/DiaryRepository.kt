@@ -191,9 +191,8 @@ interface DiaryRepository {
             val day = if (cache[today] == null) day(actualDate()) else cache[today]!!
             var currentLesson = 0
             val time = formatter.hoursAndMinutes(System.currentTimeMillis()).toInt()
-            for (i in 0..day.lessons().lastIndex) {
-                val lessonPeriod = day.lessons()[i].period()
-                if (time in (lessonPeriod.first..lessonPeriod.second)) {
+            for (i in 0..<day.lessons().lastIndex) {
+                if (time in (day.lessons()[i].period().first..day.lessons()[i + 1].period().first)) {
                     currentLesson = i
                     break
                 }
