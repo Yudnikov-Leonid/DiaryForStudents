@@ -13,16 +13,23 @@ class MenuLessonsAdapter(
 ) : RecyclerView.Adapter<MenuLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DiaryUi.Lesson>()
     private var currentLesson = 0
+    private var isBreak = false
 
-    class ItemViewHolder(private val binding: MenuLessonLayoutBinding, private val listener: Listener) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ItemViewHolder(
+        private val binding: MenuLessonLayoutBinding,
+        private val listener: Listener,
+        private val isBreak: Boolean
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DiaryUi.Lesson, pos: Int, currentLesson: Int) {
             item.showNameAndNumber(binding.lessonName)
             item.showTime(binding.time)
             item.showPreviousHomework(binding.previousHomework, binding.previousHomeworkTitle)
             if (pos == currentLesson) {
                 binding.title.visibility = View.VISIBLE
-                binding.title.text = binding.time.context.getString(R.string.is_going_on_now)
+                binding.title.text = if (isBreak)
+                    binding.time.context.getString(R.string.lesson_starts_soon)
+                else
+                    binding.time.context.getString(R.string.is_going_on_now)
             } else if (pos - 1 == currentLesson) {
                 binding.title.visibility = View.VISIBLE
                 binding.title.text = binding.time.context.getString(R.string.next_lesson)
@@ -40,7 +47,7 @@ class MenuLessonsAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), listener
+            ), listener, isBreak
         )
     }
 
@@ -50,8 +57,9 @@ class MenuLessonsAdapter(
         holder.bind(list[position], position, currentLesson)
     }
 
-    fun update(newList: List<DiaryUi.Lesson>, currentLesson: Int) {
+    fun update(newList: List<DiaryUi.Lesson>, currentLesson: Int, isBreak: Boolean) {
         this.currentLesson = currentLesson
+        this.isBreak = isBreak
         list.clear()
         list.addAll(newList)
         notifyDataSetChanged()

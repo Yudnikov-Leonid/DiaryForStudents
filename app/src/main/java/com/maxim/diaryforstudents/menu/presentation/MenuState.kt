@@ -15,7 +15,8 @@ interface MenuState: Serializable {
         private val newMarksCount: Int,
         private val newNewsCount: Int,
         private val lessons: List<DiaryUi.Lesson>,
-        private val currentLesson: Int
+        private val currentLesson: Int,
+        private val isBreak: Boolean
     ): MenuState {
         override fun showNewsCount(textView: TextView) {
             textView.visibility = if (newNewsCount == 0) View.GONE else View.VISIBLE
@@ -29,7 +30,7 @@ interface MenuState: Serializable {
 
         override fun showLessons(viewPager: ViewPager2, adapter: MenuLessonsAdapter) {
             viewPager.visibility = if (lessons.isNotEmpty()) View.VISIBLE else View.GONE
-            adapter.update(lessons, currentLesson)
+            adapter.update(lessons, currentLesson, isBreak)
             viewPager.setCurrentItem(currentLesson, false)
         }
     }

@@ -6,7 +6,7 @@ interface DiaryData {
     fun isDate(date: Int): Boolean
     fun homeworks(): List<Pair<String, String>>
     fun previousHomeworks(): List<Pair<String, String>>
-    fun lessons(): List<Lesson> = emptyList()
+    fun lessons(): List<DiaryData> = emptyList()
     fun period(): Pair<Int, Int> = Pair(0, 0)
 
     interface Mapper<T> {
@@ -48,7 +48,7 @@ interface DiaryData {
             }
         }
 
-        override fun lessons() = lessons as List<Lesson>
+        override fun lessons() = lessons
 
         override fun <T> map(mapper: Mapper<T>): T = mapper.map(date, lessons)
     }
@@ -88,7 +88,7 @@ interface DiaryData {
         )
 
         override fun period(): Pair<Int, Int> {
-            return Pair(startTime.replace(":", "").toInt(), startTime.replace(":", "").toInt())
+            return Pair(startTime.replace(":", "").toInt(), endTime.replace(":", "").toInt())
         }
     }
 

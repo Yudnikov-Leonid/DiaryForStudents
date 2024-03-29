@@ -157,4 +157,5 @@
     <string name="download">Скачать</string>
     <string name="is_going_on_now">Сейчас идёт…</string>
     <string name="next_lesson">Следющий…</string>
+    <string name="lesson_starts_soon">Скоро начнётся…</string>
 </resources>

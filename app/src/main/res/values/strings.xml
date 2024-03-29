@@ -162,4 +162,5 @@
     <string name="download">Download</string>
     <string name="is_going_on_now">Is going on now…</string>
     <string name="next_lesson">Next…</string>
+    <string name="lesson_starts_soon">Lesson starts soon…</string>
 </resources>

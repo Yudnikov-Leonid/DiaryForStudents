@@ -105,7 +105,8 @@ class MenuViewModel(
                 newMarksCount,
                 newsRepository.checkNewNews(),
                 diaryInteractor.menuLessons().map { it.map(mapper) as DiaryUi.Lesson },
-                diaryInteractor.currentLesson()
+                diaryInteractor.currentLesson(),
+                diaryInteractor.isBreak()
             )
         )
     }
