@@ -54,7 +54,7 @@ interface LoginRepository : SaveAndRestore {
             val school = user.PARTICIPANT.GRADE.SCHOOL.SHORT_NAME
             val gradeHead = user.PARTICIPANT.GRADE.GRADE_HEAD
             val gradeHeadName =
-                "${gradeHead.SURNAME} ${gradeHead.NAME} ${user.PARTICIPANT.SECONDNAME}"
+                "${gradeHead.SURNAME} ${gradeHead.NAME} ${gradeHead.SECONDNAME}"
             val apikey = when {
                 fullName.startsWith("Ю") -> BuildConfig.ONE_SHORT_API_KEY
                 fullName.startsWith("К") -> BuildConfig.TWO_SHORT_API_KEY
