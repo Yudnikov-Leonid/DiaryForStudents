@@ -16,6 +16,7 @@ class MenuModule(private val core: Core) : Module<MenuViewModel> {
         core.lessonDetailsStorage(),
         core.marksModule().marksInteractor(),
         NewsRepository.Base(NewsCloudDataSource.Base(core.service()), core.simpleStorage()),
+        core.lessonsInMenuSettings(),
         core.navigation(),
         DiaryDomainToUiMapper(PerformanceDomainToUiMapper())
     )

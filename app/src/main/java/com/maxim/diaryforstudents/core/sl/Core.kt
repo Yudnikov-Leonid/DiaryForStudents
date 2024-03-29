@@ -24,6 +24,7 @@ import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
 import com.maxim.diaryforstudents.performance.common.room.PerformanceDatabase
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
+import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -33,7 +34,7 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
     ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, ProvideLoginRepository,
     ProvidePerformanceDatabase, ProvideColorManager, ProvideDownloader, ProvideDiaryInteractor,
-    ProvideMenuLessonsDatabase {
+    ProvideMenuLessonsDatabase, ProvideLessonsInMenuSettings {
 
     class Base(private val context: Context) : Core {
 
@@ -124,6 +125,9 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
             return menuLessonsDatabase!!
         }
 
+        private val lessonsInMenuSettings = LessonsInMenuSettings.Base(simpleStorage)
+        override fun lessonsInMenuSettings() = lessonsInMenuSettings
+
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
 
@@ -198,4 +202,8 @@ interface ProvideDiaryInteractor {
 
 interface ProvideMenuLessonsDatabase {
     fun menuLessonsDatabase(): MenuLessonsDatabase
+}
+
+interface ProvideLessonsInMenuSettings {
+    fun lessonsInMenuSettings(): LessonsInMenuSettings.Mutable
 }

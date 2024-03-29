@@ -22,6 +22,7 @@ import com.maxim.diaryforstudents.news.presentation.NewsScreen
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceScreen
 import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
+import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
 import com.maxim.diaryforstudents.settings.presentation.SettingsScreen
 
 class MenuViewModel(
@@ -30,6 +31,7 @@ class MenuViewModel(
     private val storage: LessonDetailsStorage.Save,
     private val performanceInteractor: PerformanceInteractor,
     private val newsRepository: NewsRepository,
+    private val showLessonsInMenuSettings: LessonsInMenuSettings.Read,
     private val navigation: Navigation.Update,
     private val mapper: DiaryDomain.Mapper<DiaryUi>,
     runAsync: RunAsync = RunAsync.Base()
@@ -39,7 +41,8 @@ class MenuViewModel(
 
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
-            handle ({diaryInteractor.initMenuLessons()}) {
+            showLessonsInMenuSettings.setCallback(this)
+            handle({ diaryInteractor.initMenuLessons() }) {
                 reload()
             }
             handle {
@@ -104,7 +107,9 @@ class MenuViewModel(
             MenuState.Initial(
                 newMarksCount,
                 newsRepository.checkNewNews(),
-                diaryInteractor.menuLessons().map { it.map(mapper) as DiaryUi.Lesson },
+                if (showLessonsInMenuSettings.isShow())
+                    diaryInteractor.menuLessons()
+                        .map { it.map(mapper) as DiaryUi.Lesson } else emptyList(),
                 diaryInteractor.currentLesson(),
                 diaryInteractor.isBreak()
             )

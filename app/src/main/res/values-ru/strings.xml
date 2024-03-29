@@ -158,4 +158,5 @@
     <string name="is_going_on_now">Сейчас идёт…</string>
     <string name="next_lesson">Следющий…</string>
     <string name="lesson_starts_soon">Скоро начнётся…</string>
+    <string name="show_lessons_of_the_day_in_the_menu">Показывать предметы дня в меню</string>
 </resources>

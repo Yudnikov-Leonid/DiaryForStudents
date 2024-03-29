@@ -69,6 +69,10 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
             viewModel.resetColor("1")
         }
 
+        binding.showLessonsInMenuSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setShowLessonsInMenu(isChecked)
+        }
+
         viewModel.observe(this) {
             it.show(
                 binding.fiveColorButton,
@@ -76,7 +80,8 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
                 binding.threeColorButton,
                 binding.twoColorButton,
                 binding.oneColorButton,
-                (requireActivity() as ProvideColorManager).colorManager()
+                (requireActivity() as ProvideColorManager).colorManager(),
+                binding.showLessonsInMenuSwitch
             )
         }
 
