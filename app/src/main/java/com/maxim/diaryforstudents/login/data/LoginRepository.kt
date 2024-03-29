@@ -4,12 +4,12 @@ import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.service.EduUser
-import com.maxim.diaryforstudents.selectUser.data.SelectUserData
+import com.maxim.diaryforstudents.selectUser.presentation.SelectUserUi
 import java.io.Serializable
 
 interface LoginRepository : SaveAndRestore {
     suspend fun login(login: String, password: String): LoginResult
-    fun users(): List<SelectUserData>
+    fun users(): List<SelectUserUi>
     fun select(position: Int)
 
     class Base(
@@ -36,9 +36,9 @@ interface LoginRepository : SaveAndRestore {
             }
         }
 
-        override fun users(): List<SelectUserData> {
+        override fun users(): List<SelectUserUi> {
             return usersList.map {
-                SelectUserData.Base(
+                SelectUserUi.Base(
                     "${it.PARTICIPANT.SURNAME} ${it.PARTICIPANT.NAME} ${it.PARTICIPANT.SECONDNAME}",
                     it.PARTICIPANT.GRADE.SCHOOL.SHORT_NAME
                 )

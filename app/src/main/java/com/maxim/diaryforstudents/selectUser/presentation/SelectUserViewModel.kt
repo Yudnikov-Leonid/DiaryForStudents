@@ -14,7 +14,6 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
-import com.maxim.diaryforstudents.selectUser.data.SelectUserData
 import com.maxim.diaryforstudents.selectUser.sl.SelectUserModule
 
 class SelectUserViewModel(
@@ -22,12 +21,11 @@ class SelectUserViewModel(
     private val communication: SelectUserCommunication,
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel,
-    private val mapper: SelectUserData.Mapper<SelectUserUi>,
     private val module: SelectUserModule
 ): ViewModel(), GoBack, SimpleInit, Communication.Observe<SelectUserState>, SaveAndRestore {
 
     override fun init() {
-        communication.update(SelectUserState.Base(repository.users().map { it.map(mapper) }))
+        communication.update(SelectUserState.Base(repository.users()))
     }
 
     fun select(position: Int) {

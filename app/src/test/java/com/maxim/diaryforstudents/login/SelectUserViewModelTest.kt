@@ -13,7 +13,6 @@ import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 import com.maxim.diaryforstudents.selectUser.data.SelectUserData
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserCommunication
-import com.maxim.diaryforstudents.selectUser.presentation.SelectUserDataToUiMapper
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserState
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserUi
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserViewModel

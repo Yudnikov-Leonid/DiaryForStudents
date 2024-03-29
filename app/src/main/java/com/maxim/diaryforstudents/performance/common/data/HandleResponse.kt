@@ -1,6 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.data
 
-import com.maxim.diaryforstudents.analytics.data.AnalyticsData
+import com.maxim.diaryforstudents.analytics.domain.AnalyticsDomain
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
@@ -24,13 +24,13 @@ interface HandleResponse : SaveAndRestore {
         from: String,
         to: String,
         interval: Int
-    ): List<AnalyticsData>
+    ): List<AnalyticsDomain>
 
     fun finalAnalytics(
         lessons: List<PerformanceFinalLesson>,
         quarter: Int,
         actualQuarter: Int
-    ): AnalyticsData
+    ): AnalyticsDomain
 
     class Base : HandleResponse {
         private val averageMap = mutableMapOf<Pair<String, Int>, Float>()
@@ -157,7 +157,7 @@ interface HandleResponse : SaveAndRestore {
             from: String,
             to: String,
             interval: Int
-        ): List<AnalyticsData> {
+        ): List<AnalyticsDomain> {
             val marks = mutableListOf<CloudMark>()
             lessons.forEach { lesson ->
                 if (lessonName.isNotEmpty()) {
@@ -232,9 +232,9 @@ interface HandleResponse : SaveAndRestore {
                 lastDate -= interval
             }
             return listOf(
-                AnalyticsData.LineCommon(result, labels, quarter, interval),
-                AnalyticsData.PieMarks(fiveCount, fourCount, threeCount, twoCount, oneCount),
-                AnalyticsData.LineMarks(
+                AnalyticsDomain.LineCommon(result, labels, quarter, interval),
+                AnalyticsDomain.PieMarks(fiveCount, fourCount, threeCount, twoCount, oneCount),
+                AnalyticsDomain.LineMarks(
                     separateMarksResult[0],
                     separateMarksResult[1],
                     separateMarksResult[2],
@@ -248,7 +248,7 @@ interface HandleResponse : SaveAndRestore {
             lessons: List<PerformanceFinalLesson>,
             quarter: Int,
             actualQuarter: Int
-        ): AnalyticsData {
+        ): AnalyticsDomain {
             val resultMap = mutableMapOf<Int, Int>()
             lessons.forEach { lesson ->
                 if (quarter != actualQuarter) {
@@ -275,7 +275,7 @@ interface HandleResponse : SaveAndRestore {
                     }
                 }
             }
-            return AnalyticsData.PieFinalMarks(
+            return AnalyticsDomain.PieFinalMarks(
                 resultMap[5] ?: 0,
                 resultMap[4] ?: 0,
                 resultMap[3] ?: 0,

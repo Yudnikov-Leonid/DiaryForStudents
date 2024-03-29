@@ -4,7 +4,6 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserCommunication
-import com.maxim.diaryforstudents.selectUser.presentation.SelectUserDataToUiMapper
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserViewModel
 
 interface SelectUserModule: Module<SelectUserViewModel> {
@@ -16,7 +15,6 @@ interface SelectUserModule: Module<SelectUserViewModel> {
             SelectUserCommunication.Base(),
             core.navigation(),
             clearViewModel,
-            SelectUserDataToUiMapper(),
             this
         )
 
