@@ -54,6 +54,11 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
         viewModel.init(savedInstanceState == null)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateLessons()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         viewModel.save(BundleWrapper.Base(outState))

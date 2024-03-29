@@ -1,7 +1,6 @@
 package com.maxim.diaryforstudents.diary.presentation
 
 import android.app.ActionBar.LayoutParams
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
@@ -194,7 +193,6 @@ interface DiaryUi : Serializable {
         }
 
         override fun showInMenu(indicator: ImageView, status: TextView) {
-            Log.d("MyLog", "menuState: $menuState")
             menuState?.show(indicator, status) ?: MenuLessonState.Default.show(indicator, status)
         }
 

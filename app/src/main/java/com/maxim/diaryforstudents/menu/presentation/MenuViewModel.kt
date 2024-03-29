@@ -40,9 +40,6 @@ class MenuViewModel(
     private var newMarksCount = 0
 
     override fun init(isFirstRun: Boolean) {
-        handle({ diaryInteractor.initMenuLessons() }) {
-            reload()
-        }
         if (isFirstRun) {
             showLessonsInMenuSettings.setCallback(this)
             handle {
@@ -50,6 +47,12 @@ class MenuViewModel(
                 newMarksCount = performanceInteractor.newMarksCount()
                 newsRepository.init(this)
             }
+        }
+    }
+
+    fun updateLessons() {
+        handle({ diaryInteractor.initMenuLessons() }) {
+            reload()
         }
     }
 
