@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.menu.presentation
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,15 +27,27 @@ class MenuLessonsAdapter(
             item.showPreviousHomework(binding.previousHomework, binding.previousHomeworkTitle)
             if (pos == currentLesson) {
                 binding.title.visibility = View.VISIBLE
-                binding.title.text = if (isBreak)
-                    binding.time.context.getString(R.string.lesson_starts_soon)
-                else
-                    binding.time.context.getString(R.string.is_going_on_now)
+                binding.indicator.visibility = View.VISIBLE
+                if (isBreak) {
+                    binding.title.text = binding.time.context.getString(R.string.lesson_starts_soon)
+                    binding.indicator.setImageResource(R.drawable.wait_24)
+                } else {
+                    binding.title.text = binding.time.context.getString(R.string.is_going_on_now)
+                    binding.indicator.setImageResource(android.R.drawable.presence_online)
+                }
             } else if (pos - 1 == currentLesson) {
                 binding.title.visibility = View.VISIBLE
+                binding.indicator.visibility = View.GONE
                 binding.title.text = binding.time.context.getString(R.string.next_lesson)
-            } else
+            } else if (pos < currentLesson) {
+                binding.indicator.visibility = View.VISIBLE
+                binding.title.visibility = View.VISIBLE
+                binding.title.text = binding.time.context.getString(R.string.lesson_passed)
+                binding.indicator.setImageResource(R.drawable.done_24)
+            } else {
+                binding.indicator.visibility = View.GONE
                 binding.title.visibility = View.GONE
+            }
             itemView.setOnClickListener {
                 listener.details(item)
             }
@@ -57,6 +70,7 @@ class MenuLessonsAdapter(
         holder.bind(list[position], position, currentLesson)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun update(newList: List<DiaryUi.Lesson>, currentLesson: Int, isBreak: Boolean) {
         this.currentLesson = currentLesson
         this.isBreak = isBreak

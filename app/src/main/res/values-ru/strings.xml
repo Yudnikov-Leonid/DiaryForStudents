@@ -159,4 +159,5 @@
     <string name="next_lesson">Следющий…</string>
     <string name="lesson_starts_soon">Скоро начнётся…</string>
     <string name="show_lessons_of_the_day_in_the_menu">Показывать предметы дня в меню</string>
+    <string name="lesson_passed">Урок завершён</string>
 </resources>
