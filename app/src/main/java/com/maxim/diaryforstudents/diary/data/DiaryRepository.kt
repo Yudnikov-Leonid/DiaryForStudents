@@ -227,7 +227,7 @@ interface DiaryRepository {
                 for (i in 1..lessons.lastIndex) {
                     if (time in lessons[i - 1].period().second..lessons[i].period().second) {
                         currentLesson = i
-                        if (time in (lessons[i - 1].period().second..lessons[i].period().first))
+                        if (time in (lessons[i - 1].period().second..<lessons[i].period().first))
                             isBreak = true
                         break
                     }
