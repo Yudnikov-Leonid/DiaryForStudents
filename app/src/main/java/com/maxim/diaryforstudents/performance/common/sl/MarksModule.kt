@@ -5,6 +5,7 @@ import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.diary.data.DiaryDataToDomainMapper
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.data.DiaryService
+import com.maxim.diaryforstudents.diary.data.room.DiaryDataToRoomMapper
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.data.HandleMarkType
 import com.maxim.diaryforstudents.performance.common.data.HandleResponse
@@ -22,6 +23,8 @@ interface MarksModule {
         private val diaryRepository by lazy {
             DiaryRepository.Base(
                 core.retrofit().create(DiaryService::class.java),
+                core.menuLessonsDatabase().dao(),
+                DiaryDataToRoomMapper(),
                 Formatter.Base,
                 core.eduUser(),
                 core,

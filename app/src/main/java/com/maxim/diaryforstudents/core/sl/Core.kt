@@ -11,13 +11,20 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.service.CoroutineHandler
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
+import com.maxim.diaryforstudents.diary.data.DayDataToDomainMapper
+import com.maxim.diaryforstudents.diary.data.DiaryDataToDomainMapper
+import com.maxim.diaryforstudents.diary.data.room.MenuLessonsDatabase
+import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.data.LoginService
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import com.maxim.diaryforstudents.openNews.data.Downloader
+import com.maxim.diaryforstudents.performance.common.data.FailureHandler
+import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
 import com.maxim.diaryforstudents.performance.common.room.PerformanceDatabase
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
+import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,7 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNavigation,
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
     ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, ProvideLoginRepository,
-    ProvidePerformanceDatabase, ProvideColorManager, ProvideDownloader {
+    ProvidePerformanceDatabase, ProvideColorManager, ProvideDownloader, ProvideDiaryInteractor,
+    ProvideMenuLessonsDatabase, ProvideLessonsInMenuSettings {
 
     class Base(private val context: Context) : Core {
 
@@ -98,6 +106,28 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private val downloader = Downloader.Base(context)
         override fun downloader() = downloader
 
+        private val diaryInteractor = DiaryInteractor.Base(
+            marksModule.diaryRepository(), FailureHandler.Base(),
+            DiaryDataToDomainMapper(PerformanceDataToDomainMapper()),
+            DayDataToDomainMapper(), this
+        )
+
+        override fun diaryInteractor() = diaryInteractor
+
+        private var menuLessonsDatabase: MenuLessonsDatabase? = null
+        override fun menuLessonsDatabase(): MenuLessonsDatabase {
+            if (menuLessonsDatabase == null)
+                menuLessonsDatabase =  Room.databaseBuilder(
+                    context,
+                    MenuLessonsDatabase::class.java,
+                    "menu_lessons_database"
+                ).build()
+            return menuLessonsDatabase!!
+        }
+
+        private val lessonsInMenuSettings = LessonsInMenuSettings.Base(simpleStorage)
+        override fun lessonsInMenuSettings() = lessonsInMenuSettings
+
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
 
@@ -164,4 +194,16 @@ interface ProvidePerformanceDatabase {
 
 interface ProvideDownloader {
     fun downloader(): Downloader
+}
+
+interface ProvideDiaryInteractor {
+    fun diaryInteractor(): DiaryInteractor
+}
+
+interface ProvideMenuLessonsDatabase {
+    fun menuLessonsDatabase(): MenuLessonsDatabase
+}
+
+interface ProvideLessonsInMenuSettings {
+    fun lessonsInMenuSettings(): LessonsInMenuSettings.Mutable
 }

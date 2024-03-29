@@ -13,6 +13,10 @@ interface DiaryInteractor {
     fun homeworks(date: Int): String
     fun previousHomeworks(date: Int): String
 
+    suspend fun initMenuLessons()
+    fun menuLessons(): List<DiaryDomain.Lesson>
+    fun currentLesson(): Int
+
     class Base(
         private val repository: DiaryRepository,
         private val failureHandler: FailureHandler,
@@ -39,5 +43,13 @@ interface DiaryInteractor {
         override fun actualDate() = repository.actualDate()
         override fun homeworks(date: Int) = repository.homeworks(date)
         override fun previousHomeworks(date: Int) = repository.previousHomeworks(date)
+
+        private var menuLessons = Pair(emptyList<DiaryDomain.Lesson>(), 0)
+        override suspend fun initMenuLessons() {
+            val result = repository.menuLesson()
+            menuLessons = Pair(result.first.map { it.map(mapper) as DiaryDomain.Lesson }, result.second)
+        }
+        override fun menuLessons() = menuLessons.first
+        override fun currentLesson() = menuLessons.second
     }
 }

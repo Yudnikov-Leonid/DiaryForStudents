@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentMenuBinding
+import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 
 class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
     override val viewModelClass: Class<MenuViewModel>
@@ -37,12 +38,25 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
             viewModel.settings()
         }
 
+        val adapter = MenuLessonsAdapter(object : MenuLessonsAdapter.Listener {
+            override fun details(item: DiaryUi.Lesson) {
+                viewModel.lesson(item)
+            }
+        })
+        binding.lessonsViewPager.adapter = adapter
+
         viewModel.observe(this) {
             it.showNewsCount(binding.newNewsCounter)
             it.showMarksCount(binding.newMarksCounter)
+            it.showLessons(binding.lessonsViewPager, adapter)
         }
 
         viewModel.init(savedInstanceState == null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateLessons()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

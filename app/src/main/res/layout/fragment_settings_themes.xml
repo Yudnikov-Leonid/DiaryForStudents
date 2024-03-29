@@ -204,4 +204,12 @@
 
     </LinearLayout>
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/showLessonsInMenuSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="@string/show_lessons_of_the_day_in_the_menu"
+        android:textSize="18sp" />
+
 </LinearLayout>
