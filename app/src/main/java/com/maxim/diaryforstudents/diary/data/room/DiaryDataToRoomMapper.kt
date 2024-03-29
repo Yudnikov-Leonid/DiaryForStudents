@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.diary.data.room
 
 import com.maxim.diaryforstudents.diary.data.DiaryData
+import com.maxim.diaryforstudents.diary.data.MenuLessonState
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import java.lang.IllegalStateException
 
@@ -19,8 +20,9 @@ class DiaryDataToRoomMapper: DiaryData.Mapper<RoomLesson> {
         date: Int,
         marks: List<PerformanceData.Mark>,
         absence: List<String>,
-        notes: List<String>
-    ) = RoomLesson(name, number, teacherName, topic, homework, previousHomework, startTime, endTime, date)
+        notes: List<String>,
+        menuState: MenuLessonState?
+    ): RoomLesson = RoomLesson(name, number, teacherName, topic, homework, previousHomework, startTime, endTime, date)
 
     override fun map() = throw IllegalStateException("can't map DiaryData to RoomLesson")
 }

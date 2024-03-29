@@ -40,11 +40,11 @@ class MenuViewModel(
     private var newMarksCount = 0
 
     override fun init(isFirstRun: Boolean) {
+        handle({ diaryInteractor.initMenuLessons() }) {
+            reload()
+        }
         if (isFirstRun) {
             showLessonsInMenuSettings.setCallback(this)
-            handle({ diaryInteractor.initMenuLessons() }) {
-                reload()
-            }
             handle {
                 performanceInteractor.loadData()
                 newMarksCount = performanceInteractor.newMarksCount()
@@ -111,7 +111,6 @@ class MenuViewModel(
                     diaryInteractor.menuLessons()
                         .map { it.map(mapper) as DiaryUi.Lesson } else emptyList(),
                 diaryInteractor.currentLesson(),
-                diaryInteractor.isBreak()
             )
         )
     }

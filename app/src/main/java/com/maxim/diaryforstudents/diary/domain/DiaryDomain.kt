@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.diary.domain
 
+import com.maxim.diaryforstudents.diary.data.MenuLessonState
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 
 interface DiaryDomain {
@@ -21,8 +22,10 @@ interface DiaryDomain {
             date: Int,
             marks: List<PerformanceDomain.Mark>,
             absence: List<String>,
-            notes: List<String>
+            notes: List<String>,
+            menuLessonState: MenuLessonState?
         ): T
+
         fun map(): T
     }
 
@@ -60,7 +63,8 @@ interface DiaryDomain {
         private val date: Int,
         private val marks: List<PerformanceDomain.Mark>,
         private val absence: List<String>,
-        private val notes: List<String>
+        private val notes: List<String>,
+        private val menuLessonState: MenuLessonState? = null
     ) : DiaryDomain {
         override fun isDate(date: Int) = date == this.date
 
@@ -68,7 +72,8 @@ interface DiaryDomain {
         override fun previousHomeworks() = listOf(Pair(name, previousHomework))
 
         override fun <T> map(mapper: Mapper<T>) = mapper.map(
-            name, number, teacherName, topic, homework, previousHomework, startTime, endTime, date, marks, absence, notes
+            name, number, teacherName, topic, homework, previousHomework, startTime, endTime,
+            date, marks, absence, notes, menuLessonState
         )
     }
 

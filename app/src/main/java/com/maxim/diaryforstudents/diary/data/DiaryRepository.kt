@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.diary.data
 
-import android.util.Log
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.service.EduUser
@@ -21,7 +20,7 @@ interface DiaryRepository {
     fun previousHomeworks(date: Int): String
 
     suspend fun getLesson(lessonName: String, date: String): DiaryData.Lesson
-    suspend fun menuLesson(): Triple<List<DiaryData.Lesson>, Int, Boolean> // bool - is break
+    suspend fun menuLesson(): Pair<List<DiaryData.Lesson>, Int>
 
     class Base(
         private val service: DiaryService,
@@ -191,7 +190,7 @@ interface DiaryRepository {
             } else throw ServiceUnavailableException(data.message)
         }
 
-        override suspend fun menuLesson(): Triple<List<DiaryData.Lesson>, Int, Boolean> {
+        override suspend fun menuLesson(): Pair<List<DiaryData.Lesson>, Int> {
             val cachedLessons = menuService.lessons()
             val lessons: List<DiaryData>
             if (cachedLessons.isEmpty() || cachedLessons[0].date != actualDate()) {
@@ -200,10 +199,10 @@ interface DiaryRepository {
                 try {
                     day = if (cache[today] == null) day(actualDate()) else cache[today]!!
                 } catch (e: Exception) {
-                    return Triple(emptyList(), 0, false)
+                    return Pair(emptyList(), 0)
                 }
                 if (day.lessons().first() is DiaryData.Empty)
-                    return Triple(emptyList(), 0, false)
+                    return Pair(emptyList(), 0)
                 menuService.clear()
                 day.lessons().forEach {
                     menuService.insert(it.map(mapper))
@@ -227,10 +226,6 @@ interface DiaryRepository {
             } else {
                 for (i in 1..lessons.lastIndex) {
                     if (time in lessons[i - 1].period().second..lessons[i].period().second) {
-                        Log.d(
-                            "MyLog",
-                            "time: $time, first: ${lessons[i - 1].period().second}, second: ${lessons[i].period().second}"
-                        )
                         currentLesson = i
                         if (time in (lessons[i - 1].period().second..lessons[i].period().first))
                             isBreak = true
@@ -239,10 +234,20 @@ interface DiaryRepository {
                 }
             }
 
-            return Triple(
-                if (currentLesson != -1) (lessons as List<DiaryData.Lesson>) else emptyList(),
+            val newList = mutableListOf<DiaryData>()
+            lessons.forEachIndexed { i, it ->
+                newList.add(it.addMenuState(when{
+                    i < currentLesson -> MenuLessonState.Passed
+                    i == currentLesson && isBreak -> MenuLessonState.Break
+                    i == currentLesson -> MenuLessonState.IsGoingOnNow
+                    i - 1 == currentLesson -> MenuLessonState.Next
+                    else -> MenuLessonState.Default
+                }))
+            }
+
+            return Pair(
+                if (currentLesson != -1) (newList as List<DiaryData.Lesson>) else emptyList(),
                 currentLesson,
-                isBreak
             )
         }
     }

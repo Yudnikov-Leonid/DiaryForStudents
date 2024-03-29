@@ -1,13 +1,16 @@
 package com.maxim.diaryforstudents.diary.presentation
 
 import android.app.ActionBar.LayoutParams
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.core.presentation.Formatter
+import com.maxim.diaryforstudents.diary.data.MenuLessonState
 import com.maxim.diaryforstudents.openNews.Share
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 import java.io.Serializable
@@ -33,6 +36,8 @@ interface DiaryUi : Serializable {
     fun shareActualHomework(share: Share) {}
     fun sharePreviousHomework(share: Share) {}
     fun shareAllHomework(share: Share) {}
+
+    fun showInMenu(indicator: ImageView, status: TextView) {}
 
     interface Mapper<T> {
         fun map(
@@ -80,7 +85,8 @@ interface DiaryUi : Serializable {
         private val date: Int,
         private val marks: List<PerformanceUi.Mark>,
         private val absence: List<String>,
-        private val notes: List<String>
+        private val notes: List<String>,
+        private val menuState: MenuLessonState? = null
     ) : DiaryUi {
 
         override fun shareActualHomework(share: Share) {
@@ -187,6 +193,11 @@ interface DiaryUi : Serializable {
             textView.text = sb.trim()
         }
 
+        override fun showInMenu(indicator: ImageView, status: TextView) {
+            Log.d("MyLog", "menuState: $menuState")
+            menuState?.show(indicator, status) ?: MenuLessonState.Default.show(indicator, status)
+        }
+
         override fun map(mapper: Mapper<Boolean>): Boolean =
             mapper.map(name, topic, homework, startTime, endTime, date, marks)
 
@@ -195,6 +206,7 @@ interface DiaryUi : Serializable {
         override fun sameContent(item: DiaryUi) =
             item is Lesson && item.name == name && item.topic == topic
                     && item.homework == homework && item.startTime == startTime && item.endTime == endTime
+                    && item.menuState == menuState
     }
 
     object Empty : DiaryUi {

@@ -9,6 +9,8 @@ interface DiaryData {
     fun lessons(): List<DiaryData> = emptyList()
     fun period(): Pair<Int, Int> = Pair(0, 0)
 
+    fun addMenuState(state: MenuLessonState): DiaryData = Empty
+
     interface Mapper<T> {
         fun map(date: Int, lessons: List<DiaryData>): T
         fun map(
@@ -23,7 +25,8 @@ interface DiaryData {
             date: Int,
             marks: List<PerformanceData.Mark>,
             absence: List<String>,
-            notes: List<String>
+            notes: List<String>,
+            menuState: MenuLessonState?
         ): T
 
         fun map(): T
@@ -65,7 +68,8 @@ interface DiaryData {
         private val date: Int,
         private val marks: List<PerformanceData.Mark>,
         private val absence: List<String>,
-        private val notes: List<String>
+        private val notes: List<String>,
+        private val menuState: MenuLessonState? = null
     ) : DiaryData {
         override fun isDate(date: Int) = date == this.date
 
@@ -73,23 +77,18 @@ interface DiaryData {
         override fun previousHomeworks() = listOf(Pair(name, previousHomework))
 
         override fun <T> map(mapper: Mapper<T>): T = mapper.map(
-            name,
-            number,
-            teacherName,
-            topic,
-            homework,
-            previousHomework,
-            startTime,
-            endTime,
-            date,
-            marks,
-            absence,
-            notes
+            name, number, teacherName, topic, homework,
+            previousHomework, startTime, endTime, date, marks, absence, notes, menuState
         )
 
         override fun period(): Pair<Int, Int> {
             return Pair(startTime.replace(":", "").toInt(), endTime.replace(":", "").toInt())
         }
+
+        override fun addMenuState(state: MenuLessonState) = Lesson(
+            name, number, teacherName, topic, homework, previousHomework,
+            startTime, endTime, date, marks, absence, notes, state
+        )
     }
 
     object Empty : DiaryData {

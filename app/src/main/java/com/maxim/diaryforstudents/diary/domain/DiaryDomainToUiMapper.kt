@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.diary.domain
 
+import com.maxim.diaryforstudents.diary.data.MenuLessonState
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
@@ -22,10 +23,11 @@ class DiaryDomainToUiMapper(
         date: Int,
         marks: List<PerformanceDomain.Mark>,
         absence: List<String>,
-        notes: List<String>
+        notes: List<String>,
+        menuLessonState: MenuLessonState?
     ): DiaryUi = DiaryUi.Lesson(
         name, number, teacherName, topic, homework, previousHomework, startTime, endTime, date,
-        marks.map { it.map(mapper) as PerformanceUi.Mark }, absence, notes
+        marks.map { it.map(mapper) as PerformanceUi.Mark }, absence, notes, menuLessonState
     )
 
     override fun map() = DiaryUi.Empty

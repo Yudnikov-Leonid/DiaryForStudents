@@ -16,7 +16,6 @@ interface DiaryInteractor {
     suspend fun initMenuLessons()
     fun menuLessons(): List<DiaryDomain.Lesson>
     fun currentLesson(): Int
-    fun isBreak(): Boolean
 
     class Base(
         private val repository: DiaryRepository,
@@ -45,13 +44,12 @@ interface DiaryInteractor {
         override fun homeworks(date: Int) = repository.homeworks(date)
         override fun previousHomeworks(date: Int) = repository.previousHomeworks(date)
 
-        private var menuLessons = Triple(emptyList<DiaryDomain.Lesson>(), 0, false)
+        private var menuLessons = Pair(emptyList<DiaryDomain.Lesson>(), 0)
         override suspend fun initMenuLessons() {
             val result = repository.menuLesson()
-            menuLessons = Triple(result.first.map { it.map(mapper) as DiaryDomain.Lesson }, result.second, result.third)
+            menuLessons = Pair(result.first.map { it.map(mapper) as DiaryDomain.Lesson }, result.second)
         }
         override fun menuLessons() = menuLessons.first
         override fun currentLesson() = menuLessons.second
-        override fun isBreak() = menuLessons.third
     }
 }
