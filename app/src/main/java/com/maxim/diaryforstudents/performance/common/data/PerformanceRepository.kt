@@ -129,7 +129,7 @@ interface PerformanceRepository : SaveAndRestore {
                     set(Calendar.YEAR, split[2].toInt())
                 }
                 val secondDate = calendar.timeInMillis / 86400000
-                if (System.currentTimeMillis() / 86400000 in firstDate..secondDate) {
+                if (System.currentTimeMillis() / 86400000 in firstDate..<secondDate) {
                     currentQuarter = i + 1
                     break
                 }
@@ -159,7 +159,8 @@ interface PerformanceRepository : SaveAndRestore {
                     else -> it.marksCount().toFloat()
                 }
             }
-            return if (sortingOrder == 0) data.map { it.toDomain() } else data.map { it.toDomain() }.reversed()
+            return if (sortingOrder == 0) data.map { it.toDomain() } else data.map { it.toDomain() }
+                .reversed()
         }
 
         override fun cachedFinalData() =
