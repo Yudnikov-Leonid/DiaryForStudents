@@ -46,6 +46,11 @@ android {
             "FOUR_SHORT_API_KEY",
             "\"${properties.getProperty("FOUR_SHORT_API_KEY")}\""
         )
+        buildConfigField(
+            "String",
+            "FIVE_SHORT_API_KEY",
+            "\"${properties.getProperty("FIVE_SHORT_API_KEY")}\""
+        )
     }
 
     buildTypes {
