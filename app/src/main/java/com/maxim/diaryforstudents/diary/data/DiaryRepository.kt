@@ -87,7 +87,6 @@ interface DiaryRepository {
                 .getDay(DiaryBody(formattedDate, eduUser.apikey(), eduUser.guid(), ""))
             val day = if (data.success) dataDay(date, formattedDate)
              else throw ServiceUnavailableException(data.message)
-            cache[formattedDate] = day
             return day.toDomain()
         }
 
@@ -266,6 +265,7 @@ interface DiaryRepository {
                         lesson.NOTES
                     )
                 }.ifEmpty { listOf(DiaryData.Empty) }) else throw ServiceUnavailableException(data.message)
+            cache[formattedDate] = day
             return day
         }
     }
