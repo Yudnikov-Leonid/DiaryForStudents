@@ -2,15 +2,12 @@ package com.maxim.diaryforstudents.performance.common.sl
 
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.diary.data.DiaryDataToDomainMapper
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.diary.data.DiaryService
-import com.maxim.diaryforstudents.diary.data.room.DiaryDataToRoomMapper
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.data.HandleMarkType
 import com.maxim.diaryforstudents.performance.common.data.HandleResponse
 import com.maxim.diaryforstudents.performance.common.data.PerformanceCloudDataSource
-import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
 import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
 import com.maxim.diaryforstudents.performance.common.data.PerformanceService
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
@@ -24,7 +21,6 @@ interface MarksModule {
             DiaryRepository.Base(
                 core.retrofit().create(DiaryService::class.java),
                 core.menuLessonsDatabase().dao(),
-                DiaryDataToRoomMapper(),
                 Formatter.Base,
                 core.eduUser(),
                 core,
@@ -40,14 +36,12 @@ interface MarksModule {
                         core.eduUser(),
                     ),
                     HandleResponse.Base(),
+                    core.simpleStorage(),
                     HandleMarkType.Base(),
                     core.performanceDatabase().dao(),
                 ),
-                core.simpleStorage(),
                 FailureHandler.Base(),
-                PerformanceDataToDomainMapper(),
                 diaryRepository,
-                DiaryDataToDomainMapper(PerformanceDataToDomainMapper()),
                 core
             )
         }

@@ -1,8 +1,6 @@
 package com.maxim.diaryforstudents.diary.domain
 
 import com.maxim.diaryforstudents.core.sl.ManageResource
-import com.maxim.diaryforstudents.diary.data.DayData
-import com.maxim.diaryforstudents.diary.data.DiaryData
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 
@@ -20,21 +18,20 @@ interface DiaryInteractor {
     class Base(
         private val repository: DiaryRepository,
         private val failureHandler: FailureHandler,
-        private val mapper: DiaryData.Mapper<DiaryDomain>,
-        private val dayMapper: DayData.Mapper<DayDomain>,
         private val manageResource: ManageResource
     ) : DiaryInteractor {
         override fun dayLists(today: Int): Triple<List<DayDomain>, List<DayDomain>, List<DayDomain>> {
             val data = repository.dayLists(today)
             return Triple(
-                data.first.map { it.map(dayMapper) },
-                data.second.map { it.map(dayMapper) },
-                data.third.map { it.map(dayMapper) })
+                data.first,
+                data.second,
+                data.third
+            )
         }
 
         override suspend fun day(date: Int): DiaryDomain {
             return try {
-                repository.day(date).map(mapper)
+                repository.day(date)
             } catch (e: Exception) {
                 DiaryDomain.Error(failureHandler.handle(e).message(manageResource))
             }
@@ -47,8 +44,9 @@ interface DiaryInteractor {
         private var menuLessons = Pair(emptyList<DiaryDomain.Lesson>(), 0)
         override suspend fun initMenuLessons() {
             val result = repository.menuLesson()
-            menuLessons = Pair(result.first.map { it.map(mapper) as DiaryDomain.Lesson }, result.second)
+            menuLessons = Pair(result.first, result.second)
         }
+
         override fun menuLessons() = menuLessons.first
         override fun currentLesson() = menuLessons.second
     }

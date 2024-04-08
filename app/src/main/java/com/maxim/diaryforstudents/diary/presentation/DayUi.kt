@@ -34,7 +34,7 @@ data class DayUi(
 
     fun setWeekendSelectedColor(textView: TextView, dayNameTextView: TextView) {
         textView.background =
-            if (isSelected) ContextCompat.getDrawable(textView.context, R.drawable.day) else null
+            if (isSelected) ContextCompat.getDrawable(textView.context, R.drawable.weekend_day) else null
         textView.setTextColor(
             ContextCompat.getColor(
                 textView.context,

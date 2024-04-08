@@ -1,5 +1,6 @@
 package com.maxim.diaryforstudents.performance.common.data
 
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import java.io.Serializable
 
@@ -10,25 +11,7 @@ interface PerformanceData : Serializable {
     fun progress(): List<Int> = emptyList()
     fun marksCount(): Int = 0
 
-    interface Mapper<T> {
-        fun map(
-            name: String,
-            marks: List<PerformanceData>,
-            marksSum: Int,
-            isFinal: Boolean,
-            average: Float,
-            weekProgress: Int,
-            twoWeeksProgress: Int,
-            monthProgress: Int,
-            quarterProgress: Int,
-        ): T
-
-        fun map(): T
-        fun map(mark: Int, type: MarkType, date: String, lessonName: String, isFinal: Boolean, isChecked: Boolean): T
-        fun map(marks: List<Int>, types: List<MarkType>, date: String, lessonName: String, isChecked: Boolean): T
-    }
-
-    fun <T> map(mapper: Mapper<T>): T
+    fun toDomain(): PerformanceDomain
 
     data class Lesson(
         private val name: String,
@@ -43,19 +26,25 @@ interface PerformanceData : Serializable {
     ) : PerformanceData {
         override fun average() = average
 
-        override fun progress() = listOf(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
+        override fun progress() =
+            listOf(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
 
         override fun marksCount() = marks.sumOf { it.marksCount() }
-
-        override fun <T> map(mapper: Mapper<T>) =
-            mapper.map(
-                name, marks, marksSum, isFinal, average, weekProgress, twoWeeksProgress,
-                monthProgress, quarterProgress
-            )
+        override fun toDomain() = PerformanceDomain.Lesson(
+            name,
+            marks.map { it.toDomain() },
+            marksSum,
+            isFinal,
+            average,
+            weekProgress,
+            twoWeeksProgress,
+            monthProgress,
+            quarterProgress
+        )
     }
 
     object Empty : PerformanceData {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map()
+        override fun toDomain() = PerformanceDomain.Empty
     }
 
     data class Mark(
@@ -66,7 +55,7 @@ interface PerformanceData : Serializable {
         private val isFinal: Boolean,
         private val isChecked: Boolean
     ) : PerformanceData {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(mark, type, date, lessonName, isFinal, isChecked)
+        override fun toDomain() = PerformanceDomain.Mark(mark, type, date, lessonName, isFinal, isChecked)
 
         override fun marksCount() = 1
     }
@@ -78,8 +67,8 @@ interface PerformanceData : Serializable {
         private val lessonName: String,
         private val isChecked: Boolean
     ) : PerformanceData {
-        override fun <T> map(mapper: Mapper<T>) = mapper.map(marks, types, date, lessonName, isChecked)
 
         override fun marksCount() = marks.size
+        override fun toDomain() = PerformanceDomain.SeveralMarks(marks, types, date, lessonName, isChecked)
     }
 }

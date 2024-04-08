@@ -1,8 +1,12 @@
 package com.maxim.diaryforstudents.performance.common.data
 
-import com.maxim.diaryforstudents.analytics.data.AnalyticsData
+import com.maxim.diaryforstudents.actualPerformanceSettings.presentation.ActualSettingsViewModel
+import com.maxim.diaryforstudents.analytics.domain.AnalyticsDomain
+import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
 import com.maxim.diaryforstudents.performance.common.room.MarkRoom
 import com.maxim.diaryforstudents.performance.common.room.PerformanceDao
 import kotlinx.coroutines.async
@@ -13,8 +17,8 @@ import java.util.Calendar
 
 interface PerformanceRepository : SaveAndRestore {
     suspend fun loadData()
-    fun cachedData(): List<PerformanceData>
-    fun cachedFinalData(): List<PerformanceData>
+    fun cachedData(): List<PerformanceDomain>
+    fun cachedFinalData(): List<PerformanceDomain>
     suspend fun changeQuarter(quarter: Int)
 
     suspend fun analytics(
@@ -22,15 +26,18 @@ interface PerformanceRepository : SaveAndRestore {
         lessonName: String,
         interval: Int,
         showFinal: Boolean
-    ): List<AnalyticsData>
+    ): List<AnalyticsDomain>
 
     fun currentQuarter(): Int
+    fun currentProgressType(): ProgressType
+    fun showType(): Boolean
 
     fun newMarksCount(): Int
 
     class Base(
         private val cloudDataSource: PerformanceCloudDataSource,
         private val handleResponse: HandleResponse,
+        private val simpleStorage: SimpleStorage,
         private val handleMarkType: HandleMarkType,
         private val dao: PerformanceDao
     ) : PerformanceRepository {
@@ -94,7 +101,8 @@ interface PerformanceRepository : SaveAndRestore {
                 marksSet.forEach {
                     dao.insert(MarkRoom(it))
                 }
-                newMarksCount = if (checkedMarksCache.isEmpty()) 0 else marksSet.size - checkedMarksCache.size
+                newMarksCount =
+                    if (checkedMarksCache.isEmpty()) 0 else marksSet.size - checkedMarksCache.size
 
             } catch (e: Exception) {
                 loadException = e
@@ -121,7 +129,7 @@ interface PerformanceRepository : SaveAndRestore {
                     set(Calendar.YEAR, split[2].toInt())
                 }
                 val secondDate = calendar.timeInMillis / 86400000
-                if (System.currentTimeMillis() / 86400000 in firstDate..secondDate) {
+                if (System.currentTimeMillis() / 86400000 in firstDate..<secondDate) {
                     currentQuarter = i + 1
                     break
                 }
@@ -129,14 +137,35 @@ interface PerformanceRepository : SaveAndRestore {
             periods.add(Pair(periods.first().first, periods.last().second))
         }
 
-        override fun cachedData() =
-            loadException?.let {
-                throw it
-            } ?: cache.ifEmpty { listOf(PerformanceData.Empty) }
+        override fun cachedData(): List<PerformanceDomain> {
+            if (loadException != null)
+                throw loadException!!
+            if (cache.isEmpty()) return listOf(PerformanceDomain.Empty)
+
+            val sortBy = simpleStorage.read(ActualSettingsViewModel.SORT_BY_KEY, 0)
+            val sortingOrder =
+                simpleStorage.read(ActualSettingsViewModel.SORTING_ORDER_KEY, 0)
+            val data = cache.sortedBy {
+                when (sortBy) {
+                    0 -> 0f
+                    1 -> it.average()
+                    2 -> currentProgressType().selectProgress(
+                        it.progress()[0],
+                        it.progress()[1],
+                        it.progress()[2],
+                        it.progress()[3]
+                    ).toFloat()
+
+                    else -> it.marksCount().toFloat()
+                }
+            }
+            return if (sortingOrder == 0) data.map { it.toDomain() } else data.map { it.toDomain() }
+                .reversed()
+        }
 
         override fun cachedFinalData() =
             loadException?.let { throw it }
-                ?: finalCache.ifEmpty { listOf(PerformanceData.Empty) }
+                ?: finalCache.map { it.toDomain() }.ifEmpty { listOf(PerformanceDomain.Empty) }
 
         override suspend fun changeQuarter(quarter: Int) {
             if (periods.isEmpty()) return
@@ -167,8 +196,8 @@ interface PerformanceRepository : SaveAndRestore {
             lessonName: String,
             interval: Int,
             showFinal: Boolean
-        ): List<AnalyticsData> {
-            val dates = periods[quarter - 1] //!!
+        ): List<AnalyticsDomain> {
+            val dates = periods[quarter - 1] //!! data not loaded yet
             if (responseCache[quarter] == null) {
                 responseCache[quarter] = cloudDataSource.data(dates.first, dates.second)
             }
@@ -194,6 +223,24 @@ interface PerformanceRepository : SaveAndRestore {
         }
 
         override fun currentQuarter() = currentQuarter
+
+        override fun currentProgressType(): ProgressType {
+            return if (!simpleStorage.read(
+                    ActualSettingsViewModel.SHOW_PROGRESS_KEY,
+                    true
+                )
+            ) ProgressType.Hide
+            else when (simpleStorage.read(ActualSettingsViewModel.PROGRESS_COMPARED_KEY, 0)) {
+                0 -> ProgressType.AWeekAgo
+                1 -> ProgressType.TwoWeeksAgo
+                2 -> ProgressType.AMonthAgo
+                else -> ProgressType.PreviousQuarter
+            }
+        }
+
+        override fun showType(): Boolean {
+            return simpleStorage.read(ActualSettingsViewModel.SHOW_TYPE_KEY, false)
+        }
 
         override fun newMarksCount() = newMarksCount
 

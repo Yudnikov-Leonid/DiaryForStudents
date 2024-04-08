@@ -16,8 +16,8 @@ android {
         applicationId = "com.maxim.diaryforstudents"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "1.2 beta"
         buildFeatures.buildConfig = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -45,6 +45,11 @@ android {
             "String",
             "FOUR_SHORT_API_KEY",
             "\"${properties.getProperty("FOUR_SHORT_API_KEY")}\""
+        )
+        buildConfigField(
+            "String",
+            "FIVE_SHORT_API_KEY",
+            "\"${properties.getProperty("FIVE_SHORT_API_KEY")}\""
         )
     }
 

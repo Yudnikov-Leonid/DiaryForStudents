@@ -1,5 +1,7 @@
 package com.maxim.diaryforstudents.diary.data
 
+import com.maxim.diaryforstudents.diary.data.room.RoomLesson
+import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 
 interface DiaryData {
@@ -11,28 +13,8 @@ interface DiaryData {
 
     fun addMenuState(state: MenuLessonState): DiaryData = Empty
 
-    interface Mapper<T> {
-        fun map(date: Int, lessons: List<DiaryData>): T
-        fun map(
-            name: String,
-            number: Int,
-            teacherName: String,
-            topic: String,
-            homework: String,
-            previousHomework: String,
-            startTime: String,
-            endTime: String,
-            date: Int,
-            marks: List<PerformanceData.Mark>,
-            absence: List<String>,
-            notes: List<String>,
-            menuState: MenuLessonState?
-        ): T
-
-        fun map(): T
-    }
-
-    fun <T> map(mapper: Mapper<T>): T
+    fun toDomain(): DiaryDomain
+    fun toRoom(): RoomLesson = throw IllegalStateException("can't map DiaryData to RoomLesson")
 
     data class Day(
         private val date: Int,
@@ -52,8 +34,7 @@ interface DiaryData {
         }
 
         override fun lessons() = lessons
-
-        override fun <T> map(mapper: Mapper<T>): T = mapper.map(date, lessons)
+        override fun toDomain() = DiaryDomain.Day(date, lessons.map { it.toDomain() })
     }
 
     data class Lesson(
@@ -76,11 +57,6 @@ interface DiaryData {
         override fun homeworks() = listOf(Pair(name, homework))
         override fun previousHomeworks() = listOf(Pair(name, previousHomework))
 
-        override fun <T> map(mapper: Mapper<T>): T = mapper.map(
-            name, number, teacherName, topic, homework,
-            previousHomework, startTime, endTime, date, marks, absence, notes, menuState
-        )
-
         override fun period(): Pair<Int, Int> {
             return Pair(startTime.replace(":", "").toInt(), endTime.replace(":", "").toInt())
         }
@@ -89,6 +65,18 @@ interface DiaryData {
             name, number, teacherName, topic, homework, previousHomework,
             startTime, endTime, date, marks, absence, notes, state
         )
+
+        override fun toDomain() = DiaryDomain.Lesson(
+            name, number, teacherName, topic, homework, previousHomework,
+            startTime, endTime, date, marks.map { it.toDomain() }, absence, notes, menuState
+        )
+
+        override fun toRoom(): RoomLesson {
+            return RoomLesson(
+                name, number, teacherName, topic, homework, previousHomework,
+                startTime, endTime, date
+            )
+        }
     }
 
     object Empty : DiaryData {
@@ -96,6 +84,6 @@ interface DiaryData {
 
         override fun homeworks() = emptyList<Pair<String, String>>()
         override fun previousHomeworks() = emptyList<Pair<String, String>>()
-        override fun <T> map(mapper: Mapper<T>): T = mapper.map()
+        override fun toDomain() = DiaryDomain.Empty
     }
 }

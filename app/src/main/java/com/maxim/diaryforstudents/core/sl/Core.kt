@@ -11,8 +11,6 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.service.CoroutineHandler
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.core.service.Service
-import com.maxim.diaryforstudents.diary.data.DayDataToDomainMapper
-import com.maxim.diaryforstudents.diary.data.DiaryDataToDomainMapper
 import com.maxim.diaryforstudents.diary.data.room.MenuLessonsDatabase
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
@@ -21,7 +19,6 @@ import com.maxim.diaryforstudents.login.data.LoginService
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
 import com.maxim.diaryforstudents.openNews.data.Downloader
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
-import com.maxim.diaryforstudents.performance.common.data.PerformanceDataToDomainMapper
 import com.maxim.diaryforstudents.performance.common.room.PerformanceDatabase
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
 import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
@@ -107,9 +104,7 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         override fun downloader() = downloader
 
         private val diaryInteractor = DiaryInteractor.Base(
-            marksModule.diaryRepository(), FailureHandler.Base(),
-            DiaryDataToDomainMapper(PerformanceDataToDomainMapper()),
-            DayDataToDomainMapper(), this
+            marksModule.diaryRepository(), FailureHandler.Base(), this
         )
 
         override fun diaryInteractor() = diaryInteractor
