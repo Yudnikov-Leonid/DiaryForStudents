@@ -19,21 +19,45 @@ interface LoginRepository : SaveAndRestore {
         LoginRepository {
         private val usersList = mutableListOf<LoginSchools>()
         private var cachedEmail = ""
+        private var cachedPassword = ""
 
         override suspend fun login(login: String, password: String): LoginResult {
-            return try {
-                val data = service.login(LoginBody(BuildConfig.API_KEY, login, password))
-                if (data.success) {
+            if (login.length == 32 && password.length == 11) {
+                if (password == BuildConfig.ONE_SHORT_API_KEY || password == BuildConfig.TWO_SHORT_API_KEY ||
+                    password == BuildConfig.THREE_SHORT_API_KEY || password == BuildConfig.FOUR_SHORT_API_KEY ||
+                    password == BuildConfig.FIVE_SHORT_API_KEY
+                ) {
                     usersList.clear()
-                    usersList.addAll(data.data.SCHOOLS)
-                    cachedEmail = data.data.EMAIL
-                    LoginResult.Success
-                } else {
-                    LoginResult.Failure(data.message)
+                    usersList.add(
+                        LoginSchools(LoginParticipant(login, "", "Empty",
+                                "",
+                                LoginGrade(
+                                    "Empty",
+                                    LoginSchool("Empty school name"),
+                                    LoginGradeHead("", "Empty", "")
+                                )
+                            )
+                        )
+                    )
+                    cachedEmail = "Empty"
+                    cachedPassword = password
+                    return LoginResult.Success
                 }
-            } catch (e: Exception) {
-                LoginResult.Failure(e.message!!)
-            }
+                else return LoginResult.Failure("Unknown user")
+            } else
+                return try {
+                    val data = service.login(LoginBody(BuildConfig.API_KEY, login, password))
+                    if (data.success) {
+                        usersList.clear()
+                        usersList.addAll(data.data.SCHOOLS)
+                        cachedEmail = data.data.EMAIL
+                        LoginResult.Success
+                    } else {
+                        LoginResult.Failure(data.message)
+                    }
+                } catch (e: Exception) {
+                    LoginResult.Failure(e.message!!)
+                }
         }
 
         override fun users(): List<SelectUserUi> {
@@ -55,7 +79,7 @@ interface LoginRepository : SaveAndRestore {
             val gradeHead = user.PARTICIPANT.GRADE.GRADE_HEAD
             val gradeHeadName =
                 "${gradeHead.SURNAME} ${gradeHead.NAME} ${gradeHead.SECONDNAME}"
-            val apikey = when {
+            val apikey = if (cachedPassword.isNotEmpty()) cachedPassword else when {
                 fullName.startsWith("Юд") -> BuildConfig.ONE_SHORT_API_KEY
                 fullName.startsWith("Ко") -> BuildConfig.TWO_SHORT_API_KEY
                 fullName.startsWith("Мы") -> BuildConfig.THREE_SHORT_API_KEY
@@ -63,8 +87,10 @@ interface LoginRepository : SaveAndRestore {
                 fullName.startsWith("Ма") -> BuildConfig.FIVE_SHORT_API_KEY
                 else -> ""
             }
-            eduUser.login(guid, apikey, cachedEmail, fullName, school, grade,  gradeHeadName)
+            eduUser.login(guid, apikey, cachedEmail, fullName, school, grade, gradeHeadName)
             usersList.clear()
+            cachedEmail = ""
+            cachedPassword = ""
         }
 
         override fun save(bundleWrapper: BundleWrapper.Save) {

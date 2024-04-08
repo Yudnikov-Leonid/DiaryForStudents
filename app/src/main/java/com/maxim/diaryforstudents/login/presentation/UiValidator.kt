@@ -17,7 +17,7 @@ interface UiValidator {
             if (value.isEmpty()) throw LoginException(manageResource.string(R.string.empty_field))
             val isValid = android.util.Patterns.EMAIL_ADDRESS.matcher(value)
                 .matches() || (value.length == 14 && value.replace("-", "").replace(" ", "")
-                .filter { it.isDigit() }.length == 11)
+                .filter { it.isDigit() }.length == 11) || value.length == 32
             if (!isValid) throw LoginException(manageResource.string(R.string.invalid_login))
         }
     }
