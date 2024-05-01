@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentFinalPerformanceBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding, PerformanceFinalViewModel>() {
-    override val viewModelClass = PerformanceFinalViewModel::class.java
+@AndroidEntryPoint
+class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding>() {
+    private val viewModel: PerformanceFinalViewModel by viewModels()
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentFinalPerformanceBinding.inflate(inflater, container, false)
 

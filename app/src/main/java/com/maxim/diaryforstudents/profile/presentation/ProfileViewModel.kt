@@ -14,8 +14,11 @@ import com.maxim.diaryforstudents.core.presentation.SimpleInit
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ProfileViewModel(
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
     private val repository: ProfileRepository,
     private val communication: ProfileCommunication,
     private val navigation: Navigation.Update,

@@ -9,8 +9,11 @@ import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CalculateViewModel(
+@HiltViewModel
+class CalculateViewModel @Inject constructor(
     private val communication: CalculateCommunication,
     private val colorManager: ColorManager,
     private val calculateStorage: CalculateStorage.Read,

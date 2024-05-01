@@ -10,8 +10,11 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCom
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarkViewModel
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceState
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class PerformanceFinalViewModel(
+@HiltViewModel
+class PerformanceFinalViewModel @Inject constructor(
     private val interactor: PerformanceInteractor,
     private val communication: PerformanceCommunication,
     mapper: PerformanceDomain.Mapper<PerformanceUi>,

@@ -8,7 +8,9 @@ import com.maxim.diaryforstudents.core.sl.Core
 import com.maxim.diaryforstudents.core.sl.DependencyContainer
 import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.core.sl.ViewModelFactory
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class App : Application(), ProvideViewModel, ProvideColorManager {
     private lateinit var factory: ViewModelFactory
     private lateinit var core: Core

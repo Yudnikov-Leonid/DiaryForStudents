@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentSelectUserBinding
 import com.maxim.diaryforstudents.databinding.SelectUserLayoutBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class SelectUserFragment : BaseFragment<FragmentSelectUserBinding, SelectUserViewModel>(),
+@AndroidEntryPoint
+class SelectUserFragment : BaseFragment<FragmentSelectUserBinding>(),
     ShowUsersToSelect {
-    override val viewModelClass = SelectUserViewModel::class.java
+    private val viewModel: SelectUserViewModel by viewModels()
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSelectUserBinding.inflate(inflater, container, false)
 

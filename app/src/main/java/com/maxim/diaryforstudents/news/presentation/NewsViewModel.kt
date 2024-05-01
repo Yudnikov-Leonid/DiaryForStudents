@@ -16,8 +16,11 @@ import com.maxim.diaryforstudents.news.data.NewsData
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
 import com.maxim.diaryforstudents.openNews.OpenNewsStorage
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NewsViewModel(
+@HiltViewModel
+class NewsViewModel @Inject constructor(
     private val repository: NewsRepository,
     private val communication: NewsCommunication,
     private val navigation: Navigation.Update,

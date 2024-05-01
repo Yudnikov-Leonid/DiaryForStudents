@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentProfileBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(), ShowEmail,
+@AndroidEntryPoint
+class ProfileFragment : BaseFragment<FragmentProfileBinding>(), ShowEmail,
     ShowGradeInfo, ShowSchoolInfo {
-    override val viewModelClass: Class<ProfileViewModel>
-        get() = ProfileViewModel::class.java
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentProfileBinding.inflate(inflater, container, false)

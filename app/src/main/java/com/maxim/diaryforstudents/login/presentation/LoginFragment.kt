@@ -7,13 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentLoginBinding
 import com.maxim.diaryforstudents.main.HideKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 
-class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
-    override val viewModelClass = LoginViewModel::class.java
+@AndroidEntryPoint
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+    private val viewModel: LoginViewModel by viewModels()
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentLoginBinding.inflate(inflater, container, false)
 

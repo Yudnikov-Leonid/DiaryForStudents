@@ -7,21 +7,20 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.core.presentation.SerializableLambda
-import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.FragmentActualPerformanceSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ActualSettingsDialogFragment : DialogFragment() {
     private var _binding: FragmentActualPerformanceSettingsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: ActualSettingsViewModel
+    private val viewModel: ActualSettingsViewModel by viewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = FragmentActualPerformanceSettingsBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext()).setView(binding.root)
-
-        viewModel =
-            (requireActivity() as ProvideViewModel).viewModel(ActualSettingsViewModel::class.java)
 
         val reload = requireArguments().getSerializable(KEY) as SerializableLambda
 

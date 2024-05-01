@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentAnalyticsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>() {
+@AndroidEntryPoint
+class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding>() {
 
-    override val viewModelClass = AnalyticsViewModel::class.java
+    private val viewModel: AnalyticsViewModel by viewModels()
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentAnalyticsBinding.inflate(inflater, container, false)

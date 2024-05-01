@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentNewsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
-    override val viewModelClass = NewsViewModel::class.java
+@AndroidEntryPoint
+class NewsFragment : BaseFragment<FragmentNewsBinding>() {
+    private val viewModel: NewsViewModel by viewModels()
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentNewsBinding.inflate(inflater, container, false)

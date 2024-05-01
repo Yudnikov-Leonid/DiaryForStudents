@@ -11,8 +11,11 @@ import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.main.HideKeyboard
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserScreen
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val repository: LoginRepository,
     private val communication: LoginCommunication,
     private val loginValidator: UiValidator,

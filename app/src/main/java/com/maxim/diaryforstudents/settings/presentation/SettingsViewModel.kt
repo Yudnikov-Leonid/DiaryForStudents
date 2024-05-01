@@ -6,8 +6,11 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.settings.themes.SettingsThemesScreen
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SettingsViewModel(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel
 ): ViewModel(), GoBack {

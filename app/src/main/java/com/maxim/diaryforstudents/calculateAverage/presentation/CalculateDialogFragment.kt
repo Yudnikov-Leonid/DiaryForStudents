@@ -4,25 +4,24 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.ProvideColorManager
-import com.maxim.diaryforstudents.core.sl.ProvideViewModel
 import com.maxim.diaryforstudents.databinding.DialogFragmentCalculateAverageBinding
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CalculateDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentCalculateAverageBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: CalculateViewModel
+    private val viewModel: CalculateViewModel by viewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogFragmentCalculateAverageBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext()).setView(binding.root)
-
-        viewModel =
-            (requireActivity() as ProvideViewModel).viewModel(CalculateViewModel::class.java)
 
         val adapter = PerformanceMarksAdapter(object : PerformanceMarksAdapter.Listener {
             override fun details(mark: PerformanceUi) = Unit

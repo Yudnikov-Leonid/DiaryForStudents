@@ -8,8 +8,11 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.actualMarks.PerformanceActualViewModel
 import com.maxim.diaryforstudents.performance.finalMarks.PerformanceFinalViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class PerformanceCommonViewModel(
+@HiltViewModel
+class PerformanceCommonViewModel @Inject constructor(
     private val navigation: Navigation.Update,
     private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()

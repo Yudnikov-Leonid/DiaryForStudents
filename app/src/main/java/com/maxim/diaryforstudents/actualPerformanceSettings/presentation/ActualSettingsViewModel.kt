@@ -6,8 +6,11 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ActualSettingsViewModel(
+@HiltViewModel
+class ActualSettingsViewModel @Inject constructor(
     private val simpleStorage: SimpleStorage,
     private val clearViewModel: ClearViewModel
 ) : ViewModel() {

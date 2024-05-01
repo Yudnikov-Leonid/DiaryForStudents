@@ -15,8 +15,11 @@ import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.login.presentation.LoginViewModel
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 import com.maxim.diaryforstudents.selectUser.sl.SelectUserModule
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SelectUserViewModel(
+@HiltViewModel
+class SelectUserViewModel @Inject constructor(
     private val repository: LoginRepository,
     private val communication: SelectUserCommunication,
     private val navigation: Navigation.Update,

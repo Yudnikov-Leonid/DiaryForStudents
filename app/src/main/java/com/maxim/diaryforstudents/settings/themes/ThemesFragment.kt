@@ -6,15 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentSettingsThemesBinding
+import dagger.hilt.android.AndroidEntryPoint
 import yuku.ambilwarna.AmbilWarnaDialog
 
-class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsThemesViewModel>(),
+@AndroidEntryPoint
+class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding>(),
     OpenColorPicker {
-    override val viewModelClass = SettingsThemesViewModel::class.java
+    private val viewModel: SettingsThemesViewModel by viewModels()
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSettingsThemesBinding.inflate(inflater, container, false)
 

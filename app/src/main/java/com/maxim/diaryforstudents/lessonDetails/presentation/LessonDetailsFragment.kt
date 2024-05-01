@@ -7,14 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentLessonDetailsBinding
 import com.maxim.diaryforstudents.openNews.Share
+import dagger.hilt.android.AndroidEntryPoint
 
-class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding, LessonDetailsViewModel>(), Share {
-    override val viewModelClass = LessonDetailsViewModel::class.java
+@AndroidEntryPoint
+class LessonDetailsFragment: BaseFragment<FragmentLessonDetailsBinding>(), Share {
+    private val viewModel: LessonDetailsViewModel by viewModels()
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentLessonDetailsBinding.inflate(inflater, container, false)
 

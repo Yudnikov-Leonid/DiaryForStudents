@@ -11,8 +11,11 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
 import com.maxim.diaryforstudents.settings.data.SettingsThemesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SettingsThemesViewModel(
+@HiltViewModel
+class SettingsThemesViewModel @Inject constructor(
     private val communication: SettingsThemesCommunication,
     private val repository: SettingsThemesRepository,
     private val showLessons: LessonsInMenuSettings.Mutable,

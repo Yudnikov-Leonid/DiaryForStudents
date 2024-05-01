@@ -14,8 +14,11 @@ import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AnalyticsViewModel(
+@HiltViewModel
+class AnalyticsViewModel @Inject constructor(
     private val interactor: PerformanceInteractor,
     private val analyticsStorage: AnalyticsStorage.Read,
     private val communication: AnalyticsCommunication,

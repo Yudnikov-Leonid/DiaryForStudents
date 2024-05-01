@@ -15,8 +15,11 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.openNews.Share
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LessonDetailsViewModel(
+@HiltViewModel
+class LessonDetailsViewModel @Inject constructor(
     private val communication: LessonDetailsCommunication,
     private val storage: LessonDetailsStorage.Read,
     private val navigation: Navigation.Update,

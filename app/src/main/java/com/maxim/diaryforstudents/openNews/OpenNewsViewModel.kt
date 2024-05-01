@@ -13,8 +13,11 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsUi
 import com.maxim.diaryforstudents.openNews.data.Downloader
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class OpenNewsViewModel(
+@HiltViewModel
+class OpenNewsViewModel @Inject constructor(
     private val downloader: Downloader,
     private val communication: OpenNewsCommunication,
     private val data: OpenNewsStorage.Read,

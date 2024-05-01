@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
-class SettingsFragment: BaseFragment<FragmentSettingsBinding, SettingsViewModel>() {
-    override val viewModelClass = SettingsViewModel::class.java
+@AndroidEntryPoint
+class SettingsFragment: BaseFragment<FragmentSettingsBinding>() {
+    private val viewModel: SettingsViewModel by viewModels()
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSettingsBinding.inflate(inflater, container, false)
 

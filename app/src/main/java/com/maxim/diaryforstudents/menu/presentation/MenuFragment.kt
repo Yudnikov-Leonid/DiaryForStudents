@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentMenuBinding
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
+import dagger.hilt.android.AndroidEntryPoint
 
-class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
-    override val viewModelClass: Class<MenuViewModel>
-        get() = MenuViewModel::class.java
+@AndroidEntryPoint
+class MenuFragment : BaseFragment<FragmentMenuBinding>() {
+    private val viewModel: MenuViewModel by viewModels()
 
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMenuBinding.inflate(inflater, container, false)

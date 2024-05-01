@@ -24,8 +24,11 @@ import com.maxim.diaryforstudents.performance.common.presentation.PerformanceScr
 import com.maxim.diaryforstudents.profile.presentation.ProfileScreen
 import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
 import com.maxim.diaryforstudents.settings.presentation.SettingsScreen
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MenuViewModel(
+@HiltViewModel
+class MenuViewModel @Inject constructor(
     private val communication: MenuCommunication,
     private val diaryInteractor: DiaryInteractor,
     private val storage: LessonDetailsStorage.Save,

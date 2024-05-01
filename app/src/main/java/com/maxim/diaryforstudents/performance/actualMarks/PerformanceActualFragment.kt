@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.AdapterView
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
@@ -15,10 +16,12 @@ import com.maxim.diaryforstudents.databinding.FragmentActualPerformanceBinding
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceLessonsAdapter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PerformanceActualFragment :
-    BaseFragment<FragmentActualPerformanceBinding, PerformanceActualViewModel>() {
-    override val viewModelClass = PerformanceActualViewModel::class.java
+    BaseFragment<FragmentActualPerformanceBinding>() {
+    private val viewModel: PerformanceActualViewModel by viewModels()
     override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentActualPerformanceBinding.inflate(inflater, container, false)
 
