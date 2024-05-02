@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.settings.data
 
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.Reload
+import javax.inject.Inject
 
 interface LessonsInMenuSettings {
     interface Read {
@@ -16,7 +17,7 @@ interface LessonsInMenuSettings {
     interface Mutable : Read, Save
 
 
-    class Base(private val simpleStorage: SimpleStorage) : Mutable {
+    class Base @Inject constructor(private val simpleStorage: SimpleStorage) : Mutable {
         private var callback: Reload? = null
 
         override fun set(value: Boolean) {

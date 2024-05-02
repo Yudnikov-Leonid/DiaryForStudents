@@ -8,7 +8,6 @@ import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
 import com.maxim.diaryforstudents.settings.data.SettingsThemesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +19,7 @@ class SettingsThemesViewModel @Inject constructor(
     private val repository: SettingsThemesRepository,
     private val showLessons: LessonsInMenuSettings.Mutable,
     private val defaultColors: List<Int>,
-    private val navigation: Navigation.Update,
-    private val clearViewModel: ClearViewModel
+    private val navigation: Navigation.Update
 ) : ViewModel(), GoBack, Communication.Observe<SettingsThemesState>, Reload {
 
     fun openColorPicker(key: String, defaultColor: Int, openColorPicker: OpenColorPicker) {
@@ -58,7 +56,6 @@ class SettingsThemesViewModel @Inject constructor(
 
     override fun goBack() {
         navigation.update(Screen.Pop)
-        clearViewModel.clearViewModel(SettingsThemesViewModel::class.java)
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<SettingsThemesState>) {

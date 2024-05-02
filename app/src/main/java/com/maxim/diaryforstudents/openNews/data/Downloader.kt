@@ -4,11 +4,12 @@ import android.app.DownloadManager
 import android.content.Context
 import android.os.Environment
 import androidx.core.net.toUri
+import javax.inject.Inject
 
 interface Downloader {
     fun download(fileName: String, url: String): Long
 
-    class Base(context: Context): Downloader {
+    class Base @Inject constructor(context: Context): Downloader {
         private val downloadManager = context.getSystemService(DownloadManager::class.java)
 
         override fun download(fileName: String, url: String): Long {

@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.news.data
 
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.core.presentation.ReloadWithError
+import javax.inject.Inject
 
 interface NewsRepository {
     fun mainNews(): NewsData
@@ -12,7 +13,7 @@ interface NewsRepository {
     fun checkNews()
     fun checkNewNews(): Int
 
-    class Base(
+    class Base @Inject constructor(
         private val dataSource: NewsCloudDataSource,
         private val simpleStorage: SimpleStorage
     ) : NewsRepository {

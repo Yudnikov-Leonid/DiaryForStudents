@@ -11,7 +11,6 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.domain.DayDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryDomain
 import com.maxim.diaryforstudents.diary.domain.DiaryInteractor
@@ -28,7 +27,6 @@ class DiaryViewModel @Inject constructor(
     private val communication: DiaryCommunication,
     private val storage: LessonDetailsStorage.Save,
     private val navigation: Navigation.Update,
-    private val clear: ClearViewModel,
     private val mapper: DiaryDomain.Mapper<DiaryUi>,
     private val dayMapper: DayDomain.Mapper<DayUi>,
     runAsync: RunAsync = RunAsync.Base()
@@ -84,7 +82,6 @@ class DiaryViewModel @Inject constructor(
 
     override fun goBack() {
         navigation.update(Screen.Pop)
-        clear.clearViewModel(DiaryViewModel::class.java)
     }
 
     fun reload(showLoading: Boolean) {

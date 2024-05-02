@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.settings.data
 
 import com.maxim.diaryforstudents.core.presentation.ColorManager
+import javax.inject.Inject
 
 interface SettingsThemesRepository {
     fun saveColor(color: Int, key: String)
@@ -8,7 +9,7 @@ interface SettingsThemesRepository {
     fun hasColor(key: String): Boolean
     fun resetColor(key: String)
 
-    class Base(private val colorManager: ColorManager): SettingsThemesRepository {
+    class Base @Inject constructor(private val colorManager: ColorManager): SettingsThemesRepository {
         override fun saveColor(color: Int, key: String) {
             colorManager.saveColor(color, key)
         }

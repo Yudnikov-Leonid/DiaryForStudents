@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.profile.data
 
 import com.maxim.diaryforstudents.core.service.EduUser
+import javax.inject.Inject
 
 interface ProfileRepository {
     fun name(): String
@@ -9,7 +10,7 @@ interface ProfileRepository {
     fun grade(): Pair<String, String>
     suspend fun signOut()
 
-    class Base(private val eduUser: EduUser): ProfileRepository {
+    class Base @Inject constructor(private val eduUser: EduUser): ProfileRepository {
         override fun name() = eduUser.name()
 
         override fun email() = eduUser.email()

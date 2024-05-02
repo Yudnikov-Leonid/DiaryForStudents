@@ -14,6 +14,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import java.io.Serializable
 import java.util.Calendar
+import javax.inject.Inject
 
 interface PerformanceRepository : SaveAndRestore {
     suspend fun loadData()
@@ -34,7 +35,7 @@ interface PerformanceRepository : SaveAndRestore {
 
     fun newMarksCount(): Int
 
-    class Base(
+    class Base @Inject constructor(
         private val cloudDataSource: PerformanceCloudDataSource,
         private val handleResponse: HandleResponse,
         private val simpleStorage: SimpleStorage,

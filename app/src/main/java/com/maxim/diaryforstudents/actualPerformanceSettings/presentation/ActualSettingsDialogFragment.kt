@@ -93,7 +93,6 @@ class ActualSettingsDialogFragment : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        viewModel.close()
     }
 
     companion object {

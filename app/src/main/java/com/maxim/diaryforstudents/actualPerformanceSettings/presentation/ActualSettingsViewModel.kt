@@ -5,14 +5,12 @@ import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.core.data.SimpleStorage
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ActualSettingsViewModel @Inject constructor(
-    private val simpleStorage: SimpleStorage,
-    private val clearViewModel: ClearViewModel
+    private val simpleStorage: SimpleStorage
 ) : ViewModel() {
 
     fun init(
@@ -56,10 +54,6 @@ class ActualSettingsViewModel @Inject constructor(
     fun setSortingOrder(value: Int, reload: () -> Unit) {
         simpleStorage.save(SORTING_ORDER_KEY, value)
         reload.invoke()
-    }
-
-    fun close() {
-        clearViewModel.clearViewModel(ActualSettingsViewModel::class.java)
     }
 
     companion object {

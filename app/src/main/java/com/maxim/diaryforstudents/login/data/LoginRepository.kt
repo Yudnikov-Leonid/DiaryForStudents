@@ -6,13 +6,14 @@ import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserUi
 import java.io.Serializable
+import javax.inject.Inject
 
 interface LoginRepository : SaveAndRestore {
     suspend fun login(login: String, password: String): LoginResult
     fun users(): List<SelectUserUi>
     fun select(position: Int)
 
-    class Base(
+    class Base @Inject constructor(
         private val service: LoginService,
         private val eduUser: EduUser,
     ) :

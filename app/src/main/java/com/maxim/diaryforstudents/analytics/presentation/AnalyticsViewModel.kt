@@ -12,7 +12,6 @@ import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,7 +22,6 @@ class AnalyticsViewModel @Inject constructor(
     private val analyticsStorage: AnalyticsStorage.Read,
     private val communication: AnalyticsCommunication,
     private val navigation: Navigation.Update,
-    private val clearViewModel: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<AnalyticsState>, Reload, GoBack, SaveAndRestore {
     private var quarter = 1
@@ -89,7 +87,6 @@ class AnalyticsViewModel @Inject constructor(
     override fun goBack() {
         analyticsStorage.clear()
         navigation.update(Screen.Pop)
-        clearViewModel.clearViewModel(AnalyticsViewModel::class.java)
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {

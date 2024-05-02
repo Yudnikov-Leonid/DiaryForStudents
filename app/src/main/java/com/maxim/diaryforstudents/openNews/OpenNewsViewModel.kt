@@ -10,7 +10,6 @@ import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.presentation.NewsUi
 import com.maxim.diaryforstudents.openNews.data.Downloader
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +20,7 @@ class OpenNewsViewModel @Inject constructor(
     private val downloader: Downloader,
     private val communication: OpenNewsCommunication,
     private val data: OpenNewsStorage.Read,
-    private val navigation: Navigation.Update,
-    private val clear: ClearViewModel
+    private val navigation: Navigation.Update
 ) : BaseViewModel(), Init, GoBack, SaveAndRestore, Communication.Observe<NewsUi> {
 
     override fun init(isFirstRun: Boolean) {
@@ -42,7 +40,6 @@ class OpenNewsViewModel @Inject constructor(
 
     override fun goBack() {
         navigation.update(Screen.Pop)
-        clear.clearViewModel(OpenNewsViewModel::class.java)
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {

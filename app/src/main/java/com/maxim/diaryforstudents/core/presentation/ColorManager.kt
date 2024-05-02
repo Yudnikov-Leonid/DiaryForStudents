@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.maxim.diaryforstudents.core.data.SimpleStorage
+import javax.inject.Inject
 
 interface ColorManager {
     fun saveColor(color: Int, key: String)
@@ -17,7 +18,7 @@ interface ColorManager {
     fun showColor(textView: TextView, key: String, defaultColor: Int)
     fun showStroke(view: View, key: String, defaultColor: Int)
 
-    class Base(private val simpleStorage: SimpleStorage) : ColorManager {
+    class Base @Inject constructor(private val simpleStorage: SimpleStorage) : ColorManager {
         override fun saveColor(color: Int, key: String) {
             simpleStorage.save("$KEY$key", color)
         }

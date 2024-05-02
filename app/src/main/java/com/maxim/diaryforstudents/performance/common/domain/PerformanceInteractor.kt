@@ -11,6 +11,7 @@ import com.maxim.diaryforstudents.performance.common.data.PerformanceRepository
 import com.maxim.diaryforstudents.performance.common.presentation.ProgressType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 interface PerformanceInteractor : SaveAndRestore {
     suspend fun loadData()
@@ -35,7 +36,7 @@ interface PerformanceInteractor : SaveAndRestore {
 
     fun newMarksCount(): Int
 
-    class Base(
+    class Base @Inject constructor(
         private val repository: PerformanceRepository,
         private val failureHandler: FailureHandler,
         private val diaryRepository: DiaryRepository,

@@ -11,7 +11,6 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.ReloadWithError
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.news.data.NewsData
 import com.maxim.diaryforstudents.news.data.NewsRepository
 import com.maxim.diaryforstudents.openNews.OpenNewsScreen
@@ -24,7 +23,6 @@ class NewsViewModel @Inject constructor(
     private val repository: NewsRepository,
     private val communication: NewsCommunication,
     private val navigation: Navigation.Update,
-    private val clear: ClearViewModel,
     private val openNewsStorage: OpenNewsStorage.Save,
     private val mapper: NewsData.Mapper<NewsUi>
 ) : BaseViewModel(), ReloadWithError, Communication.Observe<NewsState>, Init, GoBack,
@@ -61,7 +59,6 @@ class NewsViewModel @Inject constructor(
     override fun goBack() {
         repository.checkNews()
         navigation.update(Screen.Pop)
-        clear.clearViewModel(NewsViewModel::class.java)
     }
 
     fun open(value: NewsUi) {

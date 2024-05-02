@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.core.data
 
 import android.content.SharedPreferences
+import javax.inject.Inject
 
 interface SimpleStorage {
     fun save(key: String, value: String)
@@ -15,7 +16,7 @@ interface SimpleStorage {
     fun save(key: String, value: Long)
     fun read(key: String, defaultValue: Long): Long
 
-    class Base(private val sharedPreferences: SharedPreferences) : SimpleStorage {
+    class Base @Inject constructor(private val sharedPreferences: SharedPreferences) : SimpleStorage {
         override fun save(key: String, value: String) {
             sharedPreferences.edit().putString(key, value).apply()
         }

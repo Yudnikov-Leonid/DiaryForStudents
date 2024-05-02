@@ -2,6 +2,7 @@ package com.maxim.diaryforstudents.core.service
 
 import com.maxim.diaryforstudents.core.data.SimpleStorage
 import com.maxim.diaryforstudents.performance.common.room.PerformanceDao
+import javax.inject.Inject
 
 interface EduUser {
     fun login(
@@ -23,7 +24,7 @@ interface EduUser {
     fun isLogged(): Boolean
     suspend fun signOut()
 
-    class Base(private val simpleStorage: SimpleStorage, private val dao: PerformanceDao) : EduUser {
+    class Base @Inject constructor(private val simpleStorage: SimpleStorage, private val dao: PerformanceDao) : EduUser {
         override fun login(
             guid: String,
             apikey: String,

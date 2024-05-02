@@ -87,6 +87,5 @@ class CalculateDialogFragment : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        viewModel.clear()
     }
 }

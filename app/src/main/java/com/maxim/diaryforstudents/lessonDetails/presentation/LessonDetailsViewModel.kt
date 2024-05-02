@@ -11,7 +11,6 @@ import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.presentation.SimpleInit
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.lessonDetails.data.LessonDetailsStorage
 import com.maxim.diaryforstudents.openNews.Share
@@ -23,7 +22,6 @@ class LessonDetailsViewModel @Inject constructor(
     private val communication: LessonDetailsCommunication,
     private val storage: LessonDetailsStorage.Read,
     private val navigation: Navigation.Update,
-    private val clearViewModel: ClearViewModel
 ) : ViewModel(), GoBack, SaveAndRestore, Reload, SimpleInit, Communication.Observe<LessonDetailsState> {
 
     override fun init() {
@@ -43,14 +41,12 @@ class LessonDetailsViewModel @Inject constructor(
     }
 
     fun clear() {
-        clearViewModel.clearViewModel(LessonDetailsViewModel::class.java)
         storage.clear()
     }
 
     override fun goBack() {
         storage.clear()
         navigation.update(Screen.Pop)
-        clearViewModel.clearViewModel(LessonDetailsViewModel::class.java)
     }
 
     override fun save(bundleWrapper: BundleWrapper.Save) {

@@ -13,6 +13,7 @@ import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
 import java.util.Calendar
+import javax.inject.Inject
 
 interface DiaryRepository {
     fun dayLists(today: Int): Triple<List<DayDomain>, List<DayDomain>, List<DayDomain>>
@@ -24,7 +25,7 @@ interface DiaryRepository {
     suspend fun getLesson(lessonName: String, date: String): DiaryDomain.Lesson
     suspend fun menuLesson(): Pair<List<DiaryDomain.Lesson>, Int>
 
-    class Base(
+    class Base @Inject constructor(
         private val service: DiaryService,
         private val menuService: MenuLessonsDao,
         private val formatter: Formatter,

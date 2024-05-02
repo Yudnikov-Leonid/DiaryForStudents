@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.diary.domain
 import com.maxim.diaryforstudents.core.sl.ManageResource
 import com.maxim.diaryforstudents.diary.data.DiaryRepository
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
+import javax.inject.Inject
 
 interface DiaryInteractor {
     fun dayLists(today: Int): Triple<List<DayDomain>, List<DayDomain>, List<DayDomain>>
@@ -15,7 +16,7 @@ interface DiaryInteractor {
     fun menuLessons(): List<DiaryDomain.Lesson>
     fun currentLesson(): Int
 
-    class Base(
+    class Base @Inject constructor(
         private val repository: DiaryRepository,
         private val failureHandler: FailureHandler,
         private val manageResource: ManageResource

@@ -11,7 +11,6 @@ import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.presentation.SimpleInit
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.login.presentation.LoginScreen
 import com.maxim.diaryforstudents.profile.data.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +21,6 @@ class ProfileViewModel @Inject constructor(
     private val repository: ProfileRepository,
     private val communication: ProfileCommunication,
     private val navigation: Navigation.Update,
-    private val clear: ClearViewModel,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<ProfileState>, SimpleInit, GoBack, SaveAndRestore {
     override fun init() {
@@ -42,7 +40,6 @@ class ProfileViewModel @Inject constructor(
             repository.signOut()
         }
         navigation.update(LoginScreen)
-        clear.clearViewModel(ProfileViewModel::class.java)
     }
 
     fun email(showEmail: ShowEmail) {
@@ -60,7 +57,6 @@ class ProfileViewModel @Inject constructor(
 
     override fun goBack() {
         navigation.update(Screen.Pop)
-        clear.clearViewModel(ProfileViewModel::class.java)
     }
 
     override fun observe(owner: LifecycleOwner, observer: Observer<ProfileState>) {

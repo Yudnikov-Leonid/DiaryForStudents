@@ -4,8 +4,9 @@ import com.maxim.diaryforstudents.diary.data.MenuLessonState
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import javax.inject.Inject
 
-class DiaryDomainToUiMapper(
+class DiaryDomainToUiMapper @Inject constructor(
     private val mapper: PerformanceDomain.Mapper<PerformanceUi>
 ) : DiaryDomain.Mapper<DiaryUi> {
     override fun map(date: Int, lessons: List<DiaryDomain>) =

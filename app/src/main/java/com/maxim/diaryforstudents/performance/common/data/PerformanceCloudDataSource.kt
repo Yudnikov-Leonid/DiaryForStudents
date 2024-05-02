@@ -1,8 +1,8 @@
 package com.maxim.diaryforstudents.performance.common.data
 
-import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.service.EduUser
 import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
+import javax.inject.Inject
 
 interface PerformanceCloudDataSource {
     suspend fun data(
@@ -14,7 +14,7 @@ interface PerformanceCloudDataSource {
 
     suspend fun periods(): List<PerformancePeriod>
 
-    class Base(private val service: PerformanceService, private val eduUser: EduUser) :
+    class Base @Inject constructor(private val service: PerformanceService, private val eduUser: EduUser) :
         PerformanceCloudDataSource {
         override suspend fun data(
             from: String,
