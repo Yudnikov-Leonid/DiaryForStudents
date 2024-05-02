@@ -1,12 +1,16 @@
 package com.maxim.diaryforstudents.main
 
-import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.core.sl.Module
+import com.maxim.diaryforstudents.core.service.EduUser
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 
-class MainModule(private val core: Core) : Module<MainViewModel> {
-    override fun viewModel() =
-        MainViewModel(
-            MainInteractor.Base(core.eduUser()),
-            core.navigation()
-        )
+@dagger.Module
+@InstallIn(ViewModelComponent::class)
+class MainModule {
+
+    @Provides
+    fun provideMainInteractor(eduUser: EduUser): MainInteractor {
+        return MainInteractor.Base(eduUser)
+    }
 }
