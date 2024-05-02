@@ -8,7 +8,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.R
-import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentSettingsThemesBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,7 +82,7 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding>(),
                 binding.threeColorButton,
                 binding.twoColorButton,
                 binding.oneColorButton,
-                (requireActivity() as ProvideColorManager).colorManager(),
+                viewModel.colorManager,
                 binding.showLessonsInMenuSwitch
             )
         }

@@ -47,7 +47,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding>() {
             override fun goBack() {
                 viewModel.goBack()
             }
-        })
+        }, viewModel.colorManager)
         binding.lessonsRecyclerView.adapter = adapter
         binding.lessonsRecyclerView.itemAnimator = null
 

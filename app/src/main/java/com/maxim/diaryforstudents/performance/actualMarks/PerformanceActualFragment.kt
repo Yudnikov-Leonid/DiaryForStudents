@@ -41,7 +41,7 @@ class PerformanceActualFragment :
             override fun details(mark: PerformanceUi) {
                 viewModel.openDetails(mark)
             }
-        })
+        }, viewModel.colorManager)
 
         binding.retryButton.setOnClickListener {
             viewModel.retry()

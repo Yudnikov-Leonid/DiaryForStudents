@@ -62,7 +62,7 @@ class DiaryFragment : BaseFragment<FragmentDiaryBinding>(), Share {
             override fun openDetails(item: DiaryUi.Lesson) {
                 viewModel.openDetails(item)
             }
-        })
+        }, viewModel.colorManager)
         binding.lessonsRecyclerView.adapter = lessonsAdapter
 
         binding.retryButton.setOnClickListener {

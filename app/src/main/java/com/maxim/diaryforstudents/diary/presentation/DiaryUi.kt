@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.maxim.diaryforstudents.R
-import com.maxim.diaryforstudents.core.ProvideColorManager
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.core.presentation.Formatter
 import com.maxim.diaryforstudents.diary.data.MenuLessonState
 import com.maxim.diaryforstudents.openNews.Share
@@ -26,7 +26,7 @@ interface DiaryUi : Serializable {
     fun showHomework(textView: TextView, title: TextView) {}
     fun showPreviousHomework(textView: TextView, title: TextView) {}
     fun showLessons(adapter: DiaryLessonsAdapter, actualHomework: Boolean) {}
-    fun showMarks(linearLayout: LinearLayout) {}
+    fun showMarks(linearLayout: LinearLayout, colorManager: ColorManager) {}
     fun showMarkType(textView: TextView) {}
     fun showNotes(textView: TextView, title: TextView) {}
     fun filter(mapper: Mapper<Boolean>): Day = Day(0, emptyList())
@@ -145,7 +145,7 @@ interface DiaryUi : Serializable {
             textView.visibility = visibility
         }
 
-        override fun showMarks(linearLayout: LinearLayout) {
+        override fun showMarks(linearLayout: LinearLayout, colorManager: ColorManager) {
             linearLayout.visibility =
                 if (marks.isEmpty() && absence.isEmpty()) View.GONE else View.VISIBLE
             if (linearLayout.childCount > 1)
@@ -161,8 +161,6 @@ interface DiaryUi : Serializable {
                 textView.setTextColor(textView.context.getColor(R.color.blue))
                 linearLayout.addView(textView)
             }
-            val colorManager =
-                (linearLayout.context.applicationContext as ProvideColorManager).colorManager()
             marks.forEach { mark ->
                 val textView = TextView(linearLayout.context)
                 textView.layoutParams = layoutParams

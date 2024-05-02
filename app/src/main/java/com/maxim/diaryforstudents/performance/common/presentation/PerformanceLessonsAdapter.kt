@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.maxim.diaryforstudents.core.ProvideColorManager
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.databinding.LessonPerformanceBinding
 import com.maxim.diaryforstudents.databinding.NoDataBinding
 
 class PerformanceLessonsAdapter(
     private val listener: Listener,
-    private val markListener: PerformanceMarksAdapter.Listener
+    private val markListener: PerformanceMarksAdapter.Listener,
+    private val colorManager: ColorManager
 ) : RecyclerView.Adapter<PerformanceLessonsAdapter.ItemViewHolder>() {
     private var list = mutableListOf<PerformanceUi>()
     private var progressType: ProgressType = ProgressType.AWeekAgo
@@ -25,17 +26,18 @@ class PerformanceLessonsAdapter(
     class BaseViewHolder(
         private val binding: LessonPerformanceBinding,
         private val listener: Listener,
-        private val markListener: PerformanceMarksAdapter.Listener
+        private val markListener: PerformanceMarksAdapter.Listener,
+        private val colorManager: ColorManager
     ) : ItemViewHolder(binding) {
         override fun bind(item: PerformanceUi, progressType: ProgressType, showType: Boolean) {
             item.showName(binding.lessonNameTextView)
-            val adapter = PerformanceMarksAdapter(markListener)
+            val adapter = PerformanceMarksAdapter(markListener, colorManager)
             binding.marksRecyclerView.adapter = adapter
             item.showMarks(adapter, showType, binding.marksRecyclerView)
             item.showAverage(
                 binding.averageTitleTextView,
                 binding.averageTextView,
-                (binding.averageTextView.context.applicationContext as ProvideColorManager).colorManager()
+                colorManager
             )
             item.showProgress(
                 binding.statusImageView,
@@ -61,7 +63,7 @@ class PerformanceLessonsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return if (viewType == 1) BaseViewHolder(
             LessonPerformanceBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            listener, markListener
+            listener, markListener, colorManager
         ) else EmptyViewHolder(
             NoDataBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)

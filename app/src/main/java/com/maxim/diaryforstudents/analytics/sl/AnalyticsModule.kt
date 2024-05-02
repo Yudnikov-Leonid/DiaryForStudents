@@ -1,19 +1,17 @@
 package com.maxim.diaryforstudents.analytics.sl
 
 import com.maxim.diaryforstudents.analytics.presentation.AnalyticsCommunication
-import com.maxim.diaryforstudents.analytics.presentation.AnalyticsViewModel
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.core.sl.Module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 
-class AnalyticsModule(private val core: Core, private val clearViewModel: ClearViewModel) : Module<AnalyticsViewModel> {
-    override fun viewModel() =
-        AnalyticsViewModel(
-            core.marksModule().marksInteractor(),
-            core.analyticsStorage(),
-            AnalyticsCommunication.Base(),
-            core.navigation(),
-            clearViewModel
-        )
+@Module
+@InstallIn(ViewModelComponent::class)
+class AnalyticsModule {
 
+    @Provides
+    fun provideCommunication(): AnalyticsCommunication {
+        return AnalyticsCommunication.Base()
+    }
 }

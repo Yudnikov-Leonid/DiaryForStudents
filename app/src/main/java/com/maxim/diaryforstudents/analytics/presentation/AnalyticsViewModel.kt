@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Navigation
@@ -22,6 +23,7 @@ class AnalyticsViewModel @Inject constructor(
     private val analyticsStorage: AnalyticsStorage.Read,
     private val communication: AnalyticsCommunication,
     private val navigation: Navigation.Update,
+    val colorManager: ColorManager,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<AnalyticsState>, Reload, GoBack, SaveAndRestore {
     private var quarter = 1

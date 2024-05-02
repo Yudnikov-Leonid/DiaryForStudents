@@ -5,29 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.maxim.diaryforstudents.core.ProvideColorManager
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.databinding.MarkBinding
 
 class PerformanceMarksAdapter(
-    private val listener: Listener
+    private val listener: Listener,
+    private val colorManager: ColorManager
 ) : RecyclerView.Adapter<PerformanceMarksAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi>()
     private var showDate = true
     private var showType = true
 
-    class ItemViewHolder(private val binding: MarkBinding, private val listener: Listener) :
+    class ItemViewHolder(
+        private val binding: MarkBinding,
+        private val listener: Listener,
+        private val colorManager: ColorManager
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PerformanceUi, showDate: Boolean, showType: Boolean) {
             binding.dateTextView.visibility = if (showDate) View.VISIBLE else View.GONE
             item.showName(
                 binding.markTextView,
-                (binding.markTextView.context.applicationContext as ProvideColorManager).colorManager()
+                colorManager
             )
             item.showDate(binding.dateTextView)
             if (showType)
                 item.showType(binding.root)
-            val colorManager =
-                (binding.root.context.applicationContext as ProvideColorManager).colorManager()
             item.showIsChecked(binding.root, colorManager)
             itemView.setOnClickListener {
                 item.openDetails(listener)
@@ -37,7 +40,9 @@ class PerformanceMarksAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
-            MarkBinding.inflate(LayoutInflater.from(parent.context), parent, false), listener
+            MarkBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener,
+            colorManager
         )
     }
 

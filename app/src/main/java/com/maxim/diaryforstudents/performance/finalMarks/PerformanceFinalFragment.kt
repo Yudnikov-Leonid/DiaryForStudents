@@ -21,7 +21,7 @@ class PerformanceFinalFragment: BaseFragment<FragmentFinalPerformanceBinding>() 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = PerformanceFinalLessonsAdapter()
+        val adapter = PerformanceFinalLessonsAdapter(viewModel.colorManager)
         binding.lessonsRecyclerView.adapter = adapter
 
         binding.retryButton.setOnClickListener {

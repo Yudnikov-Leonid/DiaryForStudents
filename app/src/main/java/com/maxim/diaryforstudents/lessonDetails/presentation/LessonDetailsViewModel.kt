@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Navigation
@@ -22,6 +23,7 @@ class LessonDetailsViewModel @Inject constructor(
     private val communication: LessonDetailsCommunication,
     private val storage: LessonDetailsStorage.Read,
     private val navigation: Navigation.Update,
+    private val colorManager: ColorManager
 ) : ViewModel(), GoBack, SaveAndRestore, Reload, SimpleInit, Communication.Observe<LessonDetailsState> {
 
     override fun init() {
@@ -37,7 +39,7 @@ class LessonDetailsViewModel @Inject constructor(
     }
 
     override fun reload() {
-        communication.update(LessonDetailsState.Base(storage.lesson()))
+        communication.update(LessonDetailsState.Base(storage.lesson(), colorManager))
     }
 
     fun clear() {

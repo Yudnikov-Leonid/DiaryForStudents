@@ -1,16 +1,15 @@
 package com.maxim.diaryforstudents.calculateAverage.sl
 
 import com.maxim.diaryforstudents.calculateAverage.presentation.CalculateCommunication
-import com.maxim.diaryforstudents.calculateAverage.presentation.CalculateViewModel
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.core.sl.Module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 
-class CalculateModule(private val core: Core, private val clearViewModel: ClearViewModel): Module<CalculateViewModel> {
-    override fun viewModel() = CalculateViewModel(
-        CalculateCommunication.Base(),
-        core.colorManager(),
-        core.calculateStorage(),
-        clearViewModel
-    )
+@Module
+@InstallIn(ViewModelComponent::class)
+class CalculateModule {
+
+    @Provides
+    fun provideCommunication(): CalculateCommunication = CalculateCommunication.Base()
 }

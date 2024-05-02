@@ -1,6 +1,7 @@
 package com.maxim.diaryforstudents.performance.finalMarks
 
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.core.presentation.RunAsync
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class PerformanceFinalViewModel @Inject constructor(
     private val interactor: PerformanceInteractor,
     private val communication: PerformanceCommunication,
+    val colorManager: ColorManager,
     mapper: PerformanceDomain.Mapper<PerformanceUi>,
     runAsync: RunAsync = RunAsync.Base()
 ) : PerformanceMarkViewModel(interactor, communication, mapper, runAsync), SaveAndRestore {

@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CalculateViewModel @Inject constructor(
     private val communication: CalculateCommunication,
-    private val colorManager: ColorManager,
+    val colorManager: ColorManager,
     private val calculateStorage: CalculateStorage.Read,
 ) : ViewModel(), Communication.Observe<CalculateState> {
     private val list = mutableListOf<PerformanceUi>()

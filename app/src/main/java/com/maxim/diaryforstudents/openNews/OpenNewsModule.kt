@@ -1,16 +1,21 @@
 package com.maxim.diaryforstudents.openNews
 
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.core.sl.Module
+import android.content.Context
+import com.maxim.diaryforstudents.openNews.data.Downloader
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-class OpenNewsModule(private val core: Core, private val clear: ClearViewModel) :
-    Module<OpenNewsViewModel> {
-    override fun viewModel() = OpenNewsViewModel(
-        core.downloader(),
-        OpenNewsCommunication.Base(),
-        core.openNewsData(),
-        core.navigation(),
-        clear
-    )
+@dagger.Module
+@InstallIn(ViewModelComponent::class)
+class OpenNewsModule {
+
+    @Provides
+    fun provideCommunication(): OpenNewsCommunication = OpenNewsCommunication.Base()
+
+    @Provides
+    fun provideDownloader(@ApplicationContext context: Context): Downloader {
+        return Downloader.Base(context)
+    }
 }

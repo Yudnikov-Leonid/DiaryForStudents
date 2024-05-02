@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.core.presentation.Communication
 import com.maxim.diaryforstudents.core.presentation.GoBack
 import com.maxim.diaryforstudents.core.presentation.Init
@@ -29,6 +30,7 @@ class DiaryViewModel @Inject constructor(
     private val navigation: Navigation.Update,
     private val mapper: DiaryDomain.Mapper<DiaryUi>,
     private val dayMapper: DayDomain.Mapper<DayUi>,
+    val colorManager: ColorManager,
     runAsync: RunAsync = RunAsync.Base()
 ) : BaseViewModel(runAsync), Communication.Observe<DiaryState>, Init, GoBack, SaveAndRestore, Serializable {
     private var actualDay = 0

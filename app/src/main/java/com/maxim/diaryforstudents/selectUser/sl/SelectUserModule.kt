@@ -1,25 +1,15 @@
 package com.maxim.diaryforstudents.selectUser.sl
 
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.selectUser.presentation.SelectUserCommunication
-import com.maxim.diaryforstudents.selectUser.presentation.SelectUserViewModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 
-interface SelectUserModule: Module<SelectUserViewModel> {
-    fun clear()
+@Module
+@InstallIn(ViewModelComponent::class)
+class SelectUserModule {
 
-    class Base(private val core: Core, private val clearViewModel: ClearViewModel): SelectUserModule {
-        override fun viewModel() = SelectUserViewModel(
-            core.loginRepository(),
-            SelectUserCommunication.Base(),
-            core.navigation(),
-            clearViewModel,
-            this
-        )
-
-        override fun clear() {
-            core.clearLoginRepository()
-        }
-    }
+    @Provides
+    fun provideCommunication(): SelectUserCommunication = SelectUserCommunication.Base()
 }

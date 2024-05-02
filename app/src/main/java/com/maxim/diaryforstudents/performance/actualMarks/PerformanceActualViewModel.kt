@@ -6,6 +6,7 @@ import com.maxim.diaryforstudents.analytics.presentation.AnalyticsScreen
 import com.maxim.diaryforstudents.calculateAverage.data.CalculateStorage
 import com.maxim.diaryforstudents.calculateAverage.presentation.CalculateScreen
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.core.presentation.Init
 import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.RunAsync
@@ -35,6 +36,7 @@ class PerformanceActualViewModel @Inject constructor(
     private val navigation: Navigation.Update,
     mapper: PerformanceDomain.Mapper<PerformanceUi>,
     private val diaryMapper: DiaryDomain.Mapper<DiaryUi>,
+    var colorManager: ColorManager,
     runAsync: RunAsync = RunAsync.Base()
 ) : PerformanceMarkViewModel(interactor, communication, mapper, runAsync), Init, SaveAndRestore {
     override val type = MarksType.Base

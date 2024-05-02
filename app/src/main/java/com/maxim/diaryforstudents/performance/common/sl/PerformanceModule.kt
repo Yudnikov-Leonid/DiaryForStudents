@@ -1,14 +1,20 @@
 package com.maxim.diaryforstudents.performance.common.sl
 
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.core.sl.Module
-import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommonViewModel
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
+import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomainToUiMapper
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceCommunication
+import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 
-class PerformanceModule(private val core: Core, private val clear: ClearViewModel) :
-    Module<PerformanceCommonViewModel> {
-    override fun viewModel() = PerformanceCommonViewModel(
-        core.navigation(),
-        clear,
-    )
+@dagger.Module
+@InstallIn(ViewModelComponent::class)
+class PerformanceModule {
+
+    @Provides
+    fun provideMapper(): PerformanceDomain.Mapper<PerformanceUi> = PerformanceDomainToUiMapper()
+
+    @Provides
+    fun provideCommunication(): PerformanceCommunication = PerformanceCommunication.Base()
 }

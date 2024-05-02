@@ -6,11 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.databinding.LessonDiaryBinding
 import com.maxim.diaryforstudents.databinding.NoDataBinding
 
 class DiaryLessonsAdapter(
     private val listener: Listener,
+    private val colorManager: ColorManager
 ) : RecyclerView.Adapter<DiaryLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<DiaryUi>()
     private var actualHomework = true
@@ -22,7 +24,8 @@ class DiaryLessonsAdapter(
 
     class BaseItemViewHolder(
         private val binding: LessonDiaryBinding,
-        private val listener: Listener
+        private val listener: Listener,
+        private val colorManager: ColorManager
     ) : ItemViewHolder(binding) {
         override fun bind(item: DiaryUi, actualHomework: Boolean) {
             item.showTime(binding.timeTextView)
@@ -32,7 +35,7 @@ class DiaryLessonsAdapter(
                 item.showHomework(binding.homeworkTextView, binding.homeWorkTitle)
             else
                 item.showPreviousHomework(binding.homeworkTextView, binding.homeWorkTitle)
-            item.showMarks(binding.marksLayout)
+            item.showMarks(binding.marksLayout, colorManager)
             itemView.setOnClickListener {
                 listener.openDetails(item as DiaryUi.Lesson)
             }
@@ -49,7 +52,7 @@ class DiaryLessonsAdapter(
         when (viewType) {
             0 -> BaseItemViewHolder(
                 LessonDiaryBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-                listener
+                listener, colorManager
             )
             else -> EmptyViewHolder(
                 NoDataBinding

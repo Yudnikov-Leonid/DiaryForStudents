@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.viewbinding.ViewBinding
 import com.github.mikephil.charting.components.XAxis
 import com.maxim.diaryforstudents.R
-import com.maxim.diaryforstudents.core.ProvideColorManager
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.databinding.AnalyticsTitleBinding
 import com.maxim.diaryforstudents.databinding.LineChartLayoutBinding
 import com.maxim.diaryforstudents.databinding.PieChartLayoutBinding
 
 class AnalyticsAdapter(
-    private val listener: Listener
+    private val listener: Listener,
+    private val colorManager: ColorManager
 ) : RecyclerView.Adapter<AnalyticsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<AnalyticsUi>()
 
@@ -29,10 +30,10 @@ class AnalyticsAdapter(
 
     class LineViewHolder(
         private val binding: LineChartLayoutBinding,
-        private val listener: Listener
+        private val listener: Listener,
+        private val colorManager: ColorManager
     ) : ItemViewHolder(binding) {
         override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
-            val colorManager = (binding.chart.context.applicationContext as ProvideColorManager).colorManager()
             item.showData(binding.chart, colorManager)
             item.showTitle(binding.titleTextView)
             item.showQuarter(binding.quarterSpinner)
@@ -137,14 +138,13 @@ class AnalyticsAdapter(
         }
     }
 
-    class PieViewHolder(private val binding: PieChartLayoutBinding) : ItemViewHolder(binding) {
+    class PieViewHolder(private val binding: PieChartLayoutBinding, private val colorManager: ColorManager) : ItemViewHolder(binding) {
         override fun bind(item: AnalyticsUi, showSpinner: Boolean) {
             binding.chart.apply {
                 description.isEnabled = false
                 setDrawEntryLabels(false)
                 setHoleColor(ContextCompat.getColor(binding.chart.context, R.color.background))
             }
-            val colorManager = (binding.chart.context.applicationContext as ProvideColorManager).colorManager()
             item.showData(binding.chart, colorManager)
             item.showTitle(binding.titleTextView)
         }
@@ -169,7 +169,7 @@ class AnalyticsAdapter(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                ), listener
+                ), listener, colorManager
             )
 
             1 -> PieViewHolder(
@@ -177,7 +177,7 @@ class AnalyticsAdapter(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                )
+                ), colorManager
             )
 
             else -> TitleViewHolder(

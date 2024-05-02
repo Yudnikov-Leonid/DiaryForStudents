@@ -1,16 +1,15 @@
 package com.maxim.diaryforstudents.lessonDetails.sl
 
-import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.core.sl.Core
-import com.maxim.diaryforstudents.core.sl.Module
 import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsCommunication
-import com.maxim.diaryforstudents.lessonDetails.presentation.LessonDetailsViewModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 
-class LessonDetailsModule(private val core: Core, private val clearViewModel: ClearViewModel): Module<LessonDetailsViewModel> {
-    override fun viewModel() = LessonDetailsViewModel(
-        LessonDetailsCommunication.Base(),
-        core.lessonDetailsStorage(),
-        core.navigation(),
-        clearViewModel
-    )
+@Module
+@InstallIn(ViewModelComponent::class)
+class LessonDetailsModule {
+
+    @Provides
+    fun provideCommunication(): LessonDetailsCommunication = LessonDetailsCommunication.Base()
 }

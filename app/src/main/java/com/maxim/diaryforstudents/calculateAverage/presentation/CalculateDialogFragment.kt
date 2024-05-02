@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.maxim.diaryforstudents.R
-import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.databinding.DialogFragmentCalculateAverageBinding
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceMarksAdapter
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
@@ -25,11 +24,9 @@ class CalculateDialogFragment : DialogFragment() {
 
         val adapter = PerformanceMarksAdapter(object : PerformanceMarksAdapter.Listener {
             override fun details(mark: PerformanceUi) = Unit
-        })
+        }, viewModel.colorManager)
         binding.marksRecyclerView.adapter = adapter
         binding.marksRecyclerView.itemAnimator = null
-
-        val colorManager = (requireActivity() as ProvideColorManager).colorManager()
 
         listOf(
             binding.addFive,
@@ -41,7 +38,7 @@ class CalculateDialogFragment : DialogFragment() {
             view.setOnClickListener {
                 viewModel.add(5 - i)
             }
-            colorManager.showColor(
+            viewModel.colorManager.showColor(
                 view, (5 - i).toString(), when (i) {
                     4, 3 -> R.color.red
                     2 -> R.color.yellow
@@ -61,7 +58,7 @@ class CalculateDialogFragment : DialogFragment() {
             view.setOnClickListener {
                 viewModel.remove(5 - i)
             }
-            colorManager.showColor(
+            viewModel.colorManager.showColor(
                 view, (5 - i).toString(), when (i) {
                     4, 3 -> R.color.red
                     2 -> R.color.yellow

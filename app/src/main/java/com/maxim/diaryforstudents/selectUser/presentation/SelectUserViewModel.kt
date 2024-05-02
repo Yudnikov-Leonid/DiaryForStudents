@@ -12,7 +12,6 @@ import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.presentation.SimpleInit
 import com.maxim.diaryforstudents.login.data.LoginRepository
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
-import com.maxim.diaryforstudents.selectUser.sl.SelectUserModule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -20,8 +19,7 @@ import javax.inject.Inject
 class SelectUserViewModel @Inject constructor(
     private val repository: LoginRepository,
     private val communication: SelectUserCommunication,
-    private val navigation: Navigation.Update,
-    private val module: SelectUserModule
+    private val navigation: Navigation.Update
 ): ViewModel(), GoBack, SimpleInit, Communication.Observe<SelectUserState>, SaveAndRestore {
 
     override fun init() {
@@ -30,7 +28,6 @@ class SelectUserViewModel @Inject constructor(
 
     fun select(position: Int) {
         repository.select(position)
-        module.clear()
         navigation.update(MenuScreen)
     }
 

@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.maxim.diaryforstudents.core.ProvideColorManager
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.databinding.FinalLessonBinding
 import com.maxim.diaryforstudents.performance.common.presentation.PerformanceUi
 
-class PerformanceFinalLessonsAdapter :
+class PerformanceFinalLessonsAdapter(private val colorManager: ColorManager) :
     RecyclerView.Adapter<PerformanceFinalLessonsAdapter.ItemViewHolder>() {
     private val list = mutableListOf<PerformanceUi>()
 
-    class ItemViewHolder(private val binding: FinalLessonBinding) : ViewHolder(binding.root) {
+    class ItemViewHolder(private val binding: FinalLessonBinding, private val colorManager: ColorManager) : ViewHolder(binding.root) {
         fun bind(item: PerformanceUi) {
             item.showName(binding.lessonNameTextView)
             listOf(binding.one, binding.two, binding.three, binding.four, binding.five).forEach {
@@ -24,7 +24,7 @@ class PerformanceFinalLessonsAdapter :
                 binding.three,
                 binding.four,
                 binding.five,
-                (binding.one.context.applicationContext as ProvideColorManager).colorManager()
+               colorManager
             )
         }
     }
@@ -35,7 +35,7 @@ class PerformanceFinalLessonsAdapter :
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), colorManager
         )
 
     override fun getItemCount() = list.size

@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.maxim.diaryforstudents.core.presentation.ColorManager
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 
 interface LessonDetailsState {
@@ -46,7 +47,7 @@ interface LessonDetailsState {
     }
 
     class Base(
-        private val lesson: DiaryUi.Lesson
+        private val lesson: DiaryUi.Lesson, private val colorManager: ColorManager
     ): LessonDetailsState {
         override fun show(
             nameTextView: TextView,
@@ -70,7 +71,7 @@ interface LessonDetailsState {
             lesson.showTopic(topicTextView, topicTitle)
             lesson.showHomework(homeworkTextView, homeworkTitle)
             lesson.showPreviousHomework(previousHomeworkTextView, previousHomeworkTitle)
-            lesson.showMarks(marksLayout)
+            lesson.showMarks(marksLayout, colorManager)
             lesson.showMarkType(markTypeTextView)
             lesson.showNotes(notesTextView, notesTitle)
             progressBar.visibility = View.GONE
