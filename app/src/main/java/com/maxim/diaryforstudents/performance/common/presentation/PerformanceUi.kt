@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -219,7 +220,7 @@ interface PerformanceUi : Serializable {
                 "2" -> this.showName(two, colorManager)
                 "3" -> this.showName(three, colorManager)
                 "4" -> this.showName(four, colorManager)
-                "5" -> this.showName(final, colorManager)
+                else -> this.showName(final, colorManager)
             }
         }
 
