@@ -104,12 +104,24 @@ interface HandleResponse : SaveAndRestore {
                     lastDate = lesson.MARKS[i].DATE
                 }
 
+                var twoStatusCounter = 0
+                lesson.MARKS.forEach {
+                    when (it.VALUE) {
+                        5 -> twoStatusCounter += 5;
+                        4 -> twoStatusCounter += 3;
+                        3 -> twoStatusCounter += 1;
+                        2 -> twoStatusCounter -= 1;
+                        1 -> twoStatusCounter -= 3;
+                    }
+                }
+
                 PerformanceData.Lesson(
                     lesson.SUBJECT_NAME,
                     marks,
                     lesson.MARKS.sumOf { it.VALUE },
                     false,
                     actualAverage,
+                    twoStatusCounter,
                     progresses[0],
                     progresses[1],
                     progresses[2],
@@ -145,7 +157,7 @@ interface HandleResponse : SaveAndRestore {
                             )
                         }
                     }, 0,
-                    true, 0f, 0, 0, 0, 0
+                    true, 0f, 0, 0, 0, 0, 0
                 )
             }
         }

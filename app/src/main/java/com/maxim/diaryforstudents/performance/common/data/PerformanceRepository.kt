@@ -155,6 +155,7 @@ interface PerformanceRepository : SaveAndRestore {
                         it.progress()[2],
                         it.progress()[3]
                     ).toFloat()
+                    4 -> it.twoStatus().toFloat()
 
                     else -> it.marksCount().toFloat()
                 }

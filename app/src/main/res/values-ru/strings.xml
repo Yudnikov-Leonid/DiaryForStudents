@@ -78,6 +78,7 @@
         <item>по среднему баллу</item>
         <item>по прогрессу</item>
         <item>по кол-ву оценок</item>
+        <item>по запасу двоек</item>
     </string-array>
 
     <string-array name="sorting_order">

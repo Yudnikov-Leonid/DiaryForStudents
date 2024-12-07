@@ -10,6 +10,7 @@ interface PerformanceData : Serializable {
     fun average(): Float = 0f
     fun progress(): List<Int> = emptyList()
     fun marksCount(): Int = 0
+    fun twoStatus(): Int = 0
 
     fun toDomain(): PerformanceDomain
 
@@ -19,6 +20,7 @@ interface PerformanceData : Serializable {
         private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
+        private val twoStatus: Int,
         private val weekProgress: Int,
         private val twoWeeksProgress: Int,
         private val monthProgress: Int,
@@ -30,12 +32,16 @@ interface PerformanceData : Serializable {
             listOf(weekProgress, twoWeeksProgress, monthProgress, quarterProgress)
 
         override fun marksCount() = marks.sumOf { it.marksCount() }
+
+        override fun twoStatus() = twoStatus
+
         override fun toDomain() = PerformanceDomain.Lesson(
             name,
             marks.map { it.toDomain() },
             marksSum,
             isFinal,
             average,
+            twoStatus,
             weekProgress,
             twoWeeksProgress,
             monthProgress,

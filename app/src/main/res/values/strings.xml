@@ -82,6 +82,7 @@
         <item>average</item>
         <item>progress</item>
         <item>marks count</item>
+        <item>two status</item>
     </string-array>
 
     <string-array name="sorting_order">

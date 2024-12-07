@@ -29,6 +29,7 @@ class PerformanceLessonsAdapter(
     ) : ItemViewHolder(binding) {
         override fun bind(item: PerformanceUi, progressType: ProgressType, showType: Boolean) {
             item.showName(binding.lessonNameTextView)
+            item.showTwoStatus(binding.twoStatusTextView)
             val adapter = PerformanceMarksAdapter(markListener)
             binding.marksRecyclerView.adapter = adapter
             item.showMarks(adapter, showType, binding.marksRecyclerView)

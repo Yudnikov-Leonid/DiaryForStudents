@@ -12,6 +12,7 @@ interface PerformanceDomain {
             marksSum: Int,
             isFinal: Boolean,
             average: Float,
+            twoStatus: Int,
             weekProgress: Int,
             twoWeeksProgress: Int,
             monthProgress: Int,
@@ -32,6 +33,7 @@ interface PerformanceDomain {
         private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
+        private val twoStatus: Int,
         private val weekProgress: Int,
         private val twoWeeksProgress: Int,
         private val monthProgress: Int,
@@ -39,7 +41,7 @@ interface PerformanceDomain {
     ) : PerformanceDomain {
         override fun <T> map(mapper: Mapper<T>) =
             mapper.map(
-                name, marks, marksSum, isFinal, average, weekProgress,
+                name, marks, marksSum, isFinal, average, twoStatus, weekProgress,
                 twoWeeksProgress, monthProgress, quarterProgress
             )
     }
