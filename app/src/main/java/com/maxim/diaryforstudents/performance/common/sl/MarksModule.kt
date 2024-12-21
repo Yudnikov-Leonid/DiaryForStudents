@@ -24,7 +24,8 @@ interface MarksModule {
                 Formatter.Base,
                 core.eduUser(),
                 core,
-                HandleMarkType.Base()
+                HandleMarkType.Base(),
+                core.settingsStorage()
             )
         }
 

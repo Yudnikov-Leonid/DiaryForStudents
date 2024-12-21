@@ -28,6 +28,7 @@ class UtilitiesFragment : BaseFragment<FragmentSettingsUtilitiesBinding, Utiliti
             viewModel.goBack()
         }
 
+        binding.openMonday.init()
         binding.showFirstGraph.init()
         binding.showSecondGraph.init()
         binding.showThirdGraph.init()

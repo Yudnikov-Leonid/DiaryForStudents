@@ -37,7 +37,7 @@ interface DiaryInteractor {
             }
         }
 
-        override fun actualDate() = repository.actualDate()
+        override fun actualDate() = repository.actualDate(true)
         override fun homeworks(date: Int) = repository.homeworks(date)
         override fun previousHomeworks(date: Int) = repository.previousHomeworks(date)
 

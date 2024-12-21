@@ -12,12 +12,13 @@ import com.maxim.diaryforstudents.performance.common.data.PerformanceData
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceDomain
 import com.maxim.diaryforstudents.performance.common.domain.ServiceUnavailableException
 import com.maxim.diaryforstudents.performance.common.presentation.MarkType
+import com.maxim.diaryforstudents.settings.data.SettingsStorage
 import java.util.Calendar
 
 interface DiaryRepository {
     fun dayLists(today: Int): Triple<List<DayDomain>, List<DayDomain>, List<DayDomain>>
     suspend fun day(date: Int): DiaryDomain.Day
-    fun actualDate(): Int
+    fun actualDate(withSkipWeekend: Boolean): Int
     fun homeworks(date: Int): String
     fun previousHomeworks(date: Int): String
 
@@ -31,6 +32,7 @@ interface DiaryRepository {
         private val eduUser: EduUser,
         private val manageResource: ManageResource,
         private val handleMarkType: HandleMarkType,
+        private val settingsStorage: SettingsStorage.Read
     ) : DiaryRepository {
         private val cache = mutableMapOf<String, DiaryData.Day>()
 
@@ -86,11 +88,24 @@ interface DiaryRepository {
             val data = service
                 .getDay(DiaryBody(formattedDate, eduUser.apikey(), eduUser.guid(), ""))
             val day = if (data.success) dataDay(date, formattedDate)
-             else throw ServiceUnavailableException(data.message)
+            else throw ServiceUnavailableException(data.message)
             return day.toDomain()
         }
 
-        override fun actualDate() = (System.currentTimeMillis() / 86400000).toInt()
+        override fun actualDate(withSkipWeekend: Boolean): Int {
+            val today = (System.currentTimeMillis() / 86400000).toInt()
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = today * 86400000L
+            val dayOfTheWeek = calendar.get(Calendar.DAY_OF_WEEK)
+            if (settingsStorage.read(R.id.openMonday) && (dayOfTheWeek == Calendar.SUNDAY || dayOfTheWeek == Calendar.SATURDAY) && withSkipWeekend) {
+                if (dayOfTheWeek == Calendar.SUNDAY)
+                    return today + 1
+                else
+                    return today + 2
+            } else {
+                return today
+            }
+        }
 
         override fun homeworks(date: Int): String {
             val formattedDate = formatter.format("dd.MM.yyyy", date)
@@ -166,11 +181,11 @@ interface DiaryRepository {
             //get lessons
             val cachedLessons = menuService.lessons()
             val lessons: List<DiaryData>
-            if (cachedLessons.isEmpty() || cachedLessons[0].date != actualDate()) {
-                val today = formatter.format("dd.MM.yyyy", actualDate())
+            if (cachedLessons.isEmpty() || cachedLessons[0].date != actualDate(false)) {
+                val today = formatter.format("dd.MM.yyyy", actualDate(false))
                 val day: DiaryData
                 try {
-                    day = if (cache[today] == null) dataDay(actualDate(), today) else cache[today]!!
+                    day = if (cache[today] == null) dataDay(actualDate(false), today) else cache[today]!!
                 } catch (e: Exception) {
                     return Pair(emptyList(), 0)
                 }
@@ -264,7 +279,9 @@ interface DiaryRepository {
                         lesson.ABSENCE.map { it.SHORT_NAME },
                         lesson.NOTES
                     )
-                }.ifEmpty { listOf(DiaryData.Empty) }) else throw ServiceUnavailableException(data.message)
+                }.ifEmpty { listOf(DiaryData.Empty) }) else throw ServiceUnavailableException(
+                data.message
+            )
             cache[formattedDate] = day
             return day
         }

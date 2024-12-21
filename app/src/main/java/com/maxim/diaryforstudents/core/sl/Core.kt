@@ -104,10 +104,11 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private val downloader = Downloader.Base(context)
         override fun downloader() = downloader
 
-        private val diaryInteractor = DiaryInteractor.Base(
-            marksModule.diaryRepository(), FailureHandler.Base(), this
-        )
-
+        private val diaryInteractor by lazy {
+            DiaryInteractor.Base(
+                marksModule.diaryRepository(), FailureHandler.Base(), this
+            )
+        }
         override fun diaryInteractor() = diaryInteractor
 
         private var menuLessonsDatabase: MenuLessonsDatabase? = null
