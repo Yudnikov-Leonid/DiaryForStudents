@@ -138,6 +138,7 @@
     <string name="interesting_news">Интересно</string>
     <string name="settings_contacts">Контакты</string>
     <string name="themes">Темы</string>
+    <string name="utilities">Утилиты</string>
     <string name="settings">Настройки</string>
     <string name="mark_colors">Цвета оценок</string>
     <string name="homework_from">Домашнее задание, заданое</string>
@@ -160,5 +161,11 @@
     <string name="next_lesson">Следющий…</string>
     <string name="lesson_starts_soon">Скоро начнётся…</string>
     <string name="show_lessons_of_the_day_in_the_menu">Показывать предметы дня в меню</string>
+    <string name="open_monday_instead_of_weekend">Открывать следующий понедельник вместо выходных</string>
     <string name="lesson_passed">Урок завершён</string>
+
+    <string name="show_first_graph">Показывать граф изменения балла</string>
+    <string name="show_second_graph">Показывать пиццу оценок</string>
+    <string name="show_third_graph">Показывать граф изменения кол-ва оценок</string>
+    <string name="show_fourth_graph">Показывать пиццу итоговых оценок</string>
 </resources>

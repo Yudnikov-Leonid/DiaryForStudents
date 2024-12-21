@@ -143,6 +143,7 @@
     <string name="interesting_news">Interesting</string>
     <string name="settings_contacts">Contacts</string>
     <string name="themes">Themes</string>
+    <string name="utilities">Utilities</string>
     <string name="settings">Settings</string>
     <string name="mark_colors">Colors of marks</string>
     <string name="homework_from">Homework from</string>
@@ -165,5 +166,11 @@
     <string name="next_lesson">Next…</string>
     <string name="lesson_starts_soon">Lesson starts soon…</string>
     <string name="show_lessons_of_the_day_in_the_menu">Show lessons of the day in the menu</string>
+    <string name="open_monday_instead_of_weekend">Open monday instead of weekend</string>
     <string name="lesson_passed">Lesson passed</string>
+
+    <string name="show_first_graph">Show first graph</string>
+    <string name="show_second_graph">Show second graph</string>
+    <string name="show_third_graph">Show third graph</string>
+    <string name="show_fourth_graph">Show fourth graph</string>
 </resources>

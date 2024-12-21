@@ -21,6 +21,7 @@ import com.maxim.diaryforstudents.openNews.data.Downloader
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.room.PerformanceDatabase
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
+import com.maxim.diaryforstudents.settings.data.SettingsStorage
 import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,7 +32,7 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
     ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, ProvideLoginRepository,
     ProvidePerformanceDatabase, ProvideColorManager, ProvideDownloader, ProvideDiaryInteractor,
-    ProvideMenuLessonsDatabase, ProvideLessonsInMenuSettings {
+    ProvideMenuLessonsDatabase, ProvideLessonsInMenuSettings, GetSettingsStorage {
 
     class Base(private val context: Context) : Core {
 
@@ -123,6 +124,9 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private val lessonsInMenuSettings = LessonsInMenuSettings.Base(simpleStorage)
         override fun lessonsInMenuSettings() = lessonsInMenuSettings
 
+        private val settingsStorage = SettingsStorage.Base(simpleStorage)
+        override fun settingsStorage() = settingsStorage
+
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
 
@@ -201,4 +205,8 @@ interface ProvideMenuLessonsDatabase {
 
 interface ProvideLessonsInMenuSettings {
     fun lessonsInMenuSettings(): LessonsInMenuSettings.Mutable
+}
+
+interface GetSettingsStorage {
+    fun settingsStorage(): SettingsStorage.Mutable
 }
