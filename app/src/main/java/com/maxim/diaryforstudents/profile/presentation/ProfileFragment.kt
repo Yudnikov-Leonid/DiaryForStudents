@@ -30,15 +30,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
             viewModel.goBack()
         }
 
-        binding.showEmailButton.setOnClickListener {
-            viewModel.email(this)
-        }
-        binding.showSchoolInfoButton.setOnClickListener {
-            viewModel.school(this)
-        }
-        binding.showGradeButton.setOnClickListener {
-            viewModel.grade(this)
-        }
+//        binding.showEmailButton.setOnClickListener {
+//            viewModel.email(this)
+//        }
+//        binding.showSchoolInfoButton.setOnClickListener {
+//            viewModel.school(this)
+//        }
+//        binding.showGradeButton.setOnClickListener {
+//            viewModel.grade(this)
+//        }
         binding.signOutButton.setOnClickListener {
             viewModel.signOut()
         }
