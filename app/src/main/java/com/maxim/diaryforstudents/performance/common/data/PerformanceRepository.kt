@@ -98,12 +98,17 @@ interface PerformanceRepository : SaveAndRestore {
                         marksSet.add("${lesson.SUBJECT_SYS_GUID}-${it.DATE}")
                     }
                 }
+                if (marksSet.size - checkedMarksCache.size < 0) {
+                    dao.clearAll()
+                    checkedMarksCache.clear()
+                    newMarksCount = marksSet.size
+                } else {
+                    newMarksCount =
+                        if (checkedMarksCache.isEmpty()) 0 else marksSet.size - checkedMarksCache.size
+                }
                 marksSet.forEach {
                     dao.insert(MarkRoom(it))
                 }
-                newMarksCount =
-                    if (checkedMarksCache.isEmpty()) 0 else marksSet.size - checkedMarksCache.size
-
             } catch (e: Exception) {
                 loadException = e
             }
@@ -155,6 +160,7 @@ interface PerformanceRepository : SaveAndRestore {
                         it.progress()[2],
                         it.progress()[3]
                     ).toFloat()
+
                     4 -> it.twoStatus().toFloat()
 
                     else -> it.marksCount().toFloat()
