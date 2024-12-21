@@ -1,15 +1,23 @@
 package com.maxim.diaryforstudents.menu.presentation
 
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
 import java.io.Serializable
 
 interface MenuState: Serializable {
-    fun showNewsCount(textView: TextView)
-    fun showMarksCount(textView: TextView)
-    fun showLessons(viewPager: ViewPager2, adapter: MenuLessonsAdapter)
+    fun showNewsCount(textView: TextView) {}
+    fun showMarksCount(textView: TextView) {}
+    fun showProgressBar(progressBar: View) {}
+    fun showLessons(viewPager: ViewPager2, adapter: MenuLessonsAdapter) {}
+
+    object Loading: MenuState {
+        override fun showProgressBar(progressBar: View) {
+            progressBar.visibility = View.VISIBLE
+        }
+    }
 
     data class Initial(
         private val newMarksCount: Int,
@@ -31,6 +39,10 @@ interface MenuState: Serializable {
             viewPager.visibility = if (lessons.isNotEmpty()) View.VISIBLE else View.GONE
             adapter.update(lessons)
             viewPager.setCurrentItem(currentLesson, false)
+        }
+
+        override fun showProgressBar(progressBar: View) {
+            progressBar.visibility = View.GONE
         }
     }
 }

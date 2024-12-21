@@ -41,6 +41,7 @@ class MenuViewModel(
 
     override fun init(isFirstRun: Boolean) {
         if (isFirstRun) {
+            communication.update(MenuState.Loading)
             showLessonsInMenuSettings.setCallback(this)
             handle {
                 performanceInteractor.loadData()

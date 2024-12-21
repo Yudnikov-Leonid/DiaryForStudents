@@ -49,6 +49,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
             it.showNewsCount(binding.newNewsCounter)
             it.showMarksCount(binding.newMarksCounter)
             it.showLessons(binding.lessonsViewPager, adapter)
+            it.showProgressBar(binding.progressBar)
         }
 
         viewModel.init(savedInstanceState == null)

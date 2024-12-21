@@ -16,8 +16,8 @@ android {
         applicationId = "com.maxim.diaryforstudents"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.2 beta"
+        versionCode = 4
+        versionName = "1.3 beta"
         buildFeatures.buildConfig = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
