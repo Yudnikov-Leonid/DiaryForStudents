@@ -34,6 +34,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:text="@string/menu"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <com.maxim.diaryforstudents.settings.customView.SwitchSettingsView
+        android:id="@+id/showLessonsInMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="@string/show_lessons_of_the_day_in_the_menu"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
         android:text="@string/diary"
         android:textSize="20sp"
         android:textStyle="bold" />

@@ -9,13 +9,11 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
 import com.maxim.diaryforstudents.settings.data.SettingsThemesRepository
 
 class SettingsThemesViewModel(
     private val communication: SettingsThemesCommunication,
     private val repository: SettingsThemesRepository,
-    private val showLessons: LessonsInMenuSettings.Mutable,
     private val defaultColors: List<Int>,
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel
@@ -33,10 +31,6 @@ class SettingsThemesViewModel(
         reload()
     }
 
-    fun setShowLessonsInMenu(value: Boolean) {
-        showLessons.set(value)
-    }
-
     override fun reload() {
         communication.update(SettingsThemesState.Base(
             defaultColors[0],
@@ -44,7 +38,6 @@ class SettingsThemesViewModel(
             defaultColors[2],
             defaultColors[3],
             defaultColors[4],
-            showLessons.isShow()
         ))
     }
 

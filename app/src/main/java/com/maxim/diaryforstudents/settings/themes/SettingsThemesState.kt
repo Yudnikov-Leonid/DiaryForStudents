@@ -13,7 +13,6 @@ interface SettingsThemesState {
         twoImageButton: ImageButton,
         oneImageButton: ImageButton,
         colorManager: ColorManager,
-        showLessonsSwitch: SwitchCompat
     )
 
     data class Base(
@@ -22,7 +21,6 @@ interface SettingsThemesState {
         private val defaultThreeColor: Int,
         private val defaultTwoColor: Int,
         private val defaultOneColor: Int,
-        private val showLessonsInMenu: Boolean
     ): SettingsThemesState {
 
         override fun show(
@@ -32,14 +30,12 @@ interface SettingsThemesState {
             twoImageButton: ImageButton,
             oneImageButton: ImageButton,
             colorManager: ColorManager,
-            showLessonsSwitch: SwitchCompat
         ) {
             colorManager.showColor(fiveImageButton, "5", defaultFiveColor)
             colorManager.showColor(fourImageButton, "4", defaultFourColor)
             colorManager.showColor(threeImageButton, "3", defaultThreeColor)
             colorManager.showColor(twoImageButton, "2", defaultTwoColor)
             colorManager.showColor(oneImageButton, "1", defaultOneColor)
-            showLessonsSwitch.isChecked = showLessonsInMenu
         }
     }
 }
