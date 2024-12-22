@@ -4,37 +4,50 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ListView
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
+import com.maxim.diaryforstudents.R
+import com.maxim.diaryforstudents.core.App
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.databinding.FragmentMenuBinding
+import com.maxim.diaryforstudents.databinding.FragmentMenuNyBinding
 import com.maxim.diaryforstudents.diary.presentation.DiaryUi
+import com.maxim.diaryforstudents.main.MainActivity
 
-class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
-    override val viewModelClass: Class<MenuViewModel>
-        get() = MenuViewModel::class.java
+class MenuFragment : Fragment() {
+    private lateinit var viewModel: MenuViewModel
 
-    override fun bind(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentMenuBinding.inflate(inflater, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate((context?.applicationContext as App?)?.getCore()?.currentThemeSettings()?.readTheme()?.getMenuLayoutId() ?: R.layout.fragment_menu_ny, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.diaryButton.setOnClickListener {
+        viewModel = (activity as MainActivity).viewModel(MenuViewModel::class.java)
+
+        view.findViewById<View>(R.id.diaryButton).setOnClickListener {
             viewModel.diary()
         }
-        binding.performanceButton.setOnClickListener {
+        view.findViewById<View>(R.id.performanceButton).setOnClickListener {
             viewModel.performance()
         }
-        binding.profileButton.setOnClickListener {
+        view.findViewById<View>(R.id.profileButton).setOnClickListener {
             viewModel.profile()
         }
-        binding.newsButton.setOnClickListener {
+        view.findViewById<View>(R.id.newsButton).setOnClickListener {
             viewModel.news()
             viewModel.reload()
         }
-        binding.analyticsButton.setOnClickListener {
+        view.findViewById<View>(R.id.analyticsButton).setOnClickListener {
             viewModel.analytics()
         }
-        binding.settingsButton.setOnClickListener {
+        view.findViewById<View>(R.id.settingsButton).setOnClickListener {
             viewModel.settings()
         }
 
@@ -43,13 +56,13 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
                 viewModel.lesson(item)
             }
         })
-        binding.lessonsViewPager.adapter = adapter
+        view.findViewById<ViewPager2>(R.id.lessonsViewPager).adapter = adapter
 
         viewModel.observe(this) {
-            it.showNewsCount(binding.newNewsCounter)
-            it.showMarksCount(binding.newMarksCounter)
-            it.showLessons(binding.lessonsViewPager, adapter)
-            it.showProgressBar(binding.progressBar)
+            it.showNewsCount(view.findViewById(R.id.newNewsCounter))
+            it.showMarksCount(view.findViewById(R.id.newMarksCounter))
+            it.showLessons(view.findViewById(R.id.lessonsViewPager), adapter)
+            it.showProgressBar(view.findViewById(R.id.progressBar))
         }
 
         viewModel.init(savedInstanceState == null)
