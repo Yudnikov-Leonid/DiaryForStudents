@@ -76,6 +76,9 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
         binding.newYearThemeButton.setOnClickListener {
             viewModel.setTheme(CurrentTheme.NewYear)
         }
+        binding.bzThemeButton.setOnClickListener {
+            viewModel.setTheme(CurrentTheme.BobrZlobor)
+        }
 
         viewModel.observe(this) {
             it.show(

@@ -13,7 +13,7 @@ interface CurrentThemeSettings {
         }
 
         override fun readTheme(): CurrentTheme {
-            val allThemes = listOf(CurrentTheme.Default, CurrentTheme.NewYear)
+            val allThemes = listOf(CurrentTheme.Default, CurrentTheme.NewYear, CurrentTheme.BobrZlobor)
             val savedId = simpleStorage.read(KEY, 0)
             allThemes.forEach {
                 if (it.getId() == savedId) return  it
@@ -27,6 +27,9 @@ interface CurrentThemeSettings {
     }
 }
 
+/**
+ *  При добавлении новой темы, добавить её в список на 16 строчке
+ */
 interface CurrentTheme {
     fun getMenuLayoutId(): Int
     fun getId(): Int
@@ -39,5 +42,10 @@ interface CurrentTheme {
     object NewYear : CurrentTheme {
         override fun getMenuLayoutId() = R.layout.fragment_menu_ny
         override fun getId() = 1
+    }
+
+    object BobrZlobor : CurrentTheme {
+        override fun getMenuLayoutId() = R.layout.fragment_menu_bz
+        override fun getId() = 2
     }
 }
