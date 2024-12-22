@@ -26,6 +26,7 @@
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/icon_1"
+            android:roundIcon="@drawable/icon_1_r"
             android:targetActivity=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +39,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/icon_2"
+            android:roundIcon="@drawable/icon_2_r"
             android:targetActivity=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,6 +52,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/icon_3"
+            android:roundIcon="@drawable/icon_3_r"
             android:targetActivity=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,6 +65,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/icon_4"
+            android:roundIcon="@drawable/icon_4_r"
             android:targetActivity=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,6 +78,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/icon_5"
+            android:roundIcon="@drawable/icon_5_r"
             android:targetActivity=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

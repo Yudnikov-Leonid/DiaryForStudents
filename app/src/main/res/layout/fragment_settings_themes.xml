@@ -315,32 +315,32 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/icon_1" />
+                android:src="@drawable/icon_1_r" />
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/icon_2" />
+                android:src="@drawable/icon_2_r" />
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/icon_3" />
+                android:src="@drawable/icon_3_r" />
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/icon_4" />
+                android:src="@drawable/icon_4_r" />
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/icon_5" />
+                android:src="@drawable/icon_5_r" />
 
         </GridLayout>
 
