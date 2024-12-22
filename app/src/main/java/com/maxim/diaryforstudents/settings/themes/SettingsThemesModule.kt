@@ -12,6 +12,7 @@ class SettingsThemesModule(private val core: Core, private val clearViewModel: C
         SettingsThemesCommunication.Base(),
         SettingsThemesRepository.Base(ColorManager.Base(core.simpleStorage())),
         listOf(R.color.light_green, R.color.green, R.color.yellow, R.color.red, R.color.red),
+        core.currentThemeSettings(),
         core.navigation(),
         clearViewModel
     )

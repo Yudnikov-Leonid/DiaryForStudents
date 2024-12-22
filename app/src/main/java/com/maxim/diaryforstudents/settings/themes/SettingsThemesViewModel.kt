@@ -9,12 +9,16 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
+import com.maxim.diaryforstudents.menu.presentation.MenuScreen
+import com.maxim.diaryforstudents.settings.data.CurrentTheme
+import com.maxim.diaryforstudents.settings.data.CurrentThemeSettings
 import com.maxim.diaryforstudents.settings.data.SettingsThemesRepository
 
 class SettingsThemesViewModel(
     private val communication: SettingsThemesCommunication,
     private val repository: SettingsThemesRepository,
     private val defaultColors: List<Int>,
+    private val currentThemeSettings: CurrentThemeSettings,
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel
 ) : ViewModel(), GoBack, Communication.Observe<SettingsThemesState>, Reload {
@@ -38,7 +42,14 @@ class SettingsThemesViewModel(
             defaultColors[2],
             defaultColors[3],
             defaultColors[4],
+            currentThemeSettings.readTheme().getId()
         ))
+    }
+
+    fun setTheme(currentTheme: CurrentTheme) {
+        currentThemeSettings.setTheme(currentTheme)
+        navigation.update(MenuScreen)
+        clearViewModel.clearViewModel(SettingsThemesViewModel::class.java)
     }
 
     fun saveColor(color: Int, key: String) {

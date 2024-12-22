@@ -169,4 +169,6 @@
     <string name="show_second_graph">Показывать пиццу оценок</string>
     <string name="show_third_graph">Показывать граф изменения кол-ва оценок</string>
     <string name="show_fourth_graph">Показывать пиццу итоговых оценок</string>
+    <string name="default_theme">Стандарт</string>
+    <string name="new_year_theme">Новогодняя</string>
 </resources>

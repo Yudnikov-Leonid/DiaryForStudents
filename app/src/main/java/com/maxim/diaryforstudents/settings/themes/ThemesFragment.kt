@@ -10,6 +10,7 @@ import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentSettingsThemesBinding
+import com.maxim.diaryforstudents.settings.data.CurrentTheme
 import yuku.ambilwarna.AmbilWarnaDialog
 
 class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsThemesViewModel>(),
@@ -69,6 +70,13 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
             viewModel.resetColor("1")
         }
 
+        binding.defaultThemeButton.setOnClickListener {
+            viewModel.setTheme(CurrentTheme.Default)
+        }
+        binding.newYearThemeButton.setOnClickListener {
+            viewModel.setTheme(CurrentTheme.NewYear)
+        }
+
         viewModel.observe(this) {
             it.show(
                 binding.fiveColorButton,
@@ -76,7 +84,8 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
                 binding.threeColorButton,
                 binding.twoColorButton,
                 binding.oneColorButton,
-                (requireActivity() as ProvideColorManager).colorManager()
+                (requireActivity() as ProvideColorManager).colorManager(),
+                binding.themesLayout
             )
         }
 

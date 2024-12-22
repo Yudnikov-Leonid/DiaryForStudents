@@ -174,4 +174,6 @@
     <string name="show_second_graph">Show second graph</string>
     <string name="show_third_graph">Show third graph</string>
     <string name="show_fourth_graph">Show fourth graph</string>
+    <string name="default_theme">Default</string>
+    <string name="new_year_theme">New Year</string>
 </resources>
