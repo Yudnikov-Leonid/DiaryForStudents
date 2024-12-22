@@ -1,5 +1,7 @@
 package com.maxim.diaryforstudents.settings.themes
 
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -12,6 +14,7 @@ import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.menu.presentation.MenuScreen
 import com.maxim.diaryforstudents.settings.data.CurrentTheme
 import com.maxim.diaryforstudents.settings.data.CurrentThemeSettings
+import com.maxim.diaryforstudents.settings.data.IconManager
 import com.maxim.diaryforstudents.settings.data.SettingsThemesRepository
 
 class SettingsThemesViewModel(
@@ -19,6 +22,7 @@ class SettingsThemesViewModel(
     private val repository: SettingsThemesRepository,
     private val defaultColors: List<Int>,
     private val currentThemeSettings: CurrentThemeSettings,
+    private val iconManager: IconManager,
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel
 ) : ViewModel(), GoBack, Communication.Observe<SettingsThemesState>, Reload {
@@ -44,6 +48,10 @@ class SettingsThemesViewModel(
             defaultColors[4],
             currentThemeSettings.readTheme().getId()
         ))
+    }
+
+    fun setIcon(id: Int) {
+        iconManager.setIcon(id)
     }
 
     fun setTheme(currentTheme: CurrentTheme) {

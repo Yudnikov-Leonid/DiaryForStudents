@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
@@ -78,6 +79,12 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
         }
         binding.bzThemeButton.setOnClickListener {
             viewModel.setTheme(CurrentTheme.BobrZlobor)
+        }
+
+        binding.iconGridView.children.forEachIndexed { i, iconView ->
+            iconView.setOnClickListener {
+                viewModel.setIcon(i + 1)
+            }
         }
 
         viewModel.observe(this) {

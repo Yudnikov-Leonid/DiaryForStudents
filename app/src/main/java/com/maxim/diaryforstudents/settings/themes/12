@@ -1,0 +1,47 @@
+class ChangeAppIconService: Service() {
+    private val aliases = arrayOf(".one", ".two")
+
+    override fun onBind(intent: Intent?): IBinder? = null
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        changeAppIcon()
+        stopSelf()
+    }
+
+    fun changeAppIcon() {
+        val sp = getSharedPreferences("appSettings", Context.MODE_PRIVATE)
+
+        sp.getString("activeActivityAlias", ".one").let { aliasName ->
+            if (!isAliasEnabled(aliasName)) {
+                setAliasEnabled(aliasName)
+            }
+        }
+    }
+
+    private fun isAliasEnabled(aliasName: String): Boolean {
+        return packageManager.getComponentEnabledSetting(
+            ComponentName(
+                this,
+                "${BuildConfig.APPLICATION_ID}$aliasName"
+            )
+        ) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+    }
+
+    private fun setAliasEnabled(aliasName: String) {
+        aliases.forEach {
+            val action = if (it == aliasName)
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            else
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+
+            packageManager.setComponentEnabledSetting(
+                ComponentName(
+                    this,
+                    "${BuildConfig.APPLICATION_ID}$aliasName"
+                ),
+                action,
+                PackageManager.DONT_KILL_APP
+            )
+        }
+    }
+}
