@@ -3,6 +3,7 @@ package com.maxim.diaryforstudents.main
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.maxim.diaryforstudents.R

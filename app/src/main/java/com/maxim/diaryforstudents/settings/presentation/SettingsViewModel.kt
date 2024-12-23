@@ -6,6 +6,7 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.settings.themes.SettingsThemesScreen
+import com.maxim.diaryforstudents.settings.utilities.UtilitiesScreen
 
 class SettingsViewModel(
     private val navigation: Navigation.Update,
@@ -14,6 +15,10 @@ class SettingsViewModel(
 
     fun themes() {
         navigation.update(SettingsThemesScreen)
+    }
+
+    fun utilities() {
+        navigation.update(UtilitiesScreen)
     }
 
     override fun goBack() {

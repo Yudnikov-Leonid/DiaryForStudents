@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
 
     <application
         android:name=".core.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,16 +18,75 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DiaryForStudents"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
-        <activity
-            android:name=".main.MainActivity"
-            android:exported="true">
+        tools:targetApi="tiramisu">
+        <activity android:name=".main.MainActivity" />
+
+        <activity-alias
+            android:name=".Activity1"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@drawable/icon_1"
+            android:roundIcon="@drawable/icon_1_r"
+            android:targetActivity=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".Activity2"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/icon_2"
+            android:roundIcon="@drawable/icon_2_r"
+            android:targetActivity=".main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".Activity3"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/icon_3"
+            android:roundIcon="@drawable/icon_3_r"
+            android:targetActivity=".main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".Activity4"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/icon_4"
+            android:roundIcon="@drawable/icon_4_r"
+            android:targetActivity=".main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".Activity5"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/icon_5"
+            android:roundIcon="@drawable/icon_5_r"
+            android:targetActivity=".main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+
     </application>
 
 </manifest>

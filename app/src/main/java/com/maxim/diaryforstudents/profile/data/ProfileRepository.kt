@@ -10,7 +10,7 @@ interface ProfileRepository {
     suspend fun signOut()
 
     class Base(private val eduUser: EduUser): ProfileRepository {
-        override fun name() = eduUser.name()
+        override fun name() = eduUser.guid()
 
         override fun email() = eduUser.email()
 

@@ -25,6 +25,8 @@ class App : Application(), ProvideViewModel, ProvideColorManager {
         factory = ViewModelFactory.Base(ProvideViewModel.Base(dependencyContainer))
     }
 
+    fun getCore() = core
+
     override fun colorManager() = core.colorManager()
 
     override fun <T : ViewModel> viewModel(clasz: Class<T>) = factory.viewModel(clasz)

@@ -11,8 +11,9 @@ class SettingsThemesModule(private val core: Core, private val clearViewModel: C
     override fun viewModel() = SettingsThemesViewModel(
         SettingsThemesCommunication.Base(),
         SettingsThemesRepository.Base(ColorManager.Base(core.simpleStorage())),
-        core.lessonsInMenuSettings(),
         listOf(R.color.light_green, R.color.green, R.color.yellow, R.color.red, R.color.red),
+        core.currentThemeSettings(),
+        core.iconManager(),
         core.navigation(),
         clearViewModel
     )

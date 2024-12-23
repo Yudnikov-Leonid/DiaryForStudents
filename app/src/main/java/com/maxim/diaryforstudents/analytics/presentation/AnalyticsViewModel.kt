@@ -1,7 +1,9 @@
 package com.maxim.diaryforstudents.analytics.presentation
 
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.analytics.data.AnalyticsStorage
 import com.maxim.diaryforstudents.core.presentation.BaseViewModel
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
@@ -14,10 +16,12 @@ import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
 import com.maxim.diaryforstudents.performance.common.domain.PerformanceInteractor
+import com.maxim.diaryforstudents.settings.data.SettingsStorage
 
 class AnalyticsViewModel(
     private val interactor: PerformanceInteractor,
     private val analyticsStorage: AnalyticsStorage.Read,
+    private val settingsStorage: SettingsStorage.Read,
     private val communication: AnalyticsCommunication,
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel,
@@ -73,8 +77,20 @@ class AnalyticsViewModel(
             else {
                 val newList = mutableListOf<AnalyticsUi>()
                 newList.add(AnalyticsUi.Title(lessonName))
-                newList.addAll(list.map { it.toUi() })
-                communication.update(AnalyticsState.Base(newList))
+                val visibilityList = listOf(
+                    settingsStorage.read(R.id.showFirstGraph),
+                    settingsStorage.read(R.id.showSecondGraph),
+                    settingsStorage.read(R.id.showThirdGraph),
+                    settingsStorage.read(R.id.showFourthGraph),
+                )
+                visibilityList.mapIndexed { i, value ->
+                    if (value) newList.add(list[i].toUi())
+                }
+                communication.update(
+                    AnalyticsState.Base(
+                        newList,
+                    )
+                )
             }
         }
     }

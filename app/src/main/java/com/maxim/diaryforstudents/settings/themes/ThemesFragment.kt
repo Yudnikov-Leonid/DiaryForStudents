@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.ProvideColorManager
 import com.maxim.diaryforstudents.core.presentation.BaseFragment
 import com.maxim.diaryforstudents.databinding.FragmentSettingsThemesBinding
+import com.maxim.diaryforstudents.settings.data.CurrentTheme
 import yuku.ambilwarna.AmbilWarnaDialog
 
 class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsThemesViewModel>(),
@@ -69,8 +71,20 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
             viewModel.resetColor("1")
         }
 
-        binding.showLessonsInMenuSwitch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.setShowLessonsInMenu(isChecked)
+        binding.defaultThemeButton.setOnClickListener {
+            viewModel.setTheme(CurrentTheme.Default)
+        }
+        binding.newYearThemeButton.setOnClickListener {
+            viewModel.setTheme(CurrentTheme.NewYear)
+        }
+        binding.bzThemeButton.setOnClickListener {
+            viewModel.setTheme(CurrentTheme.BobrZlobor)
+        }
+
+        binding.iconGridView.children.forEachIndexed { i, iconView ->
+            iconView.setOnClickListener {
+                viewModel.setIcon(i + 1)
+            }
         }
 
         viewModel.observe(this) {
@@ -81,7 +95,7 @@ class ThemesFragment : BaseFragment<FragmentSettingsThemesBinding, SettingsTheme
                 binding.twoColorButton,
                 binding.oneColorButton,
                 (requireActivity() as ProvideColorManager).colorManager(),
-                binding.showLessonsInMenuSwitch
+                binding.themesLayout
             )
         }
 

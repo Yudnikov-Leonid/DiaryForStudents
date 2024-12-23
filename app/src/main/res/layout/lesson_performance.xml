@@ -19,10 +19,19 @@
         <TextView
             android:id="@+id/lessonNameTextView"
             style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Math" />
+
+        <TextView
+            android:id="@+id/twoStatusTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="Math" />
+            android:layout_marginStart="5dp"
+            android:textColor="#8F8F8F"
+            android:textSize="12sp"
+            tools:text="+2" />
 
         <ImageButton
             android:id="@+id/calculateButton"

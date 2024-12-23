@@ -1,5 +1,7 @@
 package com.maxim.diaryforstudents.settings.themes
 
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -9,14 +11,18 @@ import com.maxim.diaryforstudents.core.presentation.Navigation
 import com.maxim.diaryforstudents.core.presentation.Reload
 import com.maxim.diaryforstudents.core.presentation.Screen
 import com.maxim.diaryforstudents.core.sl.ClearViewModel
-import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
+import com.maxim.diaryforstudents.menu.presentation.MenuScreen
+import com.maxim.diaryforstudents.settings.data.CurrentTheme
+import com.maxim.diaryforstudents.settings.data.CurrentThemeSettings
+import com.maxim.diaryforstudents.settings.data.IconManager
 import com.maxim.diaryforstudents.settings.data.SettingsThemesRepository
 
 class SettingsThemesViewModel(
     private val communication: SettingsThemesCommunication,
     private val repository: SettingsThemesRepository,
-    private val showLessons: LessonsInMenuSettings.Mutable,
     private val defaultColors: List<Int>,
+    private val currentThemeSettings: CurrentThemeSettings,
+    private val iconManager: IconManager,
     private val navigation: Navigation.Update,
     private val clearViewModel: ClearViewModel
 ) : ViewModel(), GoBack, Communication.Observe<SettingsThemesState>, Reload {
@@ -33,10 +39,6 @@ class SettingsThemesViewModel(
         reload()
     }
 
-    fun setShowLessonsInMenu(value: Boolean) {
-        showLessons.set(value)
-    }
-
     override fun reload() {
         communication.update(SettingsThemesState.Base(
             defaultColors[0],
@@ -44,8 +46,18 @@ class SettingsThemesViewModel(
             defaultColors[2],
             defaultColors[3],
             defaultColors[4],
-            showLessons.isShow()
+            currentThemeSettings.readTheme().getId()
         ))
+    }
+
+    fun setIcon(id: Int) {
+        iconManager.setIcon(id)
+    }
+
+    fun setTheme(currentTheme: CurrentTheme) {
+        currentThemeSettings.setTheme(currentTheme)
+        navigation.update(MenuScreen)
+        clearViewModel.clearViewModel(SettingsThemesViewModel::class.java)
     }
 
     fun saveColor(color: Int, key: String) {

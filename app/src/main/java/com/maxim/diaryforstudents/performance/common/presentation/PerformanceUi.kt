@@ -1,10 +1,12 @@
 package com.maxim.diaryforstudents.performance.common.presentation
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,6 +22,7 @@ import kotlin.math.roundToInt
 
 interface PerformanceUi : Serializable {
     fun showName(textView: TextView) {}
+    fun showTwoStatus(textView: TextView) {}
     fun showName(textView: TextView, colorManager: ColorManager) {}
     fun showDate(textView: TextView) {}
     fun showMarks(
@@ -70,6 +73,7 @@ interface PerformanceUi : Serializable {
         private val marksSum: Int,
         private val isFinal: Boolean,
         private val average: Float,
+        private val twoStatus: Int,
         private val weekProgress: Int,
         private val twoWeeksProgress: Int,
         private val monthProgress: Int,
@@ -77,6 +81,11 @@ interface PerformanceUi : Serializable {
     ) : PerformanceUi {
         override fun showName(textView: TextView) {
             textView.text = name
+        }
+
+        override fun showTwoStatus(textView: TextView) {
+            textView.text = "${if (twoStatus > 0) "+" else ""}$twoStatus"
+            textView.setTextColor(if (twoStatus < 0) Color.RED else Color.parseColor("#8F8F8F"))
         }
 
         override fun showMarks(
@@ -219,7 +228,7 @@ interface PerformanceUi : Serializable {
                 "2" -> this.showName(two, colorManager)
                 "3" -> this.showName(three, colorManager)
                 "4" -> this.showName(four, colorManager)
-                "5" -> this.showName(final, colorManager)
+                else -> this.showName(final, colorManager)
             }
         }
 

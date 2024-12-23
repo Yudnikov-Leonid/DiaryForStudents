@@ -1,6 +1,5 @@
 package com.maxim.diaryforstudents.login.data
 
-import com.maxim.diaryforstudents.BuildConfig
 import com.maxim.diaryforstudents.core.presentation.BundleWrapper
 import com.maxim.diaryforstudents.core.presentation.SaveAndRestore
 import com.maxim.diaryforstudents.core.service.EduUser
@@ -22,42 +21,33 @@ interface LoginRepository : SaveAndRestore {
         private var cachedPassword = ""
 
         override suspend fun login(login: String, password: String): LoginResult {
-            if (login.length == 32 && password.length == 11) {
-                if (password == BuildConfig.ONE_SHORT_API_KEY || password == BuildConfig.TWO_SHORT_API_KEY ||
-                    password == BuildConfig.THREE_SHORT_API_KEY || password == BuildConfig.FOUR_SHORT_API_KEY ||
-                    password == BuildConfig.FIVE_SHORT_API_KEY
-                ) {
-                    usersList.clear()
-                    usersList.add(
-                        LoginSchools(LoginParticipant(login, "", "Empty",
+            return try {
+                //val data = service.login(LoginBody(BuildConfig.API_KEY, login, password))
+                //if (data.success) {
+                //    usersList.clear()
+                usersList.addAll(
+                    listOf(
+                        LoginSchools(
+                            LoginParticipant(
+                                login,
+                                "",
+                                "",
                                 "",
                                 LoginGrade(
-                                    "Empty",
-                                    LoginSchool("Empty school name"),
-                                    LoginGradeHead("", "Empty", "")
+                                    "",
+                                    LoginSchool("School name"),
+                                    LoginGradeHead("", "Empty name", "")
                                 )
                             )
                         )
                     )
-                    cachedEmail = "Empty"
-                    cachedPassword = password
-                    return LoginResult.Success
-                }
-                else return LoginResult.Failure("Unknown user")
-            } else
-                return try {
-                    val data = service.login(LoginBody(BuildConfig.API_KEY, login, password))
-                    if (data.success) {
-                        usersList.clear()
-                        usersList.addAll(data.data.SCHOOLS)
-                        cachedEmail = data.data.EMAIL
-                        LoginResult.Success
-                    } else {
-                        LoginResult.Failure(data.message)
-                    }
-                } catch (e: Exception) {
-                    LoginResult.Failure(e.message!!)
-                }
+                )
+                cachedEmail = login
+                cachedPassword = password
+                LoginResult.Success
+            } catch (e: Exception) {
+                LoginResult.Failure(e.message!!)
+            }
         }
 
         override fun users(): List<SelectUserUi> {
@@ -79,14 +69,7 @@ interface LoginRepository : SaveAndRestore {
             val gradeHead = user.PARTICIPANT.GRADE.GRADE_HEAD
             val gradeHeadName =
                 "${gradeHead.SURNAME} ${gradeHead.NAME} ${gradeHead.SECONDNAME}"
-            val apikey = if (cachedPassword.isNotEmpty()) cachedPassword else when {
-                fullName.startsWith("Юд") -> BuildConfig.ONE_SHORT_API_KEY
-                fullName.startsWith("Ко") -> BuildConfig.TWO_SHORT_API_KEY
-                fullName.startsWith("Мы") -> BuildConfig.THREE_SHORT_API_KEY
-                fullName.startsWith("Ле") -> BuildConfig.FOUR_SHORT_API_KEY
-                fullName.startsWith("Ма") -> BuildConfig.FIVE_SHORT_API_KEY
-                else -> ""
-            }
+            val apikey = if (cachedPassword.isNotEmpty()) cachedPassword else ""
             eduUser.login(guid, apikey, cachedEmail, fullName, school, grade, gradeHeadName)
             usersList.clear()
             cachedEmail = ""

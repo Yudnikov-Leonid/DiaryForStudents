@@ -1,7 +1,11 @@
 package com.maxim.diaryforstudents.settings.themes
 
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
+import com.maxim.diaryforstudents.R
 import com.maxim.diaryforstudents.core.presentation.ColorManager
 
 interface SettingsThemesState {
@@ -13,7 +17,7 @@ interface SettingsThemesState {
         twoImageButton: ImageButton,
         oneImageButton: ImageButton,
         colorManager: ColorManager,
-        showLessonsSwitch: SwitchCompat
+        themesLayout: LinearLayout
     )
 
     data class Base(
@@ -22,7 +26,7 @@ interface SettingsThemesState {
         private val defaultThreeColor: Int,
         private val defaultTwoColor: Int,
         private val defaultOneColor: Int,
-        private val showLessonsInMenu: Boolean
+        private val currentThemeId: Int
     ): SettingsThemesState {
 
         override fun show(
@@ -32,14 +36,16 @@ interface SettingsThemesState {
             twoImageButton: ImageButton,
             oneImageButton: ImageButton,
             colorManager: ColorManager,
-            showLessonsSwitch: SwitchCompat
+            themesLayout: LinearLayout
         ) {
             colorManager.showColor(fiveImageButton, "5", defaultFiveColor)
             colorManager.showColor(fourImageButton, "4", defaultFourColor)
             colorManager.showColor(threeImageButton, "3", defaultThreeColor)
             colorManager.showColor(twoImageButton, "2", defaultTwoColor)
             colorManager.showColor(oneImageButton, "1", defaultOneColor)
-            showLessonsSwitch.isChecked = showLessonsInMenu
+            themesLayout.children.forEachIndexed { i, view ->
+                view.setBackgroundColor(ContextCompat.getColor(themesLayout.context, if (i == currentThemeId) R.color.gray else R.color.white))
+            }
         }
     }
 }

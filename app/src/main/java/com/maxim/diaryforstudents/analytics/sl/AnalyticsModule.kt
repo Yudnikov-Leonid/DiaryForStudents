@@ -11,6 +11,7 @@ class AnalyticsModule(private val core: Core, private val clearViewModel: ClearV
         AnalyticsViewModel(
             core.marksModule().marksInteractor(),
             core.analyticsStorage(),
+            core.settingsStorage(),
             AnalyticsCommunication.Base(),
             core.navigation(),
             clearViewModel

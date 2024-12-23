@@ -21,7 +21,9 @@ import com.maxim.diaryforstudents.openNews.data.Downloader
 import com.maxim.diaryforstudents.performance.common.data.FailureHandler
 import com.maxim.diaryforstudents.performance.common.room.PerformanceDatabase
 import com.maxim.diaryforstudents.performance.common.sl.MarksModule
-import com.maxim.diaryforstudents.settings.data.LessonsInMenuSettings
+import com.maxim.diaryforstudents.settings.data.CurrentThemeSettings
+import com.maxim.diaryforstudents.settings.data.IconManager
+import com.maxim.diaryforstudents.settings.data.SettingsStorage
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -31,7 +33,8 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
     ProvideRetrofit, ProvideSimpleStorage, ProvideEduUser, ProvideLessonDetailsStorage,
     ProvideCalculateStorage, ProvideMarksModule, ProvideAnalyticsStorage, ProvideLoginRepository,
     ProvidePerformanceDatabase, ProvideColorManager, ProvideDownloader, ProvideDiaryInteractor,
-    ProvideMenuLessonsDatabase, ProvideLessonsInMenuSettings {
+    ProvideMenuLessonsDatabase, ProvideSettingsStorage, ProvideCurrentThemeSettings,
+    ProvideIconManager {
 
     class Base(private val context: Context) : Core {
 
@@ -103,16 +106,18 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
         private val downloader = Downloader.Base(context)
         override fun downloader() = downloader
 
-        private val diaryInteractor = DiaryInteractor.Base(
-            marksModule.diaryRepository(), FailureHandler.Base(), this
-        )
+        private val diaryInteractor by lazy {
+            DiaryInteractor.Base(
+                marksModule.diaryRepository(), FailureHandler.Base(), this
+            )
+        }
 
         override fun diaryInteractor() = diaryInteractor
 
         private var menuLessonsDatabase: MenuLessonsDatabase? = null
         override fun menuLessonsDatabase(): MenuLessonsDatabase {
             if (menuLessonsDatabase == null)
-                menuLessonsDatabase =  Room.databaseBuilder(
+                menuLessonsDatabase = Room.databaseBuilder(
                     context,
                     MenuLessonsDatabase::class.java,
                     "menu_lessons_database"
@@ -120,8 +125,14 @@ interface Core : ManageResource, ProvideService, ProvideOpenNewsData, ProvideNav
             return menuLessonsDatabase!!
         }
 
-        private val lessonsInMenuSettings = LessonsInMenuSettings.Base(simpleStorage)
-        override fun lessonsInMenuSettings() = lessonsInMenuSettings
+        private val settingsStorage = SettingsStorage.Base(simpleStorage)
+        override fun settingsStorage() = settingsStorage
+
+        private val currentThemeSettings = CurrentThemeSettings.Base(simpleStorage)
+        override fun currentThemeSettings() = currentThemeSettings
+
+        private val iconManager = IconManager.Base(context)
+        override fun iconManager() = iconManager
 
         private val service = Service.Base(context, CoroutineHandler.Base())
         override fun service() = service
@@ -199,6 +210,14 @@ interface ProvideMenuLessonsDatabase {
     fun menuLessonsDatabase(): MenuLessonsDatabase
 }
 
-interface ProvideLessonsInMenuSettings {
-    fun lessonsInMenuSettings(): LessonsInMenuSettings.Mutable
+interface ProvideSettingsStorage {
+    fun settingsStorage(): SettingsStorage.Mutable
+}
+
+interface ProvideCurrentThemeSettings {
+    fun currentThemeSettings(): CurrentThemeSettings
+}
+
+interface ProvideIconManager {
+    fun iconManager(): IconManager
 }

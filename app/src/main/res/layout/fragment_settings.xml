@@ -55,6 +55,31 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/utilitiesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_background"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:src="@drawable/utilities_24" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/utilities"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/contactsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

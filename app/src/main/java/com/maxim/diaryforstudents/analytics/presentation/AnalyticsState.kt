@@ -6,7 +6,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import java.io.Serializable
 
-interface AnalyticsState: Serializable {
+interface AnalyticsState : Serializable {
     fun show(
         adapter: AnalyticsAdapter,
         loading: View,
@@ -49,7 +49,7 @@ interface AnalyticsState: Serializable {
     }
 
     data class Base(
-        private val data: List<AnalyticsUi>
+        private val data: List<AnalyticsUi>,
     ) : AnalyticsState {
         override fun show(
             adapter: AnalyticsAdapter,
